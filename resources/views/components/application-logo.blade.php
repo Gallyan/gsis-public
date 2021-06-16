@@ -1,5 +1,5 @@
 <svg viewBox="0 0 213 50" xmlns="http://www.w3.org/2000/svg" {{ $attributes }}>
-  <title>Gsis Logo</title>
+  <title>Gsis</title>
   <g id="g3780" fill-rule="evenodd" fill="none" stroke-width="1" stroke="none">
     <g id="g3784" transform="translate(000000, -51.000000)">
       <g id="gsis">
