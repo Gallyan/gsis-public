@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $guarded = [];
 
     protected $fillable = [
-        'name', 'firstname', 'birthday', 'phone', 'email', 'password',
+        'name', 'firstname', 'birthday', 'phone', 'email', 'password', 'avatar',
     ];
 
     protected $hidden = [
@@ -28,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'birthday' => 'date:Y-m-d',
     ];
 
-    public function fullname() { return $this->firstname.' '.$this->name; }
+    public function getFullNameAttribute() { return $this->firstname.' '.$this->name; }
 
     public function avatarUrl()
     {
