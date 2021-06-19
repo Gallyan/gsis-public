@@ -4,19 +4,27 @@
     <form wire:submit.prevent="save">
         <div class="mt-6 sm:mt-5">
             <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')">
-                <x-input.text wire:model="user.firstname" id="firstname" leading-add-on="" />
+                <x-input.text wire:model.debounce.500ms="user.firstname" id="firstname" leading-add-on="" />
             </x-input.group>
 
             <x-input.group label="Last Name" for="name" :error="$errors->first('user.name')">
-                <x-input.text wire:model="user.name" id="name" leading-add-on="" />
+                <x-input.text wire:model.debounce.500ms="user.name" id="name" leading-add-on="" />
             </x-input.group>
 
             <x-input.group label="Birthday" for="birthday" :error="$errors->first('user.birthday')">
                 <x-input.date wire:model="user.birthday" id="birthday" placeholder="YYYY-MM-DD" />
             </x-input.group>
 
+            <x-input.group label="Email" for="email" :error="$errors->first('user.email')">
+                <x-input.email wire:model.debounce.500ms="user.email" id="email" leading-add-on="" />
+            </x-input.group>
+
+            <x-input.group label="Employer" for="employer" :error="$errors->first('user.employer')">
+                <x-input.text wire:model.lazy="user.employer" id="employer" leading-add-on="" />
+            </x-input.group>
+
             <x-input.group label="Phone" for="phone" :error="$errors->first('user.phone')">
-                <x-input.text wire:model="user.phone" id="phone" leading-add-on="" />
+                <x-input.phone wire:model.debounce.500ms="user.phone" id="phone" leading-add-on="" />
             </x-input.group>
 
             <x-input.group label="Photo" for="photo" :error="$errors->first('upload')">
