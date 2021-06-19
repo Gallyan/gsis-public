@@ -46,7 +46,7 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/avatars'),
             'url' => '/avatars',
-            'visibility' => 'public',
+            'visibility' => 'private',
         ],
 
         's3' => [
