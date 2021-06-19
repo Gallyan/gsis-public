@@ -6,6 +6,14 @@
             </a>
         </x-slot>
 
+        <x-slot name="footer">
+            <div class="flex items-center justify-end mt-4">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
+                    {{ __('Create an account') }}
+                </a>
+            </div>
+        </x-slot>
+
         <!-- Session Status -->
         <x-auth.auth-session-status class="mb-4" :status="session('status')" />
 
