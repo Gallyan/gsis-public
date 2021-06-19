@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class Profile extends Component
 {
@@ -40,9 +41,16 @@ class Profile extends Component
 
         $this->user->save();
 
-        $this->upload && $this->user->update([
-            'avatar' => $this->upload->store('/', 'avatars'),
-        ]);
+        if ( $this->upload ) {
+
+            $old_avatar = $this->user->avatar;
+
+            $this->user->update([
+                'avatar' => $this->upload->store('/', 'avatars'),
+            ]);
+
+            Storage::disk('avatars')->delete($old_avatar);
+        }
 
         $this->emitSelf('notify-saved');
     }
