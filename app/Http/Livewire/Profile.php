@@ -14,9 +14,10 @@ class Profile extends Component
     public $upload;
 
     protected $rules = [
-        'user.username' => 'max:24',
-        'user.about' => 'max:140',
+        'user.firstname' => 'max:24',
+        'user.name' => 'max:24',
         'user.birthday' => 'sometimes',
+        'user.phone' => 'sometimes',
         'upload' => 'nullable|image|max:1000',
     ];
 

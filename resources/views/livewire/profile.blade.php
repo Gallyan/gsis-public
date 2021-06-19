@@ -3,16 +3,20 @@
 
     <form wire:submit.prevent="save">
         <div class="mt-6 sm:mt-5">
-            <x-input.group label="Username" for="username" :error="$errors->first('user.username')">
-                <x-input.text wire:model="user.username" id="username" leading-add-on="surge.com/" />
+            <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')">
+                <x-input.text wire:model="user.firstname" id="firstname" leading-add-on="" />
+            </x-input.group>
+
+            <x-input.group label="Last Name" for="name" :error="$errors->first('user.name')">
+                <x-input.text wire:model="user.name" id="name" leading-add-on="" />
             </x-input.group>
 
             <x-input.group label="Birthday" for="birthday" :error="$errors->first('user.birthday')">
-                <x-input.date wire:model="user.birthday" id="birthday" placeholder="MM/DD/YYYY" />
+                <x-input.date wire:model="user.birthday" id="birthday" placeholder="YYYY-MM-DD" />
             </x-input.group>
 
-            <x-input.group label="About" for="about" :error="$errors->first('user.about')" help-text="Write a few sentances about yourself.">
-                <x-input.rich-text wire:model.defer="user.about" id="about" />
+            <x-input.group label="Phone" for="phone" :error="$errors->first('user.phone')">
+                <x-input.text wire:model="user.phone" id="phone" leading-add-on="" />
             </x-input.group>
 
             <x-input.group label="Photo" for="photo" :error="$errors->first('upload')">
