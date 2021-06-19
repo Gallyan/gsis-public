@@ -24,7 +24,7 @@
                                 {{ __('Dashboard') }}
                             </x-nav-link>
 
-                            <x-nav-link :route="'profile'" :icon="'stop'">
+                            <x-nav-link :route="'login'" :icon="'stop'">
                                 {{ __('Missions') }}
                             </x-nav-link>
 
@@ -87,7 +87,7 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
 
-                        <x-nav-link :route="'profile'" :icon="'stop'">
+                        <x-nav-link :route="'login'" :icon="'stop'">
                             {{ __('Missions') }}
                         </x-nav-link>
 
