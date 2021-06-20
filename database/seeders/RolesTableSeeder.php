@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\User;
 
 class RolesTableSeeder extends Seeder
 {
@@ -29,5 +30,8 @@ class RolesTableSeeder extends Seeder
 
         $admin = Role::findByName('admin');
         $admin->givePermissionTo('manage-users');
+
+        $user = User::find(1);
+        $user->assignRole('admin');
     }
 }
