@@ -32,6 +32,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getFullNameAttribute() { return $this->firstname.' '.$this->name; }
 
+    public function getRolesNamesAttribute() { return $this->getRoleNames()->implode(', '); }
+
     public function avatarUrl()
     {
         return $this->avatar
