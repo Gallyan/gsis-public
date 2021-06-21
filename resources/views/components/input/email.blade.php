@@ -16,12 +16,12 @@
     <input {{ $attributes->merge(['class' => $classes]) }}/>
 
     @if ( $verified === true )
-    <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm" title="{{ __('Verified') }}">
-        <x-icon.check class="h-5 w-5 text-green-400" />
+    <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-green-400 sm:text-sm" title="{{ __('Verified') }}">
+        <x-icon.check class="h-5 w-5" />
     </span>
     @elseif ( $verified === false )
-    <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm" title="{{ __('Unverified') }}">
-        <x-icon.x class="h-5 w-5 text-red-400" />
+    <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-red-400 sm:text-sm" title="{{ __('Unverified') }}">
+        <x-icon.x class="h-5 w-5" />
     </span>
     @endif
 </div>
