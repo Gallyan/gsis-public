@@ -16,7 +16,7 @@
             </x-input.group>
 
             <x-input.group label="Email" for="email" :error="$errors->first('user.email')">
-                <x-input.email wire:model.debounce.500ms="user.email" id="email" leading-add-on="" />
+                <x-input.email wire:model.debounce.500ms="user.email" id="email" leading-add-on="" :verified="auth()->user()->verified"/>
             </x-input.group>
 
             <x-input.group label="Employer" for="employer" :error="$errors->first('user.employer')">
@@ -38,6 +38,15 @@
                     </span>
                 </x-input.file-upload>
             </x-input.group>
+
+            @can('manage-users')
+            <x-input.group label="Roles" for="roles">
+                <div class="flex">
+                    {{ ucwords( auth()->user()->roles_names ) }}
+                </div>
+            </x-input.group>
+            @endcan
+
         </div>
 
         <div class="mt-2 border-t border-gray-200 pt-5">
