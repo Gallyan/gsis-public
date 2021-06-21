@@ -40,7 +40,7 @@
             </x-input.group>
         </div>
 
-        <div class="mt-8 border-t border-gray-200 pt-5">
+        <div class="mt-2 border-t border-gray-200 pt-5">
             <div class="space-x-3 flex justify-end items-center">
                 <span x-data="{ open: false }" x-init="
                         @this.on('notify-saved', () => {
