@@ -10,7 +10,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory()->create([
-            'email' => 'dev@gsis.com',
+            'email' => 'admin@gsis.com',
+        ]);
+
+        User::factory()->create([
+            'email' => 'manager@gsis.com',
+        ]);
+
+        User::factory()->create([
+            'email' => 'user@gsis.com',
         ]);
 
         User::factory(5)->create();
