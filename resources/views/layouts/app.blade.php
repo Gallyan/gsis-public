@@ -20,33 +20,7 @@
                         </div>
                         <nav class="mt-5 px-2 space-y-1">
 
-                            <x-nav-link :route="'dashboard'" :icon="'dashboard'">
-                                {{ __('Dashboard') }}
-                            </x-nav-link>
-
-                            <x-nav-link :route="'login'" :icon="'stop'">
-                                {{ __('Missions') }}
-                            </x-nav-link>
-
-                            <x-nav-link :route="'login'" :icon="'stop'">
-                                {{ __('Mission expenses') }}
-                            </x-nav-link>
-
-                            <x-nav-link :route="'login'" :icon="'stop'">
-                                {{ __('Non-mission purchases') }}
-                            </x-nav-link>
-
-                            <x-nav-link :route="'login'" :icon="'stop'">
-                                {{ __('Purchase orders') }}
-                            </x-nav-link>
-
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <x-nav-link :route="'logout'" :icon="'logout'"
-                                        onclick="event.preventDefault(); this.closest('form').submit();">
-                                    {{ __('Log Out') }}
-                                </x-nav-link>
-                            </form>
+                            <x-menu />
 
                         </nav>
                     </div>
@@ -83,33 +57,8 @@
                     </div>
                     <!-- Sidebar component, swap this element with another sidebar if you like -->
                     <nav class="mt-5 space-y-1 flex-1 px-2 bg-indigo-800">
-                        <x-nav-link :route="'dashboard'" :icon="'dashboard'">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
 
-                        <x-nav-link :route="'login'" :icon="'stop'">
-                            {{ __('Missions') }}
-                        </x-nav-link>
-
-                        <x-nav-link :route="'login'" :icon="'stop'">
-                            {{ __('Mission expenses') }}
-                        </x-nav-link>
-
-                        <x-nav-link :route="'login'" :icon="'stop'">
-                            {{ __('Non-mission purchases') }}
-                        </x-nav-link>
-
-                        <x-nav-link :route="'login'" :icon="'stop'">
-                            {{ __('Purchase orders') }}
-                        </x-nav-link>
-
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-nav-link :route="'logout'" :icon="'logout'"
-                                    onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-nav-link>
-                        </form>
+                        <x-menu />
 
                     </nav>
                 </div>
