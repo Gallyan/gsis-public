@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="ml-3">
                                     <p class="text-base leading-6 font-medium text-white">
-                                        {{ Auth::user()->name }}
+                                        {{ Auth::user()->full_name }}
                                     </p>
                                     <p class="text-sm leading-5 font-medium text-indigo-300 group-hover:text-indigo-100 group-focus:underline transition ease-in-out duration-1000">
                                         {{ __('View profile') }}
@@ -123,7 +123,7 @@
 
                             <div class="ml-3">
                                 <p class="text-sm leading-5 font-medium text-white">
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->full_name }}
                                 </p>
 
                                 <p class="text-xs leading-4 font-medium text-indigo-300 group-hover:text-indigo-100 transition ease-in-out duration-1000">
