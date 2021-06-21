@@ -1,5 +1,5 @@
 @props([
-    'verified' => false,
+    'verified' => null,
 ])
 
 @php
