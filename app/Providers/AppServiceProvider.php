@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Validator;
+use Spatie\Permission\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,14 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::replacer('phone', function($message, $attribute, $rule, $parameters) {
             return __('Invalid phone number');
+        });
+
+        // Add a validation rule for role list
+        Validator::extend('validrole', function ($attribute, $value, $parameters, $validator) {
+            return Role::all()->contains('name',$value);
+        });
+        Validator::replacer('validrole', function ($message, $attribute, $rule, $parameters) {
+            return __('Unknown role');
         });
 
         // Macros
