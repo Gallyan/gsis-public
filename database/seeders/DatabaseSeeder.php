@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Institution;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -29,5 +30,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([ 'email' => 'manager@gsis.com' ])->assignRole('manager');
         User::factory()->create([ 'email' => 'user@gsis.com' ])->assignRole('user');
         User::factory(10)->create();
+
+        // Création des institutions
+        Institution::factory(20)->create();
     }
 }
