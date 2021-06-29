@@ -5,7 +5,7 @@
         <!-- Top Bar -->
         <div class="flex justify-between">
             <div class="w-2/4 flex space-x-4">
-                <x-input.text wire:model="filters.search" placeholder="Search Users..." />
+                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" />
 
                 <x-button.link wire:click="toggleShowFilters">@if ($showFilters) Hide @endif Advanced Search...</x-button.link>
             </div>
