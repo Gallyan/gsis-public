@@ -146,11 +146,11 @@
             <x-slot name="title">Edit User</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="name" label="Name" :error="$errors->first('editing.name')">
+                <x-input.group for="name" label="Name" :error="$errors->first('editing.name')" required>
                     <x-input.text wire:model="editing.name" id="name" placeholder="Name" />
                 </x-input.group>
 
-                <x-input.group for="firstname" label="First Name" :error="$errors->first('editing.firstname')">
+                <x-input.group for="firstname" label="First Name" :error="$errors->first('editing.firstname')" required>
                     <x-input.text wire:model="editing.firstname" id="firstname" placeholder="First Name" />
                 </x-input.group>
 
@@ -158,7 +158,7 @@
                     <x-input.date wire:model="editing.birthday" id="birthday" placeholder="YYYY-MM-DD" />
                 </x-input.group>
 
-                <x-input.group for="email" label="Email" :error="$errors->first('editing.email')">
+                <x-input.group for="email" label="Email" :error="$errors->first('editing.email')" required>
                     <x-input.email wire:model="editing.email" id="email" />
                 </x-input.group>
 
