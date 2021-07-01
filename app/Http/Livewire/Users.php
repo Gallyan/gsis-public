@@ -33,7 +33,6 @@ class Users extends Component
         'editing.firstname' => 'required|max:255',
         'editing.name' => 'required|max:255',
         'editing.birthday' => 'sometimes|date',
-        'editing.email' => 'required|max:255|email:rfc',
         'editing.email' => 'required|max:255|email:rfc'.((App::environment('production'))?',dns,spoof':'').'|unique:App\Models\User,email'.($this->editing->id ? ','.$this->editing->id:''),
         'editing.employer' => 'sometimes|string',
         'editing.phone' => 'sometimes|phone',
