@@ -3,11 +3,11 @@
 
     <form wire:submit.prevent="save">
         <div class="mt-6 sm:mt-5">
-            <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')">
+            <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')" required>
                 <x-input.text wire:model.debounce.500ms="user.firstname" id="firstname" leading-add-on="" />
             </x-input.group>
 
-            <x-input.group label="Last Name" for="name" :error="$errors->first('user.name')">
+            <x-input.group label="Last Name" for="name" :error="$errors->first('user.name')" required>
                 <x-input.text wire:model.debounce.500ms="user.name" id="name" leading-add-on="" />
             </x-input.group>
 
@@ -15,7 +15,7 @@
                 <x-input.date wire:model="user.birthday" id="birthday" placeholder="YYYY-MM-DD" />
             </x-input.group>
 
-            <x-input.group label="Email" for="email" :error="$errors->first('user.email')">
+            <x-input.group label="Email" for="email" :error="$errors->first('user.email')" required>
                 <x-input.email wire:model.debounce.500ms="user.email" id="email" leading-add-on="" :verified="auth()->user()->verified"/>
             </x-input.group>
 
