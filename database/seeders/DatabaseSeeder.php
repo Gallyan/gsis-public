@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Order;
 use App\Models\Institution;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -33,5 +34,8 @@ class DatabaseSeeder extends Seeder
 
         // Création des institutions
         Institution::factory(20)->create();
+
+        // Création de commandes
+        Order::factory(20)->create();
     }
 }
