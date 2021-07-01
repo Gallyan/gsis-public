@@ -15,7 +15,7 @@ class Institutions extends Component
     use WithSorting, WithCachedRows, WithPerPagePagination;
 
     public $showEditModal = false;
-    public $search;
+    public $search = '';
     public Institution $editing;
 
     protected $queryString = ['sorts'];
