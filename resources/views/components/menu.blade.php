@@ -2,11 +2,7 @@
     {{ __('Dashboard') }}
 </x-nav-link>
 
-@can('manage-users')
-<x-nav-link :route="'users'" :icon="'users'">
-    {{ __('Users') }}
-</x-nav-link>
-@endcan
+<!-- User section //-->
 
 <x-nav-link :route="'login'" :icon="'stop'">
     {{ __('Missions') }}
@@ -25,6 +21,25 @@
 </x-nav-link>
 
 {{ $slot }}
+
+@can('manage-users')
+<hr class="w-1/2 mx-1/4 opacity-60" />
+
+<!-- Admin section //-->
+
+<x-nav-link :route="'users'" :icon="'users'">
+    {{ __('Users') }}
+</x-nav-link>
+
+<x-nav-link :route="'institutions'" :icon="'institution'">
+    {{ __('Institutions') }}
+</x-nav-link>
+
+@endcan
+
+<hr class="w-1/2 mx-1/4 opacity-60" />
+
+<!-- Logout //-->
 
 <form method="POST" action="{{ route('logout') }}">
     @csrf
