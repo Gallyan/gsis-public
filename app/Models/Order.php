@@ -20,6 +20,10 @@ class Order extends Model
 
     protected $guarded = [];
 
+    public function user() { return $this->belongsTo('App\Models\User'); }
+
+    public function institution() { return $this->belongsTo('App\Models\Institution'); }
+
     public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
 
 }
