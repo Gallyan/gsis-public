@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Order;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Carbon;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
@@ -13,61 +14,48 @@ class Orders extends Component
 {
     use WithSorting, WithCachedRows, WithPerPagePagination;
 
-    public $showEditModal = false;
-    public $search = '';
+    public $showFilters = false;
+    public $filters = [
+        'search' => '',
+        'user' => null,
+        'institution' => null,
+        'status' => null,
+        'date-min' => null,
+        'date-max' => null,
+    ];
     public Order $editing;
 
     protected $queryString = ['sorts'];
 
-    public function rules() { return [
-        'editing.subject' => 'required|string|max:255',
-        'editing.institution_id' => 'required|',
-        'editing.supplier' => 'nullable|string|max:255',
-        'editing.books' => 'nullable|json',
-        'editing.comments' => 'nullable|string',
-        'editing.status' => 'required|in:'.collect(Order::STATUSES)->keys()->implode(','),
-    ]; }
+    public function toggleShowFilters() {
 
-    public function mount() { $this->editing = $this->makeBlankOrder(); }
-
-    public function makeBlankOrder()
-    {
-        return Order::make();
-    }
-
-    public function create()
-    {
         $this->useCachedRows();
 
-        if ($this->editing->getKey()) $this->editing = $this->makeBlankOrder();
-
-        $this->showEditModal = true;
+        $this->showFilters = ! $this->showFilters;
     }
 
-    public function edit(Order $order)
-    {
-        $this->useCachedRows();
+    public function resetFilters() { $this->reset('filters'); }
 
-        if ($this->editing->isNot($order)) $this->editing = $order;
-
-        $this->showEditModal = true;
-    }
-
-    public function save()
-    {
-        $this->validate();
-
-        $this->editing->save();
-
-        $this->showEditModal = false;
-    }
-
-    public function updatedSearch() { $this->resetPage(); }
+    public function updatedFilters() { $this->resetPage(); }
 
     public function getRowsQueryProperty()
     {
         $query = Order::query()
-            ->search('subject', $this->search);
+            ->when($this->filters['institution'], fn($query, $institution) => $query->where('institution_id', '=', $this->filters['institution']))
+            ->when($this->filters['date-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
+            ->when($this->filters['date-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)))
+            ->when($this->filters['user'], fn($query, $date) => $query->join('users', 'users.id', '=', 'orders.user_id')
+                                                                      ->search('users.name', $this->filters['user'])
+                                                                      ->orSearch('users.firstname', $this->filters['user']))
+            ->when($this->filters['status'], fn($query, $date) => $query->where('status', '=', $this->filters['status']))
+            ->when($this->filters['search'], fn($query) => $query->where( function($query) {
+                $query->search('subject', $this->filters['search'])
+                      ->orSearch('supplier', $this->filters['search'])
+                      ->orSearch('comments', $this->filters['search']); }));
+
+        // Un utilisateur sans droit n'accède qu'à son contenu
+        if ( ! auth()->user()->hasPermissionTo('manage-users') )
+            $query->where('user_id','=',auth()->user()->id);
 
         return $this->applySorting($query);
     }

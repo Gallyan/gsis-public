@@ -5,7 +5,9 @@
         <!-- Top Bar -->
         <div class="flex justify-between">
             <div class="w-2/4 flex space-x-4">
-                <x-input.text wire:model="search" placeholder="{{ __('Search...') }}" />
+                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" />
+
+                <x-button.link wire:click="toggleShowFilters">@if ($showFilters) Hide @endif Advanced Search...</x-button.link>
             </div>
 
             <div class="space-x-2 flex items-center">
@@ -22,12 +24,65 @@
             </div>
         </div>
 
+        <!-- Advanced Search -->
+        <div>
+            @if ($showFilters)
+            <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
+                <div class="w-1/2 pr-2 space-y-4">
+                    <x-input.group inline for="filter-institution" label="Institution">
+                        <x-input.select wire:model="filters.institution" id="filter-institution">
+                            <x-slot name="placeholder">
+                                Select Institution...
+                            </x-slot>
+
+                            @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
+                            <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
+                            @endforeach
+                        </x-input.select>
+                    </x-input.group>
+
+                    <x-input.group inline for="filter-status" label="Status">
+                        <x-input.select wire:model="filters.status" id="filter-status">
+                            <x-slot name="placeholder">
+                                Select Status...
+                            </x-slot>
+                            @foreach (\App\Models\Order::STATUSES as $key => $label)
+                            <option value="{{ $key }}">{{ __($label) }}</option>
+                            @endforeach
+                        </x-input.select>
+                    </x-input.group>
+
+                    @can('manage-users')
+                    <x-input.group inline for="filter-user" label="User">
+                        <x-input.text wire:model.debounce.500ms="filters.user" id="filter-user" />
+                    </x-input.group>
+                    @endcan
+                </div>
+
+                <div class="w-1/2 pl-2 space-y-4">
+                    <x-input.group inline for="filter-date-min" label="Created after">
+                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="YYYY-MM-DD" />
+                    </x-input.group>
+
+                    <x-input.group inline for="filter-date-max" label="Created before">
+                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="YYYY-MM-DD" />
+                    </x-input.group>
+
+                    <div class="pt-5">
+                        <x-button.link wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">Reset Filters</x-button.link>
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
+
         <!-- Table -->
         <div class="flex-col space-y-4">
             <x-table>
                 <x-slot name="head">
                     <x-table.heading sortable multi-column wire:click="sortBy('subject')" :direction="$sorts['subject'] ?? null" class="w-full">{{ __('Subject') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('user_id')" :direction="$sorts['user_id'] ?? null">{{ __('User') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('institution_id')" :direction="$sorts['institution_id'] ?? null">{{ __('Institution') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('status')" :direction="$sorts['status'] ?? null">{{ __('Status') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">{{ __('Created') }}</x-table.heading>
                     <x-table.heading class="text-left">{{ __('Actions') }}</x-table.heading>
@@ -48,6 +103,14 @@
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $order->user->full_name }}
+                                </p>
+                            </span>
+                        </x-table.cell>
+
+                        <x-table.cell>
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                <p class="text-cool-gray-600 truncate">
+                                    {{ $order->institution->name }}
                                 </p>
                             </span>
                         </x-table.cell>
@@ -88,37 +151,10 @@
             </x-table>
 
             <div>
-                {{-- $orders->links() --}}
+                {{ $orders->links() }}
             </div>
 
         </div>
     </div>
-
-    <!-- Save User Modal -->
-    <form wire:submit.prevent="save">
-        <x-modal.dialog wire:model.defer="showEditModal">
-            <x-slot name="title">{{ __('Edit Order') }}</x-slot>
-
-            <x-slot name="content">
-                <x-input.group for="subject" label="Subject" :error="$errors->first('editing.subject')" required>
-                    <x-input.text wire:model="editing.subject" id="subject" placeholder="Subject" />
-                </x-input.group>
-
-                <x-input.group for="contract" label="Contract" :error="$errors->first('editing.contract')" required>
-                    <x-input.text wire:model="editing.contract" id="contract" placeholder="Contract" />
-                </x-input.group>
-
-                <x-input.group for="allocation" label="Allocation" :error="$errors->first('editing.allocation')" required>
-                    <x-input.text wire:model="editing.allocation" id="allocation" placeholder="Allocation" />
-                </x-input.group>
-            </x-slot>
-
-            <x-slot name="footer">
-                <x-button.secondary wire:click="$set('showEditModal', false)">Cancel</x-button.secondary>
-
-                <x-button.primary type="submit">Save</x-button.primary>
-            </x-slot>
-        </x-modal.dialog>
-    </form>
 
 </div>
