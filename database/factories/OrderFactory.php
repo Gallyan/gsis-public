@@ -24,11 +24,21 @@ class OrderFactory extends Factory
     {
         $institutions = Institution::all()->pluck('id');
 
+        $books = null;
+        if ( mt_rand(0,1) ) {
+            for( $i=0; $i<mt_rand(1,5); $i++ ) {
+                $books[$i]['title'] = $this->faker->sentence(mt_rand(3,5));
+                $books[$i]['author'] = $this->faker->name();
+                $books[$i]['isbn'] = $this->faker->isbn13();
+            }
+            $books = json_encode( $books );
+        }
+
         return [
             'subject' => $this->faker->sentence(),
             'institution_id' => $institutions[mt_rand(0,count($institutions)-1)],
             'supplier' => mt_rand(0,1)?$this->faker->company():null,
-            'books' => null,
+            'books' => $books,
             'comments' => mt_rand(0,1)?$this->faker->text(500):null,
         ];
     }
