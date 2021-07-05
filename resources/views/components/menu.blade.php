@@ -16,7 +16,7 @@
     {{ __('Non-mission purchases') }}
 </x-nav-link>
 
-<x-nav-link :route="'login'" :icon="'stop'">
+<x-nav-link :route="'login'" :icon="'orderlist'">
     {{ __('Purchase orders') }}
 </x-nav-link>
 

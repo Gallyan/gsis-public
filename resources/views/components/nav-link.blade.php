@@ -17,10 +17,12 @@ if ( $route == Route::currentRouteName() ) {
         <x-icon.stop class="{{ $icon_classes }}" />
     @elseif ($icon === 'logout')
        <x-icon.logout class="{{ $icon_classes }}" />
-       @elseif ($icon === 'users')
+    @elseif ($icon === 'users')
        <x-icon.users class="{{ $icon_classes }}" />
        @elseif ($icon === 'institution')
        <x-icon.institution class="{{ $icon_classes }}" />
+    @elseif ($icon === 'orderlist')
+       <x-icon.orderlist class="{{ $icon_classes }}" />
     @elseif ($icon === 'dashboard')
        <x-icon.dashboard class="{{ $icon_classes }}" />
     @endif
