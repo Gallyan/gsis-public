@@ -38,6 +38,9 @@ class Orders extends Component
 
     public function updatedFilters() { $this->resetPage(); }
 
+    public function edit(Order $order) { return redirect()->route('edit-order',[$order]); }
+    public function create() { return redirect()->route('edit-order'); }
+
     public function getRowsQueryProperty()
     {
         $query = Order::query()
