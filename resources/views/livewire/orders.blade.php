@@ -94,8 +94,8 @@
                     @forelse ($orders as $order)
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}">
                         <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
+                            <span class="inline-flex space-x-2 text-sm leading-5">
+                                <p class="text-cool-gray-600 truncate max-w-md">
                                     {{ $order->subject }}
                                 </p>
                             </span>
@@ -103,7 +103,7 @@
 
                         @can ('manage-users')
                         <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                            <span class="inline-flex space-x-2 text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $order->user->full_name }}
                                 </p>
@@ -112,7 +112,7 @@
                         @endcan
 
                         <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-100">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $order->institution->name }}
                                 </p>
@@ -120,7 +120,7 @@
                         </x-table.cell>
 
                         <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                            <span class="inline-flex space-x-2 text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ __(App\Models\Order::STATUSES[$order->status]) }}
                                 </p>
