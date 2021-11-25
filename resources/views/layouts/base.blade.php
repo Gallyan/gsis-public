@@ -25,6 +25,10 @@
     </head>
     <body class="antialiased font-sans bg-gray-200">
 
+        @env(['preprod','local'])
+            <div class="fixed bg-red-500 text-white text-xs font-bold px-10 py-1 transform -rotate-45 -left-10 top-4 text-center w-32">{{ ucfirst(env('APP_ENV')) }}</div>
+        @endenv
+
         {{ $slot }}
 
         @livewireScripts
