@@ -155,8 +155,8 @@
                     <x-input.text wire:model="editing.firstname" id="firstname" placeholder="First Name" />
                 </x-input.group>
 
-                <x-input.group for="birthday" label="Birthday" :error="$errors->first('editing.birthday')">
-                    <x-input.date wire:model="editing.birthday" id="birthday" placeholder="YYYY-MM-DD" />
+                <x-input.group for="birthday" label="Birthday" :error="$errors->first('editing.birthday')" required>
+                    <x-input.date wire:model="editing.birthday" id="birthday" placeholder="YYYY-MM-DD" required />
                 </x-input.group>
 
                 <x-input.group for="email" label="Email" :error="$errors->first('editing.email')" required>

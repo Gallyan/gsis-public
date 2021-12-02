@@ -11,8 +11,8 @@
                 <x-input.text wire:model.debounce.500ms="user.name" id="name" leading-add-on="" />
             </x-input.group>
 
-            <x-input.group label="Birthday" for="birthday" :error="$errors->first('user.birthday')">
-                <x-input.date wire:model="user.birthday" id="birthday" placeholder="YYYY-MM-DD" />
+            <x-input.group label="Birthday" for="birthday" :error="$errors->first('user.birthday')" required>
+                <x-input.date wire:model="user.birthday" id="birthday" placeholder="YYYY-MM-DD" required />
             </x-input.group>
 
             <x-input.group label="Email" for="email" :error="$errors->first('user.email')" required>
