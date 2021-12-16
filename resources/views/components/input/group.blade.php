@@ -15,7 +15,7 @@
         <label for="{{ $for }}" class="block text-sm font-medium leading-5 text-gray-700 {{ $required ? 'required' : '' }}">{{ __($label) }}</label>
         @endif
 
-        <div class="mt-1 relative rounded-md shadow-sm">
+        <div class="mt-1 relative rounded-md">
             {{ $slot }}
 
             @if ($error)
