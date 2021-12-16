@@ -14,19 +14,104 @@
             </x-input.group>
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('order.institution_id')" required>
-                <x-input.select wire:model="order.institution_id" id="institution_id">
-                    <x-slot name="placeholder">
-                        Select Institution...
-                    </x-slot>
-
+                <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="Select Institution...">
                     @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                     <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                     @endforeach
                 </x-input.select>
             </x-input.group>
-    
+
             <x-input.group label="Supplier" for="supplier" :error="$errors->first('order.supplier')">
                 <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" leading-add-on="" />
+            </x-input.group>
+
+            <x-input.group label="Books" for="books" :error="$errors->first('order.books')">
+                {{-- <x-input.json2array wire:model.debounce.500ms="order.books" id="books"> --}}
+                    <x-table>
+                        <x-slot name="head">
+                            <x-table.heading class="w-full">{{ __('Title') }}</x-table.heading>
+                            <x-table.heading>{{ __('Author') }}</x-table.heading>
+                            <x-table.heading>{{ __('ISBN') }}</x-table.heading>
+                            <x-table.heading></x-table.heading>
+                        </x-slot>
+
+                        <x-slot name="body">
+                            @empty ($order->books)
+                            <x-table.row>
+                                <x-table.cell colspan="6">
+                                    <div class="flex justify-center items-center space-x-2">
+                                        <x-icon.inbox class="h-8 w-8 text-cool-gray-400" />
+                                        <span class="font-medium py-8 text-cool-gray-400 text-xl">{{ __('No books...') }}</span>
+                                    </div>
+                                </x-table.cell>
+                            </x-table.row>
+                            @else
+                            @foreach (json_decode($order->books) as $book)
+                                @if($loop->iteration % 2 == 0)
+                                    @php $rowcolor='bg-gray-50' @endphp
+                                @else
+                                    @php $rowcolor='bg-white' @endphp
+                                @endif
+                            <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" class="{{ $rowcolor }}">
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <p class="text-cool-gray-600 truncate">
+                                            {{ $book->title }}
+                                        </p>
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <p class="text-cool-gray-600 truncate">
+                                            {{ $book->author }}
+                                        </p>
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <p class="text-cool-gray-600 truncate">
+                                            {{ $book->isbn }}
+                                        </p>
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
+                                    </span>
+                                </x-table.cell>
+                            </x-table.row>
+                            @endforeach
+                            @endempty
+
+                            <x-table.row>
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <x-icon.plus class="h-4 w-4 text-cool-gray-400" />
+                                    </span>
+                                </x-table.cell>
+                            </x-table.row>
+
+                        </x-slot>
+                    </x-table>
+                {{-- </x-input.json2array> --}}
             </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('order.comments')">
@@ -56,13 +141,13 @@
 
                 <span class="inline-flex rounded-md shadow-sm">
                     <button type="reset" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
-                        Cancel
+                        {{ __('Reset') }}
                     </button>
                 </span>
 
                 <span class="inline-flex rounded-md shadow-sm">
                     <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
-                        Save
+                        {{ __('Save') }}
                     </button>
                 </span>
             </div>
