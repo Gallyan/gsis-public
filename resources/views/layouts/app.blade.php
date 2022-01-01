@@ -49,7 +49,7 @@
         </div>
 
         <!-- Static sidebar for desktop -->
-        <div class="hidden md:flex md:flex-shrink-0">   
+        <div class="hidden md:flex md:flex-shrink-0">
             <div class="flex flex-col w-64 border-r border-gray-200 bg-indigo-800">
                 <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                     <div class="flex items-center flex-shrink-0 px-4">
@@ -94,7 +94,7 @@
                 </button>
             </div>
 
-            <main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 focus:outline-none md:py-6" tabindex="0" x-data="" x-init="$el.focus()">
+            <main class="flex-1 relative z-0 overflow-y-auto mt-2 mb-6 focus:outline-none md:my-6" tabindex="0" x-data="" x-init="$el.focus()">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 
                     {{ $slot }}
