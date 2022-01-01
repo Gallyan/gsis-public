@@ -18,6 +18,11 @@ class Order extends Model
         'processes' => 'Processed',
     ];
 
+    // Automatically switch between json and array of books
+    protected $casts = [
+        'books' => 'array',
+    ];
+
     protected $guarded = [];
 
     public function user() { return $this->belongsTo('App\Models\User'); }
