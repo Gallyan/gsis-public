@@ -80,7 +80,7 @@
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center">
                                 <img class="inline-block h-6 w-6 rounded-full" src="{{ $user->avatarUrl() }}" alt="{{ $user->full_name }}">
-                                <p class="text-cool-gray-600 truncate">    
+                                <p class="text-cool-gray-600 truncate">
                                     {{ $user->full_name }}
                                 </p>
                             </span>
@@ -156,7 +156,7 @@
                 </x-input.group>
 
                 <x-input.group for="birthday" label="Birthday" :error="$errors->first('editing.birthday')" required>
-                    <x-input.date wire:model="editing.birthday" id="birthday" placeholder="YYYY-MM-DD" required />
+                    <x-input.date wire:model="editing.birthday" id="birthday" placeholder="YYYY-MM-DD" />
                 </x-input.group>
 
                 <x-input.group for="email" label="Email" :error="$errors->first('editing.email')" required>
