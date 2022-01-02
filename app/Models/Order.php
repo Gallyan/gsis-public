@@ -25,6 +25,10 @@ class Order extends Model
 
     protected $guarded = [];
 
+    protected $fillable = [
+        'books',
+    ];
+
     public function user() { return $this->belongsTo('App\Models\User'); }
 
     public function institution() { return $this->belongsTo('App\Models\Institution'); }
