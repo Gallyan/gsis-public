@@ -29,7 +29,7 @@ class OrderFactory extends Factory
 
         $status = array_keys(Order::STATUSES);
 
-        $books = null;
+        $books = [];
         if ( mt_rand(0,1) ) {
             for( $i=0; $i<mt_rand(1,5); $i++ ) {
                 $books[$i]['title'] = $this->faker->sentence(mt_rand(3,5));
@@ -43,7 +43,7 @@ class OrderFactory extends Factory
             'subject' => $this->faker->sentence(),
             'institution_id' => $institutions[mt_rand(0,count($institutions)-1)],
             'supplier' => mt_rand(0,1)?$this->faker->company():null,
-            'books' => json_encode( $books ),
+            'books' => $books,
             'comments' => mt_rand(0,1)?$this->faker->text(500):null,
             'status' => $status[mt_rand(0,count($status)-1)],
         ];
