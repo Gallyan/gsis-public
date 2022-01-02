@@ -44,9 +44,9 @@ class EditOrder extends Component
     }
 
     public function close_modal() {
+        $this->showModal = false;
         $this->title = $this->author = $this->isbn = ''; // Reset form
         unset($this->book_id);
-        $this->showModal = false;
     }
 
     public function edit_book( int $id ) {
