@@ -1,17 +1,53 @@
-<div>
-    <h1 class="text-2xl font-semibold text-gray-900">{{ __('Purchase Order') }}</h1>
-
+<div class="relative">
     <form wire:submit.prevent="save" wire:reset.prevent="init">
+        <div class="sticky flex flex-row top-0 bg-cool-gray-100 pb-6 border-b border-gray-200">
+            <h1 class="text-2xl font-semibold text-gray-900">{{ __('Purchase Order') }} {{ $order->id }}</h1>
+
+            <div class="flex-grow">
+                <div class="space-x-3 flex justify-end items-center">
+                    <span x-data="{ open: false }" x-init="
+                            @this.on('notify-saved', () => {
+                                if (open === false) setTimeout(() => { open = false }, 2500);
+                                open = true;
+                            })
+                        " x-show.transition.out.duration.1000ms="open" style="display: none;" class="text-green-600">{{ __('Saved!') }}</span>
+
+                    <span x-data="{ open: false }" x-init="
+                            @this.on('notify-error', () => {
+                                if (open === false) setTimeout(() => { open = false }, 2500);
+                                open = true;
+                            })
+                        " x-show.transition.out.duration.1000ms="open" style="display: none;" class="text-red-600">{{ __('Error') }}</span>
+
+                    <span class="inline-flex rounded-md shadow-sm">
+                        <button type="reset" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                            {{ __('Reset') }}
+                        </button>
+                    </span>
+
+                    <span class="inline-flex rounded-md shadow-sm">
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                            {{ __('Save') }}
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-6 sm:mt-5">
             @can ('manage-users')
-            <x-input.group label="User" for="user">
+            <x-input.group label="User" for="user" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
                 {{ $this->order->user->full_name ?? '' }}
             </x-input.group>
-            @endcan
 
             <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required>
                 <x-input.text wire:model.debounce.500ms="order.subject" id="subject" leading-add-on="" />
             </x-input.group>
+            @else
+            <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" borderless required>
+                <x-input.text wire:model.debounce.500ms="order.subject" id="subject" leading-add-on="" />
+            </x-input.group>
+            @endcan
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('order.institution_id')" required>
                 <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="Select Institution...">
@@ -25,97 +61,72 @@
                 <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" leading-add-on="" />
             </x-input.group>
 
-            <x-input.group label="Books" for="books" :error="$errors->first('order.books')">
-                {{-- <x-input.json2array wire:model.debounce.500ms="order.books" id="books"> --}}
+            <x-input.group label="Books" for="books" wire:model="order.books" :error="$errors->first('order.books')">
                     <x-table>
                         <x-slot name="head">
-                            <x-table.heading class="w-full">{{ __('Title') }}</x-table.heading>
-                            <x-table.heading>{{ __('Author') }}</x-table.heading>
-                            <x-table.heading>{{ __('ISBN') }}</x-table.heading>
-                            <x-table.heading></x-table.heading>
+                            <x-table.heading class="w-full" small>{{ __('Title') }}</x-table.heading>
+                            <x-table.heading class="min-w-200" small>{{ __('Author') }}</x-table.heading>
+                            <x-table.heading class="min-w-200" small>{{ __('ISBN') }}</x-table.heading>
+                            <x-table.heading small>{{ __('Actions') }}</x-table.heading>
                         </x-slot>
 
                         <x-slot name="body">
-                            @empty ($order->books)
+                            @forelse ($order->books as $book)
+                            <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <p class="text-cool-gray-600 truncate">
+                                            {{ $book['title'] }}
+                                        </p>
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell>
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <p class="text-cool-gray-600 truncate">
+                                            {{ $book['author'] }}
+                                        </p>
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell class="text-center">
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <p class="text-cool-gray-600 truncate">
+                                            {{ $book['isbn'] }}
+                                        </p>
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell class="text-center">
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <x-button.link wire:click="edit_book({{ $loop->iteration }})" class="text-cool-gray-600 truncate" title="{{ __('Edit') }}">
+                                            <x-icon.pencil class="h-4 w-4 text-cool-gray-400" />
+                                        </x-button.link>
+                                        <x-button.link wire:click="del_book({{ $loop->iteration }})" class="text-cool-gray-600 truncate"  title="{{ __('Delete') }}">
+                                            <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
+                                        </x-button.link>
+                                    </span>
+                                </x-table.cell>
+                            </x-table.row>
+                            @empty
                             <x-table.row>
                                 <x-table.cell colspan="6">
                                     <div class="flex justify-center items-center space-x-2">
-                                        <x-icon.inbox class="h-8 w-8 text-cool-gray-400" />
-                                        <span class="font-medium py-8 text-cool-gray-400 text-xl">{{ __('No books...') }}</span>
+                                        <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
+                                        <span class="font-medium text-cool-gray-400 text-lg">{{ __('No books...') }}</span>
                                     </div>
                                 </x-table.cell>
                             </x-table.row>
-                            @else
-                            @foreach (json_decode($order->books) as $book)
-                                @if($loop->iteration % 2 == 0)
-                                    @php $rowcolor='bg-gray-50' @endphp
-                                @else
-                                    @php $rowcolor='bg-white' @endphp
-                                @endif
-                            <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" class="{{ $rowcolor }}">
-                                <x-table.cell>
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <p class="text-cool-gray-600 truncate">
-                                            {{ $book->title }}
-                                        </p>
-                                    </span>
-                                </x-table.cell>
-
-                                <x-table.cell>
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <p class="text-cool-gray-600 truncate">
-                                            {{ $book->author }}
-                                        </p>
-                                    </span>
-                                </x-table.cell>
-
-                                <x-table.cell>
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <p class="text-cool-gray-600 truncate">
-                                            {{ $book->isbn }}
-                                        </p>
-                                    </span>
-                                </x-table.cell>
-
-                                <x-table.cell>
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
-                                    </span>
-                                </x-table.cell>
-                            </x-table.row>
-                            @endforeach
-                            @endempty
-
-                            <x-table.row>
-                                <x-table.cell>
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    </span>
-                                </x-table.cell>
-
-                                <x-table.cell>
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    </span>
-                                </x-table.cell>
-
-                                <x-table.cell>
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    </span>
-                                </x-table.cell>
-
-                                <x-table.cell>
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <x-icon.plus class="h-4 w-4 text-cool-gray-400" />
-                                    </span>
-                                </x-table.cell>
-                            </x-table.row>
-
+                            @endforelse
                         </x-slot>
                     </x-table>
-                {{-- </x-input.json2array> --}}
-            </x-input.group>
+
+                    <x-button.secondary wire:click="$set('showModal', true)" class="mt-4"><x-icon.plus/> {{ __('Add book') }}</x-button.primary>
+
+                </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('order.comments')">
-                <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="10" />
+                <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" />
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('order.status')" required>
@@ -129,28 +140,32 @@
                 </x-input.select>
             </x-input.group>
         </div>
+    </form>
 
-        <div class="mt-2 border-t border-gray-200 pt-5">
-            <div class="space-x-3 flex justify-end items-center">
-                <span x-data="{ open: false }" x-init="
-                        @this.on('notify-saved', () => {
-                            if (open === false) setTimeout(() => { open = false }, 2500);
-                            open = true;
-                        })
-                    " x-show.transition.out.duration.1000ms="open" style="display: none;" class="text-gray-500">Saved!</span>
+    <!-- Add book Modal -->
+    <form wire:submit.prevent="add_book">
+        <x-modal.dialog wire:model.defer="showModal">
+            <x-slot name="title">@if(isset($this->book_id)) @lang('Edit book') @else @lang('Add book') @endif</x-slot>
 
-                <span class="inline-flex rounded-md shadow-sm">
-                    <button type="reset" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
-                        {{ __('Reset') }}
-                    </button>
-                </span>
+            <x-slot name="content">
+                <x-input.group for="title" label="Title" :error="$errors->first('title')" required>
+                    <x-input.text wire:model.debounce.500ms="title" id="title" placeholder="Title"/>
+                </x-input.group>
 
-                <span class="inline-flex rounded-md shadow-sm">
-                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
-                        {{ __('Save') }}
-                    </button>
-                </span>
-            </div>
-        </div>
+                <x-input.group for="author" label="Author" :error="$errors->first('author')" required>
+                    <x-input.text wire:model.debounce.500ms="author" id="author" placeholder="Author"/>
+                </x-input.group>
+
+                <x-input.group for="isbn" label="Isbn" :error="$errors->first('isbn')" required>
+                    <x-input.text wire:model.debounce.500ms="isbn" id="isbn" placeholder="Isbn"/>
+                </x-input.group>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-button.secondary wire:click="close_modal">{{ __('Cancel') }}</x-button.secondary>
+
+                <x-button.primary type="submit">@if(isset($this->book_id)) @lang('Update') @else @lang('Add') @endif</x-button.primary>
+            </x-slot>
+        </x-modal.dialog>
     </form>
 </div>
