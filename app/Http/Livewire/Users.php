@@ -34,7 +34,7 @@ class Users extends Component
         'editing.name' => 'required|max:255',
         'editing.birthday' => 'required|date',
         'editing.email' => 'required|max:255|email:rfc'.((App::environment('production'))?',dns,spoof':'').'|unique:App\Models\User,email'.($this->editing->id ? ','.$this->editing->id:''),
-        'editing.employer' => 'sometimes|string',
+        'editing.employer' => 'nullable|string',
         'editing.phone' => 'sometimes|phone',
         //'upload' => 'nullable|image|max:1000',
     ]; }
@@ -70,6 +70,8 @@ class Users extends Component
 
         $this->showEditModal = true;
     }
+
+    public function updated($propertyName) { $this->validateOnly($propertyName); }
 
     public function save()
     {
