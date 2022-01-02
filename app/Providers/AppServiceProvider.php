@@ -77,5 +77,7 @@ class AppServiceProvider extends ServiceProvider
 
             return $values->implode("\n");
         });
+
+        Validator::excludeUnvalidatedArrayKeys();
     }
 }
