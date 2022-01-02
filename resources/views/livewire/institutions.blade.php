@@ -97,7 +97,7 @@
     <!-- Save Institution Modal -->
     <form wire:submit.prevent="save">
         <x-modal.dialog wire:model.defer="showEditModal">
-            <x-slot name="title">{{ __('Edit Insititution') }}</x-slot>
+            <x-slot name="title">{{ __('Edit Institution') }}</x-slot>
 
             <x-slot name="content">
                 <x-input.group for="name" label="Name" :error="$errors->first('editing.name')" required>
