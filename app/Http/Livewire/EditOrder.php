@@ -102,8 +102,8 @@ class EditOrder extends Component
         if ( is_null($this->order->id) ) {
             $this->order = Order::make([
                 'user_id' => Auth()->user()->id,
+                'books'   => [],
             ]);
-            $this->order->books = $this->order->books;
         } else {
             $this->order = Order::find( $this->order->id );
         }
