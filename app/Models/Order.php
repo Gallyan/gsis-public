@@ -27,6 +27,7 @@ class Order extends Model
 
     protected $fillable = [
         'books',
+        'user_id',
     ];
 
     public function user() { return $this->belongsTo('App\Models\User'); }
