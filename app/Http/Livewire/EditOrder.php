@@ -34,10 +34,7 @@ class EditOrder extends Component
 
     public function mount( $id = null ) {
         if ( is_null($id) ) {
-            $this->order = Order::make([
-                'user_id' => Auth()->user()->id,
-                'books'   => [],
-            ]);
+            $this->order = $this->makeBlankOrder();
         } else {
             $this->order = Order::find($id);
         }
@@ -98,12 +95,17 @@ class EditOrder extends Component
         }
     }
 
+    public function makeBlankOrder()
+    {
+        return Order::make([
+            'user_id' => Auth()->user()->id,
+            'books'   => [],
+        ]);
+    }
+
     public function init() {
         if ( is_null($this->order->id) ) {
-            $this->order = Order::make([
-                'user_id' => Auth()->user()->id,
-                'books'   => [],
-            ]);
+            $this->order = $this->makeBlankOrder();
         } else {
             $this->order = Order::find( $this->order->id );
         }
