@@ -79,10 +79,12 @@ class Institutions extends Component
         });
     }
 
-    public function render()    
+    public function render()
     {
         return view('livewire.institutions', [
             'institutions' => $this->rows,
+        ])->layoutData([
+            'pageTitle' => __('Institutions'),
         ]);
     }
 }
