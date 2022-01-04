@@ -143,6 +143,8 @@
 
     <!-- Save User Modal -->
     <form wire:submit.prevent="save">
+        @csrf
+
         <x-modal.dialog wire:model.defer="showEditModal">
             <x-slot name="title">{{ __('Edit User') }}</x-slot>
 

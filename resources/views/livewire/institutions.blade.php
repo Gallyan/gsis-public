@@ -96,6 +96,8 @@
 
     <!-- Save Institution Modal -->
     <form wire:submit.prevent="save">
+        @csrf
+
         <x-modal.dialog wire:model.defer="showEditModal">
             <x-slot name="title">{{ __('Edit Institution') }}</x-slot>
 

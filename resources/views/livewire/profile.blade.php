@@ -2,6 +2,8 @@
     <h1 class="text-2xl font-semibold text-gray-900">Profile</h1>
 
     <form wire:submit.prevent="save">
+        @csrf
+
         <div class="mt-6 sm:mt-5">
             <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')" required>
                 <x-input.text wire:model.debounce.500ms="user.firstname" id="firstname" leading-add-on="" />
