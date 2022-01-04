@@ -91,9 +91,13 @@
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $user->email }}
                                     @if ( $user->verified === true )
-                                    <x-icon.check class="text-green-400" />
+                                    <span title="{{ __('Email checked') }}">
+                                        <x-icon.check class="text-green-400" />
+                                    </span>
                                     @elseif ( $user->verified === false )
-                                    <x-icon.x class="text-red-400" />
+                                    <span title="{{ __('Email not verified') }}">
+                                        <x-icon.x class="text-red-400" />
+                                    </span>
                                     @endif
                                 </p>
                             </span>
