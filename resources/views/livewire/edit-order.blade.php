@@ -1,5 +1,9 @@
+
+
 <div class="relative">
     <form wire:submit.prevent="save" wire:reset.prevent="init">
+        @csrf
+
         <div class="sticky flex flex-row top-0 bg-cool-gray-100 pb-6 border-b border-gray-200">
             <h1 class="text-2xl font-semibold text-gray-900">{{ __('Purchase Order') }} {{ $order->id }}</h1>
 
@@ -144,6 +148,8 @@
 
     <!-- Add book Modal -->
     <form wire:submit.prevent="add_book">
+        @csrf
+
         <x-modal.dialog wire:model.defer="showModal">
             <x-slot name="title">@if(isset($this->book_id)) @lang('Edit book') @else @lang('Add book') @endif</x-slot>
 
