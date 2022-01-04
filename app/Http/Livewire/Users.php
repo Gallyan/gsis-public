@@ -114,6 +114,8 @@ class Users extends Component
     {
         return view('livewire.users', [
             'users' => $this->rows,
+        ])->layoutData([
+            'pageTitle' => __('Users'),
         ]);
     }
 }
