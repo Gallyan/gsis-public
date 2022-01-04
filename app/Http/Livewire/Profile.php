@@ -37,6 +37,12 @@ class Profile extends Component
         $this->validateOnly($propertyName);
     }
 
+    public function render()
+    {
+        return view('livewire.profile')
+            ->layoutData(['pageTitle' => __('Profile')   ]);
+    }
+
     public function save()
     {
         $this->validate();
