@@ -9,21 +9,12 @@ module.exports = {
 
     theme: {
         extend: {
-            fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
-            },
             maxWidth: {
-                100: "100px"
+                100: '100px',
               },
             minWidth: {
-                '200': '200px',
+                200: '200px',
             }
-        },
-    },
-
-    variants: {
-        extend: {
-            opacity: ['disabled'],
         },
     },
 

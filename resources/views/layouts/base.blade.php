@@ -5,13 +5,10 @@
         <meta charset="UTF-8">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $pageTitle }} {{ config('app.name', 'Laravel') }}</title>
+        <title>{{ $pageTitle }} {{ config('app.name', 'Gsis 2') }}</title>
 
         <!-- Tailwind -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css">
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&display=swap" rel="stylesheet">
 
         @livewireStyles
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
