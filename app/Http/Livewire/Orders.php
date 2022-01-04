@@ -74,6 +74,8 @@ class Orders extends Component
     {
         return view('livewire.orders', [
             'orders' => $this->rows,
+        ])->layoutData([
+            'pageTitle' => __('Purchase orders'),
         ]);
     }
 }
