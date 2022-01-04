@@ -40,6 +40,12 @@ class EditOrder extends Component
         }
     }
 
+    public function render()
+    {
+        return view('livewire.edit-order')
+            ->layoutData(['pageTitle' => __('Purchase Order').' '.$this->order->id ]);
+    }
+
     public function close_modal() {
         $this->showModal = false;
         $this->title = $this->author = $this->isbn = ''; // Reset form

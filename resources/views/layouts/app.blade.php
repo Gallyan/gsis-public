@@ -1,4 +1,9 @@
 <x-layouts.base>
+
+    <x-slot name="pageTitle">
+        @isset($pageTitle) {{ $pageTitle }} | @endisset
+    </x-slot>
+
     <div class="h-screen flex overflow-hidden bg-cool-gray-100" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
         <!-- Off-canvas menu for mobile -->
         <div x-show="sidebarOpen" class="md:hidden" style="display: none;">
