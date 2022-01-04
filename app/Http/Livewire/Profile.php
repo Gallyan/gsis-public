@@ -30,6 +30,8 @@ class Profile extends Component
 
     public function mount() { $this->user = auth()->user(); }
 
+    public function init() { $this->user = auth()->user(); }
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
