@@ -33,9 +33,9 @@
                 <x-input.file-upload wire:model="upload" id="photo">
                     <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                         @if ($upload)
-                            <img src="{{ $upload->temporaryUrl() }}" alt="Profile Photo">
+                            <img src="{{ $upload->temporaryUrl() }}" alt="{{ __('Profile Photo') }}">
                         @else
-                            <img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                            <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ __('Profile Photo') }}">
                         @endif
                     </span>
                 </x-input.file-upload>
