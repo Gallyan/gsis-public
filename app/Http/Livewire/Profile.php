@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Validator;
 
 class Profile extends Component
 {
@@ -49,7 +50,11 @@ class Profile extends Component
 
     public function save()
     {
-        $this->validate();
+        $this->withValidator(function (Validator $validator) {
+            if ($validator->fails()) {
+                $this->emitSelf('notify-error');
+            }
+        })->validate();
 
         $this->user->save();
 
