@@ -22,6 +22,7 @@ module.exports = {
         extend: {
             backgroundColor: ['active','disabled'],
             textColor: ['active','disabled'],
+            borderColor : ['focus'],
             outlineColor : ['focus'],
             outlineOffset : ['focus'],
             outlineWidth : ['focus'],
