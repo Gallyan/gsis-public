@@ -20,6 +20,7 @@ class Order extends Model
 
     // Automatically switch between json and array of books
     protected $casts = [
+        'quotations' => 'array',
         'books' => 'array',
     ];
 
@@ -27,6 +28,7 @@ class Order extends Model
 
     protected $fillable = [
         'books',
+        'quotations',
         'user_id',
     ];
 
