@@ -18,5 +18,15 @@ module.exports = {
         },
     },
 
+    variants: {
+        extend: {
+            backgroundColor: ['active','disabled'],
+            textColor: ['active','disabled'],
+            outlineColor : ['focus'],
+            outlineOffset : ['focus'],
+            outlineWidth : ['focus'],
+        }
+    },
+
     plugins: [require('@tailwindcss/forms')],
 };
