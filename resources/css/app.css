@@ -3,6 +3,15 @@
 @import 'tailwindcss/utilities';
 
 .required:after {
-content:" *";
-color: red;
+    content:" *";
+    color: red;
 }
+
+/* Filepond style override */
+
+.filepond--root { border: 2px dashed rgb(229 231 235); border-radius: 0.375em; }
+.filepond--root:hover { border: 2px dashed rgb(209 213 219); }
+.filepond--panel-root { background-color: inherit; }
+.filepond--drip-blob { background-color: gray; }
+
+/* Filepond end */
