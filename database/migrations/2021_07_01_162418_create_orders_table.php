@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('subject'); // Objet de l'achat hors contrat
             $table->bigInteger('institution_id')->unsigned(); // Institutions et contrat de rattachement
             $table->string('supplier')->nullable(); // Fournisseurs
+            $table->json('quotations'); // Devis
             $table->json('books'); // Ouvrages, Json (Titre Auteur ISBN)
             $table->text('comments')->nullable(); // Commentaires
             $table->string('status')->default('on-hold');
