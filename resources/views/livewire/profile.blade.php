@@ -29,16 +29,15 @@
                 <x-input.phone wire:model.debounce.500ms="user.phone" id="phone" leading-add-on="" />
             </x-input.group>
 
-            <x-input.group label="Photo" for="photo" :error="$errors->first('upload')">
-                <x-input.file-upload wire:model="upload" id="photo">
-                    <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                        @if ($upload)
-                            <img src="{{ $upload->temporaryUrl() }}" alt="{{ __('Profile Photo') }}">
-                        @else
-                            <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ __('Profile Photo') }}">
-                        @endif
-                    </span>
-                </x-input.file-upload>
+            <x-input.group label="Photo" for="photo" :error="$errors->first('upload')" innerclass="flex space-x-6">
+                <div class="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex-none">
+                    @if ($upload)
+                        <img src="{{ $upload->temporaryUrl() }}" alt="{{ __('Profile Photo') }}">
+                    @else
+                        <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ __('Profile Photo') }}">
+                    @endif
+                </div>
+                <x-input.filepond wire:model="upload" id="photo" inputname="photo" class="flex-1"/>
             </x-input.group>
 
             @can('manage-users')
