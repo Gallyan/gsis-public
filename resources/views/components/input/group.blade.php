@@ -8,6 +8,7 @@
     'borderless' => false,
     'required' => false,
     'class' => '',
+    'innerclass' => '',
 ])
 
 @if($inline)
@@ -16,7 +17,7 @@
         <label for="{{ $for }}" class="block text-sm font-medium leading-5 text-gray-700 {{ $required ? 'required' : '' }}">{{ __($label) }}</label>
         @endif
 
-        <div class="mt-1 relative rounded-md">
+        <div class="mt-1 relative rounded-md {{ $innerclass }}">
             {{ $slot }}
 
             @if ($error)
@@ -36,7 +37,7 @@
         </label>
         @endif
 
-        <div class="mt-1 sm:mt-0 sm:col-span-4">
+        <div class="mt-1 sm:mt-0 sm:col-span-4 {{ $innerclass }}">
             {{ $slot }}
 
             @if ($error)
