@@ -13,6 +13,9 @@
                     @this.removeUpload('{{ $attributes['wire:model'] }}', filename, load)
                 },
             },
+        });
+        this.addEventListener('pondReset', e => {
+            pond.removeFiles();
         });"
     {{ $attributes->only('class') }}
 >

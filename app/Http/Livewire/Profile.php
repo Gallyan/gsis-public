@@ -67,6 +67,8 @@ class Profile extends Component
             ]);
 
             Storage::disk('avatars')->delete($old_avatar);
+
+            $this->dispatchBrowserEvent('pondReset');
         }
 
         $this->emitSelf('notify-saved');
