@@ -30,7 +30,7 @@
             </x-input.group>
 
             <x-input.group label="Photo" for="photo" :error="$errors->first('upload')" innerclass="flex space-x-6">
-                <div class="h-16 w-16 rounded-full overflow-hidden bg-gray-100 flex-none">
+                <div class="h-16 w-16 rounded-full overflow-hidden flex-none">
                     @if ($upload)
                         <img src="{{ $upload->temporaryUrl() }}" alt="{{ __('Profile Photo') }}">
                     @else
