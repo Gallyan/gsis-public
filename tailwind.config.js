@@ -25,6 +25,8 @@ module.exports = {
             outlineColor : ['focus'],
             outlineOffset : ['focus'],
             outlineWidth : ['focus'],
+            opacity: ['disabled'],
+            cursor: ['disabled'],
         }
     },
 
