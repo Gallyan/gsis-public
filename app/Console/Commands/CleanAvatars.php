@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class CleanAvatars extends Command
 {
@@ -37,6 +39,16 @@ class CleanAvatars extends Command
      */
     public function handle()
     {
-        $this->info('Successfully do nothing for now.');
+        $this->avatars = DB::table('users')->whereNotNull('avatar')->pluck('avatar')->toArray();
+
+        $files = Storage::files('avatars');
+
+        $to_delete = array_values( array_filter( $files, function( $file ) {
+            return $file[8] !== '.' && !in_array( substr($file,8), $this->avatars );
+        } ) );
+
+        Storage::delete($to_delete);
+
+        $this->info('Suppression de '.count($to_delete).' avatar(s) non affecté(s).');
     }
 }
