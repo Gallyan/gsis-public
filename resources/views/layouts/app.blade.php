@@ -33,7 +33,7 @@
                         <a href="/profile" class="flex-shrink-0 group block focus:outline-none">
                             <div class="flex items-center">
                                 <div>
-                                    <img class="inline-block h-10 w-10 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                                    <img class="inline-block h-10 w-10 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->full_name }}">
                                 </div>
                                 <div class="ml-3">
                                     <p class="text-base leading-6 font-medium text-white">
@@ -72,7 +72,7 @@
                     <a href="/profile" class="flex-shrink-0 w-full group block">
                         <div class="flex items-center">
                             <div>
-                                <img class="inline-block h-9 w-9 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
+                                <img class="inline-block h-9 w-9 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->full_name }}">
                             </div>
 
                             <div class="ml-3">
