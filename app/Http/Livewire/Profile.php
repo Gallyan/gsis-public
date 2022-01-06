@@ -14,7 +14,8 @@ class Profile extends Component
     use WithFileUploads;
 
     public User $user;
-    public $upload;
+    public $upload; // Store avatar temporary upload
+    public $modified = false; // True if form is modified and need to be saved
 
     protected function rules()
     {
@@ -33,12 +34,14 @@ class Profile extends Component
 
     public function init() {
         $this->user = auth()->user();
-        $this->upload = null;
+        $this->reset(['upload','modified']);
+        $this->dispatchBrowserEvent('pondReset');
         $this->validate();
     }
 
     public function updated($propertyName)
     {
+        $this->modified = true;
         $this->validateOnly($propertyName);
     }
 
@@ -70,6 +73,8 @@ class Profile extends Component
 
             $this->dispatchBrowserEvent('pondReset');
         }
+
+        $this->reset(['upload','modified']);
 
         $this->emitSelf('notify-saved');
     }
