@@ -2,10 +2,10 @@
     <form wire:submit.prevent="save" wire:reset.prevent="init">
         @csrf
 
-        <x-stickytopbar title="Profile" />
+        <x-stickytopbar title="Profile" modified="{{ $modified }}"/>
 
         <div class="mt-6 sm:mt-5">
-            <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')" required  borderless>
+            <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')" required borderless>
                 <x-input.text wire:model.debounce.500ms="user.firstname" id="firstname" leading-add-on="" />
             </x-input.group>
 
