@@ -15,7 +15,7 @@ class Order extends Model
         'on-hold' => 'On hold',
         'in-progress' => 'In progress',
         'validated' => 'Validated',
-        'processes' => 'Processed',
+        'processed' => 'Processed',
     ];
 
     // Automatically switch between json and array of books
