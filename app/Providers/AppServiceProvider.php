@@ -59,6 +59,12 @@ class AppServiceProvider extends ServiceProvider
         Builder::macro('orSearch', function ($field, $string) {
             return $string ? $this->orWhere($field, 'like', '%'.$string.'%') : $this;
         });
+        Builder::macro('searchBefore', function ($field, $date) {
+            return $date ? $this->where($field, '<=', Carbon::parse($date)) : $this;
+        });
+        Builder::macro('searchAfter', function ($field, $date) {
+            return $date ? $this->Where($field, '>=', Carbon::parse($date)) : $this;
+        });
 
         Builder::macro('toCsv', function () {
             $results = $this->get();
