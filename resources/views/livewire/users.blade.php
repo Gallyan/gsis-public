@@ -166,7 +166,7 @@
                 </x-input.group>
 
                 <x-input.group for="email" label="Email" :error="$errors->first('editing.email')" required>
-                    <x-input.email wire:model="editing.email" id="email" />
+                    <x-input.email wire:model="editing.email" id="email" :verified="$this->editing->verified" />
                 </x-input.group>
 
                 <x-input.group for="employer" label="Employer" :error="$errors->first('editing.employer')">
