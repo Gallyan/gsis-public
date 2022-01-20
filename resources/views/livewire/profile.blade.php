@@ -31,10 +31,10 @@
 
             <x-input.group label="Photo" for="photo" :error="$errors->first('upload')" innerclass="flex space-x-6">
                 <div class="h-16 w-16 rounded-full overflow-hidden flex-none">
-                    @if ($upload)
-                        <img src="{{ $upload->temporaryUrl() }}" alt="{{ __('Profile Photo') }}">
-                    @else
+                    @empty ($upload)
                         <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ __('Profile Photo') }}">
+                    @else
+                        <img src="{{ $upload->temporaryUrl() }}" alt="{{ __('Profile Photo') }}">
                     @endif
                 </div>
                 <x-input.filepond wire:model="upload" id="photo" inputname="photo" class="flex-1"/>

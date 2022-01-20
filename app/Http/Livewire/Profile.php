@@ -74,7 +74,7 @@ class Profile extends Component
             $this->dispatchBrowserEvent('pondReset');
         }
 
-        $this->reset(['upload','modified']);
+        $this->reset(['modified']);
 
         $this->emitSelf('notify-saved');
     }
