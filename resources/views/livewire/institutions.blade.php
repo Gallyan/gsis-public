@@ -103,22 +103,22 @@
 
             <x-slot name="content">
                 <x-input.group for="name" label="Name" :error="$errors->first('editing.name')" required>
-                    <x-input.text wire:model="editing.name" id="name" placeholder="Name" />
+                    <x-input.text wire:model="editing.name" id="name" placeholder="{{ __('Name') }}" />
                 </x-input.group>
 
                 <x-input.group for="contract" label="Contract" :error="$errors->first('editing.contract')" required>
-                    <x-input.text wire:model="editing.contract" id="contract" placeholder="Contract" />
+                    <x-input.text wire:model="editing.contract" id="contract" placeholder="{{ __('Contract') }}" />
                 </x-input.group>
 
                 <x-input.group for="allocation" label="Allocation" :error="$errors->first('editing.allocation')" required>
-                    <x-input.text wire:model="editing.allocation" id="allocation" placeholder="Allocation" />
+                    <x-input.text wire:model="editing.allocation" id="allocation" placeholder="{{ __('Allocation') }}" />
                 </x-input.group>
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="$set('showEditModal', false)">Cancel</x-button.secondary>
+                <x-button.secondary wire:click="$set('showEditModal', false)">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary type="submit">Save</x-button.primary>
+                <x-button.primary type="submit">{{ __('Save') }}</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
