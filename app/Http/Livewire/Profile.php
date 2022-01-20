@@ -41,7 +41,7 @@ class Profile extends Component
 
     public function updated($propertyName)
     {
-        $this->modified = true;
+        $this->modified = !empty($this->user->getDirty()) || $this->upload;
         $this->validateOnly($propertyName);
     }
 
