@@ -37,12 +37,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 $user->sendEmailVerificationNotification();
             }
         });
-
-        static::created(function (User $user) {
-            if ( is_null( $user->email_verified_at ) ) {
-                $user->sendEmailVerificationNotification();
-            }
-        });
     }
 
     public function getFullNameAttribute() { return $this->firstname.' '.$this->name; }
