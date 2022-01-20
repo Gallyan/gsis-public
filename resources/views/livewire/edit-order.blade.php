@@ -2,7 +2,7 @@
     <form wire:submit.prevent="save" wire:reset.prevent="init">
         @csrf
 
-        <x-stickytopbar title="{{ __('Purchase Order') }} {{ $order->id }}" modified="{{ $modified ?? 'true' }}" />
+        <x-stickytopbar title="{{ __('Purchase Order') }} {{ $order->id }}" :modified="$modified" />
 
         <div class="mt-6 sm:mt-5">
             @can ('manage-users')
