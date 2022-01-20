@@ -9,9 +9,10 @@ use Illuminate\Validation\Validator;
 class EditOrder extends Component
 {
     public Order $order;
+    public $modified = false; // True if form is modified and need to be saved
 
+    // For Modal Book editing
     public $showModal = false;
-
     public string $title = '';
     public string $author = '';
     public string $isbn = '';
@@ -37,6 +38,7 @@ class EditOrder extends Component
             $this->order = $this->makeBlankOrder();
         } else {
             $this->order = Order::find($id);
+            $this->reset('modified');
         }
     }
 
@@ -70,6 +72,7 @@ class EditOrder extends Component
         if( $id < 1 || $id > count($books)) return;
         if(isset($books[$id-1])) unset( $books[$id-1] );
         $this->order->books = array_values( $books );
+        $this->modified = true;
     }
 
     // Ajoute un livre à la liste json des livres à commander
@@ -90,6 +93,8 @@ class EditOrder extends Component
 
         $this->order->books = $books;
 
+        $this->modified = true;
+
         $this->close_modal();
     }
 
@@ -98,6 +103,7 @@ class EditOrder extends Component
             $this->validateOnly($propertyName, $this->book_rules());
         } else {
             $this->validateOnly($propertyName);
+            if ( $propertyName !== "showModal" ) $this->modified = true;
         }
     }
 
@@ -115,6 +121,7 @@ class EditOrder extends Component
         } else {
             $this->order = Order::find( $this->order->id );
         }
+        $this->reset('modified');
     }
 
     public function save()
@@ -128,6 +135,8 @@ class EditOrder extends Component
         })->validate();
 
         $this->order->save();
+
+        $this->reset('modified');
 
         $this->emitSelf('notify-saved');
     }
