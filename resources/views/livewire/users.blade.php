@@ -97,7 +97,7 @@
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $user->email }}
                                     @if ( $user->verified === true )
-                                    <span title="{{ __('Email checked') }}">
+                                    <span title="{{ __('Email verified at ') }}{{ $user->email_verified_at }}">
                                         <x-icon.check class="text-green-400" />
                                     </span>
                                     @elseif ( $user->verified === false )
@@ -119,7 +119,7 @@
 
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-cool-gray-600 truncate" title="{{ $user->created_at }}">
                                     {{ $user->date_for_humans }}
                                 </p>
                             </span>
