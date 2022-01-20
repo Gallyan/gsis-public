@@ -24,6 +24,7 @@ class Users extends Component
         'email' => '',
         'date-min' => null,
         'date-max' => null,
+        'verified' => null,
     ];
     public User $editing;
 
@@ -92,6 +93,7 @@ class Users extends Component
     public function getRowsQueryProperty()
     {
         $query = User::query()
+            ->when($this->filters['verified'], fn($query) => $query->whereNotNull('email_verified_at'))
             ->when($this->filters['email'], fn($query, $email) => $query->search('email', $email))
             ->when($this->filters['date-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)))
