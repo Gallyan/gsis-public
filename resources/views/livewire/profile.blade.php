@@ -18,7 +18,7 @@
             </x-input.group>
 
             <x-input.group label="Email" for="email" :error="$errors->first('user.email')" required>
-                <x-input.email wire:model.debounce.500ms="user.email" id="email" leading-add-on="" :verified="auth()->user()->verified"/>
+                <x-input.email wire:model.debounce.500ms="user.email" id="email" leading-add-on="" :verified="auth()->user()->verified" />
             </x-input.group>
 
             <x-input.group label="Employer" for="employer" :error="$errors->first('user.employer')">
