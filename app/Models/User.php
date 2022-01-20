@@ -32,8 +32,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
         static::saving(function (User $user) {
             // En cas de changement de l'adresse email, un nouveau mail de vérification est envoyé
-            if (in_array('email', array_keys($user->getDirty()))) {
+            if (in_array('email', array_keys($user->getDirty())) && $user->created_at) {
                 $user->email_verified_at = null;
+                $user->sendEmailVerificationNotification();
+            }
+        });
+
+        static::created(function (User $user) {
+            if ( is_null( $user->email_verified_at ) ) {
                 $user->sendEmailVerificationNotification();
             }
         });
