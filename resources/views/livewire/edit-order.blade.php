@@ -100,6 +100,10 @@
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('order.status')" required>
+                <x-input.status wire:model="order.status" />
+            </x-input.group>
+
+            <x-input.group label="Status" for="status" :error="$errors->first('order.status')" required>
                 <x-input.select wire:model="order.status" id="status">
                     <x-slot name="placeholder">
                         Select Status...
