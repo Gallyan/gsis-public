@@ -17,7 +17,7 @@
                 <x-input.date wire:model="user.birthday" id="birthday" placeholder="YYYY-MM-DD" required />
             </x-input.group>
 
-            <x-input.group label="Email" for="email" :error="$errors->first('user.email')" required>
+            <x-input.group label="Email" for="email" :error="$errors->first('user.email')" helpText="{{ isset($this->user->getDirty()['email']) ? __('If you change your email, you will receive a new verification email, and you will not be able to access the site features until you validate the new email.') : '' }}" required>
                 <x-input.email wire:model.debounce.500ms="user.email" id="email" leading-add-on="" :verified="auth()->user()->verified" />
             </x-input.group>
 
