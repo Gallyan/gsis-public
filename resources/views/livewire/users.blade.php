@@ -97,7 +97,7 @@
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $user->email }}
                                     @if ( $user->verified === true )
-                                    <span title="{{ __('Email checked') }}">
+                                    <span title="{{ __('Email verified at ') }}{{ $user->email_verified_at }}">
                                         <x-icon.check class="text-green-400" />
                                     </span>
                                     @elseif ( $user->verified === false )
@@ -119,7 +119,7 @@
 
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-cool-gray-600 truncate" title="{{ $user->created_at }}">
                                     {{ $user->date_for_humans }}
                                 </p>
                             </span>
@@ -171,7 +171,7 @@
                     <x-input.date wire:model="editing.birthday" id="birthday" placeholder="YYYY-MM-DD" />
                 </x-input.group>
 
-                <x-input.group for="email" label="Email" :error="$errors->first('editing.email')" required>
+                <x-input.group for="email" label="Email" :error="$errors->first('editing.email')" helpText="{{ ( isset($this->editing->getDirty()['email']) && $this->editing->password ) ? __('If you change the email, user will receive a new verification email, and will not be able to access the site features until new email validation.') : '' }}" required>
                     <x-input.email wire:model="editing.email" id="email" :verified="$this->editing->verified" />
                 </x-input.group>
 
@@ -186,9 +186,9 @@
                 </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="$set('showEditModal', false)">Cancel</x-button.secondary>
+                <x-button.secondary wire:click="$set('showEditModal', false)">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary type="submit">Save</x-button.primary>
+                <x-button.primary type="submit" class="w-20"><x-icon.loading wire:loading /><div wire:loading.remove>{{ __('Save') }}</div></x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

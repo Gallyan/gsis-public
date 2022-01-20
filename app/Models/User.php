@@ -26,6 +26,19 @@ class User extends Authenticatable implements MustVerifyEmail
         'birthday' => 'date:Y-m-d',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function (User $user) {
+            // En cas de changement de l'adresse email, un nouveau mail de vérification est envoyé
+            if (in_array('email', array_keys($user->getDirty())) && $user->created_at) {
+                $user->email_verified_at = null;
+                $user->sendEmailVerificationNotification();
+            }
+        });
+    }
+
     public function getFullNameAttribute() { return $this->firstname.' '.$this->name; }
 
     public function getRolesNamesAttribute() { return $this->getRoleNames()->implode(', '); }

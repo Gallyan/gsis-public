@@ -12,9 +12,12 @@ Route::redirect('/', 'dashboard');
 /**
  * App Routes
  */
-Route::middleware(['auth','verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/profile', Profile::class)->name('profile');
+});
+
+Route::middleware(['auth','verified'])->group(function () {
     Route::get('/orders', Orders::class)->name('orders');
     Route::get('/order/{id?}', EditOrder::class)->whereNumber('id')->name('edit-order');
 

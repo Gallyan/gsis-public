@@ -16,7 +16,7 @@
     <body class="font-sans text-gray-900 antialiased">
         @env(['production','prod'])
         @else
-            <div class="fixed bg-red-500 text-white text-sm font-bold px-10 py-1 transform rotate-45 -right-10 top-4 text-center w-32">{{ ucfirst(env('APP_ENV')) }}</div>
+            <div class="fixed bg-red-500 text-white text-sm font-bold px-10 py-1 transform rotate-45 -right-10 top-4 text-center w-32">{{ ucfirst(App::environment()) }}</div>
         @endenv
 
         <div>
