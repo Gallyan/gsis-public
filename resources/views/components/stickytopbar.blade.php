@@ -13,6 +13,8 @@
 
                 <x-notify-message event='notify-error' color='text-red-600'>{{ __('Error!') }}</x-notify-message>
 
+                <x-icon.loading wire:loading class="w-6 h-6" />
+
                 <x-button.secondary type="reset">{{ __('Reset') }}</x-button.primary>
 
                 @if ( $attributes['modified'] )
