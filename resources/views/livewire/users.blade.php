@@ -32,7 +32,7 @@
                     <x-input.group inline for="filter-role" label="Role">
                         <x-input.select wire:model="filters.role" id="filter-role">
                             <x-slot name="placeholder">
-                                Select Role...
+                                {{ __('Select Role...') }}
                             </x-slot>
 
                             @foreach (\Spatie\Permission\Models\Role::all() as $role)
@@ -43,6 +43,12 @@
 
                     <x-input.group inline for="filter-email" label="Email">
                         <x-input.email wire:model.debounce.500ms="filters.email" id="filter-email" />
+                    </x-input.group>
+
+                    <x-input.group inline>
+                        <x-input.checkbox wire:model="filters.verified" id="filter-verified" for="filter-verified">
+                            {{ __('Verified email') }}
+                        </x-input.checkbox>
                     </x-input.group>
                 </div>
 
@@ -56,7 +62,7 @@
                     </x-input.group>
 
                     <div class="pt-5">
-                        <x-button.link wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">Reset Filters</x-button.link>
+                        <x-button.link wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">{{ __('Reset Filters') }}</x-button.link>
                     </div>
                 </div>
             </div>
