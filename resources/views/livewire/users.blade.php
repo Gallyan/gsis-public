@@ -7,7 +7,7 @@
             <div class="w-2/4 flex space-x-4">
                 <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" />
 
-                <x-button.link wire:click="toggleShowFilters">@if ($showFilters) Hide @endif Advanced Search...</x-button.link>
+                <x-button.link wire:click="toggleShowFilters">@if ($showFilters) {{ __('Hide') }} @endif {{ __('Advanced Search') }}...</x-button.link>
             </div>
 
             <div class="space-x-2 flex items-center">
@@ -20,7 +20,7 @@
                     </x-input.select>
                 </x-input.group>
 
-                <x-button.primary wire:click="create"><x-icon.plus/> New</x-button.primary>
+                <x-button.primary wire:click="create"><x-icon.plus/> {{ __('New') }}</x-button.primary>
             </div>
         </div>
 
@@ -112,7 +112,7 @@
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
-                                    {{ ucwords( $user->roles->pluck('name')->implode(', ') ) }}
+                                    {{ ucwords( $user->roles->pluck('name')->map(function ($item, $key) { return __($item); })->implode(', ') ) }}
                                 </p>
                             </span>
                         </x-table.cell>
@@ -160,15 +160,15 @@
 
             <x-slot name="content">
                 <x-input.group for="name" label="Name" :error="$errors->first('editing.name')" required>
-                    <x-input.text wire:model="editing.name" id="name" placeholder="Name" />
+                    <x-input.text wire:model="editing.name" id="name" placeholder="{{ __('Name') }}" />
                 </x-input.group>
 
                 <x-input.group for="firstname" label="First Name" :error="$errors->first('editing.firstname')" required>
-                    <x-input.text wire:model="editing.firstname" id="firstname" placeholder="First Name" />
+                    <x-input.text wire:model="editing.firstname" id="firstname" placeholder="{{ __('First Name') }}" />
                 </x-input.group>
 
                 <x-input.group for="birthday" label="Birthday" :error="$errors->first('editing.birthday')" required>
-                    <x-input.date wire:model="editing.birthday" id="birthday" placeholder="YYYY-MM-DD" />
+                    <x-input.date wire:model="editing.birthday" id="birthday" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
 
                 <x-input.group for="email" label="Email" :error="$errors->first('editing.email')" helpText="{{ ( isset($this->editing->getDirty()['email']) && $this->editing->password ) ? __('If you change the email, user will receive a new verification email, and will not be able to access the site features until new email validation.') : '' }}" required>
@@ -176,7 +176,7 @@
                 </x-input.group>
 
                 <x-input.group for="employer" label="Employer" :error="$errors->first('editing.employer')">
-                    <x-input.text wire:model="editing.employer" id="employer" placeholder="Employer" />
+                    <x-input.text wire:model="editing.employer" id="employer" placeholder="{{ __('Employer') }}" />
                 </x-input.group>
 
                 <x-input.group label="Phone" for="phone" :error="$errors->first('editing.phone')">
@@ -188,7 +188,7 @@
             <x-slot name="footer">
                 <x-button.secondary wire:click="$set('showEditModal', false)">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary type="submit" class="w-20"><x-icon.loading wire:loading /><div wire:loading.remove>{{ __('Save') }}</div></x-button.primary>
+                <x-button.primary type="submit" class="w-32"><x-icon.loading wire:loading /><div wire:loading.remove>{{ __('Save') }}</div></x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
