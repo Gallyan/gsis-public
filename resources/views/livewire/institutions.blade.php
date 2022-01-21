@@ -5,12 +5,14 @@
         <!-- Top Bar -->
         <div class="flex justify-between">
             <div class="w-2/4 flex space-x-4">
-                <x-input.text wire:model="search" placeholder="{{ __('Search...') }}" />
+                <x-input.text wire:model="search" placeholder="{{ __('Search...') }}">
+                    <x-slot name="leadingAddOn"><x-icon.magnifier class="text-gray-400"/></x-slot>
+                </x-input.text>
             </div>
 
             <div class="space-x-2 flex items-center">
                 <x-input.group borderless paddingless for="perPage" label="Per Page">
-                    <x-input.select wire:model="perPage" id="perPage">
+                    <x-input.select wire:model="perPage" id="perPage" >
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="25">25</option>
@@ -18,7 +20,7 @@
                     </x-input.select>
                 </x-input.group>
 
-                <x-button.primary wire:click="create"><x-icon.plus/> New</x-button.primary>
+                <x-button.primary wire:click="create"><x-icon.plus/> {{ __('New') }}</x-button.primary>
             </div>
         </div>
 
@@ -99,7 +101,7 @@
         @csrf
 
         <x-modal.dialog wire:model.defer="showEditModal">
-            <x-slot name="title">{{ __('Edit Institution') }}</x-slot>
+            <x-slot name="title">{{ isset($this->editing->id) ? __('Edit Institution') : __('Create Institution') }}</x-slot>
 
             <x-slot name="content">
                 <x-input.group for="name" label="Name" :error="$errors->first('editing.name')" required>
@@ -118,7 +120,7 @@
             <x-slot name="footer">
                 <x-button.secondary wire:click="$set('showEditModal', false)">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary type="submit" class="w-20"><x-icon.loading wire:loading /><div wire:loading.remove>{{ __('Save') }}</div></x-button.primary>
+                <x-button.primary type="submit" class="w-32"><x-icon.loading wire:loading /><div wire:loading.remove>{{ __('Save') }}</div></x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
