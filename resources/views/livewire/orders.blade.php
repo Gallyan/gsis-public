@@ -7,7 +7,7 @@
             <div class="w-2/4 flex space-x-4">
                 <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" />
 
-                <x-button.link wire:click="toggleShowFilters">@if ($showFilters) Hide @endif Advanced Search...</x-button.link>
+                <x-button.link wire:click="toggleShowFilters">@if ($showFilters) {{ __('Hide') }} @endif {{ __('Advanced Search') }}...</x-button.link>
             </div>
 
             <div class="space-x-2 flex items-center">
@@ -30,9 +30,9 @@
             <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
                 <div class="w-1/2 pr-2 space-y-4">
                     <x-input.group inline for="filter-institution" label="Institution">
-                        <x-input.select wire:model="filters.institution" id="filter-institution">
+                        <x-input.select wire:model="filters.institution" id="filter-institution" class="w-full">
                             <x-slot name="placeholder">
-                                Select Institution...
+                                {{ __('Select Institution...') }}
                             </x-slot>
 
                             @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
@@ -42,9 +42,9 @@
                     </x-input.group>
 
                     <x-input.group inline for="filter-status" label="Status">
-                        <x-input.select wire:model="filters.status" id="filter-status">
+                        <x-input.select wire:model="filters.status" id="filter-status" class="w-full">
                             <x-slot name="placeholder">
-                                Select Status...
+                                {{ __('Select Status...') }}
                             </x-slot>
                             @foreach (\App\Models\Order::STATUSES as $key => $label)
                             <option value="{{ $key }}">{{ __($label) }}</option>
