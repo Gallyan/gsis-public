@@ -20,7 +20,7 @@
             @endcan
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('order.institution_id')" required>
-                <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="Select Institution..." class="w-full">
+                <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full">
                     @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                     <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                     @endforeach

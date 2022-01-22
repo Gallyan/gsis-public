@@ -32,11 +32,7 @@
             <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
                 <div class="w-1/2 pr-2 space-y-4">
                     <x-input.group inline for="filter-institution" label="Institution">
-                        <x-input.select wire:model="filters.institution" id="filter-institution" class="w-full">
-                            <x-slot name="placeholder">
-                                {{ __('Select Institution...') }}
-                            </x-slot>
-
+                        <x-input.select wire:model="filters.institution" id="filter-institution" class="w-full" placeholder="{{ __('Select Institution...') }}">
                             @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                             <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                             @endforeach
@@ -44,10 +40,7 @@
                     </x-input.group>
 
                     <x-input.group inline for="filter-status" label="Status">
-                        <x-input.select wire:model="filters.status" id="filter-status" class="w-full">
-                            <x-slot name="placeholder">
-                                {{ __('Select Status...') }}
-                            </x-slot>
+                        <x-input.select wire:model="filters.status" id="filter-status" class="w-full" placeholder="{{ __('Select Status...') }}">
                             @foreach (\App\Models\Order::STATUSES as $key => $label)
                             <option value="{{ $key }}">{{ __($label) }}</option>
                             @endforeach
@@ -63,15 +56,15 @@
 
                 <div class="w-1/2 pl-2 space-y-4">
                     <x-input.group inline for="filter-date-min" label="Created after">
-                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="YYYY-MM-DD" />
+                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
 
                     <x-input.group inline for="filter-date-max" label="Created before">
-                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="YYYY-MM-DD" />
+                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
 
                     <div class="pt-5">
-                        <x-button.link wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">Reset Filters</x-button.link>
+                        <x-button.link wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">{{ __('Reset Filters') }}</x-button.link>
                     </div>
                 </div>
             </div>
