@@ -121,15 +121,15 @@
 
             <x-slot name="content">
                 <x-input.group for="title" label="Title" :error="$errors->first('title')" required>
-                    <x-input.text wire:model.debounce.500ms="title" id="title" placeholder="Title"/>
+                    <x-input.text wire:model.debounce.500ms="title" id="title" placeholder="{{ __('Title') }}"/>
                 </x-input.group>
 
                 <x-input.group for="author" label="Author" :error="$errors->first('author')" required>
-                    <x-input.text wire:model.debounce.500ms="author" id="author" placeholder="Author"/>
+                    <x-input.text wire:model.debounce.500ms="author" id="author" placeholder="{{ __('Author') }}"/>
                 </x-input.group>
 
-                <x-input.group for="isbn" label="Isbn" :error="$errors->first('isbn')" required>
-                    <x-input.text wire:model.debounce.500ms="isbn" id="isbn" placeholder="Isbn"/>
+                <x-input.group for="isbn" label="ISBN" :error="$errors->first('isbn')" required>
+                    <x-input.text wire:model.debounce.500ms="isbn" id="isbn" placeholder="ISBN"/>
                 </x-input.group>
             </x-slot>
 
