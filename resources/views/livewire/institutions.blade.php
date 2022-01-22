@@ -3,15 +3,15 @@
 
     <div class="py-4 space-y-4">
         <!-- Top Bar -->
-        <div class="flex justify-between">
-            <div class="w-2/4 flex space-x-4">
+        <div class="flex justify-between flex-wrap gap-2">
+            <div class="flex space-x-2">
                 <x-input.text wire:model="search" placeholder="{{ __('Search...') }}">
                     <x-slot name="leadingAddOn"><x-icon.magnifier class="text-gray-400"/></x-slot>
                 </x-input.text>
             </div>
 
             <div class="space-x-2 flex items-center">
-                <x-input.group borderless paddingless for="perPage" label="Per Page">
+                <x-input.group inline for="perPage" label="Per Page" class="flex flex-row gap-2 items-center">
                     <x-input.select wire:model="perPage" id="perPage" >
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -120,7 +120,10 @@
             <x-slot name="footer">
                 <x-button.secondary wire:click="$set('showEditModal', false)">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary type="submit" class="w-32"><x-icon.loading wire:loading /><div wire:loading.remove>{{ __('Save') }}</div></x-button.primary>
+                <x-button.primary type="submit" class="min-w-24">
+                    <div wire:loading.delay><x-icon.loading /></div>
+                    <div wire:loading.delay.remove>{{ __('Save') }}</div>
+                </x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

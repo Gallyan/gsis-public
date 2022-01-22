@@ -3,15 +3,17 @@
 
     <div class="py-4 space-y-4">
         <!-- Top Bar -->
-        <div class="flex justify-between">
-            <div class="w-2/4 flex space-x-4">
-                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" />
+        <div class="flex justify-between flex-wrap gap-2">
+            <div class="flex space-x-2">
+                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}">
+                    <x-slot name="leadingAddOn"><x-icon.magnifier class="text-gray-400"/></x-slot>
+                </x-input.text>
 
                 <x-button.link wire:click="toggleShowFilters">@if ($showFilters) {{ __('Hide') }} @endif {{ __('Advanced Search') }}...</x-button.link>
             </div>
 
             <div class="space-x-2 flex items-center">
-                <x-input.group borderless paddingless for="perPage" label="Per Page">
+                <x-input.group inline for="perPage" label="Per Page" class="flex flex-row gap-2 items-center">
                     <x-input.select wire:model="perPage" id="perPage">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -20,7 +22,7 @@
                     </x-input.select>
                 </x-input.group>
 
-                <x-button.primary wire:click="create"><x-icon.plus/> New</x-button.primary>
+                <x-button.primary wire:click="create"><x-icon.plus/> {{ __('New') }}</x-button.primary>
             </div>
         </div>
 
