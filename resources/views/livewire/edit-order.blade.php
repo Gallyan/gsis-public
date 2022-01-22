@@ -100,10 +100,7 @@
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('order.status')" required>
-                <x-input.select wire:model="order.status" id="status" class="w-full">
-                    <x-slot name="placeholder">
-                        Select Status...
-                    </x-slot>
+                <x-input.select wire:model="order.status" id="status" class="w-full" placeholder="{{ __('Select Status...') }}">
                     @foreach (\App\Models\Order::STATUSES as $key => $label)
                     <option value="{{ $key }}">{{ __($label) }}</option>
                     @endforeach
