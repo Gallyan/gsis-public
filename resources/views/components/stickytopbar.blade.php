@@ -13,7 +13,7 @@
 
                 <x-notify-message event='notify-error' color='text-red-600'>{{ __('Error!') }}</x-notify-message>
 
-                <x-icon.loading wire:loading class="w-6 h-6" />
+                <div wire:loading.delay><x-icon.loading class="w-6 h-6" /></div>
 
                 <x-button.secondary type="reset">{{ __('Reset') }}</x-button.primary>
 

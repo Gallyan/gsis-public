@@ -3,15 +3,17 @@
 
     <div class="py-4 space-y-4">
         <!-- Top Bar -->
-        <div class="flex justify-between">
-            <div class="w-2/4 flex space-x-4">
-                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" />
+        <div class="flex justify-between flex-wrap gap-2">
+            <div class="flex space-x-2">
+                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}">
+                    <x-slot name="leadingAddOn"><x-icon.magnifier class="text-gray-400"/></x-slot>
+                </x-input.text>
 
                 <x-button.link wire:click="toggleShowFilters">@if ($showFilters) {{ __('Hide') }} @endif {{ __('Advanced Search') }}...</x-button.link>
             </div>
 
             <div class="space-x-2 flex items-center">
-                <x-input.group borderless paddingless for="perPage" label="Per Page">
+                <x-input.group inline for="perPage" label="Per Page" class="flex flex-row gap-2 items-center">
                     <x-input.select wire:model="perPage" id="perPage">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -30,7 +32,7 @@
             <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
                 <div class="w-1/2 pr-2 space-y-4">
                     <x-input.group inline for="filter-role" label="Role">
-                        <x-input.select wire:model="filters.role" id="filter-role">
+                        <x-input.select wire:model="filters.role" id="filter-role" class="w-full">
                             <x-slot name="placeholder">
                                 {{ __('Select Role...') }}
                             </x-slot>
@@ -156,15 +158,19 @@
         @csrf
 
         <x-modal.dialog wire:model.defer="showEditModal">
-            <x-slot name="title">{{ __('Edit User') }}</x-slot>
+            <x-slot name="title">{{ isset($this->editing->id) ? __('Edit User') : __('Create User') }}</x-slot>
 
             <x-slot name="content">
                 <x-input.group for="name" label="Name" :error="$errors->first('editing.name')" required>
-                    <x-input.text wire:model="editing.name" id="name" placeholder="{{ __('Name') }}" />
+                    <x-input.text wire:model="editing.name" id="name" placeholder="{{ __('Name') }}">
+                        <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
+                    </x-input.text>
                 </x-input.group>
 
                 <x-input.group for="firstname" label="First Name" :error="$errors->first('editing.firstname')" required>
-                    <x-input.text wire:model="editing.firstname" id="firstname" placeholder="{{ __('First Name') }}" />
+                    <x-input.text wire:model="editing.firstname" id="firstname" placeholder="{{ __('First Name') }}">
+                        <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
+                    </x-input.text>
                 </x-input.group>
 
                 <x-input.group for="birthday" label="Birthday" :error="$errors->first('editing.birthday')" required>
@@ -176,7 +182,9 @@
                 </x-input.group>
 
                 <x-input.group for="employer" label="Employer" :error="$errors->first('editing.employer')">
-                    <x-input.text wire:model="editing.employer" id="employer" placeholder="{{ __('Employer') }}" />
+                    <x-input.text wire:model="editing.employer" id="employer" placeholder="{{ __('Employer') }}">
+                        <x-slot name="leadingAddOn"><x-icon.company /></x-slot>
+                    </x-input.text>
                 </x-input.group>
 
                 <x-input.group label="Phone" for="phone" :error="$errors->first('editing.phone')">
@@ -188,7 +196,10 @@
             <x-slot name="footer">
                 <x-button.secondary wire:click="$set('showEditModal', false)">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary type="submit" class="w-32"><x-icon.loading wire:loading /><div wire:loading.remove>{{ __('Save') }}</div></x-button.primary>
+                <x-button.primary type="submit" class="min-w-24">
+                    <div wire:loading.delay><x-icon.loading /></div>
+                    <div wire:loading.delay.remove>{{ __('Save') }}</div>
+                </x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
