@@ -5,6 +5,7 @@
         pond = FilePond.create($refs.input, { credits: false });
         pond.setOptions({
             allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
+            labelIdle: '{{ __('filepondIdle') }}',
             server: {
                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                     @this.upload('{{ $attributes['wire:model'] }}', file, load, error, progress)
