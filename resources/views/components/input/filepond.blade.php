@@ -47,9 +47,13 @@
 </div>
 
 @push('stylesheets')
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    @once
+        <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    @endonce
 @endpush
 
 @push('scripts')
-    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    @once
+        <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    @endonce
 @endpush
