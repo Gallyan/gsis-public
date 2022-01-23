@@ -3,15 +3,17 @@
 
     <div class="py-4 space-y-4">
         <!-- Top Bar -->
-        <div class="flex justify-between">
-            <div class="w-2/4 flex space-x-4">
-                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" />
+        <div class="flex justify-between flex-wrap gap-2">
+            <div class="flex space-x-2">
+                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}">
+                    <x-slot name="leadingAddOn"><x-icon.magnifier class="text-gray-400"/></x-slot>
+                </x-input.text>
 
-                <x-button.link wire:click="toggleShowFilters">@if ($showFilters) Hide @endif Advanced Search...</x-button.link>
+                <x-button.link wire:click="toggleShowFilters">@if ($showFilters) {{ __('Hide') }} @endif {{ __('Advanced Search') }}...</x-button.link>
             </div>
 
             <div class="space-x-2 flex items-center">
-                <x-input.group borderless paddingless for="perPage" label="Per Page">
+                <x-input.group inline for="perPage" label="Per Page" class="flex flex-row gap-2 items-center">
                     <x-input.select wire:model="perPage" id="perPage">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -20,7 +22,7 @@
                     </x-input.select>
                 </x-input.group>
 
-                <x-button.primary wire:click="create"><x-icon.plus/> New</x-button.primary>
+                <x-button.primary wire:click="create"><x-icon.plus/> {{ __('New') }}</x-button.primary>
             </div>
         </div>
 
@@ -30,11 +32,7 @@
             <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
                 <div class="w-1/2 pr-2 space-y-4">
                     <x-input.group inline for="filter-institution" label="Institution">
-                        <x-input.select wire:model="filters.institution" id="filter-institution">
-                            <x-slot name="placeholder">
-                                Select Institution...
-                            </x-slot>
-
+                        <x-input.select wire:model="filters.institution" id="filter-institution" class="w-full" placeholder="{{ __('Select Institution...') }}">
                             @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                             <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                             @endforeach
@@ -42,10 +40,7 @@
                     </x-input.group>
 
                     <x-input.group inline for="filter-status" label="Status">
-                        <x-input.select wire:model="filters.status" id="filter-status">
-                            <x-slot name="placeholder">
-                                Select Status...
-                            </x-slot>
+                        <x-input.select wire:model="filters.status" id="filter-status" class="w-full" placeholder="{{ __('Select Status...') }}">
                             @foreach (\App\Models\Order::STATUSES as $key => $label)
                             <option value="{{ $key }}">{{ __($label) }}</option>
                             @endforeach
@@ -61,15 +56,15 @@
 
                 <div class="w-1/2 pl-2 space-y-4">
                     <x-input.group inline for="filter-date-min" label="Created after">
-                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="YYYY-MM-DD" />
+                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
 
                     <x-input.group inline for="filter-date-max" label="Created before">
-                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="YYYY-MM-DD" />
+                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
 
                     <div class="pt-5">
-                        <x-button.link wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">Reset Filters</x-button.link>
+                        <x-button.link wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">{{ __('Reset Filters') }}</x-button.link>
                     </div>
                 </div>
             </div>

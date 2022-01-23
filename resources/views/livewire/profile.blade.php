@@ -6,11 +6,15 @@
 
         <div class="mt-6 sm:mt-5">
             <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')" required borderless>
-                <x-input.text wire:model.debounce.500ms="user.firstname" id="firstname" leading-add-on="" />
+                <x-input.text wire:model.debounce.500ms="user.firstname" id="firstname">
+                    <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
+                </x-input.text>
             </x-input.group>
 
             <x-input.group label="Last Name" for="name" :error="$errors->first('user.name')" required>
-                <x-input.text wire:model.debounce.500ms="user.name" id="name" leading-add-on="" />
+                <x-input.text wire:model.debounce.500ms="user.name" id="name">
+                    <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
+                </x-input.text>
             </x-input.group>
 
             <x-input.group label="Birthday" for="birthday" :error="$errors->first('user.birthday')" required>
@@ -22,7 +26,9 @@
             </x-input.group>
 
             <x-input.group label="Employer" for="employer" :error="$errors->first('user.employer')">
-                <x-input.text wire:model.lazy="user.employer" id="employer" leading-add-on="" />
+                <x-input.text wire:model.lazy="user.employer" id="employer">
+                    <x-slot name="leadingAddOn"><x-icon.company /></x-slot>
+                </x-input.text>
             </x-input.group>
 
             <x-input.group label="Phone" for="phone" :error="$errors->first('user.phone')">

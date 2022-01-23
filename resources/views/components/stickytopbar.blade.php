@@ -3,7 +3,7 @@
 ])
 
 <div class="sticky flex flex-row top-0 bg-cool-gray-100 pb-6 border-b border-gray-200 z-50">
-    <h1 class="text-2xl font-semibold text-gray-900">{{ $title }}</h1>
+    <h1 class="text-2xl font-semibold text-gray-900">{{ __($title) }}</h1>
 
     <div class="flex-grow">
         <div class="flex flex-col">
@@ -13,7 +13,7 @@
 
                 <x-notify-message event='notify-error' color='text-red-600'>{{ __('Error!') }}</x-notify-message>
 
-                <x-icon.loading wire:loading class="w-6 h-6" />
+                <div wire:loading.delay><x-icon.loading class="w-6 h-6" /></div>
 
                 <x-button.secondary type="reset">{{ __('Reset') }}</x-button.primary>
 

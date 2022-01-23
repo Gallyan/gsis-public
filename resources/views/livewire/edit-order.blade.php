@@ -20,7 +20,7 @@
             @endcan
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('order.institution_id')" required>
-                <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="Select Institution...">
+                <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full">
                     @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                     <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                     @endforeach
@@ -104,10 +104,7 @@
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('order.status')" required>
-                <x-input.select wire:model="order.status" id="status">
-                    <x-slot name="placeholder">
-                        Select Status...
-                    </x-slot>
+                <x-input.select wire:model="order.status" id="status" class="w-full" placeholder="{{ __('Select Status...') }}">
                     @foreach (\App\Models\Order::STATUSES as $key => $label)
                     <option value="{{ $key }}">{{ __($label) }}</option>
                     @endforeach
@@ -125,15 +122,15 @@
 
             <x-slot name="content">
                 <x-input.group for="title" label="Title" :error="$errors->first('title')" required>
-                    <x-input.text wire:model.debounce.500ms="title" id="title" placeholder="Title"/>
+                    <x-input.text wire:model.debounce.500ms="title" id="title" placeholder="{{ __('Title') }}"/>
                 </x-input.group>
 
                 <x-input.group for="author" label="Author" :error="$errors->first('author')" required>
-                    <x-input.text wire:model.debounce.500ms="author" id="author" placeholder="Author"/>
+                    <x-input.text wire:model.debounce.500ms="author" id="author" placeholder="{{ __('Author') }}"/>
                 </x-input.group>
 
-                <x-input.group for="isbn" label="Isbn" :error="$errors->first('isbn')" required>
-                    <x-input.text wire:model.debounce.500ms="isbn" id="isbn" placeholder="Isbn"/>
+                <x-input.group for="isbn" label="ISBN" :error="$errors->first('isbn')" required>
+                    <x-input.text wire:model.debounce.500ms="isbn" id="isbn" placeholder="ISBN"/>
                 </x-input.group>
             </x-slot>
 
