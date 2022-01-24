@@ -26,7 +26,7 @@ class Profile extends Component
             'user.email' => 'required|max:255|email:rfc'.((App::environment('production'))?',dns,spoof':'').'|unique:App\Models\User,email,'.$this->user->id,
             'user.employer' => 'sometimes|string',
             'user.phone' => 'sometimes|phone',
-            'upload' => 'nullable|mimes:jpg,jpeg,bmp,gif,png,svg|max:1000',
+            'upload' => 'nullable|image|max:1000',
         ];
     }
 
