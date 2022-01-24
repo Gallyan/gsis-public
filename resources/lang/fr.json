@@ -83,7 +83,7 @@
     "filepondFileWaitingForSize": "En attente de la taille du fichier",
     "filepondIdle": "Glissez &amp; Déposez vos fichiers ou <span class=\"filepond--label-action\">Naviguez</span>",
     "filepondInvalidField":  "Ce champ contient des fichiers invalides",
-    "filepondMaxFileSize": "La taille maximale du fichier est de {filesize}",
+    "filepondMaxFileSize": "La taille maximale autorisée est de {filesize}",
     "filepondMaxFileSizeExceeded": "Ce fichier est trop volumineux",
     "filepondMaxTotalFileSize": "La taille totale maximale du fichier est limitée à {filesize}",
     "filepondMaxTotalFileSizeExceeded": "Taille totale maximale dépassée",
