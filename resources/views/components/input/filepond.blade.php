@@ -5,6 +5,12 @@
         pond = FilePond.create($refs.input, { credits: false });
         pond.setOptions({
             allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
+            maxFileSize: '{{ $attributes['maxFileSize'] ?? 'null' }}',
+            @isset( $attributes['acceptedFileTypes'] )
+                acceptedFileTypes: {!! $attributes['acceptedFileTypes'] ?? '[]' !!},
+            @else
+                allowFileTypeValidation: false,
+            @endif
             labelIdle: '{{ __('filepondIdle') }}',
             labelFileProcessingComplete: '{{ __('filepondFileProcessingComplete') }}',
             labelInvalidField: '{{ __('filepondInvalidField') }}',
@@ -27,6 +33,13 @@
             labelButtonUndoItemProcessing: '{{ __('filepondButtonUndoItemProcessing') }}',
             labelButtonRetryItemProcessing: '{{ __('filepondButtonRetryItemProcessing') }}',
             labelButtonProcessItem: '{{ __('filepondButtonProcessItem') }}',
+            labelMaxFileSizeExceeded: '{{ __('filepondMaxFileSizeExceeded') }}',
+            labelMaxFileSize: '{{ __('filepondMaxFileSize') }}',
+            labelMaxTotalFileSizeExceeded: '{{ __('filepondMaxTotalFileSizeExceeded') }}',
+            labelMaxTotalFileSize: '{{ __('filepondMaxTotalFileSize') }}',
+            labelFileTypeNotAllowed: '{{ __('filepondFileTypeNotAllowed') }}',
+            fileValidateTypeLabelExpectedTypes: '{{ __('filepondValidateTypeLabelExpectedTypes') }}',
+            fileValidateTypeLabelExpectedTypesMap: {!! __('filepondValidateTypeLabelExpectedTypesMap') !!},
             server: {
                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                     @this.upload('{{ $attributes['wire:model'] }}', file, load, error, progress)
@@ -54,6 +67,12 @@
 
 @push('scripts')
     @once
+        <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+        <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
         <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+        <script>
+            FilePond.registerPlugin(FilePondPluginFileValidateSize);
+            FilePond.registerPlugin(FilePondPluginFileValidateType);
+        </script>
     @endonce
 @endpush
