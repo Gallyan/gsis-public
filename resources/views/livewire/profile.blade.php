@@ -48,6 +48,7 @@
                     id="photo"
                     inputname="photo"
                     class="flex-1"
+                    maxFileSize="1MB"
                     acceptedFileTypes="['image/*']"
                 />
             </x-input.group>
