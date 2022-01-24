@@ -38,7 +38,7 @@
                             </x-slot>
 
                             @foreach (\Spatie\Permission\Models\Role::all() as $role)
-                            <option value="{{ $role->id }}">{{ ucfirst( $role->name ) }}</option>
+                            <option value="{{ $role->id }}">{{ ucfirst( __($role->name) ) }}</option>
                             @endforeach
                         </x-input.select>
                     </x-input.group>
