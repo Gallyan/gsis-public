@@ -39,7 +39,7 @@
             labelMaxTotalFileSize: '{{ __('filepondMaxTotalFileSize') }}',
             labelFileTypeNotAllowed: '{{ __('filepondFileTypeNotAllowed') }}',
             fileValidateTypeLabelExpectedTypes: '{{ __('filepondValidateTypeLabelExpectedTypes') }}',
-            fileValidateTypeLabelExpectedTypesMap: { 'image/jpeg': '.jpg', 'image/gif': '.gif', 'image/jpg': '.jpg', 'image/png': '.png', 'image/svg+xml': '.svg', 'image/webp': '.webp', 'image/bmp': '.bmp', 'application/vnd.ms-excel': '.xls', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx', 'application/msword': '.doc', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx', 'application/pdf': '.pdf', 'image/*': '.jpg, .png, .gif, .svg, .bmp', 'application/zip': '.zip' },
+            fileValidateTypeLabelExpectedTypesMap: { 'image/jpeg': 'jpg', 'image/gif': 'gif', 'image/jpg': 'jpg', 'image/png': 'png', 'image/svg+xml': 'svg', 'image/webp': 'webp', 'image/bmp': 'bmp', 'application/vnd.ms-excel': 'xls', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx', 'application/msword': 'doc', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx', 'application/pdf': 'pdf', 'image/*': 'jpg, jpeg, png, bmp, gif, svg, webp', 'application/zip': 'zip' },
             server: {
                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                     @this.upload('{{ $attributes['wire:model'] }}', file, load, error, progress)
