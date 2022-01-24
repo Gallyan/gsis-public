@@ -113,7 +113,7 @@ return [
     'string'               => 'Ce champ doit être une chaîne de caractères.',
     'timezone'             => 'Ce champ doit être un fuseau horaire valide.',
     'unique'               => 'La valeur est déjà utilisée.',
-    'uploaded'             => 'Le fichier n\'a pu être téléversé.',
+    'uploaded'             => 'Le fichier n\'a pu être téléchargé.',
     'url'                  => 'Le format de l\'URL n\'est pas valide.',
     'uuid'                 => 'Ce champ doit être un UUID valide',
     'attributes'           => [
