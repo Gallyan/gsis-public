@@ -26,6 +26,5 @@
     "filepondMaxTotalFileSizeExceeded": "Maximum total size exceeded",
     "filepondMaxTotalFileSize": "Maximum total file size is {filesize}",
     "filepondFileTypeNotAllowed": "File of invalid type",
-    "filepondValidateTypeLabelExpectedTypes": "Expected file formats: {allTypes}",
-    "filepondValidateTypeLabelExpectedTypesMap": "{ 'image/jpeg': '.jpg', 'image/gif': '.gif', 'image/jpg': '.jpg', 'image/png': '.png', 'image/svg+xml': '.svg', 'image/webp': '.webp', 'image/bmp': '.bmp', 'application/vnd.ms-excel': '.xls', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx', 'application/msword': '.doc', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx', 'application/pdf': '.pdf', 'image/*': '.jpg, .png, .gif, .svg, .bmp' }"
+    "filepondValidateTypeLabelExpectedTypes": "Expected file formats: {allTypes}"
 }

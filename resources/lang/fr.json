@@ -91,7 +91,6 @@
     "filepondTapToRetry": "cliquer pour réessayer",
     "filepondTapToUndo": "cliquer pour supprimer",
     "filepondValidateTypeLabelExpectedTypes": "Format(s) de fichier attendu(s): {allTypes}",
-    "filepondValidateTypeLabelExpectedTypesMap": "{ 'image/jpeg': '.jpg', 'image/gif': '.gif', 'image/jpg': '.jpg', 'image/png': '.png', 'image/svg+xml': '.svg', 'image/webp': '.webp', 'image/bmp': '.bmp', 'application/vnd.ms-excel': '.xls', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx', 'application/msword': '.doc', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx', 'application/pdf': '.pdf', 'image/*': '.jpg, .png, .gif, .svg, .bmp' }",
     "First Name": "Prénom",
     "For your security, please confirm your password to continue.": "Par mesure de sécurité, veuillez confirmer votre mot de passe pour continuer.",
     "Forbidden": "Interdit",
