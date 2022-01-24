@@ -43,7 +43,13 @@
                         <img src="{{ $upload->temporaryUrl() }}" alt="{{ __('Profile Photo') }}">
                     @endif
                 </div>
-                <x-input.filepond wire:model="upload" id="photo" inputname="photo" class="flex-1"/>
+                <x-input.filepond
+                    wire:model="upload"
+                    id="photo"
+                    inputname="photo"
+                    class="flex-1"
+                    acceptedFileTypes="['image/*']"
+                />
             </x-input.group>
 
             @can('manage-users')
