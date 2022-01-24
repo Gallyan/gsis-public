@@ -39,14 +39,14 @@
 
         <div class="mt-1 sm:mt-0 sm:col-span-4 {{ $innerclass }}">
             {{ $slot }}
-
-            @if ($error)
-                <div class="mt-1 text-red-500 text-sm">{{ __($error) }}</div>
-            @endif
-
-            @if ($helpText)
-                <p class="mt-2 text-sm text-gray-500">{{ __($helpText) }}</p>
-            @endif
         </div>
+
+        @if ($error)
+            <div class="mt-1 col-start-2 col-span-4 text-red-500 text-sm">{!! __($error) !!}</div>
+        @endif
+
+        @if ($helpText)
+            <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">{!! __($helpText) !!}</p>
+        @endif
     </div>
 @endif
