@@ -49,7 +49,7 @@ return [
         'numeric' => 'La valeur doit être supérieure ou égale à :value.',
         'string'  => 'Le texte doit contenir au moins :value caractères.',
     ],
-    'image'                => 'Ce fichier doit être une image.',
+    'image'                => 'Le fichier doit être une image.',
     'in'                   => 'Ce champ est invalide.',
     'in_array'             => 'Ce champ n\'existe pas dans :other.',
     'integer'              => 'Ce champ doit être un entier.',
