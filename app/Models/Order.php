@@ -12,6 +12,7 @@ class Order extends Model
     use SoftDeletes;
 
     const STATUSES = [
+        'draft' => 'Draft',
         'on-hold' => 'On hold',
         'in-progress' => 'In progress',
         'validated' => 'Validated',
