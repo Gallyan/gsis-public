@@ -20,7 +20,13 @@
         <div class="mt-1 sm:mt-0 relative rounded-md {{ $innerclass }}">
             {{ $slot }}
 
-            @if ($error)
+            @if ( $error && is_array( $error ) )
+                @foreach( $error as $messages )
+                    @foreach( $messages as $msg )
+                        <div class="mt-1 text-red-500 text-sm">{{ __($msg) }}</div>
+                    @endforeach
+                @endforeach
+            @elseif ($error)
                 <div class="mt-1 text-red-500 text-sm">{{ __($error) }}</div>
             @endif
 
@@ -41,7 +47,13 @@
             {{ $slot }}
         </div>
 
-        @if ($error)
+        @if ( $error && is_array( $error ) )
+            @foreach( $error as $messages )
+                @foreach( $messages as $msg )
+                    <div class="mt-1 col-start-2 col-span-4 text-red-500 text-sm">{{ __($msg) }}</div>
+                @endforeach
+            @endforeach
+        @elseif ($error)
             <div class="mt-1 col-start-2 col-span-4 text-red-500 text-sm">{!! __($error) !!}</div>
         @endif
 
