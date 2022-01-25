@@ -49,7 +49,7 @@ return [
         'numeric' => 'La valeur doit être supérieure ou égale à :value.',
         'string'  => 'Le texte doit contenir au moins :value caractères.',
     ],
-    'image'                => 'Ce champ doit être une image.',
+    'image'                => 'Le fichier doit être une image.',
     'in'                   => 'Ce champ est invalide.',
     'in_array'             => 'Ce champ n\'existe pas dans :other.',
     'integer'              => 'Ce champ doit être un entier.',
@@ -113,7 +113,7 @@ return [
     'string'               => 'Ce champ doit être une chaîne de caractères.',
     'timezone'             => 'Ce champ doit être un fuseau horaire valide.',
     'unique'               => 'La valeur est déjà utilisée.',
-    'uploaded'             => 'Le fichier n\'a pu être téléversé.',
+    'uploaded'             => 'Le fichier n\'a pu être téléchargé.',
     'url'                  => 'Le format de l\'URL n\'est pas valide.',
     'uuid'                 => 'Ce champ doit être un UUID valide',
     'attributes'           => [

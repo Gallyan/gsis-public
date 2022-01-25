@@ -36,7 +36,7 @@ class Profile extends Component
         $this->user = auth()->user();
         $this->reset(['upload','modified']);
         $this->dispatchBrowserEvent('pondReset');
-        $this->validate();
+        $this->resetValidation();
     }
 
     public function updated($propertyName)

@@ -4,11 +4,18 @@ namespace App\Http\Livewire;
 
 use App\Models\Order;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Validator;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditOrder extends Component
 {
+    use WithFileUploads;
+    use AuthorizesRequests;
+
     public Order $order;
+    public $uploads = [];
     public $modified = false; // True if form is modified and need to be saved
 
     // For Modal Book editing
@@ -23,15 +30,25 @@ class EditOrder extends Component
         'order.subject'        => 'required|string|max:255',
         'order.institution_id' => 'required|exists:institutions,id',
         'order.supplier'       => 'nullable|string|max:255',
-        'order.books'          => 'sometimes',
+        'uploads'              => 'nullable|array',
+        'uploads.*'            => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
+        'order.books'          => 'sometimes|array',
         'order.comments'       => 'nullable|string',
         'order.status'         => 'required|in:'.collect(Order::STATUSES)->keys()->implode(','),
     ]; }
+
     protected function book_rules() { return [
         'title'  => 'required|string',
         'author' => 'required|string',
         'isbn'   => 'required|string',
     ]; }
+
+    protected function messages() { return [
+        'uploads.*.image' => __('The :filename file must be an image.'),
+        'uploads.*.max' => __('The size of the :filename file cannot exceed :max kilobytes.'),
+        'uploads.*.mimes' => __('The file :filename must be a file of type: :values.'),
+        'uploads.*.mimetypes' => __('The file :filename must be a file of type: :values.'),
+    ];}
 
     public function mount( $id = null ) {
         if ( is_null($id) ) {
@@ -77,14 +94,9 @@ class EditOrder extends Component
 
     // Ajoute un livre à la liste json des livres à commander
     public function add_book() {
-        $this->validate( $this->book_rules() );
+        $current_book = $this->validate( $this->book_rules() );
 
         $books = $this->order->books;
-        $current_book = [
-            "title"  => $this->title,
-            "author" => $this->author,
-            "isbn"   => $this->isbn
-        ];
         if( !empty( $this->book_id ) ) {
             $books[ $this->book_id - 1 ] = $current_book;
         } else {
@@ -107,6 +119,15 @@ class EditOrder extends Component
         }
     }
 
+    public function updatedUploads() {
+        if ( $this->uploads ) {
+
+            $this->validateOnly( 'uploads.*' );
+
+            $this->modified = true;
+        }
+    }
+
     public function makeBlankOrder()
     {
         return Order::make([
@@ -121,7 +142,9 @@ class EditOrder extends Component
         } else {
             $this->order = Order::find( $this->order->id );
         }
-        $this->reset('modified');
+        $this->reset(['uploads','modified']);
+        $this->dispatchBrowserEvent('pondReset');
+        $this->resetValidation();
     }
 
     public function save()

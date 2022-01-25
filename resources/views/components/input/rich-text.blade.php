@@ -15,9 +15,13 @@
 </div>
 
 @push('stylesheets')
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@1.2.3/dist/trix.css">
+    @once
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@1.2.3/dist/trix.css">
+    @endonce
 @endpush
 
 @push('scripts')
-    <script src="https://unpkg.com/trix@1.2.3/dist/trix.js"></script>
+    @once
+        <script src="https://unpkg.com/trix@1.2.3/dist/trix.js"></script>
+    @endonce
 @endpush
