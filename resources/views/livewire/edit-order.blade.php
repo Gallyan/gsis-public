@@ -7,7 +7,7 @@
         <div class="mt-6 sm:mt-5">
             @can ('manage-users')
             <x-input.group label="User" for="user" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
-                {{ $this->order->user->full_name ?? '' }}
+                {{ $order->user->full_name ?? '' }}
             </x-input.group>
 
             <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required>
@@ -29,6 +29,26 @@
 
             <x-input.group label="Supplier" for="supplier" :error="$errors->first('order.supplier')">
                 <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" leading-add-on="" />
+            </x-input.group>
+
+            @php
+                $upload_errors = collect( $errors->get('uploads.*') )->map( function( $item, $key ) {
+                    return str_replace(
+                        ':filename',
+                        $this->uploads[ intval( preg_filter( '/uploads\./', '', $key ) ) ]->getClientOriginalName(),
+                        $item
+                    );
+                });
+            @endphp
+            <x-input.group label="Quotations" for="uploads" :error="$upload_errors->all()" >
+                <x-input.filepond
+                    wire:model="uploads"
+                    id="uploads"
+                    inputname="uploads[]"
+                    multiple
+                    maxFileSize="10MB"
+                    acceptedFileTypes="['image/*', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
+                />
             </x-input.group>
 
             <x-input.group label="Books" for="books" wire:model="order.books" :error="$errors->first('order.books')">
