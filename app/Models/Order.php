@@ -15,8 +15,8 @@ class Order extends Model
         'draft' => 'Draft',
         'on-hold' => 'On hold',
         'in-progress' => 'In progress',
-        'validated' => 'Validated',
         'processed' => 'Processed',
+        'cancelled' => 'Cancelled',
     ];
 
     // Automatically switch between json and array of books
@@ -39,4 +39,10 @@ class Order extends Model
 
     public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
 
+    public function getAllStatusesAttribute() { return Order::STATUSES; }
+
+    public function getDisabledStatusesAttribute() {
+        return [];
+        // @ToDo: Développer la gestion des status ici
+    }
 }
