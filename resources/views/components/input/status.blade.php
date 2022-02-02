@@ -25,9 +25,8 @@
 
         <span class="px-6 py-2 flex items-center justify-center">
 
-          <span @class([
-            'flex-shrink-0 w-5 h-5 flex items-center justify-center border-2 rounded-full text-xs border-indigo-600',
-            'border-gray-200' => ($selected!==$key)])>
+          <span class="flex-shrink-0 w-5 h-5 flex items-center justify-center border-2 rounded-full text-xs
+            @if ( $selected == $key ) border-indigo-600 @else border-gray-200 @endif">
             @if ( $selected === $key )
               <x-icon.check />
             @else
