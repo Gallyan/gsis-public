@@ -19,6 +19,16 @@
             </x-input.group>
             @endcan
 
+            <x-input.group label="Status" for="status" :error="$errors->first('order.status')" required>
+                <x-input.status
+                    id="status"
+                    wire:model="order.status"
+                    :disabled="$order->disabledStatuses"
+                    :selected="$order->status"
+                    :keylabel="$order->allStatuses"
+                />
+            </x-input.group>
+
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('order.institution_id')" required>
                 <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full">
                     @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
@@ -47,7 +57,7 @@
                     inputname="uploads[]"
                     multiple
                     maxFileSize="10MB"
-                    acceptedFileTypes="['image/*', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
+                    acceptedFileTypes="[ 'image/*', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
                 />
             </x-input.group>
 
@@ -117,18 +127,6 @@
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('order.comments')">
                 <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" />
-            </x-input.group>
-
-            <x-input.group label="Status" for="status" :error="$errors->first('order.status')" required>
-                <x-input.status wire:model="order.status" />
-            </x-input.group>
-
-            <x-input.group label="Status" for="status" :error="$errors->first('order.status')" required>
-                <x-input.select wire:model="order.status" id="status" class="w-full" placeholder="{{ __('Select Status...') }}">
-                    @foreach (\App\Models\Order::STATUSES as $key => $label)
-                    <option value="{{ $key }}">{{ __($label) }}</option>
-                    @endforeach
-                </x-input.select>
             </x-input.group>
         </div>
     </form>
