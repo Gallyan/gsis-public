@@ -14,7 +14,7 @@
 
             <div class="space-x-2 flex items-center">
                 <x-input.group inline for="perPage" label="Per Page" class="flex flex-row gap-2 items-center">
-                    <x-input.select wire:model="perPage" id="perPage">
+                    <x-input.select wire:model="perPage" id="perPage" class="w-20">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="25">25</option>
