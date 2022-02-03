@@ -78,10 +78,20 @@ class Users extends Component
     {
         $this->validate();
 
-        // S'il n'y a pas de password, c'est une création, on initialise
-        $this->editing->password || $this->editing->password = Hash::make(microtime(true));
+        // S'il n'y a pas de password, c'est une création, on initialise password et rôle
+        if ( ! $this->editing->password ) {
 
-        $this->editing->save();
+            $this->editing->password = Hash::make(microtime(true));
+
+            $this->editing->save();
+
+            $this->editing->assignRole('user');
+
+        } else {
+
+            $this->editing->save();
+
+        }
 
         $this->showEditModal = false;
     }

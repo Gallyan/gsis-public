@@ -30,10 +30,9 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([ 'email' => 'admin@gsis.com', 'email_verified_at' => now() ])->assignRole('admin')->assignRole('manager');
         User::factory()->create([ 'email' => 'manager@gsis.com' ])->assignRole('manager');
         User::factory()->create([ 'email' => 'user@gsis.com' ])->assignRole('user');
-        User::factory(10)->create();
-        foreach( User::all() as $user ) {
+        User::factory(10)->create()->each(function ($user) {
             $user->assignRole('user');
-        }
+        });
 
         // Création des institutions
         Institution::factory(20)->create();
