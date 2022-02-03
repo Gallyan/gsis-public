@@ -79,7 +79,7 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('email')" :direction="$sorts['email'] ?? null">{{ __('Email') }}</x-table.heading>
                     <x-table.heading class="text-left">{{ __('Roles') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['date'] ?? null">{{ __('Created') }}</x-table.heading>
-                    <x-table.heading class="text-left">{{ __('Actions') }}</x-table.heading>
+                    <x-table.heading class="text-left"></x-table.heading>
                 </x-slot>
 
                 <x-slot name="body">
@@ -129,7 +129,7 @@
 
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <x-button.link wire:click="edit({{ $user->id }})" class="text-cool-gray-600 truncate"><x-icon.pencil />{{ __('Edit') }}</x-button.link>
+                                <x-button.link wire:click="edit({{ $user->id }})" class="text-cool-gray-600 truncate"><x-icon.pencil /></x-button.link>
                             </span>
                         </x-table.cell>
                     </x-table.row>
