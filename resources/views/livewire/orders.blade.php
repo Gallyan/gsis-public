@@ -82,12 +82,11 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('institution_id')" :direction="$sorts['institution_id'] ?? null">{{ __('Institution') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('status')" :direction="$sorts['status'] ?? null">{{ __('Status') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">{{ __('Created') }}</x-table.heading>
-                    <x-table.heading class="text-left">{{ __('Actions') }}</x-table.heading>
                 </x-slot>
 
                 <x-slot name="body">
                     @forelse ($orders as $order)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer">
                         <x-table.cell>
                             <span class="inline-flex space-x-2 text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate max-w-md">
@@ -127,12 +126,6 @@
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $order->date_for_humans }}
                                 </p>
-                            </span>
-                        </x-table.cell>
-
-                        <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <x-button.link wire:click="edit({{ $order->id }})" class="text-cool-gray-600 truncate"><x-icon.pencil />{{ __('Edit') }}</x-button.link>
                             </span>
                         </x-table.cell>
                     </x-table.row>
