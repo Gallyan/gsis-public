@@ -58,7 +58,7 @@
                     <x-input.text wire:model.lazy="user.hom_adr" id="hom_adr" />
                 </x-input.group>
 
-                <x-input.group inline class="w-40 pt-4 pr-4" label="Zip&nbsp;code" for="hom_zip" :error="$errors->first('user.hom_zip')">
+                <x-input.group inline class="w-40 pt-4 pr-4" label="Zip code" for="hom_zip" :error="$errors->first('user.hom_zip')">
                     <x-input.text wire:model.lazy="user.hom_zip" id="hom_zip" />
                 </x-input.group>
 
@@ -76,7 +76,7 @@
                     <x-input.text wire:model.lazy="user.pro_adr" id="pro_adr" />
                 </x-input.group>
 
-                <x-input.group inline class="w-40 pt-4 pr-4" label="Zip&nbsp;code" for="pro_zip" :error="$errors->first('user.pro_zip')">
+                <x-input.group inline class="w-40 pt-4 pr-4" label="Zip code" for="pro_zip" :error="$errors->first('user.pro_zip')">
                     <x-input.text wire:model.lazy="user.pro_zip" id="pro_zip" />
                 </x-input.group>
 
