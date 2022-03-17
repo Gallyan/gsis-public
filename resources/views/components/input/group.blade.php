@@ -14,7 +14,7 @@
 @if($inline)
     <div class="{{ $class }}">
         @if($label)
-        <label for="{{ $for }}" class="block text-sm font-medium leading-5 text-gray-700 {{ $required ? 'required' : '' }}">{{ __($label) }}</label>
+        <label for="{{ $for }}" class="block text-sm font-medium leading-5 text-gray-700 {{ $required ? 'required' : '' }}">{!! __($label) !!}</label>
         @endif
 
         <div class="mt-1 sm:mt-0 relative rounded-md {{ $innerclass }}">
