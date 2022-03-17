@@ -2,7 +2,7 @@
     <form wire:submit.prevent="save" wire:reset.prevent="init">
         @csrf
 
-        <x-stickytopbar title="Profile" :modified="$modified"/>
+        <x-stickytopbar title="My Profile" :modified="$modified"/>
 
         <div class="mt-6 sm:mt-5">
             <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')" required borderless>
