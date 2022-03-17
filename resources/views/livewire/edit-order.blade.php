@@ -19,7 +19,7 @@
             </x-input.group>
             @endcan
 
-            <x-input.group label="Status" for="status" :error="$errors->first('order.status')" required>
+            <x-input.group label="Status" for="status" :error="$errors->first('order.status')" helpText="{!! __('order-status-helptext') !!}" required>
                 <x-input.status
                     id="status"
                     wire:model="order.status"
