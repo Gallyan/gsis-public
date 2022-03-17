@@ -28,6 +28,7 @@ class OrderFactory extends Factory
         $users = User::all()->pluck('id');
 
         $status = array_keys(Order::STATUSES);
+        $editions = array_keys(Order::EDITION);
 
         $books = [];
         if ( mt_rand(0,1) ) {
@@ -35,6 +36,7 @@ class OrderFactory extends Factory
                 $books[$i]['title'] = $this->faker->sentence(mt_rand(3,5));
                 $books[$i]['author'] = $this->faker->name();
                 $books[$i]['isbn'] = $this->faker->isbn13();
+                $books[$i]['edition'] = $editions[mt_rand(0,1)];
             }
         }
 

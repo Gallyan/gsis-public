@@ -64,9 +64,10 @@
             <x-input.group label="Books" for="books" wire:model="order.books" :error="$errors->first('order.books')">
                     <x-table>
                         <x-slot name="head">
-                            <x-table.heading class="w-full" small>{{ __('Title') }}</x-table.heading>
-                            <x-table.heading class="min-w-200" small>{{ __('Author') }}</x-table.heading>
-                            <x-table.heading class="min-w-200" small>{{ __('ISBN') }}</x-table.heading>
+                            <x-table.heading small>{{ __('Title') }}</x-table.heading>
+                            <x-table.heading small>{{ __('Author') }}</x-table.heading>
+                            <x-table.heading small>{{ __('ISBN') }}</x-table.heading>
+                            <x-table.heading small>{{ __('Edition') }}</x-table.heading>
                             <x-table.heading small>{{ __('Actions') }}</x-table.heading>
                         </x-slot>
 
@@ -76,7 +77,7 @@
                                 <x-table.cell>
                                     <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                         <p class="text-cool-gray-600 truncate">
-                                            {{ $book['title'] }}
+                                            {{ $book['title'] ?? '' }}
                                         </p>
                                     </span>
                                 </x-table.cell>
@@ -84,7 +85,7 @@
                                 <x-table.cell>
                                     <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                         <p class="text-cool-gray-600 truncate">
-                                            {{ $book['author'] }}
+                                            {{ $book['author'] ?? '' }}
                                         </p>
                                     </span>
                                 </x-table.cell>
@@ -92,7 +93,15 @@
                                 <x-table.cell class="text-center">
                                     <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                         <p class="text-cool-gray-600 truncate">
-                                            {{ $book['isbn'] }}
+                                            {{ $book['isbn'] ?? '' }}
+                                        </p>
+                                    </span>
+                                </x-table.cell>
+
+                                <x-table.cell class="text-center">
+                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                        <p class="text-cool-gray-600 truncate">
+                                            {{ isset( $book['edition'] ) ? ucfirst(__($book['edition'])) : '' }}
                                         </p>
                                     </span>
                                 </x-table.cell>
@@ -140,15 +149,19 @@
 
             <x-slot name="content">
                 <x-input.group for="title" label="Title" :error="$errors->first('title')" required>
-                    <x-input.text wire:model.debounce.500ms="title" id="title" placeholder="{{ __('Title') }}"/>
+                    <x-input.text wire:model.debounce.500ms="title" id="title" placeholder="{{ __('Title') }}" />
                 </x-input.group>
 
                 <x-input.group for="author" label="Author" :error="$errors->first('author')" required>
-                    <x-input.text wire:model.debounce.500ms="author" id="author" placeholder="{{ __('Author') }}"/>
+                    <x-input.text wire:model.debounce.500ms="author" id="author" placeholder="{{ __('Author') }}" />
                 </x-input.group>
 
                 <x-input.group for="isbn" label="ISBN" :error="$errors->first('isbn')" required>
-                    <x-input.text wire:model.debounce.500ms="isbn" id="isbn" placeholder="ISBN"/>
+                    <x-input.text wire:model.debounce.500ms="isbn" id="isbn" placeholder="ISBN" />
+                </x-input.group>
+
+                <x-input.group for="edition" label="Edition" :error="$errors->first('edition')" required>
+                    <x-input.radio id="edition" wire:model="edition" :keylabel="$order->allEditions" />
                 </x-input.group>
             </x-slot>
 

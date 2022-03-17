@@ -23,6 +23,7 @@ class EditOrder extends Component
     public string $title = '';
     public string $author = '';
     public string $isbn = '';
+    public string $edition = 'paper';
     public int $book_id;
 
     protected function rules() { return [
@@ -41,6 +42,7 @@ class EditOrder extends Component
         'title'  => 'required|string',
         'author' => 'required|string',
         'isbn'   => 'required|string',
+        'edition' => 'required|in:'.collect(Order::EDITION)->keys()->implode(','),
     ]; }
 
     protected function messages() { return [
@@ -67,7 +69,7 @@ class EditOrder extends Component
 
     public function close_modal() {
         $this->showModal = false;
-        $this->title = $this->author = $this->isbn = ''; // Reset form
+        $this->title = $this->author = $this->isbn = '';  $this->edition = 'paper'; // Reset form
         unset($this->book_id);
     }
 
@@ -77,9 +79,10 @@ class EditOrder extends Component
         if( $id < 1 || $id > count($books)) return;
 
         $this->book_id = $id;
-        $this->title  = $books[ $id-1 ]['title'];
-        $this->author = $books[ $id-1 ]['author'];
-        $this->isbn   = $books[ $id-1 ]['isbn'];
+        $this->title   = isset( $books[ $id-1 ]['title'] ) ? $books[ $id-1 ]['title'] : '';
+        $this->author  = isset( $books[ $id-1 ]['author'] ) ? $books[ $id-1 ]['author'] : '';
+        $this->isbn    = isset( $books[ $id-1 ]['isbn'] ) ? $books[ $id-1 ]['isbn'] : '';
+        $this->edition = isset( $books[ $id-1 ]['edition'] ) ? $books[ $id-1 ]['edition'] : 'paper';
 
         $this->showModal = true;
     }

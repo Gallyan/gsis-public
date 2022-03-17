@@ -12,11 +12,16 @@ class Order extends Model
     use SoftDeletes;
 
     const STATUSES = [
-        'draft' => 'Draft',
-        'on-hold' => 'On hold',
+        'draft'       => 'Draft',
+        'on-hold'     => 'On hold',
         'in-progress' => 'In progress',
-        'processed' => 'Processed',
-        'cancelled' => 'Cancelled',
+        'processed'   => 'Processed',
+        'cancelled'   => 'Cancelled',
+    ];
+
+    const EDITION = [
+        'paper'   => 'Paper book',
+        'digital' => 'Digital book',
     ];
 
     // Automatically switch between json and array of books
@@ -40,6 +45,8 @@ class Order extends Model
     public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
 
     public function getAllStatusesAttribute() { return Order::STATUSES; }
+
+    public function getAllEditionsAttribute() { return Order::EDITION; }
 
     public function getDisabledStatusesAttribute() {
         return [];
