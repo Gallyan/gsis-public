@@ -53,6 +53,38 @@
                 />
             </x-input.group>
 
+            <x-input.group label="Home Address">
+                <x-input.group inline label="Street Address" for="hom_adr" :error="$errors->first('user.hom_adr')">
+                    <x-input.text wire:model.lazy="user.hom_adr" id="hom_adr" />
+                </x-input.group>
+
+                <x-input.group inline class="w-40 pt-4 pr-4" label="Zip&nbsp;code" for="hom_zip" :error="$errors->first('user.hom_zip')">
+                    <x-input.text wire:model.lazy="user.hom_zip" id="hom_zip" />
+                </x-input.group>
+
+                <x-input.group inline class="w-96 pt-4" label="City" for="hom_cit" :error="$errors->first('user.hom_cit')">
+                    <x-input.text wire:model.lazy="user.hom_cit" id="hom_cit" />
+                </x-input.group>
+            </x-input.group>
+
+            <x-input.group label="Business Address">
+                <x-input.group inline label="Institution" for="pro_ins" :error="$errors->first('user.pro_ins')">
+                    <x-input.text wire:model.lazy="user.pro_ins" id="pro_ins" />
+                </x-input.group>
+
+                <x-input.group inline class="pt-4" label="Street Address" for="pro_adr" :error="$errors->first('user.pro_adr')">
+                    <x-input.text wire:model.lazy="user.pro_adr" id="pro_adr" />
+                </x-input.group>
+
+                <x-input.group inline class="w-40 pt-4 pr-4" label="Zip&nbsp;code" for="pro_zip" :error="$errors->first('user.pro_zip')">
+                    <x-input.text wire:model.lazy="user.pro_zip" id="pro_zip" />
+                </x-input.group>
+
+                <x-input.group inline class="w-96 pt-4" label="City" for="pro_cit" :error="$errors->first('user.pro_cit')">
+                    <x-input.text wire:model.lazy="user.pro_cit" id="pro_cit" />
+                </x-input.group>
+            </x-input.group>
+
             @can('manage-users')
             <x-input.group label="Roles" for="roles">
                 <div class="flex">
