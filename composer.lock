@@ -5869,16 +5869,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "10.4.10",
+            "version": "10.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "f0ee702dc2194c5b11cdf12373f4079db152b917"
+                "reference": "4f3e19f1c3b6c2cc7d3f9d8e85a8976d5686336d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/f0ee702dc2194c5b11cdf12373f4079db152b917",
-                "reference": "f0ee702dc2194c5b11cdf12373f4079db152b917",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/4f3e19f1c3b6c2cc7d3f9d8e85a8976d5686336d",
+                "reference": "4f3e19f1c3b6c2cc7d3f9d8e85a8976d5686336d",
                 "shasum": ""
             },
             "require": {
@@ -5941,7 +5941,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-03-15T06:33:38+00:00"
+            "time": "2022-03-22T09:53:37+00:00"
         },
         {
             "name": "laravel-lang/publisher",
