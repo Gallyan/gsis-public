@@ -59,20 +59,16 @@
 
 </div>
 
-@push('stylesheets')
-    @once
-        <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-    @endonce
-@endpush
+@pushOnce('stylesheets')
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+@endPushOnce
 
-@push('scripts')
-    @once
-        <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-        <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-        <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-        <script>
-            FilePond.registerPlugin(FilePondPluginFileValidateSize);
-            FilePond.registerPlugin(FilePondPluginFileValidateType);
-        </script>
-    @endonce
-@endpush
+@pushOnce('scripts')
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    <script>
+        FilePond.registerPlugin(FilePondPluginFileValidateSize);
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+    </script>
+@endPushOnce
