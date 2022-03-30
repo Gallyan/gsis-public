@@ -73,7 +73,11 @@ class Profile extends Component
             $old_avatar = $this->user->avatar;
 
             $this->user->update([
-                'avatar' => $this->upload->store('/', 'avatars'),
+                'avatar' => $this->upload->storeAs(
+                    '/',
+                    $this->user->id.'-'.$this->upload->hashName(),
+                    'avatars'
+                ),
             ]);
 
             Storage::disk('avatars')->delete($old_avatar);

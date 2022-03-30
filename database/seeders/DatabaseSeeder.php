@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Storage;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Institution;
@@ -33,6 +34,15 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create()->each(function ($user) {
             $user->assignRole('user');
         });
+        foreach( User::all() as $user ) {
+            if( $user->avatar !== "" ) {
+                Storage::move(
+                    'avatars/'.$user->avatar,
+                    'avatars/'.$user->id.'-'.$user->avatar
+                );
+                $user->update(['avatar' => $user->id.'-'.$user->avatar]);
+            }
+        }
 
         // Création des institutions
         Institution::factory(20)->create();
