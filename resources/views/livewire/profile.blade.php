@@ -40,7 +40,7 @@
                     @if ( ! empty($upload) && $upload->isPreviewable())
                         <img src="{{ $upload->temporaryUrl() }}" alt="{{ __('Profile Photo') }}">
                     @else
-                        <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ __('Profile Photo') }}">
+                        <img src="{{ $user->avatarUrl() }}" alt="{{ __('Profile Photo') }}">
                     @endif
                 </div>
                 <x-input.filepond
@@ -85,14 +85,78 @@
                 </x-input.group>
             </x-input.group>
 
+            <x-input.group label="Documents">
+                @if (!empty($user->documents))
+                <ul role="list" class="divide-y divide-gray-200">
+                @foreach( $user->documents as $document )
+                    <li class="pb-4 flex">
+                        <x-icon.document class="w-10 h-10 text-gray-500" />
+                        <div class="mx-3 flex-1">
+                            <p class="text-sm font-medium text-gray-900">
+                                <a href="{{-- $document->download --}}" target="_blank">{{ $document->name }}</a> <span class="text-sm text-gray-500">({{ $document->sizeForHumans }}) {{ __('Added :date',[ 'date' => $document->created_at->diffForHumans() ]) }}</span>
+                            </p>
+                            <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
+                        </div>
+                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="del_doc({{ $document->id }})"/>
+                    </li>
+                @endforeach
+                </ul>
+                @endif
+                <x-button.secondary wire:click="$set('showModal', true)">
+                    <x-icon.document-add />{{ __('Add document') }}
+                </x-button.secondary>
+            </x-input.group>
+
             @can('manage-users')
             <x-input.group label="Roles" for="roles">
                 <div class="flex">
-                    {{ ucwords( auth()->user()->roles_names ) }}
+                    {{ ucwords( $user->roles_names ) }}
                 </div>
             </x-input.group>
             @endcan
 
         </div>
+    </form>
+
+    <!-- Add document Modal -->
+    <form wire:submit.prevent="save_doc">
+        @csrf
+
+        <x-modal.dialog wire:model.defer="showModal">
+            <x-slot name="title">
+                {{ __('Add document') }}
+            </x-slot>
+
+            <x-slot name="content">
+                <x-input.group for="file" label="File" :error="$errors->first('doc.file')" required>
+                    <x-input.filepond
+                        wire:model="doc.file"
+                        id="file"
+                        inputname="file"
+                        maxFileSize="2MB"
+                        acceptedFileTypes="[ 'image/*', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
+                    />
+                </x-input.group>
+
+                <x-input.group for="type" label="Type" :error="$errors->first('doc.type')" required>
+                    <x-input.select wire:model="doc.type" id="type" placeholder="{{ __('Select Type...') }}" class="w-full">
+                        <option value="id">{{ __('id') }}</option>
+                        <option value="bank">{{ __('RIB') }}</option>
+                        <option value="passport">{{ __('passport') }}</option>
+                        <option value="driver">{{ __('driver') }}</option>
+                    </x-input.select>
+                </x-input.group>
+
+                <x-input.group for="name" label="Name" :error="$errors->first('doc.name')" required>
+                    <x-input.text wire:model.debounce.500ms="doc.name" id="name" placeholder="{{ __('Name') }}" />
+                </x-input.group>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-button.secondary wire:click="close_modal">{{ __('Cancel') }}</x-button.secondary>
+
+                <x-button.primary type="submit">@lang('Add')</x-button.primary>
+            </x-slot>
+        </x-modal.dialog>
     </form>
 </div>

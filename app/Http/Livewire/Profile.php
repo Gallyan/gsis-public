@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use Str;
 use App\Models\User;
 use Livewire\Component;
+use App\Models\Document;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class Profile extends Component
 {
@@ -37,6 +39,16 @@ class Profile extends Component
         ];
     }
 
+    protected function doc_rules() {
+        return [
+            'doc.file' => 'required|file',
+            'doc.type' => 'required|string',
+            'doc.name' => 'required|string'
+        ];
+    }
+
+    protected $listeners = ['refreshUser' => '$refresh'];
+
     public function mount() { $this->user = auth()->user(); }
 
     public function init() {
@@ -49,7 +61,12 @@ class Profile extends Component
     public function updated($propertyName)
     {
         $this->modified = !empty($this->user->getDirty()) || $this->upload;
-        $this->validateOnly($propertyName);
+
+        if( explode(".",$propertyName)[0] === "doc") {
+            $this->validateOnly($propertyName, $this->doc_rules());
+        }else{
+            $this->validateOnly($propertyName);
+        }
     }
 
     public function render()
@@ -88,5 +105,77 @@ class Profile extends Component
         $this->reset(['modified']);
 
         $this->emitSelf('notify-saved');
+    }
+
+    /* Modal d'ajout de document */
+    public $showModal = false;
+    public $doc = []; // Store uploaded document
+
+    /* Initialisation du nom après l'upload de document */
+    public function updatedDocFile() {
+        // Apres l'upload initialiser le nom du fichier
+        if ( isset($this->doc['file']) && ( !isset($this->doc['name']) || empty($this->doc['name']) ) ) {
+            $this->doc['name'] =
+                Str::slug(
+                    pathinfo(
+                        Document::filter_filename( $this->doc['file']->getClientOriginalName() ),
+                    PATHINFO_FILENAME
+                )
+            );
+        }
+    }
+
+    public function del_doc( $id ) {
+
+        // TODO Add access verification
+
+        $document = Document::find( $id ) ;
+
+        $filename = '/docs/' . $this->user->id . '/' . $document->filename ;
+
+        if (Storage::exists( $filename )) {
+
+            Storage::delete( $filename );
+
+            $document->delete();
+
+        }
+
+        $this->emit('refreshUser');
+    }
+
+    public function save_doc() {
+        $this->withValidator(function (Validator $validator) {
+            if ($validator->fails()) {
+                $this->emitSelf('dialog-error');
+            }
+        })->validate( $this->doc_rules() );
+
+        // Create user documents directory if not exists
+        $path = 'docs/'.$this->user->id.'/';
+        Storage::makeDirectory( $path );
+
+        $filename = $this->doc['file']->storeAs(
+                        '/docs/'.$this->user->id.'/',
+                        $this->doc['file']->hashName()
+                    );
+
+        (new Document([
+            "name" => $this->doc['name'],
+            "type" => $this->doc['type'],
+            "size" => Storage::size( $filename ),
+            "filename" => $this->doc['file']->hashName(),
+            "user_id" => $this->user->id,
+            "documentable_id" => $this->user->id,
+            "documentable_type" => User::class,
+        ]))->save();
+
+        $this->emit('refreshUser');
+        $this->close_modal();
+    }
+
+    public function close_modal() {
+        $this->reset(['doc','showModal']);
+        $this->dispatchBrowserEvent('pondReset');
     }
 }

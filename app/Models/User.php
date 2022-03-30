@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Storage;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
-    use HasFactory;
-    use HasRoles;
+    use Notifiable, HasFactory, HasRoles;
 
     protected $guarded = [];
 
@@ -52,5 +50,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->avatar
             ? Storage::disk('avatars')->url($this->avatar)
             : 'https://www.gravatar.com/avatar/'.md5(strtolower(trim($this->email)));
+    }
+
+    /**
+     * Get all of the user's documents.
+     */
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
     }
 }

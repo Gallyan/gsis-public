@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Storage;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Document;
 use App\Models\Institution;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -49,5 +50,9 @@ class DatabaseSeeder extends Seeder
 
         // Création de commandes
         Order::factory(20)->create();
+
+        Document::factory(10)->create();
+        while( count( User::findOrFail(1)->documents ) === 0 )
+            Document::factory()->create();
     }
 }

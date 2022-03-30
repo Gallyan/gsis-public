@@ -27,5 +27,9 @@
     "filepondMaxTotalFileSize": "Maximum total file size is {filesize}",
     "filepondFileTypeNotAllowed": "File of invalid type",
     "filepondValidateTypeLabelExpectedTypes": "Expected file formats: {allTypes}",
-    "order-status-helptext": "To submit your order, change the status to \"On hold\".<br/>Once the order is taken over by a manager, the status will change to \"In progress\" and you will not be able to modify the order."
+    "order-status-helptext": "To submit your order, change the status to \"On hold\".<br/>Once the order is taken over by a manager, the status will change to \"In progress\" and you will not be able to modify the order.",
+    "bank": "Bank identification",
+    "id": "Identity card",
+    "driver": "Driving licence",
+    "passport": "Passport"
 }

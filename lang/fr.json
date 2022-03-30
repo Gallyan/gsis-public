@@ -282,5 +282,19 @@
     "You may not delete your personal team.": "Vous ne pouvez pas supprimer votre équipe personnelle.",
     "You may not leave a team that you created.": "Vous ne pouvez pas quitter une équipe que vous avez créée.",
     "YYYY-MM-DD": "AAAA-MM-JJ",
-    "Zip code": "Code postal"
+    "Zip code": "Code postal",
+    "Bytes": "Octets",
+    "Kb": "Ko",
+    "Mb": "Mo",
+    "Gb": "Go",
+    "Tb": "To",
+    "Pb": "Po",
+    "bank": "RIB",
+    "id": "Carte d'identité",
+    "driver": "Permis de conduire",
+    "passport": "Passeport",
+    "Added :date": "Ajouté :date",
+    "Add document": "Ajouter un document",
+    "Select Type...": "Sélectionnez le type...",
+    "File": "Fichier"
 }
