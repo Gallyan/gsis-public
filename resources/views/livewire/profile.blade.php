@@ -89,7 +89,7 @@
                 @if (!empty($user->documents))
                 <ul role="list" class="divide-y divide-gray-200">
                 @foreach( $user->documents as $document )
-                    <li class="pb-4 flex">
+                    <li class="@if ($loop->first) pb-4 @else py-4 @endif flex">
                         <x-icon.document class="w-10 h-10 text-gray-500" />
                         <div class="mx-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">
