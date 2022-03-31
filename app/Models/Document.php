@@ -19,7 +19,7 @@ class Document extends Model
 
     public function getDownloadAttribute() {
         return;
-        //return Storage::disk('documents')->url($this->user_id.'/'.$this->file_name);
+        //return Storage::url('docs/'.$this->user_id.'/'.$this->file_name);
     }
 
     public function getSizeForHumansAttribute() {
