@@ -52,4 +52,12 @@ class Order extends Model
         return [];
         // @ToDo: Développer la gestion des status ici
     }
+
+    /**
+     * Get all of the order's documents.
+     */
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
 }
