@@ -18,15 +18,11 @@
     />
 </div>
 
-@push('stylesheets')
-    @once
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-    @endonce
-@endpush
+@pushOnce('stylesheets')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+@endPushOnce
 
-@push('scripts')
-    @once
-        <script src="https://unpkg.com/moment"></script>
-        <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
-    @endonce
-@endpush
+@pushOnce('scripts')
+    <script src="https://unpkg.com/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+@endPushOnce

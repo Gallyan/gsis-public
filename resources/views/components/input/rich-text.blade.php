@@ -14,14 +14,10 @@
     <trix-editor x-ref="trix" input="x" class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"></trix-editor>
 </div>
 
-@push('stylesheets')
-    @once
-        <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@1.2.3/dist/trix.css">
-    @endonce
-@endpush
+@pushOnce('stylesheets')
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@1.2.3/dist/trix.css">
+@endPushOnce
 
-@push('scripts')
-    @once
-        <script src="https://unpkg.com/trix@1.2.3/dist/trix.js"></script>
-    @endonce
-@endpush
+@pushOnce('scripts')
+    <script src="https://unpkg.com/trix@1.2.3/dist/trix.js"></script>
+@endPushOnce
