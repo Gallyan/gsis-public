@@ -127,17 +127,20 @@ class Profile extends Component
 
     public function del_doc( $id ) {
 
-        // TODO Add access verification
+        // TODO Add access validation
 
         $document = Document::find( $id ) ;
 
-        $filename = '/docs/' . $this->user->id . '/' . $document->filename ;
+        if( !empty( $document ) ) {
 
-        if (Storage::exists( $filename )) {
+            $filename = '/docs/' . $this->user->id . '/' . $document->filename ;
 
-            Storage::delete( $filename );
+            if (Storage::exists( $filename )) {
 
-            $document->delete();
+                Storage::delete( $filename );
+
+                $document->delete();
+            }
 
         }
 
