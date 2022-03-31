@@ -109,7 +109,7 @@
 
             @can('manage-users')
             <x-input.group label="Roles" for="roles">
-                <div class="flex">
+                <div class="text-gray-700 py-2">
                     {{ ucwords( $user->roles_names ) }}
                 </div>
             </x-input.group>
