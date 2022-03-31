@@ -31,5 +31,11 @@
     "bank": "Bank identification",
     "id": "Identity card",
     "driver": "Driving licence",
-    "passport": "Passport"
+    "passport": "Passport",
+    "admin": "Administrator",
+    "admin-description": " ",
+    "manager": "Manager",
+    "manager-description": " ",
+    "user": "User",
+    "user-description": " "
 }

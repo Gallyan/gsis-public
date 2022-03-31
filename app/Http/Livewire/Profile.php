@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\Document;
 use Livewire\WithFileUploads;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -18,6 +19,7 @@ class Profile extends Component
     public User $user;
     public $upload; // Store avatar temporary upload
     public $modified = false; // True if form is modified and need to be saved
+    public $selectedroles = [];
 
     protected function rules()
     {
@@ -36,6 +38,8 @@ class Profile extends Component
             'user.pro_cit' => 'nullable|string',
             'user.phone' => 'sometimes|phone',
             'upload' => 'nullable|image|max:1000',
+            'selectedroles' => 'required|array',
+            'selectedroles.*' => 'sometimes|boolean',
         ];
     }
 
@@ -49,18 +53,26 @@ class Profile extends Component
 
     protected $listeners = ['refreshUser' => '$refresh'];
 
-    public function mount() { $this->user = auth()->user(); }
+    public function mount() { $this->init(); }
 
     public function init() {
         $this->user = auth()->user();
+        $this->selectedroles = array_fill_keys( $this->user->roles->pluck('name')->toArray(), '1');
         $this->reset(['upload','modified']);
         $this->dispatchBrowserEvent('pondReset');
         $this->resetValidation();
     }
 
+    public function isRoleModified() {
+        return
+            array_fill_keys( $this->user->roles->pluck('name')->toArray(), "1" )
+            !==
+            array_filter( $this->selectedroles );
+    }
+
     public function updated($propertyName)
     {
-        $this->modified = !empty($this->user->getDirty()) || $this->upload;
+        $this->modified = !empty($this->user->getDirty()) || $this->upload || $this->isRoleModified();
 
         if( explode(".",$propertyName)[0] === "doc") {
             $this->validateOnly($propertyName, $this->doc_rules());
@@ -71,8 +83,9 @@ class Profile extends Component
 
     public function render()
     {
-        return view('livewire.profile')
-            ->layoutData(['pageTitle' => __('Profile')   ]);
+        return view('livewire.profile',[
+                'Roles' => Role::all()->sortByDesc('id')->pluck('name'),
+            ])->layoutData(['pageTitle' => __('Profile')]);
     }
 
     public function save()
@@ -100,6 +113,16 @@ class Profile extends Component
             Storage::disk('avatars')->delete($old_avatar);
 
             $this->dispatchBrowserEvent('pondReset');
+        }
+
+        if ( $this->isRoleModified() ) {
+            foreach( $this->selectedroles as $role => $assigned ) {
+                if ( (bool)$assigned === true && Role::findByName($role) ) {
+                    $this->user->assignRole( $role );
+                } else {
+                    $this->user->removeRole( $role );
+                }
+            }
         }
 
         $this->reset(['modified']);

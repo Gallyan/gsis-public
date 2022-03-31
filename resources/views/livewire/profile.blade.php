@@ -108,10 +108,35 @@
             </x-input.group>
 
             @can('manage-users')
-            <x-input.group label="Roles" for="roles">
-                <div class="text-gray-700 py-2">
-                    {{ ucwords( $user->roles_names ) }}
+            <x-input.group label="Roles" :error="$errors->first('selectedroles.*')">
+                <fieldset class="space-y-5">
+
+                @foreach ( $Roles as $role )
+
+                <div class="relative flex items-start">
+
+                    <div class="flex items-center h-5">
+
+                        <input
+                            type="checkbox"
+                            id="{{ $role  }}"
+                            name="selectedroles[]"
+                            value="1"
+                            wire:model="selectedroles.{{$role}}"
+                            class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                        >
+
+                    </div>
+
+                    <div class="ml-3 text-sm">
+                        <label for="{{ $role }}" class="font-medium text-gray-700">{{ __($role) }}</label>
+                        <p class="text-gray-500">{{ __($role.'-description') }}</p>
+                    </div>
+
                 </div>
+
+                @endforeach
+                </fieldset>
             </x-input.group>
             @endcan
 
