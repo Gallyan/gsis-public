@@ -163,7 +163,7 @@ class Profile extends Component
                         $this->doc['file']->hashName()
                     );
 
-        (new Document([
+        Document::create([
             "name" => $this->doc['name'],
             "type" => $this->doc['type'],
             "size" => Storage::size( $filename ),
@@ -171,7 +171,7 @@ class Profile extends Component
             "user_id" => $this->user->id,
             "documentable_id" => $this->user->id,
             "documentable_type" => User::class,
-        ]))->save();
+        ]);
 
         $this->emit('refreshUser');
         $this->close_modal();
