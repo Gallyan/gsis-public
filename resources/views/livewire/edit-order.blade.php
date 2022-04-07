@@ -87,7 +87,7 @@
             <x-input.group label="Books" for="books" wire:model="order.books" :error="$errors->first('order.books')">
                     <x-table>
                         <x-slot name="head">
-                            <x-table.heading small>{{ __('Title') }}</x-table.heading>
+                            <x-table.heading small class="max-w-64">{{ __('Title') }}</x-table.heading>
                             <x-table.heading small>{{ __('Author') }}</x-table.heading>
                             <x-table.heading small>{{ __('ISBN') }}</x-table.heading>
                             <x-table.heading small>{{ __('Edition') }}</x-table.heading>
@@ -97,9 +97,9 @@
                         <x-slot name="body">
                             @forelse ($order->books as $book)
                             <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
-                                <x-table.cell>
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <p class="text-cool-gray-600 truncate">
+                                <x-table.cell class="whitespace-normal">
+                                    <span class="inline-flex space-x-2 text-sm leading-5">
+                                        <p class="text-cool-gray-600">
                                             {{ $book['title'] ?? '' }}
                                         </p>
                                     </span>
