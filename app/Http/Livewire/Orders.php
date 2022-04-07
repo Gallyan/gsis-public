@@ -27,11 +27,6 @@ class Orders extends Component
 
     protected $queryString = ['sorts'];
 
-    public function mount() {
-        if( empty( $this->sorts) )
-            $this->sorts = [ "created_at" => "desc" ];
-    }
-
     public function toggleShowFilters() {
 
         $this->useCachedRows();

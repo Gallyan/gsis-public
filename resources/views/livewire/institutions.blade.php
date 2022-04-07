@@ -36,8 +36,8 @@
 
                 <x-slot name="body">
                     @forelse ($institutions as $institution)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}" class="hover:bg-cool-gray-50">
-                        <x-table.cell class="cursor-pointer" wire:click="edit({{ $institution->id }})">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}" class="cursor-pointer hover:bg-cool-gray-50"  wire:click="edit({{ $institution->id }})">
+                        <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5" >
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $institution->name }}
