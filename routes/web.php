@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/orders', Orders::class)->name('orders');
     Route::get('/order/{id?}', EditOrder::class)->whereNumber('id')->name('edit-order');
+    Route::get('/documents/{id}', 'App\Http\Controllers\DocumentController@download')->whereNumber('id')->name('download');
 
     // Admin
     Route::middleware(['can:manage-users'])->group(function() {
@@ -27,6 +28,5 @@ Route::middleware(['auth','verified'])->group(function () {
         Route::get('/institutions', Institutions::class)->name('institutions');
     });
 });
-
 
 require __DIR__.'/auth.php';
