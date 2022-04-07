@@ -17,8 +17,12 @@ trait WithSorting
 
     public function applySorting($query)
     {
-        foreach ($this->sorts as $field => $direction) {
-            $query->orderBy($field, $direction);
+        if ( $this->sorts ) {
+            foreach ($this->sorts as $field => $direction) {
+                $query->orderBy($field, $direction);
+            }
+        } else {
+            $query->orderBy('id','desc');
         }
 
         return $query;
