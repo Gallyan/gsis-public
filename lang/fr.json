@@ -296,6 +296,7 @@
     "id": "Carte d'identité",
     "driver": "Permis de conduire",
     "passport": "Passeport",
+    "quotation": "Devis",
     "Added :date": "Ajouté :date",
     "Add document": "Ajouter un document",
     "Select Type...": "Sélectionnez le type...",

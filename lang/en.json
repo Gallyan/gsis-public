@@ -32,6 +32,7 @@
     "id": "Identity card",
     "driver": "Driving licence",
     "passport": "Passport",
+    "quotation": "Quotation",
     "admin": "Administrator",
     "admin-description": " ",
     "manager": "Manager",
