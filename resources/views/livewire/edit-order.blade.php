@@ -138,7 +138,7 @@
                 </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('order.comments')">
-                <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" />
+                <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" class="text-gray-700" />
             </x-input.group>
         </div>
     </form>
