@@ -107,7 +107,7 @@
                 </x-button.secondary>
             </x-input.group>
 
-            @can('manage-users')
+            @can('manage-roles')
             <x-input.group label="Roles" :error="$errors->first('selectedroles.*')">
                 <fieldset class="space-y-5">
 
@@ -137,6 +137,12 @@
 
                 @endforeach
                 </fieldset>
+            </x-input.group>
+            @else
+            <x-input.group label="Roles">
+                <span class="font-medium text-gray-700">
+                    {{ $user->RolesNames }}
+                </span>
             </x-input.group>
             @endcan
 

@@ -115,7 +115,7 @@ class Profile extends Component
             $this->dispatchBrowserEvent('pondReset');
         }
 
-        if ( $this->isRoleModified() ) {
+        if ( $this->isRoleModified() && auth()->user()->can('manage-roles') ) {
             foreach( $this->selectedroles as $role => $assigned ) {
                 if ( (bool)$assigned === true && Role::findByName($role) ) {
                     $this->user->assignRole( $role );
@@ -126,7 +126,7 @@ class Profile extends Component
         }
 
         $this->reset(['modified']);
-
+        $this->emit('refreshUser');
         $this->emitSelf('notify-saved');
     }
 
