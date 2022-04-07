@@ -45,7 +45,10 @@
                 $upload_errors = collect( $errors->get('uploads.*') )->map( function( $item, $key ) {
                     return str_replace(
                         ':filename',
-                        $this->uploads[ intval( preg_filter( '/uploads\./', '', $key ) ) ]->getClientOriginalName(),
+                        App\Models\Document::filter_filename(
+                            $this->uploads[ intval( preg_filter( '/uploads\./', '', $key ) ) ]
+                            ->getClientOriginalName()
+                        ),
                         $item
                     );
                 });
