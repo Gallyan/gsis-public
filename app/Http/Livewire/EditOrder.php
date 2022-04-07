@@ -4,9 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\Order;
 use Livewire\Component;
+use App\Models\Document;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditOrder extends Component
@@ -159,6 +160,8 @@ class EditOrder extends Component
                     $this->emitSelf('notify-error');
                 }
         })->validate();
+
+
 
         $this->order->save();
 
