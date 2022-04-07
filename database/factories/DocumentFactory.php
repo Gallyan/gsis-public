@@ -42,11 +42,11 @@ class DocumentFactory extends Factory
             'name' => $this->faker->sentence(),
             'type' => $documentable === User::class ?
                     $this->faker->randomElement(['driver' ,'bank', 'passport', 'id']) :
-                    $this->faker->randomElement(['quotation']),
+                    'quotation',
             'size' => Storage::size( $path.$filename ),
             'filename' => $filename,
             'user_id' => $owner_id,
-            'documentable_id' => $documentable === User::class ? $owner_id : $documentable::factory(),
+            'documentable_id' => $documentable === User::class ? $owner_id : $documentable::factory(['user_id'=>$owner_id]),
             'documentable_type' => $documentable,
         ];
     }
