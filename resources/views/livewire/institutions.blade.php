@@ -32,14 +32,13 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('contract')" :direction="$sorts['contract'] ?? null">{{ __('Contract') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('allocation')" :direction="$sorts['allocation'] ?? null">{{ __('Allocation') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">{{ __('Created') }}</x-table.heading>
-                    <x-table.heading class="text-left">{{ __('Actions') }}</x-table.heading>
                 </x-slot>
 
                 <x-slot name="body">
                     @forelse ($institutions as $institution)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}">
-                        <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}" class="hover:bg-cool-gray-50">
+                        <x-table.cell class="cursor-pointer" wire:click="edit({{ $institution->id }})">
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5" >
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $institution->name }}
                                 </p>
@@ -69,16 +68,10 @@
                                 </p>
                             </span>
                         </x-table.cell>
-
-                        <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <x-button.link wire:click="edit({{ $institution->id }})" class="text-cool-gray-600 truncate"><x-icon.pencil />{{ __('Edit') }}</x-button.link>
-                            </span>
-                        </x-table.cell>
                     </x-table.row>
                     @empty
                     <x-table.row>
-                        <x-table.cell colspan="6">
+                        <x-table.cell colspan="4">
                             <div class="flex justify-center items-center space-x-2">
                                 <x-icon.inbox class="h-8 w-8 text-cool-gray-400" />
                                 <span class="font-medium py-8 text-cool-gray-400 text-xl">{{ __('Nothing found...') }}</span>
