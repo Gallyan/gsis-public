@@ -62,6 +62,26 @@
                     maxFileSize="10MB"
                     acceptedFileTypes="[ 'image/*', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
                 />
+
+                @if (!empty($order->documents))
+                <ul role="list" class="divide-y divide-gray-200">
+                @foreach( $order->documents as $document )
+                    <li class="py-4 flex text-gray-500 @if ( in_array( $document->id, $del_docs ) ) line-through italic @endif">
+                        <x-icon.document class="w-10 h-10 text-gray-500" />
+                        <div class="mx-3 flex-1">
+                            <p class="text-sm font-medium text-gray-900">
+                                <a href="{{-- $document->download --}}" target="_blank">{{ $document->name }}</a> <span class="text-sm text-gray-500">({{ $document->sizeForHumans }}) {{ __('Added :date',[ 'date' => $document->created_at->diffForHumans() ]) }}</span>
+                            </p>
+                            <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
+                        </div>
+                        @if ( !in_array( $document->id, $del_docs ) )
+                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="del_doc({{ $document->id }})"/>
+                        @endif
+                    </li>
+                @endforeach
+                </ul>
+                @endif
+
             </x-input.group>
 
             <x-input.group label="Books" for="books" wire:model="order.books" :error="$errors->first('order.books')">

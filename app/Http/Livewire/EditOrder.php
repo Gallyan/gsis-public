@@ -17,6 +17,7 @@ class EditOrder extends Component
 
     public Order $order;
     public $uploads = [];
+    public $del_docs = [];
     public $modified = false; // True if form is modified and need to be saved
 
     // For Modal Book editing
@@ -52,6 +53,8 @@ class EditOrder extends Component
         'uploads.*.mimes' => __('The file :filename must be a file of type: :values.'),
         'uploads.*.mimetypes' => __('The file :filename must be a file of type: :values.'),
     ];}
+
+    protected $listeners = ['refreshOrder' => '$refresh'];
 
     public function mount( $id = null ) {
         if ( is_null($id) ) {
@@ -114,6 +117,17 @@ class EditOrder extends Component
         $this->close_modal();
     }
 
+    // Ajoute un document à la liste des documents à supprimer
+    public function del_doc( $id ) {
+
+        if( !empty( Document::find( $id ) ) && !in_array( $id, $this->del_docs ) ) {
+
+            $this->del_docs[] = $id;
+            $this->modified = true;
+
+        }
+    }
+
     public function updated($propertyName) {
         if( in_array( $propertyName, array_keys($this->book_rules()) ) ) {
             $this->validateOnly($propertyName, $this->book_rules());
@@ -146,7 +160,7 @@ class EditOrder extends Component
         } else {
             $this->order = Order::find( $this->order->id );
         }
-        $this->reset(['uploads','modified']);
+        $this->reset(['uploads','modified','del_docs']);
         $this->dispatchBrowserEvent('pondReset');
         $this->resetValidation();
     }
@@ -161,12 +175,54 @@ class EditOrder extends Component
                 }
         })->validate();
 
-
-
         $this->order->save();
 
-        $this->reset('modified');
+        // Sauvegarde des fichiers ajoutés
+        if( !empty( $this->uploads ) ) {
 
+            // Create user documents directory if not exists
+            $path = 'docs/'.$this->order->user_id.'/';
+            Storage::makeDirectory( $path );
+
+            foreach( $this->uploads as $file ) {
+                // Store file in directory
+                $filename = $file->storeAs( '/'.$path, $file->hashName() );
+
+                // Create file in BDD
+                Document::create([
+                    "name" => Document::filter_filename( $file->getClientOriginalName() ),
+                    "type" => 'quotation',
+                    "size" => Storage::size( $filename ),
+                    "filename" => $file->hashName(),
+                    "user_id" => $this->order->user_id,
+                    "documentable_id" => $this->order->id,
+                    "documentable_type" => Order::class,
+                ]);
+            }
+            $this->dispatchBrowserEvent('pondReset');
+        }
+
+        // Suppression des fichiers à supprimer
+        foreach( $this->del_docs as $id ) {
+
+            $document = Document::find( $id ) ;
+
+            if( !empty( $document ) ) {
+
+                $filename = '/docs/' . $this->order->user_id . '/' . $document->filename ;
+
+                if (Storage::exists( $filename )) {
+
+                    Storage::delete( $filename );
+
+                    $document->delete();
+                }
+
+            }
+        }
+
+        $this->reset(['uploads','modified','del_docs']);
+        $this->emit('refreshOrder');
         $this->emitSelf('notify-saved');
     }
 }
