@@ -38,7 +38,7 @@ class Profile extends Component
             'user.pro_cit' => 'nullable|string',
             'user.phone' => 'sometimes|phone',
             'upload' => 'nullable|image|max:1000',
-            'selectedroles' => 'required|array',
+            'selectedroles' => 'sometimes|array',
             'selectedroles.*' => 'sometimes|boolean',
         ];
     }
