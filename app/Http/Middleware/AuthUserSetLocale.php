@@ -17,7 +17,7 @@ class AuthUserSetLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        if( isset(auth()->user()->locale) )
+        if( isset(auth()->user()->locale) && in_array(auth()->user()->locale, ['fr','en']) )
             App::setLocale( auth()->user()->locale );
 
         return $next($request);
