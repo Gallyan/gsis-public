@@ -112,6 +112,7 @@
                 <fieldset class="space-y-5">
 
                 @foreach ( $Roles as $role )
+                @if ( $role !== "admin" || auth()->user()->can('manage-admin') )
 
                 <div class="relative flex items-start">
 
@@ -135,6 +136,7 @@
 
                 </div>
 
+                @endif
                 @endforeach
                 </fieldset>
             </x-input.group>

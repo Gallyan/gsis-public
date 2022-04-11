@@ -24,10 +24,11 @@ class DatabaseSeeder extends Seeder
         // Creation des permissions
         Permission::create(['name' => 'manage-users']);
         Permission::create(['name' => 'manage-roles']);
+        Permission::create(['name' => 'manage-admin']);
 
         // Assign permissions to roles
-        $manager->givePermissionTo('manage-users');
-        $admin->givePermissionTo('manage-users')->givePermissionTo('manage-roles');
+        $manager->givePermissionTo('manage-users')->givePermissionTo('manage-roles');
+        $admin->givePermissionTo('manage-users')->givePermissionTo('manage-roles')->givePermissionTo('manage-admin');
 
         // Création des utilisateurs
         User::factory()->create([ 'email' => 'admin@gsis.com', 'email_verified_at' => now() ])->assignRole('admin')->assignRole('manager');

@@ -117,10 +117,12 @@ class Profile extends Component
 
         if ( $this->isRoleModified() && auth()->user()->can('manage-roles') ) {
             foreach( $this->selectedroles as $role => $assigned ) {
-                if ( (bool)$assigned === true && Role::findByName($role) ) {
-                    $this->user->assignRole( $role );
-                } else {
-                    $this->user->removeRole( $role );
+                if ( $role !== "admin" || auth()->user()->can('manage-admin') ) {
+                    if ( (bool)$assigned === true && Role::findByName($role) ) {
+                        $this->user->assignRole( $role );
+                    } else {
+                        $this->user->removeRole( $role );
+                    }
                 }
             }
         }

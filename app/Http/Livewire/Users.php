@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\App;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
@@ -27,6 +28,7 @@ class Users extends Component
         'verified' => null,
     ];
     public User $editing;
+    public $selectedroles = [];
 
     protected $queryString = ['sorts'];
 
@@ -37,10 +39,14 @@ class Users extends Component
         'editing.email' => 'required|max:255|email:rfc'.((App::environment('production'))?',dns,spoof':'').'|unique:App\Models\User,email'.($this->editing->id ? ','.$this->editing->id:''),
         'editing.employer' => 'nullable|string',
         'editing.phone' => 'sometimes|phone',
-        //'upload' => 'nullable|image|max:1000',
-    ]; }
+        'selectedroles' => 'required|array',
+        'selectedroles.*' => 'sometimes|boolean',
+]; }
 
-    public function mount() { $this->editing = $this->makeBlankUser(); }
+    public function mount() {
+        $this->editing = $this->makeBlankUser();
+        $this->selectedroles = [ 'user' => 1 ]; // Tous utilisateurs par défaut
+    }
 
     public function makeBlankUser()
     {
@@ -54,11 +60,21 @@ class Users extends Component
         $this->showFilters = ! $this->showFilters;
     }
 
+    public function isRoleModified() {
+        return
+            array_fill_keys( $this->editing->roles->pluck('name')->toArray(), "1" )
+            !==
+            array_filter( $this->selectedroles );
+    }
+
     public function create()
     {
         $this->useCachedRows();
 
-        if ($this->editing->getKey()) $this->editing = $this->makeBlankUser();
+        if ($this->editing->getKey()) {
+            $this->editing = $this->makeBlankUser();
+            $this->selectedroles = [ 'user' => 1 ];
+        }
 
         $this->showEditModal = true;
     }
@@ -68,6 +84,8 @@ class Users extends Component
         $this->useCachedRows();
 
         if ($this->editing->isNot($user)) $this->editing = $user;
+
+        $this->selectedroles = array_fill_keys( $this->editing->roles->pluck('name')->toArray(), '1');
 
         $this->showEditModal = true;
     }
@@ -85,12 +103,24 @@ class Users extends Component
 
             $this->editing->save();
 
-            $this->editing->assignRole('user');
+            $this->editing->sendEmailVerificationNotification();
 
         } else {
 
             $this->editing->save();
 
+        }
+
+        if ( $this->isRoleModified() && auth()->user()->can('manage-roles') ) {
+            foreach( $this->selectedroles as $role => $assigned ) {
+                if ( $role !== "admin" || auth()->user()->can('manage-admin') ) {
+                    if ( (bool)$assigned === true && Role::findByName($role) ) {
+                        $this->editing->assignRole( $role );
+                    } else {
+                        $this->editing->removeRole( $role );
+                    }
+                }
+            }
         }
 
         $this->showEditModal = false;
@@ -126,6 +156,7 @@ class Users extends Component
     {
         return view('livewire.users', [
             'users' => $this->rows,
+            'Roles' => Role::all()->sortByDesc('id')->pluck('name'),
         ])->layoutData([
             'pageTitle' => __('Users'),
         ]);

@@ -84,8 +84,8 @@
 
                 <x-slot name="body">
                     @forelse ($users as $user)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}">
-                        <x-table.cell>
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-cool-gray-50 cursor-pointer">
+                        <x-table.cell wire:click="edit({{ $user->id }})">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center">
                                 <img class="inline-block h-6 w-6 rounded-full" src="{{ $user->avatarUrl() }}" alt="{{ $user->full_name }}">
                                 <p class="text-cool-gray-600 truncate">
@@ -94,7 +94,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell wire:click="edit({{ $user->id }})">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $user->email }}
@@ -111,7 +111,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell wire:click="edit({{ $user->id }})">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ ucwords( $user->roles->pluck('name')->map(function ($item, $key) { return __($item); })->implode(', ') ) }}
@@ -119,7 +119,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell wire:click="edit({{ $user->id }})">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate" title="{{ $user->created_at }}">
                                     {{ $user->date_for_humans }}
@@ -129,13 +129,13 @@
 
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <x-button.link wire:click="edit({{ $user->id }})" class="text-cool-gray-600 truncate"><x-icon.pencil /></x-button.link>
+                                <x-button.link wire:click="edit({{ $user->id }})" class="text-cool-gray-600 truncate" title="{{ __('Full Edit') }}"><x-icon.pencil /></x-button.link>
                             </span>
                         </x-table.cell>
                     </x-table.row>
                     @empty
                     <x-table.row>
-                        <x-table.cell colspan="6">
+                        <x-table.cell colspan="5">
                             <div class="flex justify-center items-center space-x-2">
                                 <x-icon.inbox class="h-8 w-8 text-cool-gray-400" />
                                 <span class="font-medium py-8 text-cool-gray-400 text-xl">No users found...</span>
@@ -177,7 +177,7 @@
                     <x-input.date wire:model="editing.birthday" id="birthday" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
 
-                <x-input.group for="email" label="Email" :error="$errors->first('editing.email')" helpText="{{ ( isset($this->editing->getDirty()['email']) && $this->editing->password ) ? __('If you change the email, user will receive a new verification email, and will not be able to access the site features until new email validation.') : '' }}" required>
+                <x-input.group for="email" label="Email" :error="$errors->first('editing.email')" helpText="{{ ( isset($this->editing->getDirty()['email']) && $this->editing->password ) ? __('If you change the email, user will receive a new verification email, and will not be able to access the site features until new email validation.') : ( isset($this->editing->id) ? '' : __('A validation email will be sent to newly created user.') ) }}" required>
                     <x-input.email wire:model="editing.email" id="email" :verified="$this->editing->verified" />
                 </x-input.group>
 
@@ -191,6 +191,27 @@
                     <x-input.phone wire:model.debounce.500ms="editing.phone" id="phone" leading-add-on="" />
                 </x-input.group>
 
+                @can('manage-roles')
+                <x-input.group label="Rôles" :error="$errors->first('selectedroles.*')">
+                    <div class="flex flex-row pt-2">
+                    @foreach ( $Roles as $role )
+                        @if ( $role !== "admin" || auth()->user()->can('manage-admin') )
+                        <div class="flex-1 text-gray-700">
+                            <input
+                                type="checkbox"
+                                id="{{ $role  }}"
+                                name="selectedroles[]"
+                                value="1"
+                                wire:model="selectedroles.{{$role}}"
+                                class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                            >
+                            <label for="{{ $role }}" class="font-medium text-gray-700">{{ __($role) }}</label>
+                        </div>
+                        @endif
+                    @endforeach
+                    </div>
+                </x-input.group>
+                @endcan
                 </x-slot>
 
             <x-slot name="footer">
