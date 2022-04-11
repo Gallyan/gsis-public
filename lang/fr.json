@@ -304,5 +304,6 @@
     "Full Edit": "Edition complète",
     "fr": "Français",
     "en": "Anglais",
-    "A validation email will be sent to newly created user.": "Un email de validation sera envoyé au nouvel utilisateur."
+    "A validation email will be sent to newly created user.": "Un email de validation sera envoyé au nouvel utilisateur.",
+    "change-email-helptext": "En cas de modification de l'adresse électronique, un nouvel e-mail de vérification sera envoyé, et les fonctionnalités du site seront indisponibles jusqu'à la validation."
 }

@@ -40,5 +40,6 @@
     "user": "User",
     "user-description": " ",
     "fr": "French",
-    "en": "English"
+    "en": "English",
+    "change-email-helptext": "If the email address is changed, a new verification email will be sent, and site features will be unavailable until validation."
 }
