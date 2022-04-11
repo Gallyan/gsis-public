@@ -37,6 +37,7 @@ class UserFactory extends Factory
             'pro_adr' => $this->faker->streetAddress(),
             'pro_zip' => $this->faker->postcode(),
             'pro_cit' => $this->faker->city(),
+            'locale' => (bool)random_int(0, 1) ? 'fr' : 'en',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
             'avatar' => (bool)random_int(0, 1) ? $this->faker->image(storage_path('app/avatars'),200,200, null, false) : '',

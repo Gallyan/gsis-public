@@ -38,6 +38,7 @@ class Profile extends Component
             'user.pro_cit' => 'nullable|string',
             'user.phone' => 'sometimes|phone',
             'upload' => 'nullable|image|max:1000',
+            'user.locale' => "required|in:fr,en",
             'selectedroles' => 'sometimes|array',
             'selectedroles.*' => 'sometimes|boolean',
         ];
@@ -85,6 +86,10 @@ class Profile extends Component
     {
         return view('livewire.profile',[
                 'Roles' => Role::all()->sortByDesc('id')->pluck('name'),
+                'languages' => [
+                    'fr' => __('fr',[],'fr'),
+                    'en' => __('en',[],'en')
+                ],
             ])->layoutData(['pageTitle' => __('Profile')]);
     }
 

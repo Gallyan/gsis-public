@@ -107,6 +107,10 @@
                 </x-button.secondary>
             </x-input.group>
 
+            <x-input.group label="Language" for="locale" :error="$errors->first('user.locale')">
+                <x-input.radio id="locale" wire:model="user.locale" :keylabel="$languages" />
+            </x-input.group>
+
             @can('manage-roles')
             <x-input.group label="Roles" :error="$errors->first('selectedroles.*')">
                 <fieldset class="space-y-5">
