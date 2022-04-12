@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
 
         // Mise à jour du nom de l'avatar avec l'id utilisateur que l'on ne connait pas à la création de l'utilisateur
         foreach( User::all() as $user ) {
-            if( $user->avatar !== "" ) {
+            if( $user->avatar !== "" && ! preg_match('/^'.$user->id.'\-/',$user->avatar) ) {
                 Storage::move(
                     'avatars/'.$user->avatar,
                     'avatars/'.$user->id.'-'.$user->avatar
