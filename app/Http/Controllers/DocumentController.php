@@ -13,7 +13,7 @@ class DocumentController extends Controller
         $doc = Document::findOrFail($id);
 
         // Check rights : Owner or manager
-        if ( auth()->user() !== $doc->user_id && ! auth()->user()->can('manage-users') )
+        if ( auth()->user()->id !== $doc->user_id && ! auth()->user()->can('manage-users') )
             return abort(403);
 
         // Create filename
