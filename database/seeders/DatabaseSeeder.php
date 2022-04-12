@@ -17,26 +17,48 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Creation des roles
-		$admin = Role::create(['name' => 'admin']);
-		$manager = Role::create(['name' => 'manager']);
-		$user = Role::create(['name' => 'user']);
+        foreach( ['admin','manager','user'] as $role )
+            if ( ! Role::findByName( $role ) )
+                Role::create(['name' => $role]);
 
         // Creation des permissions
-        Permission::create(['name' => 'manage-users']);
-        Permission::create(['name' => 'manage-roles']);
-        Permission::create(['name' => 'manage-admin']);
+        foreach( ['manage-users','manage-roles','manage-admin'] as $permission )
+            if ( ! Permission::findByName( $permission ) )
+                Permission::create(['name' => $permission]);
 
         // Assign permissions to roles
-        $manager->givePermissionTo('manage-users')->givePermissionTo('manage-roles');
-        $admin->givePermissionTo('manage-users')->givePermissionTo('manage-roles')->givePermissionTo('manage-admin');
+        Role::findByName('manager')
+            ->givePermissionTo('manage-users')
+            ->givePermissionTo('manage-roles');
 
-        // Création des utilisateurs
-        User::factory()->create([ 'email' => 'admin@gsis.com', 'email_verified_at' => now() ])->assignRole('admin')->assignRole('manager');
-        User::factory()->create([ 'email' => 'manager@gsis.com' ])->assignRole('manager');
-        User::factory()->create([ 'email' => 'user@gsis.com' ])->assignRole('user');
+        Role::findByName('admin')
+            ->givePermissionTo('manage-users')
+            ->givePermissionTo('manage-roles')
+            ->givePermissionTo('manage-admin');
+
+        // Création des utilisateurs type
+        if ( ! User::where('email','admin@gsis.com')->first() )
+            User::factory()
+                ->create([ 'email' => 'admin@gsis.com', 'email_verified_at' => now() ])
+                ->assignRole('admin')
+                ->assignRole('manager');
+
+        if ( ! User::where('email','manager@gsis.com')->first() )
+            User::factory()
+                ->create([ 'email' => 'manager@gsis.com', 'email_verified_at' => now() ])
+                ->assignRole('manager');
+
+        if ( ! User::where('email','user@gsis.com')->first() )
+            User::factory()
+                ->create([ 'email' => 'user@gsis.com', 'email_verified_at' => now() ])
+                ->assignRole('user');
+
+        // Création d'utilisateurs lambda
         User::factory(10)->create()->each(function ($user) {
             $user->assignRole('user');
         });
+
+        // Mise à jour du nom de l'avatar avec l'id utilisateur que l'on ne connait pas à la création de l'utilisateur
         foreach( User::all() as $user ) {
             if( $user->avatar !== "" ) {
                 Storage::move(
@@ -53,7 +75,10 @@ class DatabaseSeeder extends Seeder
         // Création de commandes
         Order::factory(20)->create();
 
+        // Création de documents pour les commandes ou les utilisateurs
         Document::factory(10)->create();
+
+        // Création d'au moins un document pour l'admin
         while( count( User::findOrFail(1)->documents ) === 0 )
             Document::factory()->create();
     }
