@@ -18,13 +18,11 @@ class DatabaseSeeder extends Seeder
     {
         // Creation des roles
         foreach( ['admin','manager','user'] as $role )
-            if ( ! Role::findByName( $role ) )
-                Role::create(['name' => $role]);
+            Role::findOrCreate($role);
 
         // Creation des permissions
         foreach( ['manage-users','manage-roles','manage-admin'] as $permission )
-            if ( ! Permission::findByName( $permission ) )
-                Permission::create(['name' => $permission]);
+            Permission::findOrCreate($permission);
 
         // Assign permissions to roles
         Role::findByName('manager')
