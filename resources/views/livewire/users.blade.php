@@ -120,15 +120,21 @@
                         </x-table.cell>
 
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate" title="{{ $user->created_at }}">
+                            <span
+                                class="inline-flex space-x-2 truncate text-sm leading-5"
+                                title="{{ $user->created_at }}"
+                            >
+                                <p class="text-cool-gray-600 truncate">
                                     {{ $user->date_for_humans }}
                                 </p>
                             </span>
                         </x-table.cell>
 
                         <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600" title="{{ __('Full Edit') }}">
+                            <span
+                                class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600"
+                                title="{{ __('Full Edit') }}"
+                            >
                                 <a href="{{ route('edit-user',$user->id) }}"><x-icon.pencil /></a>
                             </span>
                         </x-table.cell>
