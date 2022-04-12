@@ -125,7 +125,11 @@ class EditUser extends Component
                 ),
             ]);
 
-            Storage::disk('avatars')->delete($old_avatar);
+            if ( Storage::disk('avatars')->exists( $old_avatar ) ) {
+
+                Storage::disk('avatars')->delete( $old_avatar );
+
+            }
 
             $this->dispatchBrowserEvent('pondReset');
         }
