@@ -64,7 +64,7 @@ class EditUser extends Component
     }
 
     public function init() {
-        $this->user = User::find( $this->user_id );
+        $this->user = User::findOrFail( $this->user_id );
         $this->selectedroles = array_fill_keys( $this->user->roles->pluck('name')->toArray(), '1');
         $this->reset(['upload','modified']);
         $this->dispatchBrowserEvent('pondReset');
