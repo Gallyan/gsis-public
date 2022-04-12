@@ -102,7 +102,7 @@ class EditUser extends Component
 
     public function save()
     {
-        if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $this->user->$id )
+        if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $this->user->id )
             redirect('dashboard');
 
         $this->withValidator(function (Validator $validator) {
