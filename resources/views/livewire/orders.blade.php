@@ -89,7 +89,7 @@
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer hover:bg-cool-gray-50">
                         <x-table.cell>
                             <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate max-w-md">
+                                <p class="text-cool-gray-600 truncate max-w-lg">
                                     {{ $order->subject }}
                                 </p>
                             </span>
@@ -122,10 +122,11 @@
                         </x-table.cell>
 
                         <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
-                                    {{ $order->date_for_humans }}
-                                </p>
+                            <span
+                                class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600"
+                                title="{{ $order->created_at }}"
+                            >
+                                {{ $order->date_for_humans }}
                             </span>
                         </x-table.cell>
                     </x-table.row>
