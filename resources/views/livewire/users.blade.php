@@ -86,50 +86,50 @@
                     @forelse ($users as $user)
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-cool-gray-50">
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center text-cool-gray-600">
-                                <img class="inline-block h-6 w-6 rounded-full mr-2" src="{{ $user->avatarUrl() }}" alt="{{ $user->full_name }}">
-                                {{ $user->full_name }}
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center">
+                                <img class="inline-block h-6 w-6 rounded-full" src="{{ $user->avatarUrl() }}" alt="{{ $user->full_name }}">
+                                <p class="text-cool-gray-600 truncate">
+                                    {{ $user->full_name }}
+                                </p>
                             </span>
                         </x-table.cell>
 
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600">
-                                {{ $user->email }}
-                                @if ( $user->verified === true )
-                                <span title="{{ __('Verified email at') }} {{ $user->email_verified_at }}">
-                                    <x-icon.check class="text-green-400 ml-1" />
-                                </span>
-                                @elseif ( $user->verified === false )
-                                <span title="{{ __('Unverified email') }}">
-                                    <x-icon.x class="text-red-400 ml-1" />
-                                </span>
-                                @endif
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                <p class="text-cool-gray-600 truncate">
+                                    {{ $user->email }}
+                                    @if ( $user->verified === true )
+                                    <span title="{{ __('Verified email at') }} {{ $user->email_verified_at }}">
+                                        <x-icon.check class="text-green-400" />
+                                    </span>
+                                    @elseif ( $user->verified === false )
+                                    <span title="{{ __('Unverified email') }}">
+                                        <x-icon.x class="text-red-400" />
+                                    </span>
+                                    @endif
+                                </p>
                             </span>
                         </x-table.cell>
 
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600">
-                                {{ ucwords( $user->roles->pluck('name')->map(function ($item, $key) { return __($item); })->implode(', ') ) }}
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                <p class="text-cool-gray-600 truncate">
+                                    {{ ucwords( $user->roles->pluck('name')->map(function ($item, $key) { return __($item); })->implode(', ') ) }}
+                                </p>
                             </span>
                         </x-table.cell>
 
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
-                            <span
-                                class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600"
-                                title="{{ $user->created_at }}"
-                            >
-                                {{ $user->date_for_humans }}
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                <p class="text-cool-gray-600 truncate" title="{{ $user->created_at }}">
+                                    {{ $user->date_for_humans }}
+                                </p>
                             </span>
                         </x-table.cell>
 
                         <x-table.cell>
-                            <span
-                                class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600"
-                                title="{{ __('Full Edit') }}"
-                            >
-                                <a href="{{ route('edit-user',$user->id) }}">
-                                    <x-icon.pencil />
-                                </a>
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600" title="{{ __('Full Edit') }}">
+                                <a href="{{ route('edit-user',$user->id) }}"><x-icon.pencil /></a>
                             </span>
                         </x-table.cell>
                     </x-table.row>
