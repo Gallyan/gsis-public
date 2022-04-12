@@ -60,7 +60,7 @@ class EditOrder extends Component
         if ( is_null($id) ) {
             $this->order = $this->makeBlankOrder();
         } else {
-            $this->order = Order::find($id);
+            $this->order = Order::findOrFail($id);
             $this->reset('modified');
         }
     }
