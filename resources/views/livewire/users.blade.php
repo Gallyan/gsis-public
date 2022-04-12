@@ -84,8 +84,8 @@
 
                 <x-slot name="body">
                     @forelse ($users as $user)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-cool-gray-50 cursor-pointer">
-                        <x-table.cell wire:click="edit({{ $user->id }})">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-cool-gray-50">
+                        <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center">
                                 <img class="inline-block h-6 w-6 rounded-full" src="{{ $user->avatarUrl() }}" alt="{{ $user->full_name }}">
                                 <p class="text-cool-gray-600 truncate">
@@ -94,7 +94,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell wire:click="edit({{ $user->id }})">
+                        <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ $user->email }}
@@ -111,7 +111,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell wire:click="edit({{ $user->id }})">
+                        <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ ucwords( $user->roles->pluck('name')->map(function ($item, $key) { return __($item); })->implode(', ') ) }}
@@ -119,7 +119,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell wire:click="edit({{ $user->id }})">
+                        <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate" title="{{ $user->created_at }}">
                                     {{ $user->date_for_humans }}
@@ -128,8 +128,8 @@
                         </x-table.cell>
 
                         <x-table.cell>
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <x-button.link wire:click="edit({{ $user->id }})" class="text-cool-gray-600 truncate" title="{{ __('Full Edit') }}"><x-icon.pencil /></x-button.link>
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600" title="{{ __('Full Edit') }}">
+                                <a href="{{ route('edit-user',$user->id) }}"><x-icon.pencil /></a>
                             </span>
                         </x-table.cell>
                     </x-table.row>

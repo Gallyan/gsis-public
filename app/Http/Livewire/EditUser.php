@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
 
-class Profile extends Component
+class EditUser extends Component
 {
     use WithFileUploads;
 
+    public $user_id;
     public User $user;
     public $upload; // Store avatar temporary upload
     public $modified = false; // True if form is modified and need to be saved
@@ -54,10 +55,16 @@ class Profile extends Component
 
     protected $listeners = ['refreshUser' => '$refresh'];
 
-    public function mount() { $this->init(); }
+    public function mount( int $id ) {
+        if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $id )
+            redirect('dashboard');
+
+        $this->user_id = $id;
+        $this->init();
+    }
 
     public function init() {
-        $this->user = auth()->user();
+        $this->user = User::find( $this->user_id );
         $this->selectedroles = array_fill_keys( $this->user->roles->pluck('name')->toArray(), '1');
         $this->reset(['upload','modified']);
         $this->dispatchBrowserEvent('pondReset');
@@ -84,17 +91,20 @@ class Profile extends Component
 
     public function render()
     {
-        return view('livewire.profile',[
+        return view('livewire.edit-user',[
                 'Roles' => Role::all()->sortByDesc('id')->pluck('name'),
                 'languages' => [
                     'fr' => __('fr',[],'fr'),
                     'en' => __('en',[],'en')
                 ],
-            ])->layoutData(['pageTitle' => __('Profile')]);
+            ])->layoutData(['pageTitle' => $this->user->FullName]);
     }
 
     public function save()
     {
+        if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $this->user->$id )
+            redirect('dashboard');
+
         $this->withValidator(function (Validator $validator) {
             if ($validator->fails()) {
                 $this->emitSelf('notify-error');

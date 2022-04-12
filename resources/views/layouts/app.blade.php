@@ -30,7 +30,8 @@
                         </nav>
                     </div>
                     <div class="flex-shrink-0 flex border-t border-indigo-700 p-4">
-                        <a href="/profile" class="flex-shrink-0 group block focus:outline-none">
+                        <a href="{{ route('edit-user',auth()->user()->id) }}"
+                           class="flex-shrink-0 group block focus:outline-none">
                             <div class="flex items-center">
                                 <div>
                                     <img class="inline-block h-10 w-10 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->full_name }}">
@@ -71,7 +72,8 @@
                 </div>
 
                 <div class="flex-shrink-0 flex border-t border-indigo-700 p-4">
-                    <a href="/profile" class="flex-shrink-0 w-full group block">
+                    <a href="{{ route('edit-user',auth()->user()->id) }}"
+                       class="flex-shrink-0 w-full group block">
                         <div class="flex items-center">
                             <div>
                                 <img class="inline-block h-9 w-9 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->full_name }}">
