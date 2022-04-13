@@ -61,6 +61,10 @@ class EditOrder extends Component
             $this->order = $this->makeBlankOrder();
         } else {
             $this->order = Order::findOrFail($id);
+
+            if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $this->order->user_id )
+                abort(403);
+
             $this->reset('modified');
         }
     }
