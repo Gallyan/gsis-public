@@ -48,8 +48,17 @@ class Order extends Model
     public function getAllEditionsAttribute() { return Order::EDITION; }
 
     public function getDisabledStatusesAttribute() {
-        return [];
-        // @ToDo: Développer la gestion des status ici
+        if ( auth()->user()->can('manage-users') ) {
+            if ( in_array( $this->status, [ 'processed', 'cancelled' ] ) )
+                return array_keys(Order::STATUSES);
+            else
+                return [];
+        } else {
+            if ( in_array( $this->status, [ 'draft', 'on-hold' ] ) )
+                return array_diff( array_keys( Order::STATUSES ), [ 'draft', 'on-hold' ] );
+            else
+                return array_keys( Order::STATUSES );
+        }
     }
 
     /**
