@@ -155,6 +155,7 @@ class EditOrder extends Component
         return Order::make([
             'user_id' => Auth()->user()->id,
             'books'   => [],
+            'status' => 'draft',
         ]);
     }
 
