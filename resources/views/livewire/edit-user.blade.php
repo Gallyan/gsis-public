@@ -97,7 +97,7 @@
                             </p>
                             <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
                         </div>
-                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="del_doc({{ $document->id }})"/>
+                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="confirm({{ $document->id }})" />
                     </li>
                 @endforeach
                 </ul>
@@ -155,6 +155,29 @@
         </div>
     </form>
 
+    <!-- Confirm file deletion //-->
+    <x-modal.confirmation wire:model.defer="showDeleteModal">
+        <x-slot name="title">
+            {{ __('Delete document') }}
+        </x-slot>
+
+        <x-slot name="content">
+
+        <x-input.group>
+            <span class="text-cool-gray-900">
+                {{ __('Do you really want to delete document') }} <span class="italic font-bold whitespace-nowrap">{{ $delDocName }}</span>&nbsp;?
+            </span>
+        </x-input.group>
+
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-button.secondary wire:click="close_modal">{{ __('Cancel') }}</x-button.secondary>
+
+            <x-button class="bg-red-600 hover:bg-red-500 active:bg-red-700" wire:click="del_doc({{ $showDeleteModal }})">{{ __('Delete') }}</x-button.primary>
+        </x-slot>
+    </x-modal.dialog>
+
     <!-- Add document Modal -->
     <form wire:submit.prevent="save_doc">
         @csrf
@@ -192,7 +215,7 @@
             <x-slot name="footer">
                 <x-button.secondary wire:click="close_modal">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary type="submit">@lang('Add')</x-button.primary>
+                <x-button.primary wire:loading.attr="disabled" type="submit">{{ __('Add') }}</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

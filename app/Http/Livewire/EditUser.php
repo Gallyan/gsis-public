@@ -21,6 +21,11 @@ class EditUser extends Component
     public $upload; // Store avatar temporary upload
     public $modified = false; // True if form is modified and need to be saved
     public $selectedroles = [];
+    /* Modal d'ajout de document */
+    public $showModal = false;
+    public $showDeleteModal = false;
+    public $delDocName = '';
+    public $doc = []; // Store uploaded document
 
     protected function rules()
     {
@@ -151,10 +156,6 @@ class EditUser extends Component
         $this->emitSelf('notify-saved');
     }
 
-    /* Modal d'ajout de document */
-    public $showModal = false;
-    public $doc = []; // Store uploaded document
-
     /* Initialisation du nom après l'upload de document */
     public function updatedDocFile() {
         // Apres l'upload initialiser le nom du fichier
@@ -169,26 +170,29 @@ class EditUser extends Component
         }
     }
 
+    public function confirm( $id ) {
+        $this->showDeleteModal = $id;
+        $this->delDocName = Document::findOrFail( $id )->name;
+    }
+
     public function del_doc( $id ) {
 
-        // TODO Add access validation
+        $document = Document::findOrFail( $id ) ;
 
-        $document = Document::find( $id ) ;
+        if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $document->user_id )
+            abort(403);
 
-        if( !empty( $document ) ) {
+        $filename = '/docs/' . $this->user->id . '/' . $document->filename ;
 
-            $filename = '/docs/' . $this->user->id . '/' . $document->filename ;
+        if (Storage::exists( $filename )) {
 
-            if (Storage::exists( $filename )) {
+            Storage::delete( $filename );
 
-                Storage::delete( $filename );
-
-                $document->delete();
-            }
-
+            $document->delete();
         }
 
         $this->emit('refreshUser');
+        $this->close_modal();
     }
 
     public function save_doc() {
@@ -222,7 +226,7 @@ class EditUser extends Component
     }
 
     public function close_modal() {
-        $this->reset(['doc','showModal']);
+        $this->reset(['doc','showModal','showDeleteModal','delDocName']);
         $this->dispatchBrowserEvent('pondReset');
     }
 }
