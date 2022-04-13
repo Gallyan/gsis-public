@@ -62,7 +62,7 @@ class EditUser extends Component
 
     public function mount( int $id ) {
         if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $id )
-            redirect('dashboard');
+            abort(403);
 
         $this->user_id = $id;
         $this->init();
@@ -108,7 +108,7 @@ class EditUser extends Component
     public function save()
     {
         if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $this->user->id )
-            redirect('dashboard');
+            abort(403);
 
         $this->withValidator(function (Validator $validator) {
             if ($validator->fails()) {
