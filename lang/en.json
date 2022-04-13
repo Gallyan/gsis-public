@@ -43,7 +43,7 @@
     "fr": "French",
     "en": "English",
     "helptext-order-quotation": "If the amount of your order exceeds €3,000, it is compulsory to put your order out to tender (produce 3 quotes or print the prices of equivalent products from the websites of competing companies).",
-    "helptext-order-status": "To submit your order, change the status to \"On hold\".<br/>Once the order is taken over by a manager, the status will change to \"In progress\" and you will not be able to modify the order.",
+    "helptext-order-status": "To submit your order, change the status to \"On hold\", then save it.<br/>Once the order is taken over by a manager, the status will change to \"In progress\" and you will not be able to modify the order.",
     "helptext-order-subject": "Please be specific about the purpose of the order. The Comments field at the bottom of the form allows you to expand on your request if necessary.",
     "helptext-user-change-email": "If the email address is changed, a new verification email will be sent, and site features will be unavailable until validation."
 }

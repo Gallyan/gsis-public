@@ -307,7 +307,7 @@
     "en": "Anglais",
     "A validation email will be sent to newly created user.": "Un email de validation sera envoyé au nouvel utilisateur.",
     "helptext-order-quotation": "Si le montant de votre commande est supérieur à 3 000 €, il faut obligatoirement faire une mise en concurrence (produire 3 devis ou imprimer les tarifs de produits équivalents à partir de sites Internet d'entreprises concurrentes).",
-    "helptext-order-status": "Pour soumettre votre commande, passez le statut à \"En attente\".<br/>Une fois que la commande est prise en charge par un gestionnaire, le statut passe à \"En cours\" et vous ne pourrez plus modifier la commande.",
+    "helptext-order-status": "Pour soumettre votre commande, passez le statut à \"En attente\", puis sauvegarder-la.<br/>Une fois que la commande est prise en charge par un gestionnaire, le statut passe à \"En cours\" et vous ne pourrez plus modifier la commande.",
     "helptext-order-subject": "Merci d'être précis sur l'objet de la commande attendue. Le champ Commentaires au bas du formulaire permet de développer votre demande si besoin.",
     "helptext-user-change-email": "En cas de modification de l'adresse électronique, un nouvel e-mail de vérification sera envoyé, et les fonctionnalités du site seront indisponibles jusqu'à la validation.",
     "Delete document": "Supprimer un document",
