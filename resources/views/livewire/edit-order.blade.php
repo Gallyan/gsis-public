@@ -10,16 +10,16 @@
                 {{ $order->user->full_name ?? '' }}
             </x-input.group>
 
-            <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required>
+            <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required helpText="helptext-order-subject">
                 <x-input.text wire:model.debounce.500ms="order.subject" id="subject" leading-add-on="" />
             </x-input.group>
             @else
-            <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" borderless required>
+            <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" borderless required helpText="helptext-order-subject">
                 <x-input.text wire:model.debounce.500ms="order.subject" id="subject" leading-add-on="" />
             </x-input.group>
             @endcan
 
-            <x-input.group label="Status" for="status" :error="$errors->first('order.status')" helpText="{!! __('order-status-helptext') !!}" required>
+            <x-input.group label="Status" for="status" :error="$errors->first('order.status')" helpText="{!! __('helptext-order-status') !!}" required>
                 <x-input.status
                     id="status"
                     wire:model="order.status"
@@ -53,7 +53,7 @@
                     );
                 });
             @endphp
-            <x-input.group label="Quotations" for="uploads" :error="$upload_errors->all()" >
+            <x-input.group label="Quotations" for="uploads" :error="$upload_errors->all()" helpText="helptext-order-quotation">
                 <x-input.filepond
                     wire:model="uploads"
                     id="uploads"

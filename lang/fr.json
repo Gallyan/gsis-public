@@ -152,7 +152,6 @@
     "On hold": "En attente",
     "Once a team is deleted, all of its resources and data will be permanently deleted. Before deleting this team, please download any data or information regarding this team that you wish to retain.": "Une fois qu'une équipe est supprimée, toutes ses données seront supprimées définitivement. Avant de supprimer cette équipe, veuillez télécharger toutes données ou informations de cette équipe.",
     "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "Une fois que votre compte est supprimé, toutes vos données sont supprimées définitivement. Avant de supprimer votre compte, veuillez télécharger vos données.",
-    "order-status-helptext": "Pour soumettre votre commande, passez le statut à \"En attente\".<br/>Une fois que la commande est prise en charge par un gestionnaire, le statut passe à \"En cours\" et vous ne pourrez plus modifier la commande.",
     "Page Expired": "Page expirée",
     "Pagination Navigation": "Pagination",
     "paper": "papier",
@@ -307,7 +306,10 @@
     "fr": "Français",
     "en": "Anglais",
     "A validation email will be sent to newly created user.": "Un email de validation sera envoyé au nouvel utilisateur.",
-    "change-email-helptext": "En cas de modification de l'adresse électronique, un nouvel e-mail de vérification sera envoyé, et les fonctionnalités du site seront indisponibles jusqu'à la validation.",
+    "helptext-order-quotation": "Si le montant de votre commande est supérieur à 3 000 €, il faut obligatoirement faire une mise en concurrence (produire 3 devis ou imprimer les tarifs de produits équivalents à partir de sites Internet d'entreprises concurrentes).",
+    "helptext-order-status": "Pour soumettre votre commande, passez le statut à \"En attente\".<br/>Une fois que la commande est prise en charge par un gestionnaire, le statut passe à \"En cours\" et vous ne pourrez plus modifier la commande.",
+    "helptext-order-subject": "Merci d'être précis sur l'objet de la commande attendue. Le champ Commentaires au bas du formulaire permet de développer votre demande si besoin.",
+    "helptext-user-change-email": "En cas de modification de l'adresse électronique, un nouvel e-mail de vérification sera envoyé, et les fonctionnalités du site seront indisponibles jusqu'à la validation.",
     "Delete document": "Supprimer un document",
     "Do you really want to delete document": "Voulez-vous vraiment supprimer le document"
 }
