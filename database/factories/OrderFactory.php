@@ -36,7 +36,7 @@ class OrderFactory extends Factory
                 $books[$i]['title'] = $this->faker->sentence(mt_rand(3,5));
                 $books[$i]['author'] = $this->faker->name();
                 $books[$i]['isbn'] = $this->faker->isbn13();
-                $books[$i]['edition'] = $editions[mt_rand(0,1)];
+                $books[$i]['edition'] = $editions[mt_rand(0,count($editions)-1)];
             }
         }
 

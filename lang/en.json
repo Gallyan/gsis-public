@@ -32,6 +32,8 @@
     "id": "Identity card",
     "driver": "Driving licence",
     "passport": "Passport",
+    "insurance": "Insurance certificate",
+    "loyalty": "Loyalty card",
     "quotation": "Quotation",
     "admin": "Administrator",
     "admin-description": " ",

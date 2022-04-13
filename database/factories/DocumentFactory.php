@@ -41,7 +41,7 @@ class DocumentFactory extends Factory
         return [
             'name' => $this->faker->sentence(),
             'type' => $documentable === User::class ?
-                    $this->faker->randomElement(['driver' ,'bank', 'passport', 'id']) :
+                    $this->faker->randomElement(array_keys(User::DOCTYPE)) :
                     'quotation',
             'size' => Storage::size( $path.$filename ),
             'filename' => $filename,

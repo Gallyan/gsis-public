@@ -24,6 +24,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'birthday' => 'date:Y-m-d',
     ];
 
+    const DOCTYPE = [
+        'id'        => 'id',
+        'bank'      => 'RIB',
+        'passport'  => 'passport',
+        'driver'    => 'driver',
+        'insurance' => 'insurance',
+        'loyalty'   => 'loyalty',
+    ];
+
     protected static function boot()
     {
         parent::boot();

@@ -296,6 +296,8 @@
     "id": "Carte d'identité",
     "driver": "Permis de conduire",
     "passport": "Passeport",
+    "insurance": "Attestation d'assurance",
+    "loyalty": "Carte de fidélité",
     "quotation": "Devis",
     "Added :date": "Ajouté :date",
     "Add document": "Ajouter un document",

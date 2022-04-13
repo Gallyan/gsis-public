@@ -200,10 +200,9 @@
 
                 <x-input.group for="type" label="Type" :error="$errors->first('doc.type')" required>
                     <x-input.select wire:model="doc.type" id="type" placeholder="{{ __('Select Type...') }}" class="w-full">
-                        <option value="id">{{ __('id') }}</option>
-                        <option value="bank">{{ __('RIB') }}</option>
-                        <option value="passport">{{ __('passport') }}</option>
-                        <option value="driver">{{ __('driver') }}</option>
+                        @foreach (\App\Models\User::DOCTYPE as $key => $label)
+                            <option value="{{ $key }}">{{ __($label) }}</option>
+                        @endforeach
                     </x-input.select>
                 </x-input.group>
 
