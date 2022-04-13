@@ -311,5 +311,6 @@
     "helptext-order-subject": "Merci d'être précis sur l'objet de la commande attendue. Le champ Commentaires au bas du formulaire permet de développer votre demande si besoin.",
     "helptext-user-change-email": "En cas de modification de l'adresse électronique, un nouvel e-mail de vérification sera envoyé, et les fonctionnalités du site seront indisponibles jusqu'à la validation.",
     "Delete document": "Supprimer un document",
-    "Do you really want to delete document": "Voulez-vous vraiment supprimer le document"
+    "Do you really want to delete document": "Voulez-vous vraiment supprimer le document",
+    "Nothing found...": "Aucun résultat..."
 }

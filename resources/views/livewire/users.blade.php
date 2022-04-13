@@ -76,7 +76,7 @@
             <x-table>
                 <x-slot name="head">
                     <x-table.heading sortable multi-column wire:click="sortBy('name')" :direction="$sorts['name'] ?? null" class="w-full">{{ __('Name') }}</x-table.heading>
-                    <x-table.heading sortable multi-column wire:click="sortBy('email')" :direction="$sorts['email'] ?? null">{{ __('Email') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('email')" :direction="$sorts['email'] ?? null" class="whitespace-nowrap">{{ __('Email') }}</x-table.heading>
                     <x-table.heading class="text-left">{{ __('Roles') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['date'] ?? null">{{ __('Created') }}</x-table.heading>
                     <x-table.heading class="text-left"></x-table.heading>
@@ -144,7 +144,7 @@
                         <x-table.cell colspan="5">
                             <div class="flex justify-center items-center space-x-2">
                                 <x-icon.inbox class="h-8 w-8 text-cool-gray-400" />
-                                <span class="font-medium py-8 text-cool-gray-400 text-xl">No users found...</span>
+                                <span class="font-medium py-8 text-cool-gray-400 text-xl">{{ __('Nothing found...') }}</span>
                             </div>
                         </x-table.cell>
                     </x-table.row>
