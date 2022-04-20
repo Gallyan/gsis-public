@@ -49,11 +49,13 @@ class Order extends Model
 
     public function getDisabledStatusesAttribute() {
         if ( auth()->user()->can('manage-users') ) {
+            // Gestionnnaire
             if ( in_array( $this->status, [ 'processed', 'cancelled' ] ) )
                 return array_keys(Order::STATUSES);
             else
                 return [];
         } else {
+            // Utilisateur
             if ( in_array( $this->status, [ 'draft', 'on-hold' ] ) )
                 return array_diff( array_keys( Order::STATUSES ), [ 'draft', 'on-hold' ] );
             else
