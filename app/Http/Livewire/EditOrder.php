@@ -137,7 +137,7 @@ class EditOrder extends Component
             $this->validateOnly($propertyName, $this->book_rules());
         } else {
             $this->validateOnly($propertyName);
-            if ( $propertyName !== "showModal" ) $this->modified = true;
+            if ( $propertyName !== "showModal" ) $this->modified = !empty($this->order->getDirty()) ;
         }
     }
 
