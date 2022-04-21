@@ -57,7 +57,7 @@ class Order extends Model
         } else {
             // Utilisateur
             if ( in_array( $this->status, [ 'draft', 'on-hold' ] ) )
-                return array_diff( array_keys( Order::STATUSES ), [ 'draft', 'on-hold' ] );
+                return array_diff( array_keys( Order::STATUSES ), [ 'draft', 'on-hold', 'cancelled' ] );
             else
                 return array_keys( Order::STATUSES );
         }
