@@ -54,7 +54,8 @@ class Orders extends Component
             ->when($this->filters['search'], fn($query) => $query->where( function($query) {
                 $query->search('subject', $this->filters['search'])
                       ->orSearch('supplier', $this->filters['search'])
-                      ->orSearch('comments', $this->filters['search']); }));
+                      ->orSearch('comments', $this->filters['search'])
+                      ->orSearch('id', $this->filters['search']); }));
 
         // Un utilisateur sans droit n'accède qu'à son contenu
         if ( ! auth()->user()->hasPermissionTo('manage-users') )
