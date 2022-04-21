@@ -140,7 +140,12 @@ class Users extends Component
             ->when($this->filters['search'], fn($query) => $query->where( function($query) {
                 $query->search('name', $this->filters['search'])
                       ->orSearch('firstname', $this->filters['search']); }))
-            ->when($this->filters['role'], fn($query, $role) => $query->role($role));
+            ->when($this->filters['role'], fn($query) => $query->where( function($query) {
+                if( $this->filters['role'] === "none" ) {
+                    $query->where('id', User::doesntHave('roles')->get()->pluck('id'));
+                } else {
+                    $query->role($this->filters['role']);
+                } }));
 
         return $this->applySorting($query);
     }

@@ -40,6 +40,7 @@
                             @foreach (\Spatie\Permission\Models\Role::all() as $role)
                             <option value="{{ $role->id }}">{{ ucfirst( __($role->name) ) }}</option>
                             @endforeach
+                            <option value="none">{{ __('None') }}</option>
                         </x-input.select>
                     </x-input.group>
 
