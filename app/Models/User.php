@@ -68,4 +68,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->morphMany(Document::class, 'documentable');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
