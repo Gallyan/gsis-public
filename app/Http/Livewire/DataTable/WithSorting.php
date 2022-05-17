@@ -22,7 +22,7 @@ trait WithSorting
                 $query->orderBy($field, $direction);
             }
         } else {
-            $query->orderBy('id','desc');
+            $query->orderBy($query->from.'.id','desc');
         }
 
         return $query;
