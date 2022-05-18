@@ -6,7 +6,7 @@
 
         <div class="mt-6 sm:mt-5">
             @can ('manage-users')
-            <x-input.group label="User" for="user" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
+            <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
                 {{ $order->user->full_name ?? '' }}
             </x-input.group>
 
