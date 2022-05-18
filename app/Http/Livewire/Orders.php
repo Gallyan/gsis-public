@@ -19,7 +19,7 @@ class Orders extends Component
         'search' => '',
         'user' => null,
         'institution' => null,
-        'status' => null,
+        'status' => ['on-hold','in-progress'],
         'date-min' => null,
         'date-max' => null,
     ];
