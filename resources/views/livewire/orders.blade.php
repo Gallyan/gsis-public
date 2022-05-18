@@ -86,10 +86,10 @@
 
                 <x-slot name="body">
                     @forelse ($orders as $order)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer hover:bg-cool-gray-50 text-cool-gray-600">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer hover:bg-cool-gray-50">
                         <x-table.cell>
                             <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="truncate max-w-lg">
+                                <p class="text-cool-gray-600 truncate max-w-lg">
                                     {{ $order->subject }}
                                 </p>
                             </span>
