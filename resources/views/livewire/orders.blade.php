@@ -40,7 +40,7 @@
                     </x-input.group>
 
                     <x-input.group inline for="filter-status" label="Status">
-                        <x-input.select wire:model="filters.status" id="filter-status" class="w-full" placeholder="{{ __('Select Status...') }}">
+                        <x-input.select wire:model="filters.status" id="filter-status" class="w-full" multiple>
                             @foreach (\App\Models\Order::STATUSES as $key => $label)
                             <option value="{{ $key }}">{{ __($label) }}</option>
                             @endforeach
@@ -75,21 +75,21 @@
         <div class="flex-col space-y-4">
             <x-table>
                 <x-slot name="head">
-                    <x-table.heading sortable multi-column wire:click="sortBy('subject')" :direction="$sorts['subject'] ?? null" class="w-full">{{ __('Subject') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('subject')" :direction="$sorts['subject'] ?? null" class="max-w-96">{{ __('Subject') }}</x-table.heading>
                     @can ('manage-users')
-                    <x-table.heading sortable multi-column wire:click="sortBy('user_id')" :direction="$sorts['user_id'] ?? null">{{ __('User') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('users.firstname')" :direction="$sorts['users.firstname'] ?? null">{{ __('User') }}</x-table.heading>
                     @endcan
                     <x-table.heading sortable multi-column wire:click="sortBy('institution_id')" :direction="$sorts['institution_id'] ?? null">{{ __('Institution') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('status')" :direction="$sorts['status'] ?? null">{{ __('Status') }}</x-table.heading>
-                    <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">{{ __('Created') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('orders.created_at')" :direction="$sorts['orders.created_at'] ?? null">{{ __('Created') }}</x-table.heading>
                 </x-slot>
 
                 <x-slot name="body">
                     @forelse ($orders as $order)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer hover:bg-cool-gray-50">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer hover:bg-cool-gray-50 text-cool-gray-600">
                         <x-table.cell>
                             <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate max-w-lg">
+                                <p class="truncate max-w-lg">
                                     {{ $order->subject }}
                                 </p>
                             </span>
