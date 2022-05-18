@@ -55,7 +55,7 @@ class Orders extends Component
                 $query->search('subject', $this->filters['search'])
                       //->orSearch('supplier', $this->filters['search'])
                       //->orSearch('comments', $this->filters['search'])
-                      ->orSearch('id', $this->filters['search']); }))
+                      ->orSearch('orders.id', $this->filters['search']); }))
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->select('orders.*','users.name','users.firstname');
 
