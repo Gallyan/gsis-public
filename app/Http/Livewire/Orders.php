@@ -52,9 +52,8 @@ class Orders extends Component
             ->when($this->filters['user'], fn($query, $user) => $query->search('users.name', $user)
                                                                       ->orSearch('users.firstname', $user))
             ->when($this->filters['status'], fn($query, $status) => $query->whereIn('status', $status))
-            ->when($this->filters['search'], fn($query, $search) => $query->where( function($query) {
-                            $query->search('subject', $search)
-                                  ->orSearch('orders.id', $search); }));
+            ->when($this->filters['search'], fn($query, $search) => $query->search('subject', $search)
+                                                                          ->orSearch('orders.id', $search));
 
         // Un utilisateur sans droit n'accède qu'à son contenu
         if ( ! auth()->user()->hasPermissionTo('manage-users') )
