@@ -50,7 +50,7 @@ class Orders extends Component
             ->when($this->filters['user'], fn($query, $date) => $query->join('users', 'users.id', '=', 'orders.user_id')
                                                                       ->search('users.name', $this->filters['user'])
                                                                       ->orSearch('users.firstname', $this->filters['user']))
-            ->when($this->filters['status'], fn($query, $date) => $query->where('status', '=', $this->filters['status']))
+            ->when($this->filters['status'], fn($query, $status) => $query->whereIn('status', $status))
             ->when($this->filters['search'], fn($query) => $query->where( function($query) {
                 $query->search('subject', $this->filters['search'])
                       ->orSearch('supplier', $this->filters['search'])
