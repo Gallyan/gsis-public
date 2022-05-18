@@ -77,7 +77,7 @@
                 <x-slot name="head">
                     <x-table.heading sortable multi-column wire:click="sortBy('subject')" :direction="$sorts['subject'] ?? null" class="max-w-96">{{ __('Subject') }}</x-table.heading>
                     @can ('manage-users')
-                    <x-table.heading sortable multi-column wire:click="sortBy('users.firstname')" :direction="$sorts['users.firstname'] ?? null">{{ __('User') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('users.name')" :direction="$sorts['users.name'] ?? null">{{ __('User') }}</x-table.heading>
                     @endcan
                     <x-table.heading sortable multi-column wire:click="sortBy('institution_id')" :direction="$sorts['institution_id'] ?? null">{{ __('Institution') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('status')" :direction="$sorts['status'] ?? null">{{ __('Status') }}</x-table.heading>
@@ -99,7 +99,7 @@
                         <x-table.cell>
                             <span class="inline-flex space-x-2 text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
-                                    {{ $order->user->full_name }}
+                                    {{ $order->firstname }} {{ $order->name }}
                                 </p>
                             </span>
                         </x-table.cell>
