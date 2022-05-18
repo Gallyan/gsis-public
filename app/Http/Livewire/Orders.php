@@ -44,20 +44,17 @@ class Orders extends Component
     public function getRowsQueryProperty()
     {
         $query = Order::query()
-            ->when($this->filters['institution'], fn($query, $institution) => $query->where('institution_id', '=', $this->filters['institution']))
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->select('orders.*','users.name','users.firstname')
+            ->when($this->filters['institution'], fn($query, $institution) => $query->where('institution_id', '=', $institution))
             ->when($this->filters['date-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)))
-            ->when($this->filters['user'], fn($query, $date) => $query->join('users', 'users.id', '=', 'orders.user_id')
-                                                                      ->search('users.name', $this->filters['user'])
-                                                                      ->orSearch('users.firstname', $this->filters['user']))
+            ->when($this->filters['user'], fn($query, $user) => $query->search('users.name', $user)
+                                                                      ->orSearch('users.firstname', $user))
             ->when($this->filters['status'], fn($query, $status) => $query->whereIn('status', $status))
-            ->when($this->filters['search'], fn($query) => $query->where( function($query) {
-                $query->search('subject', $this->filters['search'])
-                      //->orSearch('supplier', $this->filters['search'])
-                      //->orSearch('comments', $this->filters['search'])
-                      ->orSearch('orders.id', $this->filters['search']); }))
-            ->join('users', 'users.id', '=', 'orders.user_id')
-            ->select('orders.*','users.name','users.firstname');
+            ->when($this->filters['search'], fn($query, $search) => $query->where( function($query) {
+                            $query->search('subject', $search)
+                                  ->orSearch('orders.id', $search); }));
 
         // Un utilisateur sans droit n'accède qu'à son contenu
         if ( ! auth()->user()->hasPermissionTo('manage-users') )
