@@ -57,11 +57,11 @@
 
                 <div class="w-1/2 pl-2 space-y-4">
                     <x-input.group inline for="filter-date-min" label="Created after">
-                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="YYYY-MM-DD" />
+                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
 
                     <x-input.group inline for="filter-date-max" label="Created before">
-                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="YYYY-MM-DD" />
+                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
 
                     <div class="pt-5">
