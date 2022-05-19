@@ -46,13 +46,13 @@ class Orders extends Component
         $query = Order::query()
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->select('orders.*','users.name','users.firstname')
-            ->when($this->filters['institution'], fn($query, $institution) => $query->where('institution_id', '=', $institution))
-            ->when($this->filters['date-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
-            ->when($this->filters['date-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)))
+            ->when($this->filters['institution'], fn($query, $institution) => $query->where('orders.institution_id', '=', $institution))
+            ->when($this->filters['date-min'], fn($query, $date) => $query->where('orders.created_at', '>=', Carbon::parse($date)))
+            ->when($this->filters['date-max'], fn($query, $date) => $query->where('orders.created_at', '<=', Carbon::parse($date)))
             ->when($this->filters['user'], fn($query, $user) => $query->search('users.name', $user)
                                                                       ->orSearch('users.firstname', $user))
-            ->when($this->filters['status'], fn($query, $status) => $query->whereIn('status', $status))
-            ->when($this->filters['search'], fn($query, $search) => $query->search('subject', $search)
+            ->when($this->filters['status'], fn($query, $status) => $query->whereIn('orders.status', $status))
+            ->when($this->filters['search'], fn($query, $search) => $query->search('orders.subject', $search)
                                                                           ->orSearch('orders.id', $search));
 
         // Un utilisateur sans droit n'accède qu'à son contenu
