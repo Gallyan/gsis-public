@@ -18,7 +18,7 @@ class Orders extends Component
 
     public $showFilters = false;
     public $filters = [
-        'search' => '',
+        'search' => null,
         'user' => null,
         'institution' => null,
         'manager' => null,
@@ -54,9 +54,23 @@ class Orders extends Component
             $filter_users = null;
         }
 
+        // Sanitize, to avoid non existent array key
+        $this->filters = array_merge([
+                'search' => null,
+                'user' => null,
+                'institution' => null,
+                'manager' => null,
+                'status' => [],
+                'date-min' => null,
+                'date-max' => null,
+            ],
+            $this->filters
+        );
+
         $query = Order::query()
             ->join('users', 'users.id', '=', 'orders.user_id')
-            ->select('orders.*','users.name','users.firstname')
+            ->join('institutions', 'institutions.id', '=', 'orders.institution_id')
+            ->select('orders.*','users.name','users.firstname','institutions.name as ins_name', 'institutions.contract as ins_contract')
             ->when($this->filters['institution'], fn($query, $institution) => $query->where('orders.institution_id', '=', $institution))
             ->when($this->filters['date-min'], fn($query, $date) => $query->where('orders.created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn($query, $date) => $query->where('orders.created_at', '<=', Carbon::parse($date)))

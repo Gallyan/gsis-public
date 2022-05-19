@@ -89,7 +89,7 @@
                     @can ('manage-users')
                     <x-table.heading sortable multi-column wire:click="sortBy('users.name')" :direction="$sorts['users.name'] ?? null">{{ __('User') }}</x-table.heading>
                     @endcan
-                    <x-table.heading sortable multi-column wire:click="sortBy('institution_id')" :direction="$sorts['institution_id'] ?? null">{{ __('Institution') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('ins_name')" :direction="$sorts['ins_name'] ?? null">{{ __('Institution') }}</x-table.heading>
                     <x-table.heading>{{ __('Manager') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('status')" :direction="$sorts['status'] ?? null">{{ __('Status') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('orders.created_at')" :direction="$sorts['orders.created_at'] ?? null">{{ __('Created') }}</x-table.heading>
@@ -118,8 +118,8 @@
 
                         <x-table.cell>
                             <span class="inline-flex space-x-2 text-sm leading-5 max-w-100">
-                                <p class="text-cool-gray-600 truncate" title="{{ $order->institution->name }}">
-                                    {{ $order->institution->name }}
+                                <p class="text-cool-gray-600 truncate" title="{{ $order->ins_name }} / {{ $order->ins_contract }}">
+                                    {{ $order->ins_name }} / {{ $order->ins_contract }}
                                 </p>
                             </span>
                         </x-table.cell>
