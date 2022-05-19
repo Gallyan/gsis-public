@@ -7,7 +7,7 @@ use App\Models\Order;
 use App\Models\Manager;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/* Call tinker with App\Models\Manager::factory()->create(); */
+/* Call tinker with App\Models\Manager::factory()->count(5)->create(); to associate 5 managers to elements */
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Manager>
