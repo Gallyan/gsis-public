@@ -4,13 +4,23 @@ namespace Database\Factories;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Manager;
 use Illuminate\Database\Eloquent\Factories\Factory;
+
+/* Call tinker with App\Models\Manager::factory()->create(); */
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Manager>
  */
 class ManagerFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Manager::class;
+
     /**
      * Define the model's default state.
      *
@@ -19,7 +29,7 @@ class ManagerFactory extends Factory
     public function definition()
     {
 
-        // Select a mananger
+        // Select a manager
         $manager_id = User::role('manager')->get()->random(1)->pluck('id')->first();
 
         // Object that can be associated with documents
