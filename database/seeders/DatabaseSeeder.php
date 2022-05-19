@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Storage;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Manager;
 use App\Models\Document;
 use App\Models\Institution;
 use Illuminate\Database\Seeder;
@@ -79,5 +80,8 @@ class DatabaseSeeder extends Seeder
         // Création d'au moins un document pour l'admin
         while( count( User::findOrFail(1)->documents ) === 0 )
             Document::factory()->create();
+
+        // Affectation des managers à des commandes et autres éléments
+        Manager::factory(10)->create();
     }
 }
