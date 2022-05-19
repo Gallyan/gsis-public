@@ -63,6 +63,16 @@
                         <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
 
+                    @can('manage-users')
+                    <x-input.group inline for="filter-manager" label="Manager">
+                        <x-input.select wire:model="filters.manager" id="filter-manager" class="w-full" placeholder="{{ __('Select a manager...') }}">
+                            @foreach ($allmanagers as $id => $fullname)
+                            <option value="{{ $id }}">{{ $fullname }}</option>
+                            @endforeach
+                        </x-input.select>
+                    </x-input.group>
+                    @endcan
+
                     <div class="pt-5">
                         <x-button.link wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">{{ __('Reset Filters') }}</x-button.link>
                     </div>
@@ -80,6 +90,7 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('users.name')" :direction="$sorts['users.name'] ?? null">{{ __('User') }}</x-table.heading>
                     @endcan
                     <x-table.heading sortable multi-column wire:click="sortBy('institution_id')" :direction="$sorts['institution_id'] ?? null">{{ __('Institution') }}</x-table.heading>
+                    <x-table.heading>{{ __('Manager') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('status')" :direction="$sorts['status'] ?? null">{{ __('Status') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('orders.created_at')" :direction="$sorts['orders.created_at'] ?? null">{{ __('Created') }}</x-table.heading>
                 </x-slot>
@@ -89,7 +100,7 @@
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer hover:bg-cool-gray-50">
                         <x-table.cell>
                             <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate max-w-lg">
+                                <p class="text-cool-gray-600 truncate max-w-lg" title="{{ $order->subject }}">
                                     {{ $order->subject }}
                                 </p>
                             </span>
@@ -98,7 +109,7 @@
                         @can ('manage-users')
                         <x-table.cell>
                             <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-cool-gray-600 truncate" title="{{ $order->firstname }} {{ $order->name }}">
                                     {{ $order->firstname }} {{ $order->name }}
                                 </p>
                             </span>
@@ -107,8 +118,18 @@
 
                         <x-table.cell>
                             <span class="inline-flex space-x-2 text-sm leading-5 max-w-100">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-cool-gray-600 truncate" title="{{ $order->institution->name }}">
                                     {{ $order->institution->name }}
+                                </p>
+                            </span>
+                        </x-table.cell>
+
+                        <x-table.cell>
+                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-100">
+                                <p class="text-cool-gray-600 break-all">
+                                    @foreach ($order->managers->pluck('user_id')->unique() as $id)
+                                        {{ $allmanagers[$id] }}<br />
+                                    @endforeach
                                 </p>
                             </span>
                         </x-table.cell>

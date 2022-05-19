@@ -70,4 +70,12 @@ class Order extends Model
     {
         return $this->morphMany(Document::class, 'documentable');
     }
+
+    /**
+     * Get all of the order's managers.
+     */
+    public function managers()
+    {
+        return $this->morphMany(Manager::class, 'manageable');
+    }
 }
