@@ -95,13 +95,13 @@
                             <x-table.heading small>{{ __('Author') }}</x-table.heading>
                             <x-table.heading small>{{ __('ISBN') }}</x-table.heading>
                             <x-table.heading small>{{ __('Edition') }}</x-table.heading>
-                            <x-table.heading small>{{ __('Actions') }}</x-table.heading>
+                            <x-table.heading small>{{ __('Delete') }}</x-table.heading>
                         </x-slot>
 
                         <x-slot name="body">
                             @forelse ($order->books as $book)
                             <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
-                                <x-table.cell class="whitespace-normal">
+                                <x-table.cell class="whitespace-normal cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
                                     <span class="inline-flex space-x-2 text-sm leading-5">
                                         <p class="text-cool-gray-600">
                                             {{ $book['title'] ?? '' }}
@@ -109,7 +109,7 @@
                                     </span>
                                 </x-table.cell>
 
-                                <x-table.cell>
+                                <x-table.cell class="cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
                                     <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                         <p class="text-cool-gray-600 truncate">
                                             {{ $book['author'] ?? '' }}
@@ -117,7 +117,7 @@
                                     </span>
                                 </x-table.cell>
 
-                                <x-table.cell class="text-center">
+                                <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
                                     <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                         <p class="text-cool-gray-600 truncate">
                                             {{ $book['isbn'] ?? '' }}
@@ -125,7 +125,7 @@
                                     </span>
                                 </x-table.cell>
 
-                                <x-table.cell class="text-center">
+                                <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
                                     <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                         <p class="text-cool-gray-600 truncate">
                                             {{ isset( $book['edition'] ) ? ucfirst(__($book['edition'])) : '' }}
@@ -134,11 +134,8 @@
                                 </x-table.cell>
 
                                 <x-table.cell class="text-center">
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <x-button.link wire:click="edit_book({{ $loop->iteration }})" class="text-cool-gray-600 truncate" title="{{ __('Edit') }}">
-                                            <x-icon.pencil class="h-4 w-4 text-cool-gray-400" />
-                                        </x-button.link>
-                                        <x-button.link wire:click="del_book({{ $loop->iteration }})" class="text-cool-gray-600 truncate"  title="{{ __('Delete') }}">
+                                    <span class="inline-flex text-sm leading-5">
+                                        <x-button.link wire:click="del_book({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
                                             <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
                                         </x-button.link>
                                     </span>
