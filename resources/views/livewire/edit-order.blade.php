@@ -14,7 +14,7 @@
                {{ $order->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->full_name)->implode(', ') ?? __('There is no manager yet.') }}
             </x-input.group>
             @else
-            <x-input.group label="Managers" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
+            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
                 {{ $order->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->full_name)->implode(', ') ?? __('There is no manager yet.') }}
             </x-input.group>
             @endcan
