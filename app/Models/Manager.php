@@ -11,6 +11,7 @@ class Manager extends Model
 
     protected $guarded = [];
 
+    // A manager can manage ;-)
     public function manageable()
     {
         return $this->morphTo();
