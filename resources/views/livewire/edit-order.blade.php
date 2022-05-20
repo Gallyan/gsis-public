@@ -10,14 +10,18 @@
                 {{ $order->user->full_name ?? '' }}
             </x-input.group>
 
+            <x-input.group label="Managers" class="sm:items-center text-cool-gray-600 sm:pb-5">
+               {{ $order->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->full_name)->implode(', ') ?? __('There is no manager yet.') }}
+            </x-input.group>
+            @else
+            <x-input.group label="Managers" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
+                {{ $order->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->full_name)->implode(', ') ?? __('There is no manager yet.') }}
+            </x-input.group>
+            @endcan
+
             <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required helpText="helptext-order-subject">
                 <x-input.text wire:model.debounce.500ms="order.subject" id="subject" leading-add-on="" />
             </x-input.group>
-            @else
-            <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" borderless required helpText="helptext-order-subject">
-                <x-input.text wire:model.debounce.500ms="order.subject" id="subject" leading-add-on="" />
-            </x-input.group>
-            @endcan
 
             <x-input.group label="Status" for="status" :error="$errors->first('order.status')" helpText="{!! __('helptext-order-status') !!}" required>
                 <x-input.status
