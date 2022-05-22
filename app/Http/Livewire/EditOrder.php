@@ -144,13 +144,13 @@ class EditOrder extends Component
 
     public function dissociate() {
         // Check if manager is not the only one
-        //if ( count($this->order->managers) > 1 ) {
+        if ( count($this->order->managers) > 1 ) {
             Manager::where('user_id','=',auth()->user()->id)
                 ->where('manageable_type','=',Order::class)
                 ->where('manageable_id','=',$this->order->id)
                 ->delete();
             $this->emit('refreshOrder');
-        //}
+        }
     }
 
     public function updated($propertyName) {

@@ -16,9 +16,15 @@
                 @can('manage-users')
                 <div class="mx-4">
                     @if ( $order->managers->contains('user_id',auth()->user()->id) )
-                    <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled">
-                        {{ __('Dissociate') }}
-                    </x-button.secondary>
+                        @if ( count($order->managers) > 1 )
+                        <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled">
+                            {{ __('Dissociate') }}
+                        </x-button.secondary>
+                        @else
+                        <x-button.secondary wire:click="dissociate" disabled title="{{ __('You are the only manager, you cannot dissociate.') }}">
+                            {{ __('Dissociate') }}
+                        </x-button.secondary>
+                        @endif
                     @else
                     <x-button.primary wire:click="associate" wire:offline.attr="disabled">
                         {{ __('Associate') }}

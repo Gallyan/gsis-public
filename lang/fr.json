@@ -321,5 +321,6 @@
     "There is no manager yet.": "Il n'y a pas encore de gestionnaire.",
     "Institution": "Institution & Contrat",
     "Associate": "S'associer",
-    "Dissociate": "Se dissocier"
+    "Dissociate": "Se dissocier",
+    "You are the only manager, you cannot dissociate.": "Vous êtes le seul gestionnaire, vous ne pouvez vous dissocier."
 }
