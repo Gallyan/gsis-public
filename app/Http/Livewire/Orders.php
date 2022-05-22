@@ -22,13 +22,15 @@ class Orders extends Component
         'user' => null,
         'institution' => null,
         'manager' => null,
-        'status' => ['on-hold','in-progress'],
+        'status' => [],
         'date-min' => null,
         'date-max' => null,
     ];
     public Order $editing;
 
     protected $queryString = ['sorts'];
+
+    public function mount() { $this->resetFilters(); }
 
     public function toggleShowFilters() {
 
@@ -37,7 +39,14 @@ class Orders extends Component
         $this->showFilters = ! $this->showFilters;
     }
 
-    public function resetFilters() { $this->reset('filters'); }
+    public function resetFilters() {
+        $this->reset('filters');
+        if ( auth()->user()->can('manage-users') ) {
+            $this->filters['status'] = ['on-hold','in-progress'];
+        } else {
+            $this->filters['status'] = [];
+        }
+    }
 
     public function updatedFilters() { $this->resetPage(); }
 
