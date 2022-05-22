@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Order;
+use App\Models\Manager;
 use Livewire\Component;
 use App\Models\Document;
 use Livewire\WithFileUploads;
@@ -130,6 +131,26 @@ class EditOrder extends Component
             $this->modified = true;
 
         }
+    }
+
+    public function associate() {
+        Manager::create([
+            'user_id' => auth()->user()->id,
+            'manageable_id' => $this->order->id,
+            'manageable_type' => Order::class,
+        ]);
+        $this->emit('refreshOrder');
+    }
+
+    public function dissociate() {
+        // Check if manager is not the only one
+        //if ( count($this->order->managers) > 1 ) {
+            Manager::where('user_id','=',auth()->user()->id)
+                ->where('manageable_type','=',Order::class)
+                ->where('manageable_id','=',$this->order->id)
+                ->delete();
+            $this->emit('refreshOrder');
+        //}
     }
 
     public function updated($propertyName) {

@@ -319,5 +319,7 @@
     "Nothing found...": "Aucun résultat...",
     "None": "Aucun",
     "There is no manager yet.": "Il n'y a pas encore de gestionnaire.",
-    "Institution": "Institution & Contrat"
+    "Institution": "Institution & Contrat",
+    "Associate": "S'associer",
+    "Dissociate": "Se dissocier"
 }

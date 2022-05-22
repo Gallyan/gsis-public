@@ -9,10 +9,23 @@
                 {{ $order->user->full_name ?? '' }}
             </x-input.group>
 
-            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5">
+            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" innerclass="flex items-center">
                {{ $order->managers->isNotEmpty() ?
                     $order->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->full_name)->implode(', ') :
                     __('There is no manager yet.') }}
+                @can('manage-users')
+                <div class="mx-4">
+                    @if ( $order->managers->contains('user_id',auth()->user()->id) )
+                    <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled">
+                        {{ __('Dissociate') }}
+                    </x-button.secondary>
+                    @else
+                    <x-button.primary wire:click="associate" wire:offline.attr="disabled">
+                        {{ __('Associate') }}
+                    </x-button.primary>
+                    @endif
+               </div>
+                @endcan
             </x-input.group>
 
             <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required helpText="helptext-order-subject">
