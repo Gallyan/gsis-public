@@ -15,6 +15,7 @@
                     __('There is no manager yet.') }}
                 @can('manage-users')
                 <div class="mx-4">
+                    @if ( $order->id && $order->status !== 'draft' )
                     @if ( $order->managers->contains('user_id',auth()->user()->id) )
                         @if ( count($order->managers) > 1 )
                         <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled">
@@ -29,6 +30,7 @@
                     <x-button.primary wire:click="associate" wire:offline.attr="disabled">
                         {{ __('Associate') }}
                     </x-button.primary>
+                    @endif
                     @endif
                </div>
                 @endcan
