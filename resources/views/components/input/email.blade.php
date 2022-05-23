@@ -13,7 +13,7 @@
         <x-icon.email class="h-5 w-5 text-gray-400" />
     </span>
 
-    <input {{ $attributes->merge(['class' => $classes]) }}/>
+    <input {{ $attributes->merge(['class' => $classes]) }} />
 
     @if ( $verified === true )
     <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-green-400 sm:text-sm" title="{{ __('Verified email') }}">
