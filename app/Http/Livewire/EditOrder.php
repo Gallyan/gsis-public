@@ -23,6 +23,7 @@ class EditOrder extends Component
 
     // For Modal Book editing
     public $showModal = false;
+    public $showInformationMessage = false;
     public string $title = '';
     public string $author = '';
     public string $isbn = '';
@@ -134,6 +135,7 @@ class EditOrder extends Component
         }
     }
 
+    // Associate current manager to Order
     public function associate() {
         Manager::create([
             'user_id' => auth()->user()->id,
@@ -143,6 +145,7 @@ class EditOrder extends Component
         $this->emit('refreshOrder');
     }
 
+    // Dissociate current manager from Order if he's not the only one
     public function dissociate() {
         // Check if manager is not the only one
         if ( count($this->order->managers) > 1 ) {
@@ -251,5 +254,9 @@ class EditOrder extends Component
         $this->reset(['uploads','modified','del_docs']);
         $this->emit('refreshOrder');
         $this->emitSelf('notify-saved');
+
+        if ( $this->order->status === 'draft' && auth()->user()->cannot('manage-users') ) {
+            $this->showInformationMessage = 'submit-order';
+        }
     }
 }

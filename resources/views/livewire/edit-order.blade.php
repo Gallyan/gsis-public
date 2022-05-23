@@ -219,4 +219,26 @@
             </x-slot>
         </x-modal.dialog>
     </form>
+
+    <!-- Confirm state change //-->
+    <x-modal.information wire:model.defer="showInformationMessage">
+        <x-slot name="title">
+            {{ __('Information') }}
+        </x-slot>
+
+        <x-slot name="content">
+
+        <x-input.group>
+            <span class="text-cool-gray-900">
+                {{ __( $showInformationMessage ) }}
+            </span>
+        </x-input.group>
+
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-button.primary wire:click="$toggle('showInformationMessage')">{{ __('Ok') }}</x-button.secondary>
+        </x-slot>
+    </x-modal.information>
+
 </div>
