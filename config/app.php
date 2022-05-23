@@ -83,6 +83,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Float Number Format
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default decimal and thousands separator for your
+    | application, which will be used by the regexp validation float rule.
+    |
+    */
+
+    'decimal_separator' => env('APP_NUMBER_DECIMAL_SEPARATOR', ','),
+    'thousands_separator' => env('APP_NUMBER_THOUSANDS_SEPARATOR', ' '),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
     |

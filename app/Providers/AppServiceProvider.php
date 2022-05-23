@@ -49,6 +49,17 @@ class AppServiceProvider extends ServiceProvider
             return __('Unknown role');
         });
 
+        // Add a validator for float numer
+        Validator::extend('float', function ($attribute, $value, $parameters, $validator) {
+            $thousandsSeparator = config('app.thousands_separator') == '.' ? '\\' . config('app.thousands_separator') : config('app.thousands_separator');
+            $decimalSeparator = config('app.decimal_separator') == '.' ? '\\' . config('app.decimal_separator') : config('app.decimal_separator');
+            $regex = '~^[+-]?([0-9]{1,3}(' . $thousandsSeparator . '?[0-9]{3})*[' . $decimalSeparator . ']?)?[0-9]{0,2}$~';
+            return preg_match($regex, $value) === 1;
+        });
+        Validator::replacer('float', function($message, $attribute, $rule, $parameters) {
+            return __('Invalid number format');
+        });
+
         // Macros
         Component::macro('notify', function ($message) {
             $this->dispatchBrowserEvent('notify', $message);
