@@ -34,7 +34,8 @@ class Order extends Model
     protected $fillable = [
         'books',
         'user_id',
-        'status'
+        'status',
+        'amount'
     ];
 
     public function user() { return $this->belongsTo('App\Models\User'); }

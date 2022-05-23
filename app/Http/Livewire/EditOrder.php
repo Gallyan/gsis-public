@@ -39,6 +39,7 @@ class EditOrder extends Component
         'order.books'          => 'sometimes|array',
         'order.comments'       => 'nullable|string',
         'order.status'         => 'required|in:'.collect(Order::STATUSES)->keys()->implode(','),
+        'order.amount'          => 'nullable|float',
     ]; }
 
     protected function book_rules() { return [

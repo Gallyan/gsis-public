@@ -41,13 +41,14 @@ class OrderFactory extends Factory
         }
 
         return [
-            'user_id' => $users[mt_rand(0,count($users)-1)],
-            'subject' => $this->faker->sentence(),
+            'user_id'        => $users[mt_rand(0,count($users)-1)],
+            'subject'        => $this->faker->sentence(),
             'institution_id' => $institutions[mt_rand(0,count($institutions)-1)],
-            'supplier' => mt_rand(0,1)?$this->faker->company():null,
-            'books' => $books,
-            'comments' => mt_rand(0,1)?$this->faker->text(500):null,
-            'status' => $status[mt_rand(0,count($status)-1)],
+            'supplier'       => mt_rand(0,1) ? $this->faker->company() : null,
+            'books'          => $books,
+            'comments'       => mt_rand(0,1) ? $this->faker->text(500) : null,
+            'status'         => $status[mt_rand(0,count($status)-1)],
+            'amount'         => mt_rand(0,1) ? (float)(random_int(100,1000000)/100) : null,
         ];
     }
 }

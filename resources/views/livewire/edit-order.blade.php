@@ -175,6 +175,10 @@
 
                 </x-input.group>
 
+            <x-input.group label="Amount excl." for="amount" :error="$errors->first('order.amount')">
+                <x-input.money wire:model.debounce.500ms="order.amount" id="amount" />
+            </x-input.group>
+
             <x-input.group label="Comments" for="comments" :error="$errors->first('order.comments')">
                 <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" class="text-gray-700" />
             </x-input.group>
