@@ -15,3 +15,10 @@
 .filepond--drip-blob { background-color: gray; }
 
 /* Filepond end */
+
+/* ring for number */
+[type='number']:focus {
+    outline: 0;
+    box-shadow: 0 0 0 3px rgb(164 202 254 / 45%);
+    border-color: #a4cafe;
+}
