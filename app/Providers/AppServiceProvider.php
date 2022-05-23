@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('float', function ($attribute, $value, $parameters, $validator) {
             $thousandsSeparator = config('app.thousands_separator') == '.' ? '\\' . config('app.thousands_separator') : config('app.thousands_separator');
             $decimalSeparator = config('app.decimal_separator') == '.' ? '\\' . config('app.decimal_separator') : config('app.decimal_separator');
-            $regex = '~^[+-]?([0-9]{1,3}(' . $thousandsSeparator . '?[0-9]{3})*[' . $decimalSeparator . ']?)?[0-9]{0,2}$~';
+            $regex = '~^[+-]?([0-9]{1,3}(' . $thousandsSeparator . '?[0-9]{3})*[' . $decimalSeparator . '\.]?)?[0-9]{0,2}$~';
             return preg_match($regex, $value) === 1;
         });
         Validator::replacer('float', function($message, $attribute, $rule, $parameters) {

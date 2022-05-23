@@ -1,15 +1,9 @@
-<div class="mt-1 relative rounded-md shadow-sm">
-    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <span class="text-gray-500 sm:text-sm sm:leading-5">
-            $
+<div class="flex rounded-md shadow-sm">
+    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+        <span class="text-gray-400 sm:text-sm sm:leading-5">
+            €
         </span>
-    </div>
+    </span>
 
-    <input {{ $attributes }} class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5" placeholder="0.00" aria-describedby="price-currency">
-
-    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-        <span class="text-gray-500 sm:text-sm sm:leading-5" id="price-currency">
-            USD
-        </span>
-    </div>
+    <input {{ $attributes }} type="number" step="0.01" class="form-input border-gray-300 block max-w-40 text-gray-500 transition duration-150 ease-in-out sm:text-sm sm:leading-5 rounded-r-md" style="" placeholder="0,00" aria-describedby="price-currency">
 </div>
