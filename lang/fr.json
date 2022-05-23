@@ -324,5 +324,11 @@
     "Dissociate": "Se dissocier",
     "You are the only manager, you cannot dissociate.": "Vous êtes le seul gestionnaire, vous ne pouvez vous dissocier.",
     "Amount excl.": "Montant HT",
-    "Invalid number format": "Format de nombre invalide"
+    "Invalid number format": "Format de nombre invalide",
+    "404 error": "Erreur 404",
+    "403 error": "Erreur 403",
+    "Page not found.": "Page introuvable.",
+    "Sorry, we couldn’t find the page you’re looking for.": "Désolé, nous n'avons pas pu trouver la page que vous recherchez.",
+    "Home": "Accueil",
+    "Back": "Page précédente"
 }
