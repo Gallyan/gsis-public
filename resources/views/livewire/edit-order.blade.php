@@ -106,78 +106,80 @@
             </x-input.group>
 
             <x-input.group label="Books" for="books" wire:model="order.books" :error="$errors->first('order.books')">
-                    <x-table>
-                        <x-slot name="head">
-                            <x-table.heading small class="max-w-64">{{ __('Title') }}</x-table.heading>
-                            <x-table.heading small>{{ __('Author') }}</x-table.heading>
-                            <x-table.heading small>{{ __('ISBN') }}</x-table.heading>
-                            <x-table.heading small>{{ __('Edition') }}</x-table.heading>
-                            <x-table.heading small>{{ __('Delete') }}</x-table.heading>
-                        </x-slot>
+                <x-table>
+                    <x-slot name="head">
+                        <x-table.heading small class="max-w-64">{{ __('Title') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Author') }}</x-table.heading>
+                        <x-table.heading small>{{ __('ISBN') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Edition') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Delete') }}</x-table.heading>
+                    </x-slot>
 
-                        <x-slot name="body">
-                            @forelse ($order->books as $book)
-                            <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
-                                <x-table.cell class="whitespace-normal cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                    <span class="inline-flex space-x-2 text-sm leading-5">
-                                        <p class="text-cool-gray-600">
-                                            {{ $book['title'] ?? '' }}
-                                        </p>
-                                    </span>
-                                </x-table.cell>
+                    <x-slot name="body">
+                        @forelse ($order->books as $book)
+                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+                            <x-table.cell class="whitespace-normal cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600">
+                                        {{ $book['title'] ?? '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
 
-                                <x-table.cell class="cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <p class="text-cool-gray-600 truncate">
-                                            {{ $book['author'] ?? '' }}
-                                        </p>
-                                    </span>
-                                </x-table.cell>
+                            <x-table.cell class="cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    <p class="text-cool-gray-600 truncate">
+                                        {{ $book['author'] ?? '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
 
-                                <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <p class="text-cool-gray-600 truncate">
-                                            {{ $book['isbn'] ?? '' }}
-                                        </p>
-                                    </span>
-                                </x-table.cell>
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    <p class="text-cool-gray-600 truncate">
+                                        {{ $book['isbn'] ?? '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
 
-                                <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                    <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                        <p class="text-cool-gray-600 truncate">
-                                            {{ isset( $book['edition'] ) ? ucfirst(__($book['edition'])) : '' }}
-                                        </p>
-                                    </span>
-                                </x-table.cell>
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                    <p class="text-cool-gray-600 truncate">
+                                        {{ isset( $book['edition'] ) ? ucfirst(__($book['edition'])) : '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
 
-                                <x-table.cell class="text-center">
-                                    <span class="inline-flex text-sm leading-5">
-                                        <x-button.link wire:click="del_book({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
-                                            <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
-                                        </x-button.link>
-                                    </span>
-                                </x-table.cell>
-                            </x-table.row>
-                            @empty
-                            <x-table.row>
-                                <x-table.cell colspan="6">
-                                    <div class="flex justify-center items-center space-x-2">
-                                        <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
-                                        <span class="font-medium text-cool-gray-400 text-lg">{{ __('No books...') }}</span>
-                                    </div>
-                                </x-table.cell>
-                            </x-table.row>
-                            @endforelse
-                        </x-slot>
-                    </x-table>
+                            <x-table.cell class="text-center">
+                                <span class="inline-flex text-sm leading-5">
+                                    <x-button.link wire:click="del_book({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
+                                        <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
+                                    </x-button.link>
+                                </span>
+                            </x-table.cell>
+                        </x-table.row>
+                        @empty
+                        <x-table.row>
+                            <x-table.cell colspan="6">
+                                <div class="flex justify-center items-center space-x-2">
+                                    <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
+                                    <span class="font-medium text-cool-gray-400 text-lg">{{ __('No books...') }}</span>
+                                </div>
+                            </x-table.cell>
+                        </x-table.row>
+                        @endforelse
+                    </x-slot>
+                </x-table>
 
-                    <x-button.secondary wire:click="$set('showModal', true)" class="mt-4"><x-icon.plus/> {{ __('Add book') }}</x-button.primary>
+                <x-button.secondary wire:click="$set('showModal', true)" class="mt-4"><x-icon.plus/> {{ __('Add book') }}</x-button.primary>
 
-                </x-input.group>
+            </x-input.group>
 
+            @can ('manage-users')
             <x-input.group label="Amount excl." for="amount" :error="$errors->first('order.amount')">
                 <x-input.money wire:model.debounce.500ms="order.amount" id="amount" />
             </x-input.group>
+            @endcan
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('order.comments')">
                 <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" class="text-gray-700" />
