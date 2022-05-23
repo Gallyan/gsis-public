@@ -322,5 +322,7 @@
     "Institution": "Institution & Contrat",
     "Associate": "S'associer",
     "Dissociate": "Se dissocier",
-    "You are the only manager, you cannot dissociate.": "Vous êtes le seul gestionnaire, vous ne pouvez vous dissocier."
+    "You are the only manager, you cannot dissociate.": "Vous êtes le seul gestionnaire, vous ne pouvez vous dissocier.",
+    "Amount excl.": "Montant HT",
+    "Invalid number format": "Format de nombre invalide"
 }
