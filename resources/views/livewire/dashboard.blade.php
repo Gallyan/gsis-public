@@ -10,8 +10,6 @@
                     @if ( session()->get('previous_login') && session()->get('previous_ip') )
                         <p>{{ __('Your last login was at :at from :from.', ['at'=>session()->get('previous_login'), 'from'=>session()->get('previous_ip')]) }}</p>
                         <p>{{ __('If it wasn\'t you, please contact an administrator.') }}</p>
-                    @else
-                        <p>{{ __('This is your first connection. Welcome to Gsis 2.') }}</p>
                     @endif
 
                 </div>
