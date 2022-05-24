@@ -6,13 +6,16 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <p>{{ __('Hi :name, you\'re logged in!',['name'=>$user->full_name]) }}</p>
-
-                    @if ( session()->get('previous_login') && session()->get('previous_ip') )
-                        <p>{{ __('Your last login was at :at from :from.', ['at'=>session()->get('previous_login'), 'from'=>session()->get('previous_ip')]) }}</p>
-                        <p>{{ __('If it wasn\'t you, please contact an administrator.') }}</p>
-                    @endif
-
                 </div>
+                @if ( session()->get('previous_login') && session()->get('previous_ip') )
+                <div class="p-6 bg-white text-sm">
+                    @php
+                        \Illuminate\Support\Carbon::setlocale(config('app.locale'));
+                    @endphp
+                        <p>{{ __('Your last login was on :at from :from.', ['at'=>\Illuminate\Support\Carbon::parse(session()->get('previous_login'))->translatedFormat(__('lastlog-dt')), 'from'=>session()->get('previous_ip')]) }}</p>
+                        <p>{{ __('If it wasn\'t you, please contact an administrator.') }}</p>
+                </div>
+                @endif
             </div>
         </div>
     </div>
