@@ -17,7 +17,7 @@
 
                 <x-button.secondary type="reset">{{ __('Reset') }}</x-button.primary>
 
-                @if ( $attributes['modified'] )
+                @if ( $attributes['modified'] && ! $attributes['disabled'] )
                     <x-button.primary type="submit" wire:offline.attr="disabled" class="flex items-start">
                         {{ __('Save') }}
                         <span class="animate-ping bg-white w-2 h-2 rounded-full -mr-2"></span>
