@@ -2,7 +2,7 @@
     <form wire:submit.prevent="save" wire:reset.prevent="init">
         @csrf
 
-        <x-stickytopbar title="{{ __('Purchase Order') }} {{ $order->id }}" :modified="$modified" />
+        <x-stickytopbar title="{{ __('Purchase Order') }} {{ $order->id }}" :modified="$modified" :disabled="$disabled" />
 
         <div class="mt-6 sm:mt-5">
             <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
@@ -37,7 +37,7 @@
             </x-input.group>
 
             <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required helpText="helptext-order-subject">
-                <x-input.text wire:model.debounce.500ms="order.subject" id="subject" leading-add-on="" />
+                <x-input.text wire:model.debounce.500ms="order.subject" id="subject" leading-add-on="" :disabled="$disabled" />
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('order.status')" helpText="{!! __('helptext-order-status') !!}" required>
@@ -51,7 +51,7 @@
             </x-input.group>
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('order.institution_id')" required>
-                <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full">
+                <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled">
                     @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                     <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                     @endforeach
@@ -59,7 +59,7 @@
             </x-input.group>
 
             <x-input.group label="Supplier" for="supplier" :error="$errors->first('order.supplier')">
-                <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" leading-add-on="" />
+                <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" leading-add-on="" :disabled="$disabled" />
             </x-input.group>
 
             @php
@@ -82,6 +82,7 @@
                     multiple
                     maxFileSize="10MB"
                     acceptedFileTypes="[ 'image/*', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
+                    :disabled="$disabled"
                 />
 
                 @if (!empty($order->documents))
@@ -171,18 +172,18 @@
                     </x-slot>
                 </x-table>
 
-                <x-button.secondary wire:click="$set('showModal', true)" class="mt-4"><x-icon.plus/> {{ __('Add book') }}</x-button.primary>
+                <x-button.secondary wire:click="$set('showModal', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add book') }}</x-button.primary>
 
             </x-input.group>
 
             @can ('manage-users')
             <x-input.group label="Amount excl." for="amount" :error="$errors->first('order.amount')">
-                <x-input.money wire:model.debounce.500ms="order.amount" id="amount" />
+                <x-input.money wire:model.debounce.500ms="order.amount" id="amount" :disabled="$disabled" />
             </x-input.group>
             @endcan
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('order.comments')">
-                <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" class="text-gray-700" />
+                <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" class="text-gray-700" :disabled="$disabled" />
             </x-input.group>
         </div>
     </form>

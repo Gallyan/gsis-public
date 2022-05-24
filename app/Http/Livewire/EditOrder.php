@@ -20,6 +20,7 @@ class EditOrder extends Component
     public $uploads = [];
     public $del_docs = [];
     public $modified = false; // True if form is modified and need to be saved
+    public $disabled = false; // True if user can't modify current editing Order
 
     // For Modal Book editing
     public $showModal = false;
@@ -85,6 +86,8 @@ class EditOrder extends Component
     }
 
     public function edit_book( int $id ) {
+        if ( $this->disabled === true ) return;
+
         $books = $this->order->books;
 
         if( $id < 1 || $id > count($books)) return;
@@ -99,6 +102,8 @@ class EditOrder extends Component
     }
 
     public function del_book( int $id ) {
+        if ( $this->disabled === true ) return;
+
         $books = $this->order->books;
         if( $id < 1 || $id > count($books)) return;
         if(isset($books[$id-1])) unset( $books[$id-1] );
