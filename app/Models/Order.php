@@ -48,26 +48,6 @@ class Order extends Model
 
     public function getAllEditionsAttribute() { return Order::EDITION; }
 
-    public function getDisabledStatusesAttribute() {
-        // Une commande annulée l'est définitivement
-        if ( $this->status === 'cancelled')
-            return array_keys(Order::STATUSES);
-
-        if ( auth()->user()->can('manage-users') ) {
-            // Gestionnnaire
-            if ( in_array( $this->status, [ 'processed' ] ) )
-                return array_keys(Order::STATUSES);
-            else
-                return [];
-        } else {
-            // Utilisateur
-            if ( in_array( $this->status, [ 'draft', 'on-hold' ] ) )
-                return array_diff( array_keys( Order::STATUSES ), [ 'draft', 'on-hold', 'cancelled' ] );
-            else
-                return array_keys( Order::STATUSES );
-        }
-    }
-
     /**
      * Get all of the order's documents.
      */

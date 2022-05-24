@@ -44,7 +44,7 @@
                 <x-input.status
                     id="status"
                     wire:model="order.status"
-                    :disabled="$order->disabledStatuses"
+                    :disabled="$disabledStatuses"
                     :selected="$order->status"
                     :keylabel="$order->allStatuses"
                 />

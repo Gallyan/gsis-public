@@ -21,6 +21,7 @@ class EditOrder extends Component
     public $del_docs = [];
     public $modified = false; // True if form is modified and need to be saved
     public $disabled = false; // True if user can't modify current editing Order
+    public $disabledStatuses = []; // List of disabled status
 
     // For Modal Book editing
     public $showModal = false;
@@ -68,8 +69,98 @@ class EditOrder extends Component
 
             if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $this->order->user_id )
                 abort(403);
+        }
 
-            $this->reset('modified');
+        $this->reset(['uploads','modified','del_docs']);
+        $this->dispatchBrowserEvent('pondReset');
+        $this->resetValidation();
+        $this->statesUpdate();
+    }
+
+    public function init() {
+        $this->mount( $this->order->id );
+    }
+
+    public function statesUpdate() {
+        if ( $this->order->status === 'cancelled' ) {
+            // Commande annulée, personne ne peut plus rien faire
+            $this->disabled = true;
+            $this->disabledStatuses = array_keys(Order::STATUSES);
+
+        } elseif ( auth()->user()->can('manage-users') ) {
+            // Gestionnnaire
+            if ( $this->order->user_id === auth()->user()->id ) {
+                // Le gestionnaire est aussi l'auteur de la commande
+
+                if ( $this->order->status === 'draft' ) {
+                    $this->disabled = false;
+                    $this->disabledStatuses = array_diff( array_keys( Order::STATUSES ), [ 'draft', 'on-hold', 'cancelled' ] );
+                } elseif ( $this->order->status === 'on-hold' ) {
+
+                    $this->disabled = false;
+                    if ( $this->order->managers->doesntContain( 'user_id', auth()->user()->id ) ) {
+                        $this->disabledStatuses = array_diff( array_keys( Order::STATUSES ), [ 'draft', 'on-hold', 'cancelled' ] );
+                    } else {
+                        $this->disabledStatuses = [];
+                    }
+
+                } elseif ( $this->order->status === 'in-progress' ) {
+                    if ( $this->order->managers->doesntContain( 'user_id', auth()->user()->id ) ) {
+                        $this->disabled = true;
+                        $this->disabledStatuses = array_keys(Order::STATUSES);
+
+                    } else {
+                        $this->disabled = false;
+                        $this->disabledStatuses = [ 'draft', 'on-hold' ];
+                    }
+
+                } elseif ( $this->order->status === 'processed' ) {
+                    if ( $this->order->managers->doesntContain( 'user_id', auth()->user()->id ) ) {
+                        $this->disabled = true;
+                        $this->disabledStatuses = array_keys( Order::STATUSES );
+
+                    } else {
+                        $this->disabled = false;
+                        $this->disabledStatuses = array_keys(Order::STATUSES);
+                    }
+                }
+
+            } else {
+                // Le gestionnaire n'est pas l'auteur de la commande
+
+                if ( $this->order->managers->doesntContain( 'user_id', auth()->user()->id ) ) {
+                    // Le gestionnaire n'est pas associé à la commande, il ne peut rien faire sans s'associer
+                    $this->disabled = true;
+                    $this->disabledStatuses = array_keys(Order::STATUSES);
+
+                } elseif ( $this->order->status === 'draft' ) {
+                    $this->disabled = true;
+                    $this->disabledStatuses = array_keys(Order::STATUSES);
+
+                } elseif ( $this->order->status === 'on-hold' ) {
+                    $this->disabled = false;
+                    $this->disabledStatuses = [ 'draft' ];
+
+                } elseif ( $this->order->status === 'in-progress' ) {
+                    $this->disabled = false;
+                    $this->disabledStatuses = [ 'draft', 'on-hold' ];
+
+                } elseif ( $this->order->status === 'processed' ) {
+                    // Une commande terminée ne peut plus changer de status
+                    $this->disabled = false;
+                    $this->disabledStatuses = array_keys(Order::STATUSES);
+                }
+            }
+        } else {
+            // Utilisateur
+            if ( in_array( $this->order->status, [ 'draft', 'on-hold' ] ) ) {
+                $this->disabled = false;
+                $this->disabledStatuses = array_diff( array_keys( Order::STATUSES ), [ 'draft', 'on-hold', 'cancelled' ] );
+            } else {
+                // Une fois la commande soumise, l'utilisateur ne peut plus rien faire
+                $this->disabled = true;
+                $this->disabledStatuses = array_keys( Order::STATUSES );
+            }
         }
     }
 
@@ -131,6 +222,7 @@ class EditOrder extends Component
 
     // Ajoute un document à la liste des documents à supprimer
     public function del_doc( $id ) {
+        if ( $this->disabled === true ) return;
 
         if( !empty( Document::find( $id ) ) && !in_array( $id, $this->del_docs ) ) {
 
@@ -147,7 +239,11 @@ class EditOrder extends Component
             'manageable_id' => $this->order->id,
             'manageable_type' => Order::class,
         ]);
+        if ( $this->order->status === 'on-hold' ) {
+            $this->order->update(['status'=>'in-progress']);
+        }
         $this->emit('refreshOrder');
+        $this->init();
     }
 
     // Dissociate current manager from Order if he's not the only one
@@ -158,8 +254,9 @@ class EditOrder extends Component
                 ->where('manageable_type','=',Order::class)
                 ->where('manageable_id','=',$this->order->id)
                 ->delete();
-            $this->emit('refreshOrder');
-        }
+                $this->emit('refreshOrder');
+                $this->init();
+            }
     }
 
     public function updated($propertyName) {
@@ -187,17 +284,6 @@ class EditOrder extends Component
             'books'   => [],
             'status' => 'draft',
         ]);
-    }
-
-    public function init() {
-        if ( is_null($this->order->id) ) {
-            $this->order = $this->makeBlankOrder();
-        } else {
-            $this->order = Order::find( $this->order->id );
-        }
-        $this->reset(['uploads','modified','del_docs']);
-        $this->dispatchBrowserEvent('pondReset');
-        $this->resetValidation();
     }
 
     public function save()
@@ -259,6 +345,7 @@ class EditOrder extends Component
         $this->reset(['uploads','modified','del_docs']);
         $this->emit('refreshOrder');
         $this->emitSelf('notify-saved');
+        $this->statesUpdate();
 
         if ( $this->order->status === 'draft' && auth()->user()->cannot('manage-users') ) {
             $this->showInformationMessage = 'submit-order';
