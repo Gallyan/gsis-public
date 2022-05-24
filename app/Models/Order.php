@@ -49,9 +49,13 @@ class Order extends Model
     public function getAllEditionsAttribute() { return Order::EDITION; }
 
     public function getDisabledStatusesAttribute() {
+        // Une commande annulée l'est définitivement
+        if ( $this->status === 'cancelled')
+            return array_keys(Order::STATUSES);
+
         if ( auth()->user()->can('manage-users') ) {
             // Gestionnnaire
-            if ( in_array( $this->status, [ 'processed', 'cancelled' ] ) )
+            if ( in_array( $this->status, [ 'processed' ] ) )
                 return array_keys(Order::STATUSES);
             else
                 return [];
