@@ -55,7 +55,7 @@
     {{ $attributes->only('class') }}
 >
 
-    <input type="file" name="{{ $inputname }}" x-ref="input" />
+    <input type="file" name="{{ $inputname }}" x-ref="input" {{ $attributes->only('disabled') }} />
 
 </div>
 
