@@ -354,7 +354,7 @@ class EditOrder extends Component
             $this->showInformationMessage = 'submit-order';
         }
 
-        if ( array_key_exists( 'status', $this->order->getChanges()) || true) {
+        if ( array_key_exists( 'status', $this->order->getChanges()) ) {
             // Envoi de mail lors d'un changement de status uniquement
 
             if ( $this->order->status === 'on-hold' ) {
