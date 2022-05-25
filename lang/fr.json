@@ -335,5 +335,10 @@
     "Hi :name, you're logged in!": "Bonjour :name, vous êtes connecté !",
     "Your last login was on :at from :from.": "Votre précédente connexion a eu lieu le :at depuis l'adresse IP :from.",
     "If it wasn't you, please contact an administrator.": "Si ce n'était pas vous, merci de contacter un administrateur.",
-    "lastlog-dt": "l d F Y à H\\hi"
+    "lastlog-dt": "l d F Y à H\\hi",
+    "Order :id submitted": "Soumission de votre demande :id",
+    "mail-order-submitted": "Votre commande :id - \":subject\" a été envoyée à la cellule d'appui",
+    "Order submitted": "Soumission de votre demande",
+    "Dear :name": "Bonjour :name",
+    "mail-ending": "Cordialement,<br />L'équipe d'appui<br /><small>PS: ne pas répondre à ce mail automatique</small>"
 }

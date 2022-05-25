@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Manager;
+use App\Mail\OrderSubmitted;
 use Livewire\Component;
 use App\Models\Document;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -349,6 +352,16 @@ class EditOrder extends Component
 
         if ( $this->order->status === 'draft' && auth()->user()->cannot('manage-users') ) {
             $this->showInformationMessage = 'submit-order';
+        }
+
+        if ( array_key_exists( 'status', $this->order->getChanges()) || true) {
+            // Envoi de mail lors d'un changement de status uniquement
+
+            if ( $this->order->status === 'on-hold' ) {
+                $user = User::find($this->order->user_id);
+                Mail::to( [ [ 'email'=>$user->email, 'name'=>$user->full_name ] ] )
+                    ->send( new OrderSubmitted( $this->order, $user->full_name, $user->locale ) );
+            }
         }
     }
 }

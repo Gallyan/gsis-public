@@ -47,5 +47,7 @@
     "helptext-order-subject": "Please be specific about the purpose of the order. The Comments field at the bottom of the form allows you to expand on your request if necessary.",
     "helptext-user-change-email": "If the email address is changed, a new verification email will be sent, and site features will be unavailable until validation.",
     "submit-order": "In order to submit your order to the support unit, set status to \"On hold\" then save your order.",
-    "lastlog-dt": "l, d F Y \\a\\t h:i a"
+    "lastlog-dt": "l, d F Y \\a\\t h:i a",
+    "mail-order-submitted": "Your order :id - \":subject\" has been sent to the support unit",
+    "mail-ending": "Best regards,<br />The support team<br /><small>PS: do not reply to this automatic mail</small>"
 }
