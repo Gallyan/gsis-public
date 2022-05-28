@@ -112,7 +112,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                 </td>
             </tr>
             <tr>
-                <td align="center" style="padding: 5px; background-color: #3730a3;" bgcolor="#3730a3">
+                <td align="center" style="padding: 15px; background-color: #3730a3;" bgcolor="#3730a3">
                 <!--[if (gte mso 9)|(IE)]>
                 <table align="center" border="0" cellspacing="0" cellpadding="0" width="600">
                 <tr>
