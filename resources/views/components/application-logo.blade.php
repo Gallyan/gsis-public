@@ -1,6 +1,6 @@
-<div class="flex flex-row items-baseline">
-   <svg viewBox="0 0 213 50" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" alt="Gsis 2" {{ $attributes }}>
+<svg viewBox="0 0 213 50" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title" alt="Gsis 2" {{ $attributes }}>
    <title lang="fr" id="title">Gsis 2</title>
+   <text x="213" y="50" text-anchor="end" font-size="14" fill="#9ca3af">v{{ config('app.version') }}</text>
    <g id="g3780" fill-rule="evenodd" fill="none" stroke-width="1" stroke="none">
       <g id="g3784" transform="translate(000000, -51.000000)">
          <g id="gsis">
@@ -19,6 +19,4 @@
             d="M18,74 L35,74 L35,75 C35,77.7614237 32.7614237,80 30,80 L13,80 L13,79 C13,76.2385763 15.2385763,74 18,74 Z" />
       </g>
    </g>
-   </svg>
-   <span class="text-xs text-gray-400 pl-2">v{{ config('app.version') }}</span>
-</div>
+</svg>
