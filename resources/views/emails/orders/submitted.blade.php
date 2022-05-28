@@ -9,5 +9,12 @@
     {{ __('mail-order-submitted', [
         'id' => $order->id,
         'subject' => $order->subject ], $locale) }}.<br /><br />
+
+    @include('emails.button', [
+        'link' => route('edit-order', $order),
+        'text' => __('Show my order') ])
+
+    <br />
+
     {!! __('mail-ending', [], $locale) !!}
 @endsection

@@ -340,5 +340,6 @@
     "mail-order-submitted": "Votre commande :id - \":subject\" a été envoyée à la cellule d'appui",
     "Order submitted": "Soumission de votre demande",
     "Dear :name": "Bonjour :name",
-    "mail-ending": "Cordialement,<br />L'équipe d'appui<br /><small>PS: ne pas répondre à ce mail automatique</small>"
+    "mail-ending": "Cordialement,<br />L'équipe d'appui<br /><small>PS: ne pas répondre à ce mail automatique</small>",
+    "Show my order": "Voir ma commande"
 }
