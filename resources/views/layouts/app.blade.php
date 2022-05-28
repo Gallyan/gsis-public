@@ -62,7 +62,7 @@
                 <div class="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                     <div class="flex items-center flex-shrink-0 px-4">
                         <a href="/">
-                            <x-application-logo-light class="h-7 w-auto"/>
+                            <x-application-logo-light class="h-9 w-auto"/>
                         </a>
                     </div>
                     <!-- Sidebar component, swap this element with another sidebar if you like -->
