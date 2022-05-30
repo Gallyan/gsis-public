@@ -190,6 +190,7 @@ return [
         /*
          * Package Service Providers...
          */
+        SimonSchaufi\LaravelDKIM\DKIMMailServiceProvider::class,
 
         /*
          * Application Service Providers...

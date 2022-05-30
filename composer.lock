@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6d95c3db3af9cbf0f2095e746143743",
+    "content-hash": "df235a2b3453cd2b71f66b1c2716354b",
     "packages": [
         {
             "name": "brick/math",
@@ -2873,6 +2873,56 @@
                 }
             ],
             "time": "2022-03-27T21:42:02+00:00"
+        },
+        {
+            "name": "simonschaufi/laravel-dkim",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/simonschaufi/laravel-dkim.git",
+                "reference": "6240c0ed77b10aa8404d2dee2774a167eaad4087"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/simonschaufi/laravel-dkim/zipball/6240c0ed77b10aa8404d2dee2774a167eaad4087",
+                "reference": "6240c0ed77b10aa8404d2dee2774a167eaad4087",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/mail": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SimonSchaufi\\LaravelDKIM\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Schaufelberger",
+                    "email": "simonschaufi+dkim@gmail.com"
+                }
+            ],
+            "description": "Laravel package for signing outgoing messages with DKIM.",
+            "support": {
+                "issues": "https://github.com/simonschaufi/laravel-dkim/issues",
+                "source": "https://github.com/simonschaufi/laravel-dkim/tree/v2.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/simonschaufi/10",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/simonschaufi",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-04-04T16:15:57+00:00"
         },
         {
             "name": "spatie/laravel-permission",
