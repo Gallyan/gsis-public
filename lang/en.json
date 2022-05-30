@@ -49,7 +49,7 @@
     "submit-order": "In order to submit your order to the support unit, set status to \"On hold\" then save your order.",
     "lastlog-dt": "l, d F Y \\a\\t h:i a",
     "mail-order-on-hold": "Your order :id - \":subject\" has been sent to the support unit",
-    "mail-order-in-progress": "Your order :id - \":subject\" has been set to \"In progress\" status by :manager",
+    "mail-order-in-progress": "Your order :id - \":subject\" is being processed by :manager",
     "mail-order-processed": "Your order :id - \":subject\" has been processed by :manager",
     "mail-order-cancelled": "Your order :id - \":subject\" has been cancelled by :manager",
     "draft": "draft",
