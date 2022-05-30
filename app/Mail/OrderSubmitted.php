@@ -28,15 +28,31 @@ class OrderSubmitted extends Mailable
     public $name;
 
     /**
+     * The order status.
+     *
+     * @var string
+     */
+    public $status;
+
+    /**
+     * The order's manager's name.
+     *
+     * @var string
+     */
+    public $manager;
+
+    /**
      * Create a new message instance.
      *
      * @param  \App\Models\Order  $order
      * @return void
      */
-    public function __construct( Order $order, $name = '' )
+    public function __construct( Order $order, $name = '', $manager = '' )
     {
         $this->order = $order;
+        $this->status = $order->status;
         $this->name =  $name;
+        $this->manager = $manager;
     }
 
     /**
@@ -46,7 +62,7 @@ class OrderSubmitted extends Mailable
      */
     public function build()
     {
-        return $this->subject( '[' . config('app.name') . '] ' . __('Order :id submitted', ['id' => $this->order->id]) )
+        return $this->subject( '['.config('app.name').'] '.__('Order').' '.$this->order->id.' '.__($this->status))
                     ->view('emails.orders.submitted');
     }
 }

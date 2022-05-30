@@ -244,6 +244,8 @@ class EditOrder extends Component
         ]);
         if ( $this->order->status === 'on-hold' ) {
             $this->order->update(['status'=>'in-progress']);
+            $user = User::findOrFail($this->order->user_id);
+            Mail::to( $user )->send( new OrderSubmitted( $this->order, $user->name, auth()->user()->name) );
         }
         $this->emit('refreshOrder');
         $this->init();
@@ -354,14 +356,10 @@ class EditOrder extends Component
             $this->showInformationMessage = 'submit-order';
         }
 
-        if ( array_key_exists( 'status', $this->order->getChanges()) ) {
+        if ( array_key_exists( 'status', $this->order->getChanges()) && $this->order->status !== 'draft') {
             // Envoi de mail lors d'un changement de status uniquement
-
-            if ( $this->order->status === 'on-hold' ) {
-                $user = User::find($this->order->user_id);
-                Mail::to( $user )
-                    ->send( new OrderSubmitted( $this->order, $user->name ) );
-            }
+            $user = User::findOrFail($this->order->user_id);
+            Mail::to( $user )->send( new OrderSubmitted( $this->order, $user->name, auth()->user()->name) );
         }
     }
 }
