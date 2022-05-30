@@ -360,7 +360,8 @@ class EditOrder extends Component
             if ( $this->order->status === 'on-hold' ) {
                 $user = User::find($this->order->user_id);
                 Mail::to( [ [ 'email'=>$user->email, 'name'=>$user->full_name ] ] )
-                    ->send( new OrderSubmitted( $this->order, $user->full_name, $user->locale ) );
+                    ->locale( $user->locale )
+                    ->send( new OrderSubmitted( $this->order, $user->full_name ) );
             }
         }
     }

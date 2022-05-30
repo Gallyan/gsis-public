@@ -28,23 +28,15 @@ class OrderSubmitted extends Mailable
     public $full_name;
 
     /**
-     * The destination user locale.
-     *
-     * @var string
-     */
-    public $locale;
-
-    /**
      * Create a new message instance.
      *
      * @param  \App\Models\Order  $order
      * @return void
      */
-    public function __construct( Order $order, $full_name = '', $locale = null)
+    public function __construct( Order $order, $full_name = '' )
     {
         $this->order = $order;
         $this->full_name =  $full_name;
-        $this->locale = $locale;
     }
 
     /**

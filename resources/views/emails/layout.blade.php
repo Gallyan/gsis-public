@@ -44,7 +44,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
 
 <!-- HIDDEN PREHEADER TEXT -->
 <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: Open Sans, Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
-    {{ __('Your order :id has been submitted', ['id' => $order->id], $locale) }} !
+    {{ __('Your order :id has been submitted', ['id' => $order->id]) }} !
 </div>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%">

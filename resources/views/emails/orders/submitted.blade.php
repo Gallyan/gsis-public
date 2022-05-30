@@ -1,14 +1,14 @@
 @extends('emails.layout')
 
 @section('title')
-    {{ __('Order :id submitted', ['id' => $order->id], $locale) }}
+    {{ __('Order :id submitted', ['id' => $order->id]) }}
 @endsection
 
 @section('content')
-    {{ __('Dear :name', [ 'name' => $full_name ], $locale) }},<br /><br />
+    {{ __('Dear :name', [ 'name' => $full_name ]) }},<br /><br />
     {{ __('mail-order-submitted', [
         'id' => $order->id,
-        'subject' => $order->subject ], $locale) }}.<br /><br />
+        'subject' => $order->subject ]) }}.<br /><br />
 
     @include('emails.button', [
         'link' => route('edit-order', $order),
@@ -16,5 +16,5 @@
 
     <br />
 
-    {!! __('mail-ending', [], $locale) !!}
+    {!! __('mail-ending') !!}
 @endsection
