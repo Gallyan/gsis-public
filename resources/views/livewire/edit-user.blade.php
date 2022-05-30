@@ -11,8 +11,8 @@
                 </x-input.text>
             </x-input.group>
 
-            <x-input.group label="Last Name" for="name" :error="$errors->first('user.name')" required>
-                <x-input.text wire:model.debounce.500ms="user.name" id="name">
+            <x-input.group label="Last Name" for="lastname" :error="$errors->first('user.lastname')" required>
+                <x-input.text wire:model.debounce.500ms="user.lastname" id="lastname">
                     <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
                 </x-input.text>
             </x-input.group>

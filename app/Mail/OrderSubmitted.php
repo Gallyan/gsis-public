@@ -25,7 +25,7 @@ class OrderSubmitted extends Mailable
      *
      * @var string
      */
-    public $full_name;
+    public $name;
 
     /**
      * Create a new message instance.
@@ -33,10 +33,10 @@ class OrderSubmitted extends Mailable
      * @param  \App\Models\Order  $order
      * @return void
      */
-    public function __construct( Order $order, $full_name = '' )
+    public function __construct( Order $order, $name = '' )
     {
         $this->order = $order;
-        $this->full_name =  $full_name;
+        $this->name =  $name;
     }
 
     /**

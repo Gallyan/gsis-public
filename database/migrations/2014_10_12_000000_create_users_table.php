@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('lastname');
             $table->string('firstname');
             $table->date('birthday')->nullable();
             $table->string('phone')->nullable();
@@ -37,7 +37,7 @@ class CreateUsersTable extends Migration
         });
 
         DB::statement(
-            'ALTER TABLE users ADD FULLTEXT fulltext_index(name, firstname, email)'
+            'ALTER TABLE users ADD FULLTEXT fulltext_index(lastname, firstname, email)'
         );
     }
 

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {{ __('Dear :name', [ 'name' => $full_name ]) }},<br /><br />
+    {{ __('Dear :name', [ 'name' => $name ]) }},<br /><br />
     {{ __('mail-order-submitted', [
         'id' => $order->id,
         'subject' => $order->subject ]) }}.<br /><br />

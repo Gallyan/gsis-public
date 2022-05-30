@@ -57,7 +57,7 @@ class Orders extends Component
     {
         if( isset($this->filters['user']) && !empty($this->filters['user'])) {
             $filter_users = DB::table('users')
-                    ->whereRaw("CONCAT_WS(' ',`firstname`, `name`) like ? ", '%'.$this->filters['user'].'%')
+                    ->whereRaw("CONCAT_WS(' ',`firstname`, `lastname`) like ? ", '%'.$this->filters['user'].'%')
                     ->pluck('id')->toArray();
         } else {
             $filter_users = null;
@@ -79,7 +79,7 @@ class Orders extends Component
         $query = Order::query()
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->join('institutions', 'institutions.id', '=', 'orders.institution_id')
-            ->select('orders.*','users.name','users.firstname','institutions.name as ins_name', 'institutions.contract as ins_contract')
+            ->select('orders.*','users.lastname','users.firstname','institutions.name as ins_name', 'institutions.contract as ins_contract')
             ->when($this->filters['institution'], fn($query, $institution) => $query->where('orders.institution_id', '=', $institution))
             ->when($this->filters['date-min'], fn($query, $date) => $query->where('orders.created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn($query, $date) => $query->where('orders.created_at', '<=', Carbon::parse($date)))
@@ -111,7 +111,7 @@ class Orders extends Component
     {
         $allmanagers = User::role('manager')->get()->mapWithKeys(
             function( $manager ) {
-                return [$manager->id => ucwords( $manager->firstname.' '.$manager->name )];
+                return [$manager->id => ucwords( $manager->firstname.' '.$manager->lastname )];
             }
         );
 
@@ -119,7 +119,7 @@ class Orders extends Component
             'orders' => $this->rows,
             'allmanagers' => User::role('manager')->get()->mapWithKeys(
                                 function( $manager ) {
-                                    return [$manager->id => ucwords( $manager->firstname.' '.$manager->name )];
+                                    return [$manager->id => ucwords( $manager->firstname.' '.$manager->lastname )];
                                 }
                             ),
         ])->layoutData([

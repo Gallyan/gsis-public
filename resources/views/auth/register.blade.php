@@ -14,9 +14,9 @@
 
             <!-- LastName -->
             <div>
-                <x-auth.label for="name" :value="__('Last Name')" />
+                <x-auth.label for="lastname" :value="__('Last Name')" />
 
-                <x-auth.input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                <x-auth.input id="lastname" class="block mt-1 w-full" type="text" name="lastname" :value="old('lastname')" required autofocus />
             </div>
 
             <!-- FirstName -->

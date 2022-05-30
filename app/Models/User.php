@@ -8,8 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
     use Notifiable, HasFactory, HasRoles;
 
@@ -46,7 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
-    public function getFullNameAttribute() { return $this->firstname.' '.$this->name; }
+    public function getNameAttribute() { return $this->firstname.' '.$this->lastname; }
 
     public function getRolesNamesAttribute() { return $this->getRoleNames()->map(function ($item, $key) { return __($item); })->implode(', '); }
 
@@ -62,6 +63,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Get the user's preferred locale.
+     *
+     * @return string
+     */
+    public function preferredLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
      * Get all of the user's documents.
      */
     public function documents()
@@ -69,6 +80,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->morphMany(Document::class, 'documentable');
     }
 
+    /**
+     * Get all of the user's orders.
+     */
     public function orders()
     {
         return $this->hasMany(Order::class);

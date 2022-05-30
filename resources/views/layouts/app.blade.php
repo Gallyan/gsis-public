@@ -35,11 +35,11 @@
                            class="flex-shrink-0 group block focus:outline-none">
                             <div class="flex items-center">
                                 <div>
-                                    <img class="inline-block h-10 w-10 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->full_name }}">
+                                    <img class="inline-block h-10 w-10 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}">
                                 </div>
                                 <div class="ml-3">
                                     <p class="text-base leading-6 font-medium text-white">
-                                        {{ auth()->user()->full_name }}
+                                        {{ auth()->user()->name }}
                                     </p>
                                     <p class="text-sm leading-5 font-medium text-indigo-300 group-hover:text-indigo-100 group-focus:underline transition ease-in-out duration-1000">
                                         {{ __('View profile') }}
@@ -79,12 +79,12 @@
                        class="flex-shrink-0 w-full group block">
                         <div class="flex items-center">
                             <div>
-                                <img class="inline-block h-9 w-9 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->full_name }}">
+                                <img class="inline-block h-9 w-9 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}">
                             </div>
 
                             <div class="ml-3">
                                 <p class="text-sm leading-5 font-medium text-white">
-                                    {{ auth()->user()->full_name }}
+                                    {{ auth()->user()->name }}
                                 </p>
 
                                 <p class="text-xs leading-4 font-medium text-indigo-300 group-hover:text-indigo-100 transition ease-in-out duration-1000">

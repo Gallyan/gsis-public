@@ -34,7 +34,7 @@ class Users extends Component
 
     public function rules() { return [
         'editing.firstname' => 'required|max:255',
-        'editing.name' => 'required|max:255',
+        'editing.lastname' => 'required|max:255',
         'editing.birthday' => 'required|date',
         'editing.email' => 'required|max:255|email:rfc'.((App::environment('production'))?',dns,spoof':'').'|unique:App\Models\User,email'.($this->editing->id ? ','.$this->editing->id:''),
         'editing.employer' => 'nullable|string',
@@ -138,7 +138,7 @@ class Users extends Component
             ->when($this->filters['date-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)))
             ->when($this->filters['search'], fn($query) => $query->where( function($query) {
-                $query->search('name', $this->filters['search'])
+                $query->search('lastname', $this->filters['search'])
                       ->orSearch('firstname', $this->filters['search'])
                       ->orSearch('id', $this->filters['search']); }))
             ->when($this->filters['role'], fn($query) => $query->where( function($query) {

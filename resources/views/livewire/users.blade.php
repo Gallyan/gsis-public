@@ -88,9 +88,9 @@
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-cool-gray-50">
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center">
-                                <img class="inline-block h-6 w-6 rounded-full truncate" src="{{ $user->avatarUrl() }}" alt="{{ $user->full_name }}">
+                                <img class="inline-block h-6 w-6 rounded-full truncate" src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}">
                                 <p class="text-cool-gray-600 truncate">
-                                    {{ $user->full_name }}
+                                    {{ $user->name }}
                                 </p>
                             </span>
                         </x-table.cell>
@@ -168,8 +168,8 @@
             <x-slot name="title">{{ isset($this->editing->id) ? __('Edit User') : __('Create User') }}</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="name" label="Name" :error="$errors->first('editing.name')" required>
-                    <x-input.text wire:model="editing.name" id="name" placeholder="{{ __('Name') }}">
+                <x-input.group for="lastname" label="Last Name" :error="$errors->first('editing.lastname')" required>
+                    <x-input.text wire:model="editing.lastname" id="lastname" placeholder="{{ __('Last Name') }}">
                         <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
                     </x-input.text>
                 </x-input.group>

@@ -6,12 +6,12 @@
 
         <div class="mt-6 sm:mt-5">
             <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
-                {{ $order->user->full_name ?? '' }}
+                {{ $order->user->name ?? '' }}
             </x-input.group>
 
             <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" innerclass="flex items-center">
                {{ $order->managers->isNotEmpty() ?
-                    $order->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->full_name)->implode(', ') :
+                    $order->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->name)->implode(', ') :
                     __('There is no manager yet.') }}
                 @can('manage-users')
                 <div class="mx-4">
