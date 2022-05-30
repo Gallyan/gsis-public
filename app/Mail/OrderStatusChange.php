@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderSubmitted extends Mailable
+class OrderStatusChange extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -47,7 +47,7 @@ class OrderSubmitted extends Mailable
      * @param  \App\Models\Order  $order
      * @return void
      */
-    public function __construct( Order $order, $name = '', $manager = '' )
+    public function __construct( Order $order, $name = '', $manager = null )
     {
         $this->order = $order;
         $this->status = $order->status;
@@ -63,6 +63,6 @@ class OrderSubmitted extends Mailable
     public function build()
     {
         return $this->subject( '['.config('app.name').'] '.__('Order').' '.$this->order->id.' '.__($this->status))
-                    ->view('emails.orders.submitted');
+                    ->view('emails.order-status-change');
     }
 }

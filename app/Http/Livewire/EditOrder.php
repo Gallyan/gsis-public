@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Manager;
-use App\Mail\OrderSubmitted;
+use App\Mail\OrderStatusChange;
 use Livewire\Component;
 use App\Models\Document;
 use Livewire\WithFileUploads;
@@ -245,7 +245,7 @@ class EditOrder extends Component
         if ( $this->order->status === 'on-hold' ) {
             $this->order->update(['status'=>'in-progress']);
             $user = User::findOrFail($this->order->user_id);
-            Mail::to( $user )->send( new OrderSubmitted( $this->order, $user->name, auth()->user()->name) );
+            Mail::to( $user )->send( new OrderStatusChange( $this->order, $user->name, auth()->user()->name) );
         }
         $this->emit('refreshOrder');
         $this->init();
@@ -359,7 +359,7 @@ class EditOrder extends Component
         if ( array_key_exists( 'status', $this->order->getChanges()) && $this->order->status !== 'draft') {
             // Envoi de mail lors d'un changement de status uniquement
             $user = User::findOrFail($this->order->user_id);
-            Mail::to( $user )->send( new OrderSubmitted( $this->order, $user->name, auth()->user()->name) );
+            Mail::to( $user )->send( new OrderStatusChange( $this->order, $user->name, auth()->user()->name) );
         }
     }
 }
