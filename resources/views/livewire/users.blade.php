@@ -76,10 +76,10 @@
         <div class="flex-col space-y-4">
             <x-table>
                 <x-slot name="head">
-                    <x-table.heading sortable multi-column wire:click="sortBy('name')" :direction="$sorts['name'] ?? null" class="w-full">{{ __('Name') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('lastname')" :direction="$sorts['lastname'] ?? null" class="w-full">{{ __('Name') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('email')" :direction="$sorts['email'] ?? null" class="whitespace-nowrap">{{ __('Email') }}</x-table.heading>
                     <x-table.heading class="text-left">{{ __('Roles') }}</x-table.heading>
-                    <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['date'] ?? null">{{ __('Created') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">{{ __('Created') }}</x-table.heading>
                     <x-table.heading class="text-left"></x-table.heading>
                 </x-slot>
 
