@@ -7,13 +7,11 @@ use App\Http\Livewire\Orders;
 use App\Http\Livewire\EditOrder;
 use App\Http\Livewire\EditUser;
 
-Route::redirect('/', 'dashboard');
-
 /**
  * App Routes
  */
 Route::middleware(['auth','throttle:global'])->group(function () {
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/', Dashboard::class)->name('dashboard');
     Route::get('/user/{id}', EditUser::class)->whereNumber('id')->name('edit-user');
 });
 
