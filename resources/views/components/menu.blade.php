@@ -9,10 +9,6 @@
 </x-nav-link>
 
 <x-nav-link :route="'login'" :icon="'stop'" class="opacity-50 cursor-default hover:opacity-50 hover:bg-indigo-800">
-    {{ __('Mission expenses') }}
-</x-nav-link>
-
-<x-nav-link :route="'login'" :icon="'stop'" class="opacity-50 cursor-default hover:opacity-50 hover:bg-indigo-800">
     {{ __('Non-mission purchases') }}
 </x-nav-link>
 
