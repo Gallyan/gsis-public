@@ -350,5 +350,6 @@
     "Order submitted": "Soumission de votre demande",
     "Dear :name": "Bonjour :name",
     "mail-ending": "Cordialement,<br />L'équipe d'appui<br /><small>PS: ne pas répondre à ce mail automatique</small>",
-    "Show my order": "Voir ma commande"
+    "Show my order": "Voir ma commande",
+    "Send reset password link by email": "Envoyer le lien de réinitialisation du mot de passe par e-mail"
 }

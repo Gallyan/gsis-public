@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Password;
 
 class EditUser extends Component
 {
@@ -228,5 +229,17 @@ class EditUser extends Component
     public function close_modal() {
         $this->reset(['doc','showModal','showDeleteModal','delDocName']);
         $this->dispatchBrowserEvent('pondReset');
+    }
+
+    public function reset_password()
+    {
+        $status = Password::sendResetLink(['email'=>$this->user->email]);
+
+        if ( $status === Password::RESET_LINK_SENT ) {
+            $this->emit('notify-sent-ok');
+        } else {
+            $this->addError('password', $status);
+            $this->emit('notify-sent-error');
+        }
     }
 }

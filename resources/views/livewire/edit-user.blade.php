@@ -2,7 +2,7 @@
     <form wire:submit.prevent="save" wire:reset.prevent="init">
         @csrf
 
-        <x-stickytopbar title="{{ $user->FullName }}" :modified="$modified"/>
+        <x-stickytopbar title="{{ $user->name }}" :modified="$modified"/>
 
         <div class="mt-6 sm:mt-5">
             <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')" required borderless>
@@ -109,6 +109,18 @@
 
             <x-input.group label="Language" for="locale" :error="$errors->first('user.locale')">
                 <x-input.radio id="locale" wire:model="user.locale" :keylabel="$languages" />
+            </x-input.group>
+
+            <x-input.group label="Password">
+                <x-button.secondary wire:click="reset_password">
+                    <span wire:loading.remove.delay.shorter wire:target="reset_password">{{ __('Send reset password link by email') }}</span>
+                    <span wire:loading.delay.shorter wire:target="reset_password" class="invisible">{{ __('Send reset password link by email') }}</span>
+                    <div wire:loading.delay.shorter wire:target="reset_password" class="w-full float-left -mt-6"><x-icon.loading class="mx-auto w-6 h-6"/></div>
+                </x-button.secondary>
+                <div class="pt-4">
+                    <x-notify-message event='notify-sent-ok' color='text-green-600'>{{ __(Password::RESET_LINK_SENT) }}</x-notify-message>
+                    <x-notify-message event='notify-sent-error' color='text-red-600'>{{ __($errors->first('password')) }}</x-notify-message>
+                </div>
             </x-input.group>
 
             @can('manage-roles')
