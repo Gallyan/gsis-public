@@ -95,7 +95,7 @@ class Orders extends Component
 
         // Un utilisateur sans droit n'accède qu'à son contenu
         if ( ! auth()->user()->hasPermissionTo('manage-users') )
-            $query->where('orders.user_id','=',auth()->user()->id);
+            $query->where('orders.user_id','=',auth()->id());
 
             return $this->applySorting($query);
         }

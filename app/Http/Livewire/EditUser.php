@@ -62,7 +62,7 @@ class EditUser extends Component
     protected $listeners = ['refreshUser' => '$refresh'];
 
     public function mount( int $id ) {
-        if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $id )
+        if ( ! auth()->user()->can('manage-users') && auth()->id !== $id )
             abort(403);
 
         $this->user_id = $id;
@@ -108,7 +108,7 @@ class EditUser extends Component
 
     public function save()
     {
-        if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $this->user->id )
+        if ( ! auth()->user()->can('manage-users') && auth()->id() !== $this->user->id )
             abort(403);
 
         $this->withValidator(function (Validator $validator) {
@@ -180,7 +180,7 @@ class EditUser extends Component
 
         $document = Document::findOrFail( $id ) ;
 
-        if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $document->user_id )
+        if ( ! auth()->user()->can('manage-users') && auth()->id() !== $document->user_id )
             abort(403);
 
         $filename = '/docs/' . $this->user->id . '/' . $document->filename ;

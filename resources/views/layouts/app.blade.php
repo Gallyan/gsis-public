@@ -31,7 +31,7 @@
                     </div>
                     <div class="flex-shrink-0 flex border-t border-indigo-700 p-4">
                         @auth
-                        <a href="{{ route( 'edit-user', auth()->user()->id ) }}"
+                        <a href="{{ route( 'edit-user', auth()->id() ) }}"
                            class="flex-shrink-0 group block focus:outline-none">
                             <div class="flex items-center">
                                 <div>
@@ -75,7 +75,7 @@
 
                 <div class="flex-shrink-0 flex border-t border-indigo-700 p-4">
                     @auth
-                    <a href="{{ route( 'edit-user', auth()->user()->id ) }}"
+                    <a href="{{ route( 'edit-user', auth()->id() ) }}"
                        class="flex-shrink-0 w-full group block">
                         <div class="flex items-center">
                             <div>

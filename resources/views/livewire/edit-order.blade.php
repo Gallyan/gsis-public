@@ -16,7 +16,7 @@
                 @can('manage-users')
                 <div class="mx-4">
                     @if ( $order->id && $order->status !== 'draft' )
-                    @if ( $order->managers->contains('user_id',auth()->user()->id) )
+                    @if ( $order->managers->contains('user_id',auth()->id()) )
                         @if ( count($order->managers) > 1 )
                         <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled">
                             {{ __('Dissociate') }}

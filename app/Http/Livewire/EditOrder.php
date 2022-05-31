@@ -70,7 +70,7 @@ class EditOrder extends Component
         } else {
             $this->order = Order::findOrFail($id);
 
-            if ( ! auth()->user()->can('manage-users') && auth()->user()->id !== $this->order->user_id )
+            if ( ! auth()->user()->can('manage-users') && auth()->id() !== $this->order->user_id )
                 abort(403);
         }
 
@@ -92,7 +92,7 @@ class EditOrder extends Component
 
         } elseif ( auth()->user()->can('manage-users') ) {
             // Gestionnnaire
-            if ( $this->order->user_id === auth()->user()->id ) {
+            if ( $this->order->user_id === auth()->id() ) {
                 // Le gestionnaire est aussi l'auteur de la commande
 
                 if ( $this->order->status === 'draft' ) {
@@ -101,14 +101,14 @@ class EditOrder extends Component
                 } elseif ( $this->order->status === 'on-hold' ) {
 
                     $this->disabled = false;
-                    if ( $this->order->managers->doesntContain( 'user_id', auth()->user()->id ) ) {
+                    if ( $this->order->managers->doesntContain( 'user_id', auth()->id() ) ) {
                         $this->disabledStatuses = array_diff( array_keys( Order::STATUSES ), [ 'draft', 'on-hold', 'cancelled' ] );
                     } else {
                         $this->disabledStatuses = [];
                     }
 
                 } elseif ( $this->order->status === 'in-progress' ) {
-                    if ( $this->order->managers->doesntContain( 'user_id', auth()->user()->id ) ) {
+                    if ( $this->order->managers->doesntContain( 'user_id', auth()->id() ) ) {
                         $this->disabled = true;
                         $this->disabledStatuses = array_keys(Order::STATUSES);
 
@@ -118,7 +118,7 @@ class EditOrder extends Component
                     }
 
                 } elseif ( $this->order->status === 'processed' ) {
-                    if ( $this->order->managers->doesntContain( 'user_id', auth()->user()->id ) ) {
+                    if ( $this->order->managers->doesntContain( 'user_id', auth()->id() ) ) {
                         $this->disabled = true;
                         $this->disabledStatuses = array_keys( Order::STATUSES );
 
@@ -131,7 +131,7 @@ class EditOrder extends Component
             } else {
                 // Le gestionnaire n'est pas l'auteur de la commande
 
-                if ( $this->order->managers->doesntContain( 'user_id', auth()->user()->id ) ) {
+                if ( $this->order->managers->doesntContain( 'user_id', auth()->id() ) ) {
                     // Le gestionnaire n'est pas associé à la commande, il ne peut rien faire sans s'associer
                     $this->disabled = true;
                     $this->disabledStatuses = array_keys(Order::STATUSES);
@@ -238,7 +238,7 @@ class EditOrder extends Component
     // Associate current manager to Order
     public function associate() {
         Manager::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->id(),
             'manageable_id' => $this->order->id,
             'manageable_type' => Order::class,
         ]);
@@ -255,7 +255,7 @@ class EditOrder extends Component
     public function dissociate() {
         // Check if manager is not the only one
         if ( count($this->order->managers) > 1 ) {
-            Manager::where('user_id','=',auth()->user()->id)
+            Manager::where('user_id','=',auth()->id())
                 ->where('manageable_type','=',Order::class)
                 ->where('manageable_id','=',$this->order->id)
                 ->delete();
@@ -285,7 +285,7 @@ class EditOrder extends Component
     public function makeBlankOrder()
     {
         return Order::make([
-            'user_id' => Auth()->user()->id,
+            'user_id' => Auth()->id(),
             'books'   => [],
             'status' => 'draft',
         ]);
