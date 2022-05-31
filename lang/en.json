@@ -57,5 +57,6 @@
     "in-progress": "in progress",
     "processed": "processed",
     "cancelled": "cancelled",
-    "mail-ending": "Best regards,<br />The support team<br /><small>PS: do not reply to this automatic mail</small>"
+    "mail-ending": "Best regards,<br />The support team<br /><small>PS: do not reply to this automatic mail</small>",
+    "Institution": "Institution / Contract"
 }
