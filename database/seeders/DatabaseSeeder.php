@@ -86,6 +86,6 @@ class DatabaseSeeder extends Seeder
         Manager::factory(10)->create();
 
         // Création de messages
-        Post::factory(20)->create();
+        Post::factory(100)->create();
     }
 }
