@@ -49,7 +49,9 @@
 
                     @can('manage-users')
                     <x-input.group inline for="filter-user" label="User">
-                        <x-input.text wire:model.debounce.500ms="filters.user" id="filter-user" />
+                        <x-input.text wire:model.debounce.500ms="filters.user" id="filter-user">
+                            <x-slot name="leadingAddOn"><x-icon.user /></x-slot>
+                        </x-input.text>
                     </x-input.group>
                     @endcan
                 </div>
@@ -66,6 +68,8 @@
                     @can('manage-users')
                     <x-input.group inline for="filter-manager" label="Manager">
                         <x-input.select wire:model="filters.manager" id="filter-manager" class="w-full" placeholder="{{ __('Select a manager...') }}">
+                            <x-slot name="leadingAddOn"><x-icon.user /></x-slot>
+
                             @foreach ($allmanagers as $id => $fullname)
                             <option value="{{ $id }}">{{ $fullname }}</option>
                             @endforeach
