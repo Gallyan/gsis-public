@@ -24,7 +24,7 @@ return new class extends Migration
         });
 
         Schema::table('managers', function (Blueprint $table) {
-            $table->datetime('read_at')->after('manageable_id')->nullable();
+            $table->timestamp('read_at')->after('manageable_id')->nullable();
         });
     }
 
