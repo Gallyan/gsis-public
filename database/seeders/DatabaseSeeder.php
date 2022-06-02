@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Storage;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Order;
 use App\Models\Manager;
 use App\Models\Document;
@@ -83,5 +84,8 @@ class DatabaseSeeder extends Seeder
 
         // Affectation des managers à des commandes et autres éléments
         Manager::factory(10)->create();
+
+        // Création de messages
+        Post::factory(20)->create();
     }
 }

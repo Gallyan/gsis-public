@@ -63,4 +63,12 @@ class Order extends Model
     {
         return $this->morphMany(Manager::class, 'manageable');
     }
+
+    /**
+     * Get all of the order's posts.
+     */
+    public function posts()
+    {
+        return $this->morphMany(Post::class, 'postable');
+    }
 }
