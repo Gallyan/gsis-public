@@ -92,7 +92,7 @@
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-gray-50">
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center">
-                                <img class="inline-block h-6 w-6 rounded-full truncate" src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}">
+                                <img class="inline-block h-6 w-6 rounded-full text-xs text-gray-500 truncate" src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}">
                                 <p class="text-gray-600 truncate">
                                     {{ $user->name }}
                                 </p>
