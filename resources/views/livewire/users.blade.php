@@ -33,6 +33,10 @@
                 <div class="w-1/2 pr-2 space-y-4">
                     <x-input.group inline for="filter-role" label="Role">
                         <x-input.select wire:model="filters.role" id="filter-role" class="w-full">
+                            <x-slot name="leadingAddOn">
+                                <x-icon.list class="h-5 w-5 text-gray-400" />
+                            </x-slot>
+
                             <x-slot name="placeholder">
                                 {{ __('Select Role...') }}
                             </x-slot>
