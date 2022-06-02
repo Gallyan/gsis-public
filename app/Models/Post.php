@@ -18,4 +18,12 @@ class Post extends Model
     {
         return $this->morphTo();
     }
+
+    /**
+     * Get the user that owns the phone.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

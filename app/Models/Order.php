@@ -69,6 +69,6 @@ class Order extends Model
      */
     public function posts()
     {
-        return $this->morphMany(Post::class, 'postable');
+        return $this->morphMany(Post::class, 'postable')->orderBy('id','desc');
     }
 }

@@ -188,6 +188,8 @@
         </div>
     </form>
 
+    <livewire:messagerie :posts="$order->posts" />
+
     <!-- Add book Modal -->
     <form wire:submit.prevent="add_book">
         @csrf
