@@ -11,7 +11,7 @@
     wire:ignore
 >
     <input id="x" type="hidden">
-    <trix-editor x-ref="trix" input="x" class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"></trix-editor>
+    <trix-editor x-ref="trix" input="x" class="form-textarea block w-full transition duration-150 ease-in-out text-gray-700 sm:text-sm sm:leading-5"></trix-editor>
 </div>
 
 @pushOnce('stylesheets')
