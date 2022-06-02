@@ -42,7 +42,7 @@
                                 </span>
                             </div>
                             <div class="mt-2 text-sm text-gray-700 max-w-xl bg-gray-50 rounded-md py-2 px-4 border border-gray-200">
-                                <p>{{ $post->body }}</p>
+                                <p>{!! nl2br(e($post->body)) !!}</p>
                             </div>
                         </div>
                     </div>
