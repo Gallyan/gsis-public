@@ -36,10 +36,10 @@
 
                 <x-slot name="body">
                     @forelse ($institutions as $institution)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}" class="cursor-pointer hover:bg-cool-gray-50"  wire:click="edit({{ $institution->id }})">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}" class="cursor-pointer hover:bg-gray-50"  wire:click="edit({{ $institution->id }})">
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5" >
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-gray-600 truncate">
                                     {{ $institution->name }}
                                 </p>
                             </span>
@@ -47,7 +47,7 @@
 
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-gray-600 truncate">
                                     {{ $institution->contract }}
                                 </p>
                             </span>
@@ -55,7 +55,7 @@
 
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-gray-600 truncate">
                                     {{ $institution->allocation }}
                                 </p>
                             </span>
@@ -63,7 +63,7 @@
 
                         <x-table.cell>
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-gray-600 truncate">
                                     {{ $institution->date_for_humans }}
                                 </p>
                             </span>
@@ -73,8 +73,8 @@
                     <x-table.row>
                         <x-table.cell colspan="4">
                             <div class="flex justify-center items-center space-x-2">
-                                <x-icon.inbox class="h-8 w-8 text-cool-gray-400" />
-                                <span class="font-medium py-8 text-cool-gray-400 text-xl">{{ __('Nothing found...') }}</span>
+                                <x-icon.inbox class="h-8 w-8 text-gray-400" />
+                                <span class="font-medium py-8 text-gray-400 text-xl">{{ __('Nothing found...') }}</span>
                             </div>
                         </x-table.cell>
                     </x-table.row>

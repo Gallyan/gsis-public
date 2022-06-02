@@ -89,11 +89,11 @@
 
                 <x-slot name="body">
                     @forelse ($users as $user)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-cool-gray-50">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-gray-50">
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center">
                                 <img class="inline-block h-6 w-6 rounded-full truncate" src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-gray-600 truncate">
                                     {{ $user->name }}
                                 </p>
                             </span>
@@ -101,7 +101,7 @@
 
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-gray-600 truncate">
                                     {{ $user->email }}
                                     @if ( $user->verified === true )
                                     <span title="{{ __('Verified email at') }} {{ $user->email_verified_at }}">
@@ -118,7 +118,7 @@
 
                         <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-gray-600 truncate">
                                     {{ ucwords( $user->roles->pluck('name')->map(function ($item, $key) { return __($item); })->implode(', ') ) }}
                                 </p>
                             </span>
@@ -129,7 +129,7 @@
                                 class="inline-flex space-x-2 truncate text-sm leading-5"
                                 title="{{ $user->created_at }}"
                             >
-                                <p class="text-cool-gray-600 truncate">
+                                <p class="text-gray-600 truncate">
                                     {{ $user->date_for_humans }}
                                 </p>
                             </span>
@@ -137,7 +137,7 @@
 
                         <x-table.cell>
                             <span
-                                class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600"
+                                class="inline-flex space-x-2 truncate text-sm leading-5 text-gray-500"
                                 title="{{ __('Full Edit') }}"
                             >
                                 <a href="{{ route('edit-user',$user->id) }}"><x-icon.pencil /></a>
@@ -148,8 +148,8 @@
                     <x-table.row>
                         <x-table.cell colspan="5">
                             <div class="flex justify-center items-center space-x-2">
-                                <x-icon.inbox class="h-8 w-8 text-cool-gray-400" />
-                                <span class="font-medium py-8 text-cool-gray-400 text-xl">{{ __('Nothing found...') }}</span>
+                                <x-icon.inbox class="h-8 w-8 text-gray-400" />
+                                <span class="font-medium py-8 text-gray-400 text-xl">{{ __('Nothing found...') }}</span>
                             </div>
                         </x-table.cell>
                     </x-table.row>
