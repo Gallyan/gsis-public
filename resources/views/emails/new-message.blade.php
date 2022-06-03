@@ -10,7 +10,7 @@
     {{ __('mail-new-message', [
         'id' => $object->id,
         'subject' => $object->subject,
-        'manager' => $manager ]) }}.<br /><br />
+        'author' => $author ]) }}.<br /><br />
 
     @include('emails.button', [
         'link' => $url,

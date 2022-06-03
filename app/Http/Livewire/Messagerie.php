@@ -46,10 +46,12 @@ class Messagerie extends Component
             ->update(['read_at'=>now()]);
         };
 
-        if ( Auth()->id() !== $this->object->user_id ) {
-            // L'auteur du message n'est pas l'auteur de la demande, on lui envoi donc un mail
-            $user = User::findOrFail($this->object->user_id);
-            Mail::to( $user )->send( new NewMessage( $this->object, $user->name, auth()->user()->name) );
+        foreach ( array_unique( array_merge( $this->object->managers->pluck('user_id')->toArray(), [ $this->object->user_id ] ) ) as $dest_id ) {
+            if ( Auth()->id() !== $dest_id ) {
+                // On n'envoie pas de mail à l'auteur du message
+                $user = User::findOrFail($dest_id);
+                Mail::to( $user )->send( new NewMessage( $this->object, $user->name, auth()->user()->name) );
+            }
         }
 
         $this->reset(['body']);

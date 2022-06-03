@@ -27,11 +27,11 @@ class NewMessage extends Mailable
     public $name;
 
     /**
-     * The object's manager's name.
+     * The message author's name.
      *
      * @var string
      */
-    public $manager;
+    public $author;
 
     /**
      * The object's url.
@@ -45,11 +45,11 @@ class NewMessage extends Mailable
      *
      * @return void
      */
-    public function __construct( $object, $name = '', $manager = null )
+    public function __construct( $object, $name = '', $author = null )
     {
         $this->object = $object;
         $this->name =  $name;
-        $this->manager = $manager;
+        $this->author = $author;
         switch( get_class($object) ) {
             case "App\Models\Order": $this->url = route('edit-order', [ $object, '#messaging' ]); break;
         }

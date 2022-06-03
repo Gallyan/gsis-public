@@ -52,7 +52,7 @@
     "mail-order-in-progress": "Your order :id - \":subject\" is being processed by :manager",
     "mail-order-processed": "Your order :id - \":subject\" has been processed by :manager",
     "mail-order-cancelled": "Your order :id - \":subject\" has been cancelled by :manager",
-    "mail-new-message": "You have received a new message regarding your request :id - \":subject\" from :manager",
+    "mail-new-message": "You have received a new message regarding the request :id - \":subject\" from :author",
     "draft": "draft",
     "on-hold": "on hold",
     "in-progress": "in progress",

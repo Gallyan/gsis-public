@@ -342,7 +342,7 @@
     "mail-order-in-progress": "Votre commande :id - \":subject\" est en cours de traitement par :manager",
     "mail-order-processed": "Votre commande :id - \":subject\" a été traitée par :manager",
     "mail-order-cancelled": "Votre commande :id - \":subject\" a été annulée par :manager",
-    "mail-new-message": "Vous avez reçu un nouveau message conçernant votre demande :id - \":subject\" de la part de :manager",
+    "mail-new-message": "Vous avez reçu un nouveau message conçernant la demande :id - \":subject\" de la part de :author",
     "draft": "brouillon",
     "on-hold": "en attente",
     "in-progress": "en cours",
