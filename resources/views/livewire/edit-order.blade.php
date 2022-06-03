@@ -188,7 +188,7 @@
         </div>
     </form>
 
-    <livewire:messagerie :posts="$order->posts" />
+    <livewire:messagerie :object="$order" />
 
     <!-- Add book Modal -->
     <form wire:submit.prevent="add_book">

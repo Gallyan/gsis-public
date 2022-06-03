@@ -1,9 +1,13 @@
 <div>
     <x-input.group label="Messaging" for="newpost">
-
+        <script>
+        setInterval(function() {
+            Livewire.emit('refreshMessages');
+        }, 60 * 1000);
+        </script>
         <div class="flow-root">
-            <div class="relative pb-8">
-                <span class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+            <div class="relative @if (count($object->posts)) pb-8 @endif">
+                <span class="absolute top-5 left-5 -ml-px h-full w-0.5 border-dashed border border-gray-200" aria-hidden="true"></span>
                 <div class="relative flex items-start space-x-3">
                     <div class="relative">
                         <img class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500 truncate ring-1 ring-white" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}">
@@ -13,7 +17,18 @@
                             <span class="text-sm font-medium text-gray-700">{{ auth()->user()->name }}</span>
                         </div>
                         <div class="mt-2 text-sm text-gray-700 max-w-xl">
-                            <x-input.textarea wire:model.lazy="newpost" id="newpost" rows="5" class="text-gray-700"/>
+                            <form wire:submit.prevent="save">
+                                @csrf
+                                <x-input.textarea wire:model.debounce.500ms="body" id="body" rows="5" class="text-gray-700"/>
+                                <x-button.secondary class="mt-2" type="submit" wire:offline.attr="disabled">
+                                    {{ __('Add Message') }}
+                                </x-button.secondary>
+                                @error('body')
+                                    <div class="mt-2 text-red-500 text-sm float-right">
+                                        {{ __($errors->first('body')) }}
+                                    </div>
+                                @enderror
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -21,7 +36,7 @@
 
             <ul role="list">
 
-            @foreach ($posts as $post)
+            @foreach ($object->posts as $post)
 
             <li>
                 <div class="relative pb-8">

@@ -352,5 +352,6 @@
     "mail-ending": "Cordialement,<br />L'équipe d'appui<br /><small>PS: ne pas répondre à ce mail automatique</small>",
     "Show my order": "Voir ma commande",
     "Send reset password link by email": "Envoyer le lien de réinitialisation du mot de passe par e-mail",
-    "Messaging": "Messagerie"
+    "Messaging": "Messagerie",
+    "Add Message": "Ajouter le message"
 }
