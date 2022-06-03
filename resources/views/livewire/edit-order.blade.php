@@ -177,7 +177,7 @@
             </x-input.group>
 
             @can ('manage-users')
-            <x-input.group label="Amount excl." for="amount" :error="$errors->first('order.amount')">
+            <x-input.group label="Amount excl." for="amount" :error="$errors->first('order.amount')" helpText="helptext-amount">
                 <x-input.money wire:model.debounce.500ms="order.amount" id="amount" :disabled="$disabled" />
             </x-input.group>
             @endcan
