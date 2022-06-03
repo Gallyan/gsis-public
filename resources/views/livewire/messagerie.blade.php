@@ -25,7 +25,9 @@
                                 @csrf
                                 <x-input.textarea wire:model.debounce.500ms="body" id="body" rows="5" class="text-gray-700"/>
                                 <x-button.secondary class="mt-2" type="submit" wire:offline.attr="disabled">
-                                    {{ __('Add Message') }}
+                                    <span wire:loading.remove.delay.shorter wire:target="save">{{ __('Add Message') }}</span>
+                                    <span wire:loading.delay.shorter wire:target="save" class="invisible">{{ __('Add Message') }}</span>
+                                    <div wire:loading.delay.shorter wire:target="save" class="w-full float-left -mt-6"><x-icon.loading class="mx-auto w-6 h-6"/></div>
                                 </x-button.secondary>
 
                                 <x-notify-message event='notify-sent-ok' color='text-green-600 mt-2 text-sm float-right'>{{ __('An email has just been sent!') }}</x-notify-message>
