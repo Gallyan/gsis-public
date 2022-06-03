@@ -353,5 +353,6 @@
     "Show my order": "Voir ma commande",
     "Send reset password link by email": "Envoyer le lien de réinitialisation du mot de passe par e-mail",
     "Messaging": "Messagerie",
-    "Add Message": "Ajouter le message"
+    "Add Message": "Ajouter le message",
+    "messaging-inactive": "La messagerie sera disponible lorsqu'un gestionnaire aura initié la conversation."
 }

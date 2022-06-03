@@ -5,6 +5,10 @@
             Livewire.emit('refreshMessages');
         }, 60 * 1000);
         </script>
+        @if ( in_array( $object->status, ['in-progress', 'processed', 'cancelled']) &&
+              ( count($object->posts) ||
+                Auth()->id() === $object->user_id && count($object->posts) ||
+                in_array( Auth()->id(), $object->managers->pluck('user_id')->toArray() ) ) )
         <div class="flow-root">
             <div class="relative @if (count($object->posts)) pb-8 @endif">
                 <span class="absolute top-5 left-5 -ml-px h-full w-0.5 border-dashed border border-gray-200" aria-hidden="true"></span>
@@ -67,6 +71,11 @@
             @endforeach
             </ul>
         </div>
+        @else
+        <p class="mt-2 text-sm text-gray-500">
+            {{ __('messaging-inactive') }}
+        </p>
+        @endif
     </x-input.group>
 
 </div>

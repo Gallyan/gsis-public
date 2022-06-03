@@ -248,6 +248,7 @@ class EditOrder extends Component
             Mail::to( $user )->send( new OrderStatusChange( $this->order, $user->name, auth()->user()->name) );
         }
         $this->emit('refreshOrder');
+        $this->emit('refreshMessages');
         $this->init();
     }
 

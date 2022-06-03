@@ -58,5 +58,6 @@
     "processed": "processed",
     "cancelled": "cancelled",
     "mail-ending": "Best regards,<br />The support team<br /><small>PS: do not reply to this automatic mail</small>",
-    "Institution": "Institution / Contract"
+    "Institution": "Institution / Contract",
+    "messaging-inactive": "Messaging will be available once a manager has initiated the conversation."
 }
