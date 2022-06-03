@@ -56,6 +56,7 @@ class Messagerie extends Component
 
         $this->reset(['body']);
         $this->emit('refreshMessages');
+        $this->emitSelf('notify-sent-ok');
     }
 
     public function render()

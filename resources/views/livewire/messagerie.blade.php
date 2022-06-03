@@ -27,6 +27,9 @@
                                 <x-button.secondary class="mt-2" type="submit" wire:offline.attr="disabled">
                                     {{ __('Add Message') }}
                                 </x-button.secondary>
+
+                                <x-notify-message event='notify-sent-ok' color='text-green-600 mt-2 text-sm float-right'>{{ __('An email has just been sent!') }}</x-notify-message>
+
                                 @error('body')
                                     <div class="mt-2 text-red-500 text-sm float-right">
                                         {{ __($errors->first('body')) }}
