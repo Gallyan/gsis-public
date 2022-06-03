@@ -6,7 +6,7 @@
 
         <div class="mt-6 sm:mt-5">
             <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
-                {{ $order->user->name ?? '' }}
+                <a href="{{ route('edit-user', $order->user) }}" target="_blank">{{ $order->user->name ?? '' }}</a>
             </x-input.group>
 
             <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" innerclass="flex items-center">
