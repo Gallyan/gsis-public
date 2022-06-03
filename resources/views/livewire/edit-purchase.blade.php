@@ -36,7 +36,7 @@
                 @endcan
             </x-input.group>
 
-            <x-input.group label="Subject" for="subject" :error="$errors->first('purchase.subject')" required helpText="helptext-purchase-subject">
+            <x-input.group label="Subject" for="subject" :error="$errors->first('purchase.subject')" required>
                 <x-input.text wire:model.debounce.500ms="purchase.subject" id="subject" leading-add-on="" :disabled="$disabled" />
             </x-input.group>
 
