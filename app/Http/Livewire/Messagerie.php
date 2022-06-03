@@ -2,9 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
 use App\Models\Post;
 use App\Models\Manager;
 use Livewire\Component;
+use App\Mail\NewMessage;
+use Illuminate\Support\Facades\Mail;
 
 class Messagerie extends Component
 {
@@ -42,6 +45,12 @@ class Messagerie extends Component
             ->where('manageable_id','=',$this->object->id)
             ->update(['read_at'=>now()]);
         };
+
+        if ( Auth()->id() !== $this->object->user_id ) {
+            // L'auteur du message n'est pas l'auteur de la demande, on lui envoi donc un mail
+            $user = User::findOrFail($this->object->user_id);
+            Mail::to( $user )->send( new NewMessage( $this->object, $user->name, auth()->user()->name) );
+        }
 
         $this->reset(['body']);
         $this->emit('refreshMessages');

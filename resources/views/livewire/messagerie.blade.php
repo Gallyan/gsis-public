@@ -1,4 +1,4 @@
-<div>
+<div id="messaging">
     <x-input.group label="Messaging" for="newpost">
         <script>
         setInterval(function() {
