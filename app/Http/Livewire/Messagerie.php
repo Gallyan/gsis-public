@@ -39,24 +39,26 @@ class Messagerie extends Component
         if ( Auth()->id() !== $this->object->user_id ||
              in_array( Auth()->id(), $this->object->managers->pluck('user_id')->toArray() ) ) {
             // L'auteur du message n'est pas l'auteur de la commande, ou bien il est aussi gestionnaire
-            // Il faut mettre à jour le read_at de la relation manager
+            // Il faut alors mettre à jour le read_at de la relation manager
             Manager::where('user_id','=',Auth()->id())
             ->where('manageable_type','=',get_class($this->object))
             ->where('manageable_id','=',$this->object->id)
             ->update(['read_at'=>now()]);
         };
 
+        $this->reset(['body']);
+        $this->emit('refreshMessages');
+
+        $cpt = 0;
         foreach ( array_unique( array_merge( $this->object->managers->pluck('user_id')->toArray(), [ $this->object->user_id ] ) ) as $dest_id ) {
             if ( Auth()->id() !== $dest_id ) {
                 // On n'envoie pas de mail à l'auteur du message
                 $user = User::findOrFail($dest_id);
                 Mail::to( $user )->send( new NewMessage( $this->object, $user->name, auth()->user()->name) );
+                $cpt++;
             }
         }
-
-        $this->reset(['body']);
-        $this->emit('refreshMessages');
-        $this->emitSelf('notify-sent-ok');
+        $cpt && $this->emitSelf('notify-sent-ok');
     }
 
     public function render()

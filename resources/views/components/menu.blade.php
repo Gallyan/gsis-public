@@ -8,7 +8,7 @@
     {{ __('Missions') }}
 </x-nav-link>
 
-<x-nav-link :route="'login'" :icon="'purchase'" class="opacity-50 cursor-default hover:opacity-50 hover:bg-indigo-800">
+<x-nav-link :route="'purchases'" :icon="'purchase'">
     {{ __('Non-mission purchases') }}
 </x-nav-link>
 
