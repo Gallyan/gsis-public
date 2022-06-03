@@ -32,7 +32,7 @@ class EditPurchase extends Component
     public string $subject = '';
     public string $supplier = '';
     public string $date = '';
-    public string $amount = '';
+    public string $miscamount = '';
     public string $currency = '';
     public int $misc_id;
 
@@ -53,7 +53,7 @@ class EditPurchase extends Component
         'subject'    => 'required|string',
         'supplier' => 'required|string',
         'date'     => 'required|string',
-        'amount'   => 'required|string',
+        'miscamount'   => 'required|string',
         'currency' => 'required|string',
     ]; }
 
@@ -189,11 +189,11 @@ class EditPurchase extends Component
         if( $id < 1 || $id > count($miscs)) return;
 
         $this->misc_id = $id;
-        $this->subject  = isset( $miscs[ $id-1 ]['subject'] ) ? $miscs[ $id-1 ]['subject'] : '';
-        $this->supplier = isset( $miscs[ $id-1 ]['supplier'] ) ? $miscs[ $id-1 ]['supplier'] : '';
-        $this->date     = isset( $miscs[ $id-1 ]['date'] ) ? $miscs[ $id-1 ]['date'] : '';
-        $this->amount   = isset( $miscs[ $id-1 ]['amount'] ) ? $miscs[ $id-1 ]['amount'] : '';
-        $this->currency = isset( $miscs[ $id-1 ]['currency'] ) ? $miscs[ $id-1 ]['currency'] : '';
+        $this->subject    = isset( $miscs[ $id-1 ]['subject'] ) ? $miscs[ $id-1 ]['subject'] : '';
+        $this->supplier   = isset( $miscs[ $id-1 ]['supplier'] ) ? $miscs[ $id-1 ]['supplier'] : '';
+        $this->date       = isset( $miscs[ $id-1 ]['date'] ) ? $miscs[ $id-1 ]['date'] : '';
+        $this->miscamount = isset( $miscs[ $id-1 ]['miscamount'] ) ? $miscs[ $id-1 ]['miscamount'] : '';
+        $this->currency   = isset( $miscs[ $id-1 ]['currency'] ) ? $miscs[ $id-1 ]['currency'] : '';
 
         $this->showModal = true;
     }

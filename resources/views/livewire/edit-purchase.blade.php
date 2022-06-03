@@ -106,7 +106,7 @@
                             <x-table.cell class="text-center cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                     <p class="text-cool-gray-600 truncate">
-                                        {{ $misc['amount'] ?? '' }}
+                                        {{ $misc['miscamount'] ?? '' }}
                                     </p>
                                 </span>
                             </x-table.cell>
@@ -218,15 +218,15 @@
                 </x-input.group>
 
                 <x-input.group for="date" label="Date" :error="$errors->first('date')" required>
-                    <x-input.text wire:model.debounce.500ms="date" id="date" placeholder="Date" />
+                    <x-input.date wire:model="date" id="date" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
 
-                <x-input.group for="amount" label="Amount" :error="$errors->first('amount')" required>
-                    <x-input.text wire:model.debounce.500ms="amount" id="amount" placeholder="Amount" />
+                <x-input.group for="miscamount" label="Amount" :error="$errors->first('miscamount')" required>
+                    <x-input.money wire:model.debounce.500ms="miscamount" id="miscamount" :leadingIcon="false"/>
                 </x-input.group>
 
                 <x-input.group for="currency" label="Currency" :error="$errors->first('currency')" required>
-                    <x-input.text wire:model.debounce.500ms="currency" id="currency" placeholder="Currency" />
+                    <x-input.text wire:model.debounce.500ms="currency" id="currency" placeholder="{{ __('Currency') }}" />
                 </x-input.group>
             </x-slot>
 
@@ -260,3 +260,13 @@
     </x-modal.information>
 
 </div>
+
+
+@pushOnce('stylesheets')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+@endPushOnce
+
+@pushOnce('scripts')
+    <script src="https://unpkg.com/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+@endPushOnce
