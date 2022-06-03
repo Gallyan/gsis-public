@@ -18,7 +18,7 @@ class OrderStatusChange extends Mailable
      *
      * @var \App\Models\Order
      */
-    public $order;
+    public Order $order;
 
     /**
      * The destination user name.
