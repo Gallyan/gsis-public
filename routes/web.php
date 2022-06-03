@@ -5,6 +5,8 @@ use App\Http\Livewire\Users;
 use App\Http\Livewire\Institutions;
 use App\Http\Livewire\Orders;
 use App\Http\Livewire\EditOrder;
+use App\Http\Livewire\Purchases;
+use App\Http\Livewire\EditPurchase;
 use App\Http\Livewire\EditUser;
 
 /**
@@ -18,6 +20,8 @@ Route::middleware(['auth','throttle:global'])->group(function () {
 Route::middleware(['auth','verified','throttle:global'])->group(function () {
     Route::get('/orders', Orders::class)->name('orders');
     Route::get('/order/{id?}', EditOrder::class)->whereNumber('id')->name('edit-order');
+    Route::get('/purchases', Purchases::class)->name('purchases');
+    Route::get('/purchase/{id?}', EditPurchase::class)->whereNumber('id')->name('edit-purchase');
     Route::get('/documents/{id}', 'App\Http\Controllers\DocumentController@download')->whereNumber('id')->name('download');
 
     // Admin
