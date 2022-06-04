@@ -294,6 +294,8 @@ class EditOrder extends Component
 
     public function save()
     {
+        $creation = is_null( $this->order->id );
+
         $this->order->books = $this->order->books; //Force json encodage
 
         $this->withValidator(function (Validator $validator) {
@@ -361,6 +363,11 @@ class EditOrder extends Component
             // Envoi de mail lors d'un changement de status uniquement
             $user = User::findOrFail($this->order->user_id);
             Mail::to( $user )->send( new OrderStatusChange( $this->order, $user->name, auth()->user()->name) );
+        }
+
+        if ( $creation ) {
+            // Redirection pour modifier l'url
+            return redirect()->route('edit-order',$this->order->id);
         }
     }
 }
