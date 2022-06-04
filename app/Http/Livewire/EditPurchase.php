@@ -297,6 +297,8 @@ class EditPurchase extends Component
 
     public function save()
     {
+        $creation = is_null( $this->purchase->id );
+
         $this->purchase->miscs = $this->purchase->miscs; //Force json encodage
 
         $this->withValidator(function (Validator $validator) {
@@ -364,6 +366,11 @@ class EditPurchase extends Component
             // Envoi de mail lors d'un changement de status uniquement
             $user = User::findOrFail($this->purchase->user_id);
             Mail::to( $user )->send( new PurchaseStatusChange( $this->purchase, $user->name, auth()->user()->name) );
+        }
+
+        if ( $creation ) {
+            // Redirection pour modifier l'url
+            return redirect()->route('edit-purchase',$this->purchase->id);
         }
     }
 }
