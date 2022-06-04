@@ -66,7 +66,7 @@
                 </x-input.select>
             </x-input.group>
 
-            <x-input.group label="Non-mission purchases" for="miscs" wire:model="purchase.miscs" :error="$errors->first('purchase.miscs')">
+            <x-input.group label="Non-mission purchases" for="miscs" wire:model="purchase.miscs" :error="$errors->first('purchase.miscs')" helpText="helptext-purchase-misc">
                 <x-table>
                     <x-slot name="head">
                         <x-table.heading small class="max-w-64">{{ __('Object') }}</x-table.heading>

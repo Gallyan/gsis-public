@@ -316,6 +316,7 @@
     "helptext-user-change-email": "En cas de modification de l'adresse électronique, un nouvel e-mail de vérification sera envoyé, et les fonctionnalités du site seront indisponibles jusqu'à la validation.",
     "helptext-amount": "Ce champs n'est visible que des gestionnaires.",
     "helptext-purchase-status": "Pour soumettre votre achat, passez le statut à \"En attente\", puis sauvegarder-le.<br/>Une fois que l'achat est pris en charge par un gestionnaire, le statut passe à \"En cours\" et vous ne pourrez plus le modifier.",
+    "helptext-purchase-misc": "Pour une meilleur compréhension, organisez les lignes par devise.",
     "Delete document": "Supprimer un document",
     "Do you really want to delete document": "Voulez-vous vraiment supprimer le document",
     "Nothing found...": "Aucun résultat...",
