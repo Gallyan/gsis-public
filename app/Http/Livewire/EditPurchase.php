@@ -43,7 +43,7 @@ class EditPurchase extends Component
         'purchase.wp'             => 'required|in:'.collect(Purchase::WP)->keys()->implode(','),
         'uploads'                 => 'nullable|array',
         'uploads.*'               => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
-        'purchase.miscs'           => 'sometimes|array',
+        'purchase.miscs'          => 'sometimes|array',
         'purchase.comments'       => 'nullable|string',
         'purchase.status'         => 'required|in:'.collect(Purchase::STATUSES)->keys()->implode(','),
         'purchase.amount'         => 'nullable|float',
@@ -51,10 +51,10 @@ class EditPurchase extends Component
 
     protected function misc_rules() { return [
         'subject'    => 'required|string',
-        'supplier' => 'required|string',
-        'date'     => 'required|string',
-        'miscamount'   => 'required|string',
-        'currency' => 'required|string',
+        'supplier'   => 'required|string',
+        'date'       => 'required|date_format:Y-m-d',
+        'miscamount' => 'required|float',
+        'currency'   => 'required|string',
     ]; }
 
     protected function messages() { return [
