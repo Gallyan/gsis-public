@@ -462,12 +462,12 @@
             <x-slot name="title">@if(isset($this->guest_id)) @lang('Edit guest') @else @lang('Add guest') @endif</x-slot>
 
             <x-slot name="content">
-                <x-input.group paddingless borderless class="sm:py-1" for="guest_lastname" label="Last name" :error="$errors->first('guest_lastname')">
-                    <x-input.text wire:model.debounce.500ms="guest_lastname" id="guest_lastname" placeholder="{{ __('Last name') }}" />
+                <x-input.group paddingless borderless class="sm:py-1" for="guest_lastname" label="Last Name" :error="$errors->first('guest_lastname')">
+                    <x-input.text wire:model.debounce.500ms="guest_lastname" id="guest_lastname" placeholder="{{ __('Last Name') }}" />
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1" for="guest_firstname" label="First name" :error="$errors->first('guest_firstname')">
-                    <x-input.text wire:model.debounce.500ms="guest_firstname" id="guest_firstname" placeholder="{{ __('Fist name') }}" />
+                <x-input.group paddingless borderless class="sm:py-1" for="guest_firstname" label="First Name" :error="$errors->first('guest_firstname')">
+                    <x-input.text wire:model.debounce.500ms="guest_firstname" id="guest_firstname" placeholder="{{ __('First Name') }}" />
                 </x-input.group>
 
                 <x-input.group paddingless borderless class="sm:py-1" for="guest_establishment" label="Establishment" :error="$errors->first('guest_establishment')">

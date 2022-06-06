@@ -376,5 +376,10 @@
     "Object": "Objet",
     "No. of participants": "Nb de participants",
     "Send your documents": "Transmettez vos pièces",
-    "bytes": "octets"
+    "bytes": "octets",
+    "Guests": "Invités",
+    "Guests list": "Liste d'invités",
+    "Establishment": "Etablissement",
+    "Add guest": "Ajouter un invité",
+    "Edit guest": "Editer un invité"
 }
