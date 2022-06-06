@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('subject')->nullable();
             $table->integer('number')->nullable();
             $table->string('supplier')->nullable();
-            $table->timestamp('date')->nullable();
+            $table->date('date')->nullable();
             $table->float('amount')->nullable();
             $table->string('currency')->nullable();
             $table->json('guests')->nullable();

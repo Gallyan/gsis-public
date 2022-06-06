@@ -73,13 +73,12 @@
                         <x-table.heading small>{{ __('Supplier') }}</x-table.heading>
                         <x-table.heading small>{{ __('Date') }}</x-table.heading>
                         <x-table.heading small>{{ __('Amount') }}</x-table.heading>
-                        <x-table.heading small>{{ __('Currency') }}</x-table.heading>
                         <x-table.heading small></x-table.heading>
                     </x-slot>
 
                     <x-slot name="body">
                         @forelse ($purchase->miscs as $misc)
-                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="misc-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
                             <x-table.cell class="whitespace-normal cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 text-sm leading-5">
                                     <p class="text-cool-gray-600">
@@ -107,19 +106,14 @@
                             <x-table.cell class="text-center cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                     <p class="text-cool-gray-600 truncate">
-                                        {{ $misc['miscamount'] ?? '' }}
-                                    </p>
-                                </span>
-                            </x-table.cell>
-                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
-                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    <p class="text-cool-gray-600 truncate">
-                                        {{ $misc['currency'] ?? '' }}
+                                        @isset ($misc['miscamount'])
+                                        {{ number_format($misc['miscamount'],2,',',' ') ?? '' }} {{ $misc['currency'] ?? '' }}
+                                        @endisset
                                     </p>
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="text-center">
+                            <x-table.cell class="text-center max-w-4">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_misc({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
@@ -146,7 +140,7 @@
 
             <x-input.group label="Receptions" wire:model="purchase.receptions" >
                 @forelse ($purchase_receptions as $reception)
-                <div @if (!$loop->last) class="pb-6" @endif wire:loading.class="opacity-50" wire:key="row-{{ $loop->iteration }}">
+                <div @if (!$loop->last) class="pb-6" @endif wire:loading.class="opacity-50" wire:key="rcpt-{{ $loop->iteration }}">
                 <x-table>
                     <x-slot name="head">
                         <x-table.heading colspan="2">
@@ -170,9 +164,21 @@
                             <x-table.cell class="w-32">{{ __('Subject') }}&nbsp;:</x-table.cell>
                             <x-table.cell>{{ $reception['subject'] ?? '' }}</x-table.cell>
                         </x-table.row>
-                        <x-table.row class="bg-gray-50">
+                        <x-table.row>
                             <x-table.cell class="w-32">{{ __('No. of participants') }}&nbsp;:</x-table.cell>
                             <x-table.cell>{{ $reception['number'] ?? '' }}</x-table.cell>
+                        </x-table.row>
+                        <x-table.row>
+                            <x-table.cell class="w-32">{{ __('Supplier') }}&nbsp;:</x-table.cell>
+                            <x-table.cell>{{ $reception['supplier'] ?? '' }}</x-table.cell>
+                        </x-table.row>
+                        <x-table.row>
+                            <x-table.cell class="w-32">{{ __('Date') }}&nbsp;:</x-table.cell>
+                            <x-table.cell>{{ $reception['date'] ?? '' }}</x-table.cell>
+                        </x-table.row>
+                        <x-table.row>
+                            <x-table.cell class="w-32">{{ __('Amount') }}&nbsp;:</x-table.cell>
+                            <x-table.cell>@isset ($reception['amount']) {{ number_format($reception['amount'],2,',',' ') ?? '' }} {{ $reception['currency'] ?? '' }} @endisset</x-table.cell>
                         </x-table.row>
                     </x-slot>
                 </x-table>
@@ -304,17 +310,34 @@
     <form wire:submit.prevent="add_reception">
         @csrf
 
-        <x-modal.dialog wire:model.defer="showReception">
+        <x-modal.dialog wire:model.defer="showReception" maxWidth="4xl">
             <x-slot name="title">@if(isset($this->rcpt_index)) @lang('Edit reception') @else @lang('Add reception') @endif</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="rcpt_subject" label="Object" :error="$errors->first('rcpt_subject')" required>
+                <x-input.group paddingless borderless class="sm:py-1" for="rcpt_subject" label="Object" :error="$errors->first('rcpt_subject')">
                     <x-input.text wire:model.debounce.500ms="rcpt_subject" id="rcpt_subject" placeholder="{{ __('Object') }}" />
                 </x-input.group>
 
-                <x-input.group for="rcpt_number" label="No. of participants" :error="$errors->first('rcpt_number')" required>
-                    <x-input.text wire:model.debounce.500ms="rcpt_number" id="rcpt_number" placeholder="{{ __('No. of participants') }}" />
+                <x-input.group paddingless borderless class="sm:py-1" for="rcpt_number" label="No. of participants" :error="$errors->first('rcpt_number')">
+                    <x-input.number wire:model.debounce.500ms="rcpt_number" id="rcpt_number" min="0" />
                 </x-input.group>
+
+                <x-input.group paddingless borderless class="sm:py-1" for="rcpt_supplier" label="Supplier" :error="$errors->first('rcpt_supplier')">
+                    <x-input.text wire:model.debounce.500ms="rcpt_supplier" id="rcpt_supplier" placeholder="{{ __('Supplier') }}" />
+                </x-input.group>
+
+                <x-input.group paddingless borderless class="sm:py-1" for="rcpt_date" label="Date" :error="$errors->first('rcpt_date')">
+                    <x-input.date wire:model="rcpt_date" id="rcpt_date" placeholder="{{ __('YYYY-MM-DD') }}" />
+                </x-input.group>
+
+                <x-input.group paddingless borderless class="sm:py-1" for="rcpt_amount" label="Amount" :error="$errors->first('rcpt_amount')">
+                    <x-input.money wire:model.debounce.500ms="rcpt_amount" id="rcpt_amount" :leadingIcon="false" />
+                </x-input.group>
+
+                <x-input.group paddingless borderless class="sm:py-1" for="rcpt_currency" label="Currency" :error="$errors->first('rcpt_currency')">
+                    <x-input.text wire:model.debounce.500ms="rcpt_currency" id="rcpt_currency" placeholder="{{ __('Currency') }}" />
+                </x-input.group>
+
             </x-slot>
 
             <x-slot name="footer">

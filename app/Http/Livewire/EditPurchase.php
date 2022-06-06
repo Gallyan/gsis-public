@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\User;
 use App\Models\Purchase;
 use App\Models\Manager;
+use App\Models\Reception;
 use App\Mail\PurchaseStatusChange;
 use Livewire\Component;
 use App\Models\Document;
@@ -40,8 +41,13 @@ class EditPurchase extends Component
     public $showReception = false; // Declenche le modal
     public $purchase_receptions; // Toutes les receptions en cours d'edition
     public int $rcpt_index; // Index in purchase_receptions en cours d'édition
-    public string $rcpt_subject = '';
-    public string $rcpt_number = '';
+    public $rcpt_subject = null;
+    public $rcpt_number = null;
+    public $rcpt_supplier = null;
+    public $rcpt_date = null;
+    public $rcpt_amount = null;
+    public $rcpt_currency = null;
+    public $rcpt_guests = null;
     public $del_receptions = [];
 
     protected function rules() { return [
@@ -67,9 +73,9 @@ class EditPurchase extends Component
 
     protected function rcpt_rules() { return [
         'rcpt_subject'  => 'nullable|string',
-        'rcpt_number'   => 'nullable|integer',
+        'rcpt_number'   => 'nullable|integer|min:0',
         'rcpt_supplier' => 'nullable|string',
-        'rcpt_date'     => 'nullable|date_format:Y-m-d',
+        'rcpt_date'     => 'nullable|date',
         'rcpt_amount'   => 'nullable|float',
         'rcpt_currency' => 'nullable|string',
         'rcpt_guests'   => 'nullable|array',
@@ -249,7 +255,7 @@ class EditPurchase extends Component
     {
         $this->showReception = false;
 
-        $this->rcpt_subject = $this->rcpt_number = ''; // Reset form
+        $this->rcpt_subject = $this->rcpt_number = $this->rcpt_supplier = $this->rcpt_date = $this->rcpt_amount = $this->rcpt_currency = $this->rcpt_guests = null; // Reset form
 
         unset($this->rcpt_index);
     }
@@ -260,8 +266,13 @@ class EditPurchase extends Component
 
         $this->rcpt_index = $index;
 
-        $this->rcpt_subject = $this->purchase_receptions[$index]['subject'];
-        $this->rcpt_number = $this->purchase_receptions[$index]['number'];
+        $this->rcpt_subject  = $this->purchase_receptions[$index]['subject'];
+        $this->rcpt_number   = $this->purchase_receptions[$index]['number'];
+        $this->rcpt_supplier = $this->purchase_receptions[$index]['supplier'];
+        $this->rcpt_date     = $this->purchase_receptions[$index]['date'];
+        $this->rcpt_amount   = $this->purchase_receptions[$index]['amount'];
+        $this->rcpt_currency = $this->purchase_receptions[$index]['currency'];
+        $this->rcpt_guests   = $this->purchase_receptions[$index]['guests'];
 
         $this->showReception = true;
     }
@@ -290,8 +301,13 @@ class EditPurchase extends Component
         $this->purchase_receptions = array_replace_recursive(
             $this->purchase_receptions,
             [ $this->rcpt_index => [
-                    'subject' => $this->rcpt_subject,
-                    'number' => $this->rcpt_number,
+                    'subject'  => $this->rcpt_subject,
+                    'number'   => $this->rcpt_number,
+                    'supplier' => $this->rcpt_supplier,
+                    'date'     => $this->rcpt_date,
+                    'amount'   => $this->rcpt_amount,
+                    'currency' => $this->rcpt_currency,
+                    'guests'   => $this->rcpt_guests,
                 ]
             ]
         );
@@ -375,20 +391,6 @@ class EditPurchase extends Component
         ]);
     }
 
-    public function makeBlankReception()
-    {
-        return Reception::make([
-            'purchase_id' => $this->purchase->id,
-            'subject' => null,
-            'number'  => null,
-            'supplier' => null,
-            'date' => null,
-            'amount' => null,
-            'currency' => null,
-            'guests' => null,
-        ]);
-    }
-
     public function save()
     {
         $creation = is_null( $this->purchase->id );
@@ -431,7 +433,7 @@ class EditPurchase extends Component
         // Suppression des fichiers à supprimer
         foreach( $this->del_docs as $id ) {
 
-            $document = Document::find( $id ) ;
+            $document = Document::findOrFail( $id ) ;
 
             if( !empty( $document ) ) {
 
@@ -447,7 +449,24 @@ class EditPurchase extends Component
             }
         }
 
-        $this->reset(['uploads','modified','del_docs']);
+        // Traitement des achats
+        // Suppression
+        foreach( $this->del_receptions as $rcpt_id ) {
+            Reception::findOrFail( $rcpt_id )->delete();
+        }
+        // Modification & Creation
+        foreach( $this->purchase_receptions as $rcpt ) {
+            if ( isset($rcpt['id']) ) {
+                Reception::where('id',$rcpt['id'])->update(
+                    array_filter($rcpt, function($k) {
+                    return !in_array( $k, ['created_at', 'updated_at', 'id'] );
+                }, ARRAY_FILTER_USE_KEY));
+            } else {
+                Reception::create(array_merge( $rcpt, [ 'purchase_id' => $this->purchase->id ] ));
+            }
+        }
+
+        $this->reset(['uploads','modified','del_docs','del_receptions']);
         $this->emit('refreshPurchase');
         $this->emitSelf('notify-saved');
         $this->statesUpdate();
