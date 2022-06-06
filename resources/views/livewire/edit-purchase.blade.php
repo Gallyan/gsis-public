@@ -176,7 +176,11 @@
                         </x-table.row>
                         <x-table.row>
                             <x-table.cell class="w-32">{{ __('Date') }}&nbsp;:</x-table.cell>
-                            <x-table.cell>{{ $reception['date'] ?? '' }}</x-table.cell>
+                            <x-table.cell>
+                                @isset ($reception['date'])
+                                {{ \Illuminate\Support\Carbon::parse($reception['date'])->format('d/m/Y') }}
+                                @endisset
+                            </x-table.cell>
                         </x-table.row>
                         <x-table.row>
                             <x-table.cell class="w-32">{{ __('Amount') }}&nbsp;:</x-table.cell>
