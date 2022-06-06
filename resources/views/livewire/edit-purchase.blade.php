@@ -98,7 +98,9 @@
                             <x-table.cell class="text-center cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                     <p class="text-cool-gray-600 truncate">
-                                        {{ $misc['date'] ?? '' }}
+                                        @isset ($misc['date'])
+                                        {{ \Illuminate\Support\Carbon::parse($misc['date'])->format('d/m/Y') }}
+                                        @endisset
                                     </p>
                                 </span>
                             </x-table.cell>
@@ -107,7 +109,7 @@
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                     <p class="text-cool-gray-600 truncate">
                                         @isset ($misc['miscamount'])
-                                        {{ number_format($misc['miscamount'],2,',',' ') ?? '' }} {{ $misc['currency'] ?? '' }}
+                                        {{ number_format( (float)$misc['miscamount'],2,',',' ') }} {{ $misc['currency'] ?? '' }}
                                         @endisset
                                     </p>
                                 </span>

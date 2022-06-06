@@ -30,11 +30,11 @@ class EditPurchase extends Component
     // For Modal Misc editing
     public $showModal = false;
     public $showInformationMessage = false;
-    public string $subject = '';
-    public string $supplier = '';
-    public string $date = '';
-    public string $miscamount = '';
-    public string $currency = '';
+    public $subject = null;
+    public $supplier = null;
+    public $date = null;
+    public $miscamount = null;
+    public $currency = null;
     public int $misc_id;
 
     // For Modal Reception
