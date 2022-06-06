@@ -68,6 +68,11 @@ class EditPurchase extends Component
     protected function rcpt_rules() { return [
         'rcpt_subject'  => 'nullable|string',
         'rcpt_number'   => 'nullable|integer',
+        'rcpt_supplier' => 'nullable|string',
+        'rcpt_date'     => 'nullable|date_format:Y-m-d',
+        'rcpt_amount'   => 'nullable|float',
+        'rcpt_currency' => 'nullable|string',
+        'rcpt_guests'   => 'nullable|array',
     ]; }
 
     protected function messages() { return [
