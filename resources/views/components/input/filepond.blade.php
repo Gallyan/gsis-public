@@ -49,7 +49,7 @@
                 },
             },
         });
-        this.addEventListener('pondReset', e => {
+        this.addEventListener('{{ $attributes['eventReset'] ?? 'pondReset' }}', e => {
             pond.removeFiles();
         });"
     {{ $attributes->only('class') }}
