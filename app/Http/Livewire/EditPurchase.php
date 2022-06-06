@@ -26,10 +26,10 @@ class EditPurchase extends Component
     public $modified = false; // True if form is modified and need to be saved
     public $disabled = false; // True if user can't modify current editing Object
     public $disabledStatuses = []; // List of disabled status
+    public $showInformationMessage = false;
 
     // For Modal Misc editing
     public $showModal = false;
-    public $showInformationMessage = false;
     public $subject = null;
     public $supplier = null;
     public $date = null;
@@ -47,8 +47,16 @@ class EditPurchase extends Component
     public $rcpt_date = null;
     public $rcpt_amount = null;
     public $rcpt_currency = null;
-    public $rcpt_guests = null;
+    public $rcpt_guests = [];
     public $del_receptions = [];
+
+    // For Modal Guest editing
+    public $showGuest = false;
+    public string $guest_lastname = '';
+    public string $guest_firstname = '';
+    public string $guest_establishment = '';
+    public $guest_rcpt_index = null;
+    public int $guest_id;
 
     protected function rules() { return [
         'purchase.user_id'        => 'required|exists:users,id',
@@ -78,7 +86,13 @@ class EditPurchase extends Component
         'rcpt_date'     => 'nullable|date',
         'rcpt_amount'   => 'nullable|float',
         'rcpt_currency' => 'nullable|string',
-        'rcpt_guests'   => 'nullable|array',
+        'rcpt_guests'   => 'sometimes|array',
+    ]; }
+
+    protected function guest_rules() { return [
+        'guest_lastname'      => 'nullable|string',
+        'guest_firstname'     => 'nullable|string',
+        'guest_establishment' => 'nullable|string',
     ]; }
 
     protected function messages() { return [
@@ -255,7 +269,8 @@ class EditPurchase extends Component
     {
         $this->showReception = false;
 
-        $this->rcpt_subject = $this->rcpt_number = $this->rcpt_supplier = $this->rcpt_date = $this->rcpt_amount = $this->rcpt_currency = $this->rcpt_guests = null; // Reset form
+        $this->rcpt_subject = $this->rcpt_number = $this->rcpt_supplier = $this->rcpt_date = $this->rcpt_amount = $this->rcpt_currency = null;
+        $this->rcpt_guests = []; // Reset form
 
         unset($this->rcpt_index);
     }
@@ -317,6 +332,67 @@ class EditPurchase extends Component
         $this->close_reception();
     }
 
+    // Gestion des invités
+    public function show_guest( $rcpt_index ) {
+        $this->guest_rcpt_index = $rcpt_index;
+        $this->showGuest = true;
+    }
+
+    public function close_guest() {
+        $this->showGuest = false;
+        $this->guest_lastname = $this->guest_firstname = $this->guest_establishment = ''; // Reset form
+        unset($this->guest_id);
+        unset($this->guest_rcpt_index);
+    }
+
+    public function edit_guest( int $rcpt_index, int $guest_id ) {
+        if ( $this->disabled === true ) return;
+
+        $guests = $this->purchase_receptions[$rcpt_index]['guests'];
+
+        if( $guest_id < 0 || $guest_id >= count($guests)) return;
+
+        $this->guest_id = $guest_id;
+        $this->guest_lastname      = isset( $guests[ $guest_id ]['lastname'] ) ? $guests[ $guest_id ]['lastname'] : '';
+        $this->guest_firstname     = isset( $guests[ $guest_id ]['firstname'] ) ? $guests[ $guest_id ]['firstname'] : '';
+        $this->guest_establishment = isset( $guests[ $guest_id ]['establishment'] ) ? $guests[ $guest_id ]['establishment'] : '';
+
+        $this->showGuest = true;
+    }
+
+    public function del_guest( int $rcpt_index, int $guest_id ) {
+        if ( $this->disabled === true ) return;
+
+        $guests = $this->purchase_receptions[$rcpt_index]['guests'];
+
+        if( $guest_id < 0 || $guest_id >= count($guests)) return;
+
+        if(isset($guests[$guest_id])) unset( $guests[$guest_id] );
+
+        $this->purchase_receptions[$rcpt_index]['guests'] = array_values( $guests );
+
+        $this->modified = true;
+    }
+
+    // Ajoute un invité à la liste json des invités
+    public function add_guest() {
+        $current_guest = $this->validate( $this->guest_rules() );
+
+        $guests = $this->purchase_receptions[ $this->guest_rcpt_index ]['guests'];
+
+        if( isset($this->guest_id) && !empty( $this->guest_id ) ) {
+            $guests[ $this->guest_id ] = $current_guest;
+        } else {
+            $guests[] = $current_guest;
+        }
+
+        $this->purchase_receptions[ $this->guest_rcpt_index ]['guests'] = $guests;
+
+        $this->modified = true;
+
+        $this->close_guest();
+    }
+
     // Ajoute un document à la liste des documents à supprimer
     public function del_doc( $id ) {
         if ( $this->disabled === true ) return;
@@ -368,7 +444,7 @@ class EditPurchase extends Component
 
         } else {
             $this->validateOnly($propertyName);
-            if ( !in_array($propertyName, ['showModal','showReception']) )
+            if ( !in_array($propertyName, ['showModal','showReception','showGuest']) )
                 $this->modified = !empty($this->purchase->getDirty()) ;
         }
     }

@@ -163,7 +163,7 @@
                     </x-slot>
                     <x-slot name="body">
                         <x-table.row>
-                            <x-table.cell class="w-32">{{ __('Subject') }}&nbsp;:</x-table.cell>
+                            <x-table.cell class="w-32">{{ __('Object') }}&nbsp;:</x-table.cell>
                             <x-table.cell>{{ $reception['subject'] ?? '' }}</x-table.cell>
                         </x-table.row>
                         <x-table.row>
@@ -186,6 +186,62 @@
                             <x-table.cell class="w-32">{{ __('Amount') }}&nbsp;:</x-table.cell>
                             <x-table.cell>@isset ($reception['amount']) {{ number_format($reception['amount'],2,',',' ') ?? '' }} {{ $reception['currency'] ?? '' }} @endisset</x-table.cell>
                         </x-table.row>
+
+                        <x-table.row>
+                            <x-table.cell class="w-32">{{ __('Guests') }}&nbsp;:</x-table.cell>
+                            <x-table.cell>
+                                <x-table>
+                                    <x-slot name="head">
+                                        <x-table.heading small>{{ __('Name') }}</x-table.heading>
+                                        <x-table.heading small>{{ __('Establishment') }}</x-table.heading>
+                                        <x-table.heading small class="w-6"></x-table.heading>
+                                    </x-slot>
+
+                                    <x-slot name="body">
+                                        @forelse ($reception['guests'] as $guest)
+                                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="guest-{{$loop->parent->index}}-{{ $loop->index }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+                                            <x-table.cell class="whitespace-normal cursor-pointer" wire:click="edit_guest({{ $loop->parent->index }},{{ $loop->index }})">
+                                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                                    <p class="text-cool-gray-600">
+                                                        {{ $guest['guest_firstname'] ?? '' }} {{ $guest['guest_lastname'] ?? '' }}
+                                                    </p>
+                                                </span>
+                                            </x-table.cell>
+
+                                            <x-table.cell class="cursor-pointer" wire:click="edit_guest({{ $loop->parent->index }},{{ $loop->index }})">
+                                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                                    <p class="text-cool-gray-600 truncate">
+                                                        {{ $guest['guest_establishment'] ?? '' }}
+                                                    </p>
+                                                </span>
+                                            </x-table.cell>
+
+                                            <x-table.cell class="text-center max-w-4">
+                                                <span class="inline-flex text-sm leading-5">
+                                                    <x-button.link wire:click="del_guest({{ $loop->parent->index }},{{ $loop->index }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
+                                                        <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
+                                                    </x-button.link>
+                                                </span>
+                                            </x-table.cell>
+                                        </x-table.row>
+                                        @empty
+                                        <x-table.row>
+                                            <x-table.cell colspan="3">
+                                                <div class="flex justify-center items-center space-x-2">
+                                                    <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
+                                                    <span class="font-medium text-cool-gray-400 text-lg">{{ __('No guests...') }}</span>
+                                                </div>
+                                            </x-table.cell>
+                                        </x-table.row>
+                                        @endforelse
+                                    </x-slot>
+                                </x-table>
+
+                                <x-button.secondary wire:click="show_guest({{$loop->index}})" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add guest') }}</x-button.primary>
+
+                            </x-table.cell>
+                        </x-table.row>
+
                     </x-slot>
                 </x-table>
                 </div>
@@ -353,6 +409,37 @@
             </x-slot>
         </x-modal.dialog>
     </form>
+
+        <!-- Add Guest Modal -->
+        <form wire:submit.prevent="add_guest">
+        @csrf
+
+        <x-modal.dialog wire:model.defer="showGuest">
+            <x-slot name="title">@if(isset($this->guest_id)) @lang('Edit guest') @else @lang('Add guest') @endif</x-slot>
+
+            <x-slot name="content">
+                <x-input.group paddingless borderless class="sm:py-1" for="guest_lastname" label="Last name" :error="$errors->first('guest_lastname')">
+                    <x-input.text wire:model.debounce.500ms="guest_lastname" id="guest_lastname" placeholder="{{ __('Last name') }}" />
+                </x-input.group>
+
+                <x-input.group paddingless borderless class="sm:py-1" for="guest_firstname" label="First name" :error="$errors->first('guest_firstname')">
+                    <x-input.text wire:model.debounce.500ms="guest_firstname" id="guest_firstname" placeholder="{{ __('Fist name') }}" />
+                </x-input.group>
+
+                <x-input.group paddingless borderless class="sm:py-1" for="guest_establishment" label="Establishment" :error="$errors->first('guest_establishment')">
+                    <x-input.text wire:model.debounce.500ms="guest_establishment" id="guest_establishment" placeholder="{{ __('Establishment') }}" />
+                </x-input.group>
+
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-button.secondary wire:click="close_guest">{{ __('Cancel') }}</x-button.secondary>
+
+                <x-button.primary type="submit">@if(isset($this->guest_id)) @lang('Update') @else @lang('Add') @endif</x-button.primary>
+            </x-slot>
+        </x-modal.dialog>
+    </form>
+
 
     <!-- Confirm state change //-->
     <x-modal.information wire:model.defer="showInformationMessage">

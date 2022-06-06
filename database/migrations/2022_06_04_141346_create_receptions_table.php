@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->float('amount')->nullable();
             $table->string('currency')->nullable();
-            $table->json('guests')->nullable();
+            $table->json('guests')->default('[]');
             $table->timestamps();
         });
     }
