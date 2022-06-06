@@ -246,6 +246,44 @@
                             </x-table.cell>
                         </x-table.row>
 
+                        <x-table.row>
+                            <x-table.cell class="w-32">{{ __('Guests list') }}&nbsp;:</x-table.cell>
+                            <x-table.cell>
+                                @if ( isset($reception['doc']) && !is_null($reception['doc']) )
+
+                                <div class="inline-flex">
+                                <div class="flex-1 text-sm text-gray-500">
+                                    <a href="{{ route( 'download', $reception['doc']['id'] ) }}" target="_blank">
+                                    <x-icon.document />
+                                    {{ $reception['doc']['name'] }}</a> ({{$reception['doc']['size']}} {{ __('bytes') }}, {{ \Illuminate\Support\Carbon::parse($reception['doc']['created_at'])->setTimezone('Europe/Paris')->translatedFormat('d M Y, H:i') }})
+                                </div>
+                                <x-icon.trash class="ml-5 mr-1 text-gray-500 cursor-pointer" wire:click="del_list({{ $loop->index }})"/>
+                                <div>
+
+                                @elseif ( isset($reception['list']['name']) && !empty($reception['list']['name']) )
+
+                                <div class="inline-flex">
+                                    <div class="flex-1 text-sm text-gray-500">
+                                        <x-icon.document />
+                                        {{ $reception['list']['name'] }} ({{$reception['list']['file']->getSize()}} {{ __('bytes') }})
+                                    </div>
+                                    <x-icon.trash class="ml-5 mr-1 text-gray-500 cursor-pointer" wire:click="del_list({{ $loop->index }})"/>
+                                <div>
+
+                                @else
+
+                                @if (!$disabled)
+                                <x-button.secondary wire:click="show_list({{$loop->index}})" :disabled="$disabled"><x-icon.plus/> {{ __('Add file') }}</x-button.primary>
+                                @endif
+
+                                @endif
+
+                            </x-table.cell>
+                        </x-table.row>
+
+
+
+
                     </x-slot>
                 </x-table>
                 </div>
@@ -446,6 +484,39 @@
         </x-modal.dialog>
     </form>
 
+    <!-- Add guest_list Modal -->
+    <form wire:submit.prevent="save_list">
+        @csrf
+
+        <x-modal.dialog wire:model.defer="showList">
+            <x-slot name="title">
+                {{ __('Add document') }}
+            </x-slot>
+
+            <x-slot name="content">
+                <x-input.group for="file" label="File" :error="$errors->first('list.file')" required>
+                    <x-input.filepond
+                        wire:model="list.file"
+                        id="file"
+                        inputname="file"
+                        eventReset="guestlistReset"
+                        maxFileSize="2MB"
+                        acceptedFileTypes="[ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
+                    />
+                </x-input.group>
+
+                <x-input.group for="name" label="Name" :error="$errors->first('list.name')" required>
+                    <x-input.text wire:model.debounce.500ms="list.name" id="name" placeholder="{{ __('Name') }}" />
+                </x-input.group>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-button.secondary wire:click="close_list">{{ __('Cancel') }}</x-button.secondary>
+
+                <x-button.primary wire:loading.attr="disabled" type="submit">{{ __('Add') }}</x-button.primary>
+            </x-slot>
+        </x-modal.dialog>
+    </form>
 
     <!-- Confirm state change //-->
     <x-modal.information wire:model.defer="showInformationMessage">

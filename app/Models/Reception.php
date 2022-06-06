@@ -20,5 +20,19 @@ class Reception extends Model
 
     protected $guarded = [];
 
-    public function purchase() { return $this->belongsTo('App\Models\Purchase'); }
+    /**
+     * Get the purchase of the reception.
+     */
+    public function purchase() {
+        return $this->belongsTo('App\Models\Purchase');
+    }
+
+    /**
+     * Get all of the user's documents.
+     */
+    public function guestslist()
+    {
+        return $this->morphOne(Document::class, 'documentable');
+    }
+
 }

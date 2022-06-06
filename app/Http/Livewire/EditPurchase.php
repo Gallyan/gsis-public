@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Str;
 use App\Models\User;
 use App\Models\Purchase;
 use App\Models\Manager;
@@ -58,6 +59,10 @@ class EditPurchase extends Component
     public $guest_rcpt_index = null;
     public int $guest_id;
 
+    // For Guest list modal
+    public $showList = false;
+    public $list = [];
+
     protected function rules() { return [
         'purchase.user_id'        => 'required|exists:users,id',
         'purchase.subject'        => 'required|string|max:255',
@@ -95,6 +100,13 @@ class EditPurchase extends Component
         'guest_establishment' => 'nullable|string',
     ]; }
 
+    protected function list_rules() {
+        return [
+            'list.file' => 'required|file',
+            'list.name' => 'required|string'
+        ];
+    }
+
     protected function messages() { return [
         'uploads.*.image' => __('The :filename file must be an image.'),
         'uploads.*.max' => __('The size of the :filename file cannot exceed :max kilobytes.'),
@@ -115,6 +127,16 @@ class EditPurchase extends Component
         }
 
         $this->purchase_receptions = $this->purchase->receptions->toArray();
+        foreach( $this->purchase_receptions as $k => $rcpt ) {
+            $this->purchase_receptions[ $k ]['doc'] = null;
+            if ( isset($rcpt['id']) ) {
+                $guestslist = Reception::findOrFail( $rcpt['id'] )->guestslist;
+                if ( !is_null(  $guestslist ) ) {
+                    $this->purchase_receptions[ $k ]['doc'] = $guestslist->toArray();
+                }
+            }
+        }
+
         $this->reset(['uploads','modified','del_docs','del_receptions']);
         $this->dispatchBrowserEvent('pondReset');
         $this->resetValidation();
@@ -393,6 +415,63 @@ class EditPurchase extends Component
         $this->close_guest();
     }
 
+    // Gestion des fichier de listes d'invités
+    public function show_list( $rcpt_index ) {
+
+        $this->guest_rcpt_index = $rcpt_index;
+        $this->showList = true;
+    }
+
+    /* Initialisation du nom après l'upload de document */
+    public function updatedListFile() {
+        // Apres l'upload initialiser le nom du fichier
+        if ( isset($this->list['file']) && ( !isset($this->list['name']) || empty($this->list['name']) ) ) {
+            $this->list['name'] =
+                Str::slug(
+                    pathinfo(
+                        Document::filter_filename( $this->list['file']->getClientOriginalName() ),
+                    PATHINFO_FILENAME
+                )
+            );
+        }
+    }
+
+    public function save_list() {
+        $this->withValidator(function (Validator $validator) {
+            if ($validator->fails()) {
+                $this->emitSelf('dialog-error');
+            }
+        })->validate( $this->list_rules() );
+
+        $this->purchase_receptions[ $this->guest_rcpt_index ]['list'] = $this->list;
+
+        $this->modified = true;
+        $this->emit('refreshPurchase');
+        $this->close_list();
+    }
+
+    public function del_list( $rcpt_index ) {
+        if ( $this->disabled === true ) return;
+
+        if ( ! isset($this->purchase_receptions[ $rcpt_index ]) ) return;
+
+        if ( isset($this->purchase_receptions[ $rcpt_index ]['list']) ) {
+            unset($this->purchase_receptions[ $rcpt_index ]['list']);
+
+        } elseif ( isset($this->purchase_receptions[ $rcpt_index ]['doc']) ) {
+            $this->del_docs[] = $this->purchase_receptions[ $rcpt_index ]['doc']['id'];
+            unset($this->purchase_receptions[ $rcpt_index ]['doc']);
+
+            $this->modified = true;
+        }
+    }
+
+    public function close_list() {
+        $this->reset(['list','showList','guest_rcpt_index']);
+        $this->dispatchBrowserEvent('guestlistReset');
+    }
+
+
     // Ajoute un document à la liste des documents à supprimer
     public function del_doc( $id ) {
         if ( $this->disabled === true ) return;
@@ -441,6 +520,9 @@ class EditPurchase extends Component
 
         }elseif( in_array( $propertyName, array_keys($this->rcpt_rules()) ) ) {
                 $this->validateOnly($propertyName, $this->rcpt_rules());
+
+        }else if( explode(".",$propertyName)[0] === "list") {
+            $this->validateOnly($propertyName, $this->list_rules());
 
         } else {
             $this->validateOnly($propertyName);
@@ -507,7 +589,7 @@ class EditPurchase extends Component
         }
 
         // Suppression des fichiers à supprimer
-        foreach( $this->del_docs as $id ) {
+        foreach( array_unique($this->del_docs) as $id ) {
 
             $document = Document::findOrFail( $id ) ;
 
@@ -529,17 +611,49 @@ class EditPurchase extends Component
         // Suppression
         foreach( $this->del_receptions as $rcpt_id ) {
             Reception::findOrFail( $rcpt_id )->delete();
+            // TODO Effacer les fichiers liés
         }
         // Modification & Creation
-        foreach( $this->purchase_receptions as $rcpt ) {
+        foreach( $this->purchase_receptions as $k=>$rcpt ) {
             if ( isset($rcpt['id']) ) {
                 Reception::where('id',$rcpt['id'])->update(
                     array_filter($rcpt, function($k) {
-                    return !in_array( $k, ['created_at', 'updated_at', 'id'] );
+                    return !in_array( $k, ['created_at', 'updated_at', 'id', 'list', 'doc'] );
                 }, ARRAY_FILTER_USE_KEY));
             } else {
-                Reception::create(array_merge( $rcpt, [ 'purchase_id' => $this->purchase->id ] ));
+                $rcpt['id'] = Reception::create(
+                    array_filter(
+                        array_merge(
+                            $rcpt,
+                            [ 'purchase_id' => $this->purchase->id ]
+                        ), function($k) {
+                            return !in_array( $k, ['created_at', 'updated_at', 'id', 'list', 'doc'] );
+                        }, ARRAY_FILTER_USE_KEY
+                    )
+                )->id;
             }
+
+            // Sauvegarde des guestlist ajoutées
+            if ( isset($rcpt['list']['file']) ) {
+                // Create user documents directory if not exists
+                $path = 'docs/'.$this->purchase->user_id.'/';
+                Storage::makeDirectory( $path );
+
+                // Store file in directory
+                $filename = $rcpt['list']['file']->storeAs( '/'.$path, $rcpt['list']['file']->hashName() );
+
+                // Create file in BDD
+                Document::create([
+                    "name" => Document::filter_filename( $rcpt['list']['file']->getClientOriginalName() ),
+                    "type" => 'guestlist',
+                    "size" => Storage::size( $filename ),
+                    "filename" => $rcpt['list']['file']->hashName(),
+                    "user_id" => $this->purchase->user_id,
+                    "documentable_id" => $rcpt['id'],
+                    "documentable_type" => Reception::class,
+                ]);
+            }
+            $this->dispatchBrowserEvent('guestlistReset');
         }
 
         $this->reset(['uploads','modified','del_docs','del_receptions']);
@@ -560,6 +674,8 @@ class EditPurchase extends Component
         if ( $creation ) {
             // Redirection pour modifier l'url
             return redirect()->route('edit-purchase',$this->purchase->id);
+        }else{
+            $this->init();
         }
     }
 }
