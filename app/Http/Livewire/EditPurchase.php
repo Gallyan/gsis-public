@@ -53,11 +53,11 @@ class EditPurchase extends Component
 
     // For Modal Guest editing
     public $showGuest = false;
-    public string $guest_lastname = '';
-    public string $guest_firstname = '';
-    public string $guest_establishment = '';
+    public $guest_lastname = null;
+    public $guest_firstname = null;
+    public $guest_establishment = null;
     public $guest_rcpt_index = null;
-    public int $guest_id;
+    public $guest_id = null;
 
     // For Guest list modal
     public $showList = false;
@@ -363,8 +363,7 @@ class EditPurchase extends Component
     public function close_guest() {
         $this->showGuest = false;
         $this->guest_lastname = $this->guest_firstname = $this->guest_establishment = ''; // Reset form
-        unset($this->guest_id);
-        unset($this->guest_rcpt_index);
+        $this->guest_id = $this->guest_rcpt_index = null;
     }
 
     public function edit_guest( int $rcpt_index, int $guest_id ) {
@@ -372,12 +371,14 @@ class EditPurchase extends Component
 
         $guests = $this->purchase_receptions[$rcpt_index]['guests'];
 
+        $this->guest_rcpt_index = $rcpt_index;
+
         if( $guest_id < 0 || $guest_id >= count($guests)) return;
 
         $this->guest_id = $guest_id;
-        $this->guest_lastname      = isset( $guests[ $guest_id ]['lastname'] ) ? $guests[ $guest_id ]['lastname'] : '';
-        $this->guest_firstname     = isset( $guests[ $guest_id ]['firstname'] ) ? $guests[ $guest_id ]['firstname'] : '';
-        $this->guest_establishment = isset( $guests[ $guest_id ]['establishment'] ) ? $guests[ $guest_id ]['establishment'] : '';
+        $this->guest_lastname      = $guests[ $guest_id ]['guest_lastname'] ?? '';
+        $this->guest_firstname     = $guests[ $guest_id ]['guest_firstname'] ?? '';
+        $this->guest_establishment = $guests[ $guest_id ]['guest_establishment'] ?? '';
 
         $this->showGuest = true;
     }
@@ -526,7 +527,7 @@ class EditPurchase extends Component
 
         } else {
             $this->validateOnly($propertyName);
-            if ( !in_array($propertyName, ['showModal','showReception','showGuest']) )
+            if ( !in_array($propertyName, ['showModal','showReception','showGuest','showList']) )
                 $this->modified = !empty($this->purchase->getDirty()) ;
         }
     }
