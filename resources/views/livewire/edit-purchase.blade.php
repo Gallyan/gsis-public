@@ -73,7 +73,7 @@
                         <x-table.heading small>{{ __('Supplier') }}</x-table.heading>
                         <x-table.heading small>{{ __('Date') }}</x-table.heading>
                         <x-table.heading small>{{ __('Amount') }}</x-table.heading>
-                        <x-table.heading small></x-table.heading>
+                        <x-table.heading small class="w-6"></x-table.heading>
                     </x-slot>
 
                     <x-slot name="body">
