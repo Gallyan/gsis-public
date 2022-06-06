@@ -291,7 +291,7 @@
                     );
                 });
             @endphp
-            <x-input.group label="Documents" for="uploads" :error="$upload_errors->all()" >
+            <x-input.group label="Send your documents" for="uploads" :error="$upload_errors->all()" >
                 <x-input.filepond
                     wire:model="uploads"
                     id="uploads"
