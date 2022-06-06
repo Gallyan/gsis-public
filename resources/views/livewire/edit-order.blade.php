@@ -113,7 +113,7 @@
                         <x-table.heading small>{{ __('Author') }}</x-table.heading>
                         <x-table.heading small>{{ __('ISBN') }}</x-table.heading>
                         <x-table.heading small>{{ __('Edition') }}</x-table.heading>
-                        <x-table.heading small>{{ __('Delete') }}</x-table.heading>
+                        <x-table.heading small class="w-6"></x-table.heading>
                     </x-slot>
 
                     <x-slot name="body">
