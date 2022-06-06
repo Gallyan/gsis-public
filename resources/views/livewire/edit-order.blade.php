@@ -172,7 +172,9 @@
                     </x-slot>
                 </x-table>
 
+                @if (!$disabled)
                 <x-button.secondary wire:click="$set('showModal', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add book') }}</x-button.primary>
+                @endif
 
             </x-input.group>
 

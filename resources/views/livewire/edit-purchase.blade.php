@@ -136,7 +136,9 @@
                     </x-slot>
                 </x-table>
 
+                @if (!$disabled)
                 <x-button.secondary wire:click="$set('showModal', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add purchase') }}</x-button.primary>
+                @endif
 
             </x-input.group>
 
@@ -237,7 +239,9 @@
                                     </x-slot>
                                 </x-table>
 
+                                @if (!$disabled)
                                 <x-button.secondary wire:click="show_guest({{$loop->index}})" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add guest') }}</x-button.primary>
+                                @endif
 
                             </x-table.cell>
                         </x-table.row>
@@ -269,7 +273,9 @@
                 </div>
                 @endforelse
 
+                @if (!$disabled)
                 <x-button.secondary wire:click="$set('showReception', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add reception') }}</x-button.primary>
+                @endif
 
             </x-input.group>
 
