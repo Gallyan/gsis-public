@@ -74,4 +74,11 @@ class Purchase extends Model
         return $this->morphMany(Post::class, 'postable')->orderBy('id','desc');
     }
 
+    /**
+     * Get all of the purchase's reception.
+     */
+    public function receptions()
+    {
+        return $this->hasMany(Reception::class);
+    }
 }

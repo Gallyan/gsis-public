@@ -36,6 +36,14 @@ class EditPurchase extends Component
     public string $currency = '';
     public int $misc_id;
 
+    // For Modal Reception
+    public $showReception = false; // Declenche le modal
+    public $purchase_receptions; // Toutes les receptions en cours d'edition
+    public int $rcpt_index; // Index in purchase_receptions en cours d'édition
+    public string $rcpt_subject = '';
+    public string $rcpt_number = '';
+    public $del_receptions = [];
+
     protected function rules() { return [
         'purchase.user_id'        => 'required|exists:users,id',
         'purchase.subject'        => 'required|string|max:255',
@@ -57,6 +65,11 @@ class EditPurchase extends Component
         'currency'   => 'required|string',
     ]; }
 
+    protected function rcpt_rules() { return [
+        'rcpt_subject'  => 'nullable|string',
+        'rcpt_number'   => 'nullable|integer',
+    ]; }
+
     protected function messages() { return [
         'uploads.*.image' => __('The :filename file must be an image.'),
         'uploads.*.max' => __('The size of the :filename file cannot exceed :max kilobytes.'),
@@ -76,7 +89,8 @@ class EditPurchase extends Component
                 abort(403);
         }
 
-        $this->reset(['uploads','modified','del_docs']);
+        $this->purchase_receptions = $this->purchase->receptions->toArray();
+        $this->reset(['uploads','modified','del_docs','del_receptions']);
         $this->dispatchBrowserEvent('pondReset');
         $this->resetValidation();
         $this->statesUpdate();
@@ -177,7 +191,7 @@ class EditPurchase extends Component
 
     public function close_modal() {
         $this->showModal = false;
-        $this->subject = $this->supplier = $this->date = $this->amount = $this->currency = ''; // Reset form
+        $this->subject = $this->supplier = $this->date = $this->miscamount = $this->currency = ''; // Reset form
         unset($this->misc_id);
     }
 
@@ -226,6 +240,62 @@ class EditPurchase extends Component
         $this->close_modal();
     }
 
+    public function close_reception()
+    {
+        $this->showReception = false;
+
+        $this->rcpt_subject = $this->rcpt_number = ''; // Reset form
+
+        unset($this->rcpt_index);
+    }
+
+    public function edit_reception( int $index )
+    {
+        if ( $this->disabled === true ) return;
+
+        $this->rcpt_index = $index;
+
+        $this->rcpt_subject = $this->purchase_receptions[$index]['subject'];
+        $this->rcpt_number = $this->purchase_receptions[$index]['number'];
+
+        $this->showReception = true;
+    }
+
+    public function del_reception( int $index ) {
+        if ( $this->disabled === true ) return;
+
+        // Stockage temporaire pour suppression lors de la sauvegarde de l'achat
+        if ( isset($this->purchase_receptions[$index]['id']) )
+            $this->del_receptions[] = $this->purchase_receptions[$index]['id'];
+
+        // Suppression de la liste des achats en cours d'édition
+        unset($this->purchase_receptions[$index]);
+        $this->purchase_receptions = array_values( $this->purchase_receptions );
+
+        $this->modified = true;
+    }
+
+    // Ajoute ou met à jour une réception
+    public function add_reception() {
+        $this->validate( $this->rcpt_rules() );
+
+        // Pour une création on prend l'index immédiatement supérieur
+        if ( !isset($this->rcpt_index) ) $this->rcpt_index = count($this->purchase_receptions);
+
+        $this->purchase_receptions = array_replace_recursive(
+            $this->purchase_receptions,
+            [ $this->rcpt_index => [
+                    'subject' => $this->rcpt_subject,
+                    'number' => $this->rcpt_number,
+                ]
+            ]
+        );
+
+        $this->modified = true;
+
+        $this->close_reception();
+    }
+
     // Ajoute un document à la liste des documents à supprimer
     public function del_doc( $id ) {
         if ( $this->disabled === true ) return;
@@ -271,9 +341,14 @@ class EditPurchase extends Component
     public function updated($propertyName) {
         if( in_array( $propertyName, array_keys($this->misc_rules()) ) ) {
             $this->validateOnly($propertyName, $this->misc_rules());
+
+        }elseif( in_array( $propertyName, array_keys($this->rcpt_rules()) ) ) {
+                $this->validateOnly($propertyName, $this->rcpt_rules());
+
         } else {
             $this->validateOnly($propertyName);
-            if ( $propertyName !== "showModal" ) $this->modified = !empty($this->purchase->getDirty()) ;
+            if ( !in_array($propertyName, ['showModal','showReception']) )
+                $this->modified = !empty($this->purchase->getDirty()) ;
         }
     }
 
@@ -292,6 +367,20 @@ class EditPurchase extends Component
             'user_id' => Auth()->id(),
             'miscs'   => [],
             'status' => 'draft',
+        ]);
+    }
+
+    public function makeBlankReception()
+    {
+        return Reception::make([
+            'purchase_id' => $this->purchase->id,
+            'subject' => null,
+            'number'  => null,
+            'supplier' => null,
+            'date' => null,
+            'amount' => null,
+            'currency' => null,
+            'guests' => null,
         ]);
     }
 

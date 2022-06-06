@@ -74,6 +74,7 @@
                         <x-table.heading small>{{ __('Date') }}</x-table.heading>
                         <x-table.heading small>{{ __('Amount') }}</x-table.heading>
                         <x-table.heading small>{{ __('Currency') }}</x-table.heading>
+                        <x-table.heading small></x-table.heading>
                     </x-slot>
 
                     <x-slot name="body">
@@ -140,6 +141,67 @@
                 </x-table>
 
                 <x-button.secondary wire:click="$set('showModal', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add purchase') }}</x-button.primary>
+
+            </x-input.group>
+
+            <x-input.group label="Receptions" wire:model="purchase.receptions" >
+                @forelse ($purchase_receptions as $reception)
+                <div @if (!$loop->last) class="pb-6" @endif wire:loading.class="opacity-50" wire:key="row-{{ $loop->iteration }}">
+                <x-table>
+                    <x-slot name="head">
+                        <x-table.heading colspan="2">
+                            <span class="inline-flex text-md leading-5 pr-4">
+                                {{ __('Reception :id', ['id'=>$loop->iteration]) }}
+                            </span>
+                            <span class="inline-flex text-sm leading-5 pr-4">
+                                <x-button.link wire:click="edit_reception({{ $loop->index }})" wire:loading.attr="disabled" title="{{ __('Edit') }}">
+                                    <x-icon.pencil class="h-4 w-4 text-cool-gray-400" />
+                                </x-button.link>
+                            </span>
+                            <span class="inline-flex text-sm leading-5 pr-4">
+                                <x-button.link wire:click="del_reception({{ $loop->index }})" wire:loading.attr="disabled" title="{{ __('Delete') }}">
+                                    <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
+                                </x-button.link>
+                            </span>
+                        </x-table.heading>
+                    </x-slot>
+                    <x-slot name="body">
+                        <x-table.row>
+                            <x-table.cell class="w-32">{{ __('Subject') }}&nbsp;:</x-table.cell>
+                            <x-table.cell>{{ $reception['subject'] ?? '' }}</x-table.cell>
+                        </x-table.row>
+                        <x-table.row class="bg-gray-50">
+                            <x-table.cell class="w-32">{{ __('No. of participants') }}&nbsp;:</x-table.cell>
+                            <x-table.cell>{{ $reception['number'] ?? '' }}</x-table.cell>
+                        </x-table.row>
+                    </x-slot>
+                </x-table>
+                </div>
+                @empty
+                <div class="pb-6">
+                <x-table>
+                    <x-slot name="head">
+                        <x-table.heading>
+                            <span class="inline-flex text-md leading-5 pr-4">
+                                {{ __('Reception') }}
+                            </span>
+                        </x-table.heading>
+                    </x-slot>
+                    <x-slot name="body">
+                        <x-table.row>
+                            <x-table.cell>
+                                <div class="flex justify-center items-center space-x-2">
+                                    <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
+                                    <span class="font-medium text-cool-gray-400 text-lg">{{ __('No receptions...') }}</span>
+                                </div>
+                            </x-table.cell>
+                        </x-table.row>
+                    </x-slot>
+                </x-table>
+                </div>
+                @endforelse
+
+                <x-button.secondary wire:click="$set('showReception', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add reception') }}</x-button.primary>
 
             </x-input.group>
 
@@ -234,6 +296,31 @@
                 <x-button.secondary wire:click="close_modal">{{ __('Cancel') }}</x-button.secondary>
 
                 <x-button.primary type="submit">@if(isset($this->misc_id)) @lang('Update') @else @lang('Add') @endif</x-button.primary>
+            </x-slot>
+        </x-modal.dialog>
+    </form>
+
+    <!-- Add Reception Modal -->
+    <form wire:submit.prevent="add_reception">
+        @csrf
+
+        <x-modal.dialog wire:model.defer="showReception">
+            <x-slot name="title">@if(isset($this->rcpt_index)) @lang('Edit reception') @else @lang('Add reception') @endif</x-slot>
+
+            <x-slot name="content">
+                <x-input.group for="rcpt_subject" label="Object" :error="$errors->first('rcpt_subject')" required>
+                    <x-input.text wire:model.debounce.500ms="rcpt_subject" id="rcpt_subject" placeholder="{{ __('Object') }}" />
+                </x-input.group>
+
+                <x-input.group for="rcpt_number" label="No. of participants" :error="$errors->first('rcpt_number')" required>
+                    <x-input.text wire:model.debounce.500ms="rcpt_number" id="rcpt_number" placeholder="{{ __('No. of participants') }}" />
+                </x-input.group>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-button.secondary wire:click="close_reception">{{ __('Cancel') }}</x-button.secondary>
+
+                <x-button.primary type="submit">@if(isset($this->rcpt_index)) @lang('Update') @else @lang('Add') @endif</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
