@@ -592,20 +592,8 @@ class EditPurchase extends Component
         // Suppression des fichiers à supprimer
         foreach( array_unique($this->del_docs) as $id ) {
 
-            $document = Document::findOrFail( $id ) ;
+            Document::findOrFail( $id )->delete() ;
 
-            if( !empty( $document ) ) {
-
-                $filename = '/docs/' . $this->purchase->user_id . '/' . $document->filename ;
-
-                if (Storage::exists( $filename )) {
-
-                    Storage::delete( $filename );
-
-                    $document->delete();
-                }
-
-            }
         }
 
         // Traitement des achats
