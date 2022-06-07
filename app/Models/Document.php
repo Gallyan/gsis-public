@@ -22,6 +22,23 @@ class Document extends Model
         //return Storage::url('docs/'.$this->user_id.'/'.$this->file_name);
     }
 
+    public function delete() {
+
+        $res = parent::delete();
+
+        if ( $res === true ) {
+
+            $pathToFile = '/docs/' . $this->user_id . '/' . $this->filename;
+
+            // Check if file exist and download
+            if ( Storage::exists( $pathToFile ) ) {
+
+                Storage::delete( $pathToFile );
+
+            }
+        }
+    }
+
     public function getSizeForHumansAttribute() {
         $units = ['Bytes', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb'];
         $bytes = $this->size;

@@ -20,6 +20,18 @@ class Reception extends Model
 
     protected $guarded = [];
 
+    // Override for cascade deletion
+    public function delete()
+    {
+        $doc = $this->guestslist;
+
+        $res = parent::delete();
+        if ( $res === true )
+        {
+            $doc->delete();
+        }
+    }
+
     /**
      * Get the purchase of the reception.
      */

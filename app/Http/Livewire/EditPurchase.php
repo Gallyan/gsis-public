@@ -612,7 +612,6 @@ class EditPurchase extends Component
         // Suppression
         foreach( $this->del_receptions as $rcpt_id ) {
             Reception::findOrFail( $rcpt_id )->delete();
-            // TODO Effacer les fichiers liés
         }
         // Modification & Creation
         foreach( $this->purchase_receptions as $k=>$rcpt ) {
