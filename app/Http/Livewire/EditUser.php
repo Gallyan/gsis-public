@@ -183,14 +183,7 @@ class EditUser extends Component
         if ( ! auth()->user()->can('manage-users') && auth()->id() !== $document->user_id )
             abort(403);
 
-        $filename = '/docs/' . $this->user->id . '/' . $document->filename ;
-
-        if (Storage::exists( $filename )) {
-
-            Storage::delete( $filename );
-
-            $document->delete();
-        }
+        $document->delete();
 
         $this->emit('refreshUser');
         $this->close_modal();
