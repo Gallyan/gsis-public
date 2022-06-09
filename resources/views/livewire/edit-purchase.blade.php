@@ -400,7 +400,7 @@
                 </x-input.group>
 
                 <x-input.group for="miscamount" label="Amount" :error="$errors->first('miscamount')" required>
-                    <x-input.money wire:model.debounce.500ms="miscamount" id="miscamount" :leadingIcon="false"/>
+                    <x-input.money wire:model.debounce.500ms="miscamount" id="miscamount"/>
                 </x-input.group>
 
                 <x-input.group for="currency" label="Currency" :error="$errors->first('currency')" required>
