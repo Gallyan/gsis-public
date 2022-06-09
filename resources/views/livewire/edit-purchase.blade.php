@@ -58,7 +58,7 @@
                 </x-input.select>
             </x-input.group>
 
-            <x-input.group label="WP" for="wp" :error="$errors->first('purchase.wp')" required>
+            <x-input.group label="WP" for="wp" :error="$errors->first('purchase.wp')">
                 <x-input.select wire:model="purchase.wp" id="wp" placeholder="{{ __('Select WP...') }}" class="w-full" :disabled="$disabled">
                     @foreach (\App\Models\Purchase::WP as $k=>$v)
                     <option value="{{ $k }}">{{ $v }}</option>

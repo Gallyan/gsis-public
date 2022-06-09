@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained();
             $table->string('subject');
             $table->foreignIdFor(Institution::class)->constrained();
-            $table->string('wp');
+            $table->string('wp')->nullable();
             $table->json('miscs')->nullable(); // Achats divers, Json (Objet Fournisseur Date Montant Devise)
             $table->text('comments')->nullable(); // Commentaires
             $table->string('status')->default('on-hold');

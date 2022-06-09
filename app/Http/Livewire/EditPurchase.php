@@ -67,7 +67,7 @@ class EditPurchase extends Component
         'purchase.user_id'        => 'required|exists:users,id',
         'purchase.subject'        => 'required|string|max:255',
         'purchase.institution_id' => 'required|exists:institutions,id',
-        'purchase.wp'             => 'required|in:'.collect(Purchase::WP)->keys()->implode(','),
+        'purchase.wp'             => 'nullable|in:'.collect(Purchase::WP)->keys()->implode(','),
         'uploads'                 => 'nullable|array',
         'uploads.*'               => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
         'purchase.miscs'          => 'sometimes|array',
