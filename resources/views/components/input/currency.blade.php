@@ -5,7 +5,7 @@ $currencies = [['EUR', 'USD', 'GBP', 'CHF','BTC'],[
 @endphp
 
 <div class="flex">
-    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-400 sm:text-sm">
         <x-icon.currencies />
     </span>
 
