@@ -108,9 +108,10 @@
                             <x-table.cell class="text-center cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                     <p class="text-cool-gray-600 truncate">
-                                        @isset ($misc['miscamount'])
-                                        {{ number_format( (float)$misc['miscamount'],2,',',' ') }} {{ __($misc['currency'] ? 'currencies.symbol-'.$misc['currency'] : '') }}
-                                        @endisset
+                                        @if (isset($misc['miscamount']) && !empty($misc['miscamount']))
+                                        {{ number_format( (float)$misc['miscamount'],2,',',' ') }}
+                                        {{ __($misc['currency'] ? Lang::has('currencies.symbol-'.$misc['currency']) ? 'currencies.symbol-'.$misc['currency'] : $misc['currency'] : '') }}
+                                        @endif
                                     </p>
                                 </span>
                             </x-table.cell>
@@ -186,7 +187,10 @@
                         </x-table.row>
                         <x-table.row>
                             <x-table.cell class="w-32">{{ __('Amount') }}&nbsp;:</x-table.cell>
-                            <x-table.cell>@isset ($reception['amount']) {{ number_format($reception['amount'],2,',',' ') ?? '' }} {{ __($reception['currency'] ? 'currencies.symbol-'.$reception['currency'] : '') }} @endisset</x-table.cell>
+                            <x-table.cell>@if (isset($reception['amount']) && !empty($reception['amount']) )
+                                {{ number_format($reception['amount'],2,',',' ') ?? '' }}
+                                {{ __($reception['currency'] ? Lang::has('currencies.symbol-'.$reception['currency']) ? 'currencies.symbol-'.$reception['currency'] : $reception['currency'] : '') }}
+                                @endif</x-table.cell>
                         </x-table.row>
 
                         <x-table.row>
@@ -440,7 +444,7 @@
                     <x-input.money wire:model.debounce.500ms="rcpt_amount" id="rcpt_amount" :leadingIcon="false" />
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1" for="rcpt_currency" label="Currency" :error="$errors->first('rcpt_currency')">
+                <x-input.group paddingless borderless class="sm:py-1" for="rcpt_currency" label="Currency" :error="$errors->first('rcpt_currency')" :required="$this->rcpt_amount">
                     <x-input.currency wire:model="rcpt_currency" id="rcpt_currency" />
                 </x-input.group>
 
@@ -449,7 +453,7 @@
             <x-slot name="footer">
                 <x-button.secondary wire:click="close_reception">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary type="submit">@if(isset($this->rcpt_index)) @lang('Update') @else @lang('Add') @endif</x-button.primary>
+                <x-button.primary type="submit">@isset($this->rcpt_index) @lang('Update') @else @lang('Add') @endisset</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

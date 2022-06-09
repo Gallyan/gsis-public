@@ -387,5 +387,6 @@
     "Add reception": "Ajouter une réception",
     "Edit reception": "Editer une réception",
     "Add file": "Ajouter un fichier",
-    "Select currency": "Choisissez une devise"
+    "Select currency": "Choisissez une devise",
+    "This field is mandatory when the amount is present.": "Ce champ est obligatoire quand le montant est présent."
 }

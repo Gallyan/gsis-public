@@ -90,7 +90,7 @@ class EditPurchase extends Component
         'rcpt_supplier' => 'nullable|string',
         'rcpt_date'     => 'nullable|date',
         'rcpt_amount'   => 'nullable|float',
-        'rcpt_currency' => 'nullable|string|size:3',
+        'rcpt_currency' => 'nullable|required_with:rcpt_amount|string|size:3',
         'rcpt_guests'   => 'sometimes|array',
     ]; }
 
@@ -108,6 +108,7 @@ class EditPurchase extends Component
     }
 
     protected function messages() { return [
+        'required_with' => __('This field is mandatory when the amount is present.'),
         'uploads.*.image' => __('The :filename file must be an image.'),
         'uploads.*.max' => __('The size of the :filename file cannot exceed :max kilobytes.'),
         'uploads.*.mimes' => __('The file :filename must be a file of type: :values.'),
@@ -521,7 +522,7 @@ class EditPurchase extends Component
             $this->validateOnly($propertyName, $this->misc_rules());
 
         }elseif( in_array( $propertyName, array_keys($this->rcpt_rules()) ) ) {
-                $this->validateOnly($propertyName, $this->rcpt_rules());
+                $this->validateOnly($propertyName, $this->rcpt_rules(), $this->messages());
 
         }else if( explode(".",$propertyName)[0] === "list") {
             $this->validateOnly($propertyName, $this->list_rules());
