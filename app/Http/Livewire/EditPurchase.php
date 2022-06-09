@@ -47,7 +47,7 @@ class EditPurchase extends Component
     public $rcpt_supplier = null;
     public $rcpt_date = null;
     public $rcpt_amount = null;
-    public $rcpt_currency = null;
+    public $rcpt_currency = '';
     public $rcpt_guests = [];
     public $del_receptions = [];
 
@@ -81,7 +81,7 @@ class EditPurchase extends Component
         'supplier'   => 'required|string',
         'date'       => 'required|date_format:Y-m-d',
         'miscamount' => 'required|float',
-        'currency'   => 'required|string',
+        'currency'   => 'required|string|size:3',
     ]; }
 
     protected function rcpt_rules() { return [
@@ -90,7 +90,7 @@ class EditPurchase extends Component
         'rcpt_supplier' => 'nullable|string',
         'rcpt_date'     => 'nullable|date',
         'rcpt_amount'   => 'nullable|float',
-        'rcpt_currency' => 'nullable|string',
+        'rcpt_currency' => 'nullable|string|size:3',
         'rcpt_guests'   => 'sometimes|array',
     ]; }
 
@@ -291,7 +291,8 @@ class EditPurchase extends Component
     {
         $this->showReception = false;
 
-        $this->rcpt_subject = $this->rcpt_number = $this->rcpt_supplier = $this->rcpt_date = $this->rcpt_amount = $this->rcpt_currency = null;
+        $this->rcpt_subject = $this->rcpt_number = $this->rcpt_supplier = $this->rcpt_date = $this->rcpt_amount = null;
+        $this->rcpt_currency = '';
         $this->rcpt_guests = []; // Reset form
 
         unset($this->rcpt_index);

@@ -109,7 +109,7 @@
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                     <p class="text-cool-gray-600 truncate">
                                         @isset ($misc['miscamount'])
-                                        {{ number_format( (float)$misc['miscamount'],2,',',' ') }} {{ $misc['currency'] ?? '' }}
+                                        {{ number_format( (float)$misc['miscamount'],2,',',' ') }} {{ __($misc['currency'] ? 'currencies.symbol-'.$misc['currency'] : '') }}
                                         @endisset
                                     </p>
                                 </span>
@@ -186,7 +186,7 @@
                         </x-table.row>
                         <x-table.row>
                             <x-table.cell class="w-32">{{ __('Amount') }}&nbsp;:</x-table.cell>
-                            <x-table.cell>@isset ($reception['amount']) {{ number_format($reception['amount'],2,',',' ') ?? '' }} {{ $reception['currency'] ?? '' }} @endisset</x-table.cell>
+                            <x-table.cell>@isset ($reception['amount']) {{ number_format($reception['amount'],2,',',' ') ?? '' }} {{ __($reception['currency'] ? 'currencies.symbol-'.$reception['currency'] : '') }} @endisset</x-table.cell>
                         </x-table.row>
 
                         <x-table.row>
@@ -388,7 +388,7 @@
                 </x-input.group>
 
                 <x-input.group for="supplier" label="Supplier" :error="$errors->first('supplier')" required>
-                    <x-input.text wire:model.debounce.500ms="supplier" id="supplier" placeholder="{{ __('Supplier') }}" />
+                    <x-input.text wire:model.debounce="supplier" id="supplier" placeholder="{{ __('Supplier') }}" />
                 </x-input.group>
 
                 <x-input.group for="date" label="Date" :error="$errors->first('date')" required>
@@ -400,7 +400,7 @@
                 </x-input.group>
 
                 <x-input.group for="currency" label="Currency" :error="$errors->first('currency')" required>
-                    <x-input.text wire:model.debounce.500ms="currency" id="currency" placeholder="{{ __('Currency') }}" />
+                    <x-input.currency wire:model="currency" id="currency" />
                 </x-input.group>
             </x-slot>
 
@@ -429,7 +429,7 @@
                 </x-input.group>
 
                 <x-input.group paddingless borderless class="sm:py-1" for="rcpt_supplier" label="Supplier" :error="$errors->first('rcpt_supplier')">
-                    <x-input.text wire:model.debounce.500ms="rcpt_supplier" id="rcpt_supplier" placeholder="{{ __('Supplier') }}" />
+                    <x-input.text wire:model.debounce="rcpt_supplier" id="rcpt_supplier" placeholder="{{ __('Supplier') }}" />
                 </x-input.group>
 
                 <x-input.group paddingless borderless class="sm:py-1" for="rcpt_date" label="Date" :error="$errors->first('rcpt_date')">
@@ -441,7 +441,7 @@
                 </x-input.group>
 
                 <x-input.group paddingless borderless class="sm:py-1" for="rcpt_currency" label="Currency" :error="$errors->first('rcpt_currency')">
-                    <x-input.text wire:model.debounce.500ms="rcpt_currency" id="rcpt_currency" placeholder="{{ __('Currency') }}" />
+                    <x-input.currency wire:model="rcpt_currency" id="rcpt_currency" />
                 </x-input.group>
 
             </x-slot>
