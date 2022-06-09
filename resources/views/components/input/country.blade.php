@@ -19,7 +19,7 @@
                 $codes
             );
             $group = array_combine( $codes, $names );
-            if ( auth()->user()->locale === 'en' ) {
+            if ( isset(auth()->user()->locale) && auth()->user()->locale === 'en' ) {
                 setlocale( LC_COLLATE, 'en_GB.utf8' );
             } else {
                 setlocale( LC_COLLATE, 'fr_FR.utf8' );
