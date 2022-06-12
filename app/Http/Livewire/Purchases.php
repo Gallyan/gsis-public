@@ -7,7 +7,6 @@ use App\Models\Purchase;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
@@ -55,27 +54,6 @@ class Purchases extends Component
 
     public function getRowsQueryProperty()
     {
-        if( isset($this->filters['user']) && !empty($this->filters['user'])) {
-            $filter_users = DB::table('users')
-                    ->whereRaw("CONCAT_WS(' ',`firstname`, `lastname`) like ? ", '%'.$this->filters['user'].'%')
-                    ->pluck('id')->toArray();
-        } else {
-            $filter_users = null;
-        }
-
-        // Sanitize, to avoid non existent array key
-        $this->filters = array_merge([
-                'search' => null,
-                'user' => null,
-                'institution' => null,
-                'manager' => null,
-                'status' => [],
-                'date-min' => null,
-                'date-max' => null,
-            ],
-            $this->filters
-        );
-
         $query = Purchase::query()
             ->join('users', 'users.id', '=', 'purchases.user_id')
             ->join('institutions', 'institutions.id', '=', 'purchases.institution_id')
@@ -88,7 +66,15 @@ class Purchases extends Component
                     ->where('managers.manageable_type', '=', Purchase::class)
                     ->where('managers.user_id', '=', $this->filters['manager']);
             }))
-            ->when(is_array($filter_users), fn($query) => $query->whereIn('purchases.user_id', $filter_users))
+            ->when($this->filters['user'], function($query) {
+                foreach (explode(' ',trim($this->filters['user'])) as $term) {
+                    $query->where( function($query) use ($term) {
+                        $query->search('users.firstname',$term)
+                        ->orSearch('users.lastname', $term)
+                        ->orWhere('users.id', $term);
+                    });
+                }
+            })
             ->when($this->filters['status'], fn($query, $status) => $query->whereIn('purchases.status', $status))
             ->when($this->filters['search'], fn($query, $search) => $query->search('purchases.subject', $search)
                                                                           ->orSearch('purchases.id', $search));

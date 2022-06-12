@@ -7,7 +7,6 @@ use App\Models\Order;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
@@ -55,27 +54,6 @@ class Orders extends Component
 
     public function getRowsQueryProperty()
     {
-        if( isset($this->filters['user']) && !empty($this->filters['user'])) {
-            $filter_users = DB::table('users')
-                    ->whereRaw("CONCAT_WS(' ',`firstname`, `lastname`) like ? ", '%'.$this->filters['user'].'%')
-                    ->pluck('id')->toArray();
-        } else {
-            $filter_users = null;
-        }
-
-        // Sanitize, to avoid non existent array key
-        $this->filters = array_merge([
-                'search' => null,
-                'user' => null,
-                'institution' => null,
-                'manager' => null,
-                'status' => [],
-                'date-min' => null,
-                'date-max' => null,
-            ],
-            $this->filters
-        );
-
         $query = Order::query()
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->join('institutions', 'institutions.id', '=', 'orders.institution_id')
@@ -88,10 +66,24 @@ class Orders extends Component
                     ->where('managers.manageable_type', '=', Order::class)
                     ->where('managers.user_id', '=', $this->filters['manager']);
             }))
-            ->when(is_array($filter_users), fn($query) => $query->whereIn('orders.user_id', $filter_users))
+            ->when($this->filters['user'], function($query) {
+                foreach (explode(' ',trim($this->filters['user'])) as $term) {
+                    $query->where( function($query) use ($term) {
+                        $query->search('users.firstname',$term)
+                        ->orSearch('users.lastname', $term)
+                        ->orWhere('users.id', $term);
+                    });
+                }
+            })
             ->when($this->filters['status'], fn($query, $status) => $query->whereIn('orders.status', $status))
-            ->when($this->filters['search'], fn($query, $search) => $query->search('orders.subject', $search)
-                                                                          ->orSearch('orders.id', $search));
+            ->when($this->filters['search'], function($query) {
+                foreach (explode(' ',trim($this->filters['search'])) as $term) {
+                    $query->where( function($query) use ($term) {
+                        $query->search('orders.subject',trim($term))
+                        ->orWhere('orders.id', trim($term));
+                    });
+                }
+            });
 
         // Un utilisateur sans droit n'accède qu'à son contenu
         if ( ! auth()->user()->hasPermissionTo('manage-users') )
