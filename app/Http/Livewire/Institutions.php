@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
-
+use Illuminate\Validation\Rule;
 
 class Institutions extends Component
 {
@@ -55,6 +55,21 @@ class Institutions extends Component
     {
         $this->validate();
 
+        $this->validate( [
+            'editing.allocation' => Rule::unique('institutions','allocation')->where(
+                function ($query) {
+                    return $query->where(
+                        [
+                            ["allocation", "=", $this->editing->allocation],
+                            ["name", "=", $this->editing->name],
+                            ["contract", "=", $this->editing->contract],
+                        ]
+                    );
+                })->ignore($this->editing->id)
+        ], [
+            'editing.allocation.unique' => 'This institution already exists.',
+        ]);
+
         $this->editing->save();
 
         $this->showEditModal = false;
@@ -62,12 +77,18 @@ class Institutions extends Component
 
     public function updatedSearch() { $this->resetPage(); }
 
+    public function updated($propertyName) { $this->validateOnly($propertyName); }
+
     public function getRowsQueryProperty()
     {
-        $query = Institution::query()
-            ->search('name', $this->search)
-            ->orSearch('contract', $this->search)
-            ->orSearch('allocation', $this->search);
+        $query = Institution::query();
+        foreach (explode(' ',$this->search) as $term) {
+            $query = $query->where(function($query) use ($term) {
+                $query->search('name', $term)
+                    ->orSearch('contract', $term)
+                    ->orSearch('allocation', $term);
+            });
+        }
 
         return $this->applySorting($query);
     }
