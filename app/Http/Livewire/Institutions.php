@@ -57,10 +57,10 @@ class Institutions extends Component
 
         $this->validate( [
             'editing.allocation' => Rule::unique('institutions','allocation')->where(
+                // Prise en compte des autres champs dans le calcul d'unicité
                 function ($query) {
                     return $query->where(
                         [
-                            ["allocation", "=", $this->editing->allocation],
                             ["name", "=", $this->editing->name],
                             ["contract", "=", $this->editing->contract],
                         ]
