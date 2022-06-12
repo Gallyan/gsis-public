@@ -134,12 +134,18 @@ class Users extends Component
     {
         $query = User::query()
             ->when($this->filters['verified'], fn($query) => $query->whereNotNull('email_verified_at'))
-            ->when($this->filters['email'], fn($query, $email) => $query->search('email', $email))
+            ->when($this->filters['email'], fn($query, $email) => $query->search('email', trim($email)))
             ->when($this->filters['date-min'], fn($query, $date) => $query->where('created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn($query, $date) => $query->where('created_at', '<=', Carbon::parse($date)))
-            ->when($this->filters['search'], fn($query) => $query->where( function($query) {
-                $query->whereRaw("CONCAT_WS(' ',`firstname`, `lastname`) like ? ", '%'.$this->filters['search'].'%')
-                      ->orWhere('id',$this->filters['search']); }))
+            ->when($this->filters['search'], function($query) {
+                foreach (explode(' ',trim($this->filters['search'])) as $term) {
+                    $query->where( function($query) use ($term) {
+                        $query->search('firstname',$term)
+                        ->orSearch('lastname', $term)
+                        ->orWhere('id', $term);
+                    });
+                }
+            })
             ->when($this->filters['role'], fn($query) => $query->where( function($query) {
                 if( $this->filters['role'] === "none" ) {
                     $query->where('id', User::doesntHave('roles')->get()->pluck('id'));
