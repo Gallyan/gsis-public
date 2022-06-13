@@ -25,7 +25,6 @@ class Orders extends Component
         'date-min' => null,
         'date-max' => null,
     ];
-    public Order $editing;
 
     protected $queryString = ['sorts'];
 

@@ -25,7 +25,6 @@ class Purchases extends Component
         'date-min' => null,
         'date-max' => null,
     ];
-    public Purchase $editing;
 
     protected $queryString = ['sorts'];
 
