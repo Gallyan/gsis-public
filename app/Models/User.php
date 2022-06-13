@@ -87,4 +87,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     {
         return $this->hasMany(Order::class);
     }
+
+    /**
+     * Get all of the user's purchases.
+     */
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }
