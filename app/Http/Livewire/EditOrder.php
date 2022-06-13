@@ -16,8 +16,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditOrder extends Component
 {
-    use WithFileUploads;
-    use AuthorizesRequests;
+    use WithFileUploads, AuthorizesRequests;
 
     public Order $order;
     public $uploads = [];
