@@ -18,6 +18,7 @@ class Purchase extends Model
     ];
 
     const WP = [
+        'blank' => 'No WP',
         'wp1' => 'WP 1',
         'wp2' => 'WP 2',
         'wp3' => 'WP 3',
