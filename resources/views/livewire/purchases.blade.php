@@ -1,5 +1,5 @@
 <div>
-    <h1 class="text-2xl font-semibold text-gray-900">{{ __('Non-mission purchases') }}</h1>
+    <h1 class="text-2xl font-semibold text-gray-900">{!! __('Non-mission purchases') !!}</h1>
 
     <div class="py-4 space-y-4">
         <!-- Top Bar -->

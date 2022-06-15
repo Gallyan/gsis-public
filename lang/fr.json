@@ -390,5 +390,7 @@
     "Select currency": "Sélectionnez une devise",
     "Select country": "Sélectionnez un pays",
     "This field is mandatory when the amount is present.": "Ce champ est obligatoire quand le montant est présent.",
-    "This institution already exists.": "Cette institution existe déjà."
+    "This institution already exists.": "Cette institution existe déjà.",
+    "No WP": "Sans WP",
+    "Select WP...": "Sélectionnez un WP..."
 }
