@@ -395,7 +395,7 @@
                     <x-input.text wire:model.debounce="supplier" id="supplier" placeholder="{{ __('Supplier') }}" />
                 </x-input.group>
 
-                <x-input.group for="date" label="Date" :error="$errors->first('date')" required>
+                <x-input.group for="date" label="Date of purchase" :error="$errors->first('date')" required>
                     <x-input.date wire:model="date" id="date" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
 

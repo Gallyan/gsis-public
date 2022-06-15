@@ -392,5 +392,8 @@
     "This field is mandatory when the amount is present.": "Ce champ est obligatoire quand le montant est présent.",
     "This institution already exists.": "Cette institution existe déjà.",
     "No WP": "Sans WP",
-    "Select WP...": "Sélectionnez un WP..."
+    "Select WP...": "Sélectionnez un WP...",
+    "Edit misc": "Editer un achat",
+    "Add misc": "Ajouter un achat",
+    "Date of purchase": "Date d'achat"
 }
