@@ -143,7 +143,7 @@
 
             </x-input.group>
 
-            <x-input.group label="Receptions" wire:model="purchase.receptions" >
+            <x-input.group label="Expenses for reception" wire:model="purchase.receptions" >
                 @forelse ($purchase_receptions as $reception)
                 <div @if (!$loop->last) class="pb-6" @endif wire:loading.class="opacity-50" wire:key="rcpt-{{ $loop->iteration }}">
                 <x-table>
