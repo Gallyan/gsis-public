@@ -1,5 +1,5 @@
 <x-nav-link :route="'dashboard'" :icon="'dashboard'">
-    {{ __('Dashboard') }}
+    {!! __('Dashboard') !!}
 </x-nav-link>
 
 <!-- User section //-->
@@ -9,11 +9,11 @@
 </x-nav-link>
 
 <x-nav-link :route="'purchases'" :icon="'purchase'">
-    {{ __('Non-mission purchases') }}
+    {!! __('Non-mission purchases') !!}
 </x-nav-link>
 
 <x-nav-link :route="'orders'" :icon="'orderlist'">
-    {{ __('Purchase orders') }}
+    {!! __('Purchase orders') !!}
 </x-nav-link>
 
 {{ $slot }}
@@ -24,11 +24,11 @@
 <!-- Admin section //-->
 
 <x-nav-link :route="'users'" :icon="'users'">
-    {{ __('Users') }}
+    {!! __('Users') !!}
 </x-nav-link>
 
 <x-nav-link :route="'institutions'" :icon="'institution'">
-    {{ __('Institutions') }}
+    {!! __('Institutions') !!}
 </x-nav-link>
 
 @endcan
