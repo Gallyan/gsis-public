@@ -35,7 +35,7 @@ class EditPurchase extends Component
     public $supplier = null;
     public $date = null;
     public $miscamount = null;
-    public $currency = null;
+    public $currency = 'EUR';
     public int $misc_id;
 
     // For Modal Reception
@@ -47,7 +47,7 @@ class EditPurchase extends Component
     public $rcpt_supplier = null;
     public $rcpt_date = null;
     public $rcpt_amount = null;
-    public $rcpt_currency = '';
+    public $rcpt_currency = 'EUR';
     public $rcpt_guests = [];
     public $del_receptions = [];
 
@@ -81,7 +81,7 @@ class EditPurchase extends Component
         'supplier'   => 'required|string',
         'date'       => 'required|date_format:Y-m-d',
         'miscamount' => 'required|float',
-        'currency'   => 'required|string|size:3',
+        'currency'   => 'required|required_with:misc_amount|string|size:3',
     ]; }
 
     protected function rcpt_rules() { return [
@@ -239,7 +239,8 @@ class EditPurchase extends Component
 
     public function close_modal() {
         $this->showModal = false;
-        $this->subject = $this->supplier = $this->date = $this->miscamount = $this->currency = ''; // Reset form
+        $this->subject = $this->supplier = $this->date = $this->miscamount = '';
+        $this->currency = 'EUR'; // Reset form
         unset($this->misc_id);
     }
 
@@ -255,7 +256,7 @@ class EditPurchase extends Component
         $this->supplier   = isset( $miscs[ $id-1 ]['supplier'] ) ? $miscs[ $id-1 ]['supplier'] : '';
         $this->date       = isset( $miscs[ $id-1 ]['date'] ) ? $miscs[ $id-1 ]['date'] : '';
         $this->miscamount = isset( $miscs[ $id-1 ]['miscamount'] ) ? $miscs[ $id-1 ]['miscamount'] : '';
-        $this->currency   = isset( $miscs[ $id-1 ]['currency'] ) ? $miscs[ $id-1 ]['currency'] : '';
+        $this->currency   = isset( $miscs[ $id-1 ]['currency'] ) ? $miscs[ $id-1 ]['currency'] : 'EUR';
 
         $this->showModal = true;
     }
@@ -293,7 +294,7 @@ class EditPurchase extends Component
         $this->showReception = false;
 
         $this->rcpt_subject = $this->rcpt_number = $this->rcpt_supplier = $this->rcpt_date = $this->rcpt_amount = null;
-        $this->rcpt_currency = '';
+        $this->rcpt_currency = 'EUR';
         $this->rcpt_guests = []; // Reset form
 
         unset($this->rcpt_index);
