@@ -62,7 +62,7 @@ class EditUser extends Component
     protected $listeners = ['refreshUser' => '$refresh'];
 
     public function mount( int $id ) {
-        if ( ! auth()->user()->can('manage-users') && auth()->id !== $id )
+        if ( ! auth()->user()->can('manage-users') && auth()->id() !== $id )
             abort(403);
 
         $this->user_id = $id;
