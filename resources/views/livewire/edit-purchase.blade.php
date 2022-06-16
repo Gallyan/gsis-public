@@ -6,7 +6,7 @@
 
         <div class="mt-6 sm:mt-5">
             <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
-                <a href="{{ route('edit-user', $purchase->user) }}" target="_blank">{{ $purchase->user->name ?? '' }}</a>
+                <a href="{{ route('edit-user', $purchase->user) }}" target="_blank" class="hover:underline pr-4">{{ $purchase->user->name ?? '' }} <sup><x-icon.new-window /></sup></a>
             </x-input.group>
 
             <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" innerclass="flex items-center">
