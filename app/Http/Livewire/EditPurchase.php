@@ -28,6 +28,7 @@ class EditPurchase extends Component
     public $disabled = false; // True if user can't modify current editing Object
     public $disabledStatuses = []; // List of disabled status
     public $showInformationMessage = false;
+    public $isAuthManager = false;
 
     // For Modal Misc editing
     public $showModal = false;
@@ -118,6 +119,8 @@ class EditPurchase extends Component
     protected $listeners = ['refreshPurchase' => '$refresh'];
 
     public function mount( $id = null ) {
+        $this->isAuthManager = auth()->user()->can('manage-users');
+
         if ( is_null($id) ) {
             $this->purchase = $this->makeBlankPurchase();
         } else {

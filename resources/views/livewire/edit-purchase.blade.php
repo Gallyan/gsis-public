@@ -5,11 +5,13 @@
         <x-stickytopbar title="{{ __('Non-mission purchase') }} {{ $purchase->id }}" :modified="$modified" :disabled="$disabled" />
 
         <div class="mt-6 sm:mt-5">
+            @can('manage-users')
             <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
                 <a href="{{ route('edit-user', $purchase->user) }}" target="_blank" class="hover:underline pr-4">{{ $purchase->user->name ?? '' }} <sup><x-icon.new-window /></sup></a>
             </x-input.group>
+            @endcan
 
-            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" innerclass="flex items-center">
+            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" innerclass="flex items-center" :borderless="!$isAuthManager" :paddingless="!$isAuthManager">
                {{ $purchase->managers->isNotEmpty() ?
                     $purchase->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->name)->implode(', ') :
                     __('There is no manager yet.') }}

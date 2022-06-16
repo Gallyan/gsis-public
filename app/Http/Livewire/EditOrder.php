@@ -24,6 +24,7 @@ class EditOrder extends Component
     public $modified = false; // True if form is modified and need to be saved
     public $disabled = false; // True if user can't modify current editing Order
     public $disabledStatuses = []; // List of disabled status
+    public $isAuthManager = false;
 
     // For Modal Book editing
     public $showModal = false;
@@ -64,6 +65,8 @@ class EditOrder extends Component
     protected $listeners = ['refreshOrder' => '$refresh'];
 
     public function mount( $id = null ) {
+        $this->isAuthManager = auth()->user()->can('manage-users');
+
         if ( is_null($id) ) {
             $this->order = $this->makeBlankOrder();
         } else {
