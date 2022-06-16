@@ -50,6 +50,12 @@
                 />
             </x-input.group>
 
+            @can ('manage-users')
+            <x-input.group label="Amount excl." for="amount" :error="$errors->first('order.amount')" helpText="helptext-amount">
+                <x-input.money wire:model.debounce.500ms="order.amount" id="amount" :disabled="$disabled" />
+            </x-input.group>
+            @endcan
+
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('order.institution_id')" required>
                 <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled">
                     @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
@@ -177,12 +183,6 @@
                 @endif
 
             </x-input.group>
-
-            @can ('manage-users')
-            <x-input.group label="Amount excl." for="amount" :error="$errors->first('order.amount')" helpText="helptext-amount">
-                <x-input.money wire:model.debounce.500ms="order.amount" id="amount" :disabled="$disabled" />
-            </x-input.group>
-            @endcan
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('order.comments')">
                 <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" class="text-gray-700" :disabled="$disabled" />
