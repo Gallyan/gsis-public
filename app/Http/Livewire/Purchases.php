@@ -26,9 +26,29 @@ class Purchases extends Component
         'date-max' => null,
     ];
 
-    protected $queryString = ['sorts'];
+    protected $queryString = ['sorts','filters'];
 
-    public function mount() { $this->resetFilters(); }
+    public function mount() {
+        if ( empty(array_filter($this->filters)) )
+            $initial_status = auth()->user()->can('manage-users') ? ['on-hold','in-progress'] : [];
+        elseif ( !empty(array_diff_key(array_filter($this->filters),['search'=>null])) &&
+                ! ( array_keys(array_diff_key(array_filter($this->filters),['search'=>null])) == ['status'] &&
+                    $this->filters['status'] == ['on-hold','in-progress'] ) )
+            $this->showFilters = true;
+
+        $this->filters = array_merge( [
+            'search' => null,
+            'user' => null,
+            'institution' => null,
+            'manager' => null,
+            'status' => [],
+            'date-min' => null,
+            'date-max' => null,
+        ], $this->filters);
+
+        if ( isset( $initial_status ) )
+            $this->filters['status'] = $initial_status;
+    }
 
     public function toggleShowFilters() {
 
