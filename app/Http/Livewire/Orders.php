@@ -26,9 +26,33 @@ class Orders extends Component
         'date-max' => null,
     ];
 
-    protected $queryString = ['sorts'];
+    protected $queryString = ['sorts','filters'];
 
-    public function mount() { $this->resetFilters(); }
+    public function mount() {
+        if ( empty(array_filter($this->filters)) )
+            $initial_status = auth()->user()->can('manage-users') ? ['on-hold','in-progress'] : [];
+
+        if ( !empty($this->filters['institution']) ||
+            !empty($this->filters['manager']) ||
+            !empty($this->filters['status']) ||
+            !empty($this->filters['date-min']) ||
+            !empty($this->filters['user']) ||
+            !empty($this->filters['date-max']) )
+            $this->showFilters = true;
+
+        $this->filters = array_merge( [
+            'search' => null,
+            'user' => null,
+            'institution' => null,
+            'manager' => null,
+            'status' => [],
+            'date-min' => null,
+            'date-max' => null,
+        ], $this->filters);
+
+        if ( isset( $initial_status ) )
+            $this->filters['status'] = $initial_status;
+    }
 
     public function toggleShowFilters() {
 
