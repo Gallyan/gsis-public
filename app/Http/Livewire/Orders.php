@@ -31,13 +31,9 @@ class Orders extends Component
     public function mount() {
         if ( empty(array_filter($this->filters)) )
             $initial_status = auth()->user()->can('manage-users') ? ['on-hold','in-progress'] : [];
-
-        if ( !empty($this->filters['institution']) ||
-            !empty($this->filters['manager']) ||
-            !empty($this->filters['status']) ||
-            !empty($this->filters['date-min']) ||
-            !empty($this->filters['user']) ||
-            !empty($this->filters['date-max']) )
+        elseif ( !empty(array_diff_key(array_filter($this->filters),['search'=>null])) &&
+                ! ( array_keys(array_diff_key(array_filter($this->filters),['search'=>null])) == ['status'] &&
+                    $this->filters['status'] == ['on-hold','in-progress'] ) )
             $this->showFilters = true;
 
         $this->filters = array_merge( [
