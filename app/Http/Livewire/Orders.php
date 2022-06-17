@@ -26,7 +26,7 @@ class Orders extends Component
         'date-max' => null,
     ];
 
-    protected $queryString = ['sorts','filters'];
+    protected $queryString = ['sorts'=>['as'=>'s'],'filters'=>['as'=>'f']];
 
     public function mount() {
         if ( empty(array_filter($this->filters)) )
