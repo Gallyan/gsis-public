@@ -4,6 +4,14 @@
 
         <x-stickytopbar title="{{ __('Purchase Order') }} {{ $order->id }}" :modified="$modified" :disabled="$disabled" />
 
+@push('scripts')
+        <script type="text/javascript">
+            Livewire.on('urlChange', param => {
+                history.pushState(null, null, param);
+            });
+        </script>
+@endpush
+
         <div class="mt-6 sm:mt-5">
             @can('manage-users')
             <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>

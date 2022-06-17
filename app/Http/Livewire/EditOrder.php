@@ -308,6 +308,11 @@ class EditOrder extends Component
 
         $this->order->save();
 
+        if ( $creation ) {
+            // Mise à jour de l'url à la création
+            $this->emit('urlChange', route('edit-order',$this->order->id));
+        }
+
         // Sauvegarde des fichiers ajoutés
         if( !empty( $this->uploads ) ) {
 
@@ -353,11 +358,6 @@ class EditOrder extends Component
             // Envoi de mail lors d'un changement de status uniquement
             $user = User::findOrFail($this->order->user_id);
             Mail::to( $user )->send( new OrderStatusChange( $this->order, $user->name, auth()->user()->name) );
-        }
-
-        if ( $creation ) {
-            // Redirection pour modifier l'url
-            return redirect()->route('edit-order',$this->order->id);
         }
     }
 }

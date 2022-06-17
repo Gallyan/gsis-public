@@ -570,6 +570,11 @@ class EditPurchase extends Component
 
         $this->purchase->save();
 
+        if ( $creation ) {
+            // Mise à jour de l'url à la création
+            $this->emit('urlChange', route('edit-order',$this->purchase->id));
+        }
+
         // Sauvegarde des fichiers ajoutés
         if( !empty( $this->uploads ) ) {
 
@@ -663,13 +668,6 @@ class EditPurchase extends Component
             // Envoi de mail lors d'un changement de status uniquement
             $user = User::findOrFail($this->purchase->user_id);
             Mail::to( $user )->send( new PurchaseStatusChange( $this->purchase, $user->name, auth()->user()->name) );
-        }
-
-        if ( $creation ) {
-            // Redirection pour modifier l'url
-            return redirect()->route('edit-purchase',$this->purchase->id);
-        }else{
-            $this->init();
         }
     }
 }
