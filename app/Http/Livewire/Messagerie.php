@@ -8,6 +8,7 @@ use App\Models\Manager;
 use Livewire\Component;
 use App\Mail\NewMessage;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\Builder;
 
 class Messagerie extends Component
 {
@@ -36,10 +37,8 @@ class Messagerie extends Component
             'read_at'       => Auth()->id() === $this->object->user_id ? now() : null,
         ]);
 
-        if ( Auth()->id() !== $this->object->user_id ||
-             in_array( Auth()->id(), $this->object->managers->pluck('user_id')->toArray() ) ) {
-            // L'auteur du message n'est pas l'auteur de la commande, ou bien il est aussi gestionnaire
-            // Il faut alors mettre à jour le read_at de la relation manager
+        if ( in_array( Auth()->id(), $this->object->managers->pluck('user_id')->toArray() ) ) {
+            // Si l'auteur est gestionnaire il faut alors mettre à jour le read_at de la relation manager
             Manager::where('user_id','=',Auth()->id())
             ->where('manageable_type','=',get_class($this->object))
             ->where('manageable_id','=',$this->object->id)
@@ -49,8 +48,23 @@ class Messagerie extends Component
         $this->reset(['body']);
         $this->emit('refreshMessages');
 
+        $authors_id = Post::whereHasMorph(
+            'postable',
+            [ get_class($this->object) ],
+            function (Builder $query) {
+                $query->where('id', '=', $this->object->id);
+            }
+        )->pluck('user_id')->unique()->toArray();
+
+        $managers_id = $this->object->managers->pluck('user_id')->toArray();
+
+        // Liste des destinataires
+        if ( empty($managers_id) ) {
+            $all_managers_id = User::role('manager')->pluck('id')->toArray();
+        }
+
         $cpt = 0;
-        foreach ( array_unique( array_merge( $this->object->managers->pluck('user_id')->toArray(), [ $this->object->user_id ] ) ) as $dest_id ) {
+        foreach ( array_unique( array_merge( $authors_id, $managers_id, $all_managers_id ?? [], [ $this->object->user_id ] ) ) as $dest_id ) {
             if ( Auth()->id() !== $dest_id ) {
                 // On n'envoie pas de mail à l'auteur du message
                 $user = User::findOrFail($dest_id);
