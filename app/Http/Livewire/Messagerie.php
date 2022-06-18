@@ -48,6 +48,7 @@ class Messagerie extends Component
         $this->reset(['body']);
         $this->emit('refreshMessages');
 
+        // Liste des destinataires
         $authors_id = Post::whereHasMorph(
             'postable',
             [ get_class($this->object) ],
@@ -58,7 +59,6 @@ class Messagerie extends Component
 
         $managers_id = $this->object->managers->pluck('user_id')->toArray();
 
-        // Liste des destinataires
         if ( empty($managers_id) ) {
             $all_managers_id = User::role('manager')->pluck('id')->toArray();
         }

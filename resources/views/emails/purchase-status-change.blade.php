@@ -1,7 +1,7 @@
 @extends('emails.layout')
 
 @section('title')
-    {{ __('Non-mission purchase').' '.$purchase->id.' '.__($status) }}
+    {{ __('Non-mission purchase').' '.__($status) }}
 @endsection
 
 @section('content')

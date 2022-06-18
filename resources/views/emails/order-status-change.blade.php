@@ -1,7 +1,7 @@
 @extends('emails.layout')
 
 @section('title')
-    {{ __('Order').' '.$order->id.' '.__($status) }}
+    {{ __('Order').' '.__($status) }}
 @endsection
 
 @section('content')
