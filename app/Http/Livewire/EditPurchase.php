@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Purchase;
 use App\Models\Manager;
 use App\Models\Reception;
+use App\Models\Institution;
 use App\Mail\PurchaseStatusChange;
 use Livewire\Component;
 use App\Models\Document;
@@ -15,6 +16,7 @@ use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
 
 class EditPurchase extends Component
 {
@@ -29,6 +31,7 @@ class EditPurchase extends Component
     public $disabledStatuses = []; // List of disabled status
     public $showInformationMessage = false;
     public $isAuthManager = false;
+    public $showWP = false;
 
     // For Modal Misc editing
     public $showModal = false;
@@ -68,7 +71,10 @@ class EditPurchase extends Component
         'purchase.user_id'        => 'required|exists:users,id',
         'purchase.subject'        => 'required|string|max:255',
         'purchase.institution_id' => 'required|exists:institutions,id',
-        'purchase.wp'             => 'nullable|in:'.collect(Purchase::WP)->keys()->implode(','),
+        'purchase.wp'             => [
+            Rule::requiredIf(fn () => Institution::find($this->purchase->institution_id)->wp),
+            'in:'.collect(Purchase::WP)->keys()->implode(',')
+        ],
         'uploads'                 => 'nullable|array',
         'uploads.*'               => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
         'purchase.miscs'          => 'sometimes|array',
@@ -129,6 +135,8 @@ class EditPurchase extends Component
             if ( ! auth()->user()->can('manage-users') && auth()->id() !== $this->purchase->user_id )
                 abort(403);
         }
+
+        $this->showWP = $this->purchase->institution->wp;
 
         $this->purchase_receptions = $this->purchase->receptions->toArray();
         foreach( $this->purchase_receptions as $k => $rcpt ) {
@@ -547,6 +555,10 @@ class EditPurchase extends Component
         }
     }
 
+    public function updatedPurchaseInstitutionId() {
+        $this->showWP = Institution::find($this->purchase->institution_id)->wp;
+    }
+
     public function makeBlankPurchase()
     {
         return Purchase::make([
@@ -567,6 +579,8 @@ class EditPurchase extends Component
                     $this->emitSelf('notify-error');
                 }
         })->validate();
+
+        if (!Institution::find($this->purchase->institution_id)->wp) $this->purchase->wp = '';
 
         $this->purchase->save();
 

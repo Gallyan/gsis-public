@@ -74,13 +74,15 @@
                 </x-input.select>
             </x-input.group>
 
-            <x-input.group label="WP" for="wp" :error="$errors->first('purchase.wp')">
+@if ($showWP)
+            <x-input.group label="WP" for="wp" :error="$errors->first('purchase.wp')" required>
                 <x-input.select wire:model="purchase.wp" id="wp" placeholder="{{ __('Select WP...') }}" class="w-full" :disabled="$disabled">
                     @foreach (\App\Models\Purchase::WP as $k=>$v)
                     <option value="{{ $k }}">{!! __($v) !!}</option>
                     @endforeach
                 </x-input.select>
             </x-input.group>
+@endif
 
             <x-input.group label="Non-mission purchases" for="miscs" wire:model="purchase.miscs" :error="$errors->first('purchase.miscs')" helpText="helptext-purchase-misc">
                 <x-table>
