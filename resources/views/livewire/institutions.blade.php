@@ -31,6 +31,7 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('name')" :direction="$sorts['name'] ?? null" class="w-full">{{ __('Name') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('contract')" :direction="$sorts['contract'] ?? null">{{ __('Contract') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('allocation')" :direction="$sorts['allocation'] ?? null" class="whitespace-nowrap">{{ __('Allocation') }}</x-table.heading>
+                    <x-table.heading class="whitespace-nowrap">{{ __('WP') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">{{ __('Created') }}</x-table.heading>
                 </x-slot>
 
@@ -57,6 +58,18 @@
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
                                     {{ $institution->allocation }}
+                                </p>
+                            </span>
+                        </x-table.cell>
+
+                        <x-table.cell>
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                <p class="text-gray-600 truncate">
+                                    @if ($institution->wp)
+                                        <x-icon.check class="text-green-500 h-5 w-5"/>
+                                    @else
+                                        <x-icon.x class="text-red-500 h-5 w-5"/>
+                                    @endif
                                 </p>
                             </span>
                         </x-table.cell>
@@ -107,6 +120,10 @@
 
                 <x-input.group for="allocation" label="Allocation" :error="$errors->first('editing.allocation')" required>
                     <x-input.text wire:model="editing.allocation" id="allocation" placeholder="{{ __('Allocation') }}" />
+                </x-input.group>
+
+                <x-input.group label="WP" :error="$errors->first('editing.wp')" required>
+                    <x-input.checkbox wire:model="editing.wp" id="wp">{{ __('wp-checkbox') }}</x-input.checkbox>
                 </x-input.group>
             </x-slot>
 

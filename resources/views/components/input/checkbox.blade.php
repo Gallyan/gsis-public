@@ -1,5 +1,5 @@
 @props([
-    'for',
+    'for' => $attributes['id'],
 ])
 
 <div class="relative flex items-center h-10 px-3">

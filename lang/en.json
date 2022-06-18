@@ -68,5 +68,6 @@
     "cancelled": "cancelled",
     "mail-ending": "Best regards,<br />The support team<br /><small>PS: do not reply to this automatic mail</small>",
     "Institution": "Institution / Contract",
-    "messaging-inactive": "Messaging will be available after you saved this page first time."
+    "messaging-inactive": "Messaging will be available after you saved this page first time.",
+    "wp-checkbox": "The agent must fill in a WP with this contract."
 }

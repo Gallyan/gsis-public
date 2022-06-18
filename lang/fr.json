@@ -397,5 +397,6 @@
     "Edit misc": "Editer un achat",
     "Add misc": "Ajouter un achat",
     "Date of purchase": "Date d'achat",
-    "No receptions...": "Aucune réception..."
+    "No receptions...": "Aucune réception...",
+    "wp-checkbox": "L'agent doit renseigner un WP avec ce contrat."
 }
