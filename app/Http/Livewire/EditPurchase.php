@@ -72,7 +72,9 @@ class EditPurchase extends Component
         'purchase.subject'        => 'required|string|max:255',
         'purchase.institution_id' => 'required|exists:institutions,id',
         'purchase.wp'             => [
+            'sometimes',
             Rule::requiredIf(fn () => Institution::find($this->purchase->institution_id)->wp),
+            'nullable',
             'integer',
             'min:1'
         ],
