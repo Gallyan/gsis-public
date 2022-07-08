@@ -17,15 +17,6 @@ class Purchase extends Model
         'cancelled'   => 'Cancelled',
     ];
 
-    const WP = [
-        'blank' => 'No WP',
-        'wp1' => 'WP 1',
-        'wp2' => 'WP 2',
-        'wp3' => 'WP 3',
-        'wp4' => 'WP 4',
-        'wp5' => 'WP 5',
-    ];
-
     // Automatically switch between json and array of misc
     protected $casts = [
         'miscs' => 'array',

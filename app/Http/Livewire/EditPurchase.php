@@ -73,7 +73,8 @@ class EditPurchase extends Component
         'purchase.institution_id' => 'required|exists:institutions,id',
         'purchase.wp'             => [
             Rule::requiredIf(fn () => Institution::find($this->purchase->institution_id)->wp),
-            'in:'.collect(Purchase::WP)->keys()->implode(',')
+            'integer',
+            'min:1'
         ],
         'uploads'                 => 'nullable|array',
         'uploads.*'               => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
@@ -131,12 +132,11 @@ class EditPurchase extends Component
             $this->purchase = $this->makeBlankPurchase();
         } else {
             $this->purchase = Purchase::findOrFail($id);
+            $this->showWP = $this->purchase->institution->wp;
 
             if ( ! auth()->user()->can('manage-users') && auth()->id() !== $this->purchase->user_id )
                 abort(403);
         }
-
-        $this->showWP = $this->purchase->institution->wp;
 
         $this->purchase_receptions = $this->purchase->receptions->toArray();
         foreach( $this->purchase_receptions as $k => $rcpt ) {
