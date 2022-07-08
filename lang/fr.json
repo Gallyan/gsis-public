@@ -398,5 +398,6 @@
     "Add misc": "Ajouter un achat",
     "Date of purchase": "Date d'achat",
     "No receptions...": "Aucune réception...",
-    "wp-checkbox": "L'agent doit renseigner un WP avec ce contrat."
+    "wp-checkbox": "L'agent doit renseigner un WP avec ce contrat.",
+    "wp-sometimes": "Il n'est pas nécessaire de renseigner un WP pour cette institution."
 }
