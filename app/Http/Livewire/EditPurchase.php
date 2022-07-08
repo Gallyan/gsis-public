@@ -580,7 +580,7 @@ class EditPurchase extends Component
                 }
         })->validate();
 
-        if (!Institution::find($this->purchase->institution_id)->wp) $this->purchase->wp = '';
+        if (!Institution::find($this->purchase->institution_id)->wp) $this->purchase->wp = null;
 
         $this->purchase->save();
 
