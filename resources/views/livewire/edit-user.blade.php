@@ -164,6 +164,21 @@
             </x-input.group>
             @endcan
 
+            @can('manage-admin')
+            <x-input.group label="Last login">
+                <span class="text-sm font-medium text-gray-700">
+                @if  ($user->last_login_at )
+                    {{ __('Last login on :at', ['at'=>\Illuminate\Support\Carbon::parse($user->last_login_at)->translatedFormat(__('lastlog-dt'))]) }}
+                    @if  ($user->last_login_ip )
+                        {{ __('from IP :from', ['from'=>$user->last_login_ip]) }}
+                    @endif
+                @else
+                    {{ __('The user has never logged in.')}}
+                @endif
+                </span>
+            </x-input.group>
+            @endcan
+
         </div>
     </form>
 

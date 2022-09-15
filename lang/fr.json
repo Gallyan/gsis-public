@@ -132,6 +132,7 @@
     "Log Out": "Déconnexion",
     "Log Out Other Browser Sessions": "Déconnecter les sessions ouvertes sur d'autres navigateurs",
     "Login": "Connexion",
+    "Last login": "Dernière connexion",
     "Logout": "Déconnexion",
     "Manage Account": "Gérer le compte",
     "Manage and log out your active sessions on other browsers and devices.": "Gérer et déconnecter vos sessions actives sur les autres navigateurs et appareils.",
@@ -337,7 +338,10 @@
     "submit-order": "Afin de soumettre votre commande à la cellule d'appui, définissez le statut sur \"En attente\" puis enregistrez votre commande.",
     "submit-purchase": "Afin de soumettre votre demande à la cellule d'appui, définissez le statut sur \"En attente\" puis enregistrez votre demande.",
     "Hi :name, you're logged in!": "Bonjour :name, vous êtes connecté !",
-    "Your last login was on :at from :from.": "Votre précédente connexion a eu lieu le :at depuis l'adresse IP :from.",
+    "Your last login was on :at from IP :from.": "Votre précédente connexion a eu lieu le :at depuis l'adresse IP :from.",
+    "Last login on :at": "Dernière connexion le :at",
+    "from IP :from": "depuis l'adresse IP :from",
+    "The user has never logged in.": "L'utilisateur ne s'est jamais connecté.",
     "If it wasn't you, please contact an administrator.": "Si ce n'était pas vous, merci de contacter un administrateur.",
     "lastlog-dt": "l d F Y à H\\hi",
     "Order": "Commande",
@@ -399,5 +403,6 @@
     "Date of purchase": "Date d'achat",
     "No receptions...": "Aucune réception...",
     "wp-checkbox": "L'agent doit renseigner un WP avec ce contrat.",
-    "wp-sometimes": "Il n'est pas nécessaire de renseigner un WP pour cette institution."
+    "wp-sometimes": "Il n'est pas nécessaire de renseigner un WP pour cette institution.",
+    "Purpose of the mission": "Objet de la mission"
 }

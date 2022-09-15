@@ -12,7 +12,7 @@
                     @php
                         \Illuminate\Support\Carbon::setlocale(config('app.locale'));
                     @endphp
-                        <p>{{ __('Your last login was on :at from :from.', ['at'=>\Illuminate\Support\Carbon::parse(session()->get('previous_login'))->translatedFormat(__('lastlog-dt')), 'from'=>session()->get('previous_ip')]) }}</p>
+                        <p>{{ __('Your last login was on :at from IP :from.', ['at'=>\Illuminate\Support\Carbon::parse(session()->get('previous_login'))->translatedFormat(__('lastlog-dt')), 'from'=>session()->get('previous_ip')]) }}</p>
                         <p>{{ __('If it wasn\'t you, please contact an administrator.') }}</p>
                 </div>
                 @endif
