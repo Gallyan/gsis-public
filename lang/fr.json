@@ -318,6 +318,8 @@
     "helptext-amount": "Ce champs n'est visible que des gestionnaires.",
     "helptext-purchase-status": "Pour soumettre votre achat, passez le statut à \"En attente\", puis sauvegarder-le.<br/>Une fois que l'achat est pris en charge par un gestionnaire, le statut passe à \"En cours\" et vous ne pourrez plus le modifier.",
     "helptext-purchase-misc": "Pour une meilleur compréhension, organisez les lignes par devise.",
+    "helptext-status": "Pour soumettre votre demande, passez le statut à \"En attente\", puis sauvegarder-le.<br/>Une fois que la demande est pris en charge par un gestionnaire, le statut passe à \"En cours\" et vous ne pourrez plus le modifier.",
+    "helptext-mission-conference": "Si oui, vous devrez alors fournir le programme.",
     "Delete document": "Supprimer un document",
     "Do you really want to delete document": "Voulez-vous vraiment supprimer le document",
     "Nothing found...": "Aucun résultat...",
@@ -404,5 +406,7 @@
     "No receptions...": "Aucune réception...",
     "wp-checkbox": "L'agent doit renseigner un WP avec ce contrat.",
     "wp-sometimes": "Il n'est pas nécessaire de renseigner un WP pour cette institution.",
-    "Purpose of the mission": "Objet de la mission"
+    "Purpose of the mission": "Objet de la mission",
+    "Conference": "Conférence",
+    "Mission with or without costs": "Mission avec ou sans frais"
 }

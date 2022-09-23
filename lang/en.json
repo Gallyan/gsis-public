@@ -48,6 +48,8 @@
     "helptext-user-change-email": "If the email address is changed, a new verification email will be sent, and site features will be unavailable until validation.",
     "helptext-amount": "This field is only visible to managers.",
     "helptext-purchase-status": "To submit your purchase, change the status to \"On hold\", then save it.<br/>Once the purchase is taken over by a manager, the status will change to \"In progress\" and you will not be able to modify it.",
+    "helptext-status": "To submit your file, change the status to \"On hold\", then save it.<br/>Once the file is taken over by a manager, the status will change to \"In progress\" and you will not be able to modify it.",
+    "helptext-mission-conference": "If so, then you will need to provide the programme.",
     "helptext-purchase-misc": "For a better understanding, organise the lines by currency.",
     "submit-order": "In order to submit your order to the support unit, set status to \"On hold\" then save your order.",
     "submit-purchase": "In order to submit your purchase to the support unit, set status to \"On hold\" then save your purchase.",
