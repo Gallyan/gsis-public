@@ -41,6 +41,14 @@ class AppServiceProvider extends ServiceProvider
             return __('Invalid phone number');
         });
 
+        // Add a validation rule for uppercase
+        Validator::extend('uppercase', function($attribute, $value, $parameters, $validator) {
+            return $value === strtoupper($value);
+        });
+        Validator::replacer('uppercase', function ($message, $attribute, $rule, $parameters) {
+            return __('String must be uppercase');
+        });
+
         // Add a validation rule for role list
         Validator::extend('validrole', function ($attribute, $value, $parameters, $validator) {
             return Role::all()->contains('name',$value);
