@@ -4,8 +4,8 @@
 
 <!-- User section //-->
 
-<x-nav-link :route="'login'" :icon="'stop'" class="opacity-50 cursor-default hover:opacity-50 hover:bg-indigo-800">
-    {{ __('Missions') }}
+<x-nav-link :route="'missions'" :icon="'stop'">
+    {!! __('Missions') !!}
 </x-nav-link>
 
 <x-nav-link :route="'purchases'" :icon="'purchase'">
