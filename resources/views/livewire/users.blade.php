@@ -84,7 +84,6 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('email')" :direction="$sorts['email'] ?? null" class="whitespace-nowrap">{{ __('Email') }}</x-table.heading>
                     <x-table.heading class="text-left">{{ __('Roles') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">{{ __('Created') }}</x-table.heading>
-                    <x-table.heading class="text-left"></x-table.heading>
                 </x-slot>
 
                 <x-slot name="body">
@@ -134,19 +133,10 @@
                                 </p>
                             </span>
                         </x-table.cell>
-
-                        <x-table.cell>
-                            <span
-                                class="inline-flex space-x-2 truncate text-sm leading-5 text-gray-500"
-                                title="{{ __('Full Edit') }}"
-                            >
-                                <a href="{{ route('edit-user',$user->id) }}"><x-icon.pencil /></a>
-                            </span>
-                        </x-table.cell>
                     </x-table.row>
                     @empty
                     <x-table.row>
-                        <x-table.cell colspan="5">
+                        <x-table.cell colspan="4">
                             <div class="flex justify-center items-center space-x-2">
                                 <x-icon.inbox class="h-8 w-8 text-gray-400" />
                                 <span class="font-medium py-8 text-gray-400 text-xl">{{ __('Nothing found...') }}</span>

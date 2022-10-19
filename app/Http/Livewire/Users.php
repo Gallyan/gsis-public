@@ -81,13 +81,9 @@ class Users extends Component
 
     public function edit(User $user)
     {
-        $this->useCachedRows();
 
-        if ($this->editing->isNot($user)) $this->editing = $user;
+        return redirect()->route('edit-user',$user->id);
 
-        $this->selectedroles = array_fill_keys( $this->editing->roles->pluck('name')->toArray(), '1');
-
-        $this->showEditModal = true;
     }
 
     public function updated($propertyName) { $this->validateOnly($propertyName); }
