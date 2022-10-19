@@ -404,5 +404,6 @@
     "No receptions...": "Aucune réception...",
     "wp-checkbox": "L'agent doit renseigner un WP avec ce contrat.",
     "wp-sometimes": "Il n'est pas nécessaire de renseigner un WP pour cette institution.",
-    "Purpose of the mission": "Objet de la mission"
+    "Purpose of the mission": "Objet de la mission",
+    "Your email address is not yet validated. For the moment, you only have access to your profile and your dashboard. You can request a new verification email by clicking on the button below:": "Votre adresse email n'est pas encore validée. Pour l'instant, vous n'avez accès qu'à votre profil et votre tableau de bord. Vous pouvez demander un nouvel envoi de l'email de vérification en cliquant sur le bouton ci-dessous:"
 }
