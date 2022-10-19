@@ -27,6 +27,8 @@
                 </div>
             </form>
 
+            <a href="/" class="inline-flex items-center p-4 mx-2 border border-transparent text-xs font-bold uppercase rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"> {{ __('Home') }} </a>
+
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
 
