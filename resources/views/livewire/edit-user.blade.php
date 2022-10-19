@@ -21,6 +21,12 @@
                 <x-input.date wire:model="user.birthday" id="birthday" placeholder="YYYY-MM-DD" required />
             </x-input.group>
 
+            <x-input.group label="Birthplace" for="birthplace" :error="$errors->first('user.birthplace')">
+                <x-input.text wire:model.debounce.500ms="user.birthplace" id="birthplace">
+                    <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
+                </x-input.text>
+            </x-input.group>
+
             <x-input.group label="Email" for="email" :error="$errors->first('user.email')" helpText="{{ isset($user->getDirty()['email']) ? __('helptext-user-change-email') : '' }}" required>
                 <x-input.email wire:model.debounce.500ms="user.email" id="email" leading-add-on="" :verified="$user->verified" />
             </x-input.group>
