@@ -14,4 +14,7 @@ class Institution extends Model
     protected $guarded = [];
 
     public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
+
+    // Initialise
+    function __construct() { $this->wp = false; }
 }
