@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Manager;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
@@ -120,19 +121,26 @@ class Orders extends Component
 
     public function render()
     {
-        $allmanagers = User::role('manager')->get()->mapWithKeys(
-            function( $manager ) {
-                return [$manager->id => ucwords( $manager->firstname.' '.$manager->lastname )];
-            }
-        );
+
+        // Get Managers by role or by association with at least one order
+        $allmanagers = User::role('manager')
+                        ->orWhereIn(
+                            'id',
+                            Manager::whereHasMorph( 'manageable', Order::class )
+                                ->get()
+                                ->pluck('user_id')
+                                ->unique()
+                            )
+                        ->get()
+                        ->mapWithKeys(
+                            function( $manager ) {
+                                return [$manager->id => ucwords( $manager->name )];
+                            }
+                        );
 
         return view('livewire.orders', [
             'orders' => $this->rows,
-            'allmanagers' => User::role('manager')->get()->mapWithKeys(
-                                function( $manager ) {
-                                    return [$manager->id => ucwords( $manager->firstname.' '.$manager->lastname )];
-                                }
-                            ),
+            'allmanagers' => $allmanagers,
         ])->layoutData([
             'pageTitle' => __('Purchase orders'),
         ]);
