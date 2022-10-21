@@ -226,7 +226,7 @@
                         wire:model="doc.file"
                         id="file"
                         inputname="file"
-                        maxFileSize="2MB"
+                        maxFileSize="10MB"
                         acceptedFileTypes="[ 'image/*', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
                     />
                 </x-input.group>
