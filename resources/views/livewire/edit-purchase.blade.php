@@ -516,7 +516,7 @@
                         id="file"
                         inputname="file"
                         eventReset="guestlistReset"
-                        maxFileSize="2MB"
+                        maxFileSize="10MB"
                         acceptedFileTypes="[ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
                     />
                 </x-input.group>
