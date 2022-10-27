@@ -338,7 +338,7 @@
     "Back": "Page précédente",
     "submit-order": "Afin de soumettre votre commande à la cellule d'appui, définissez le statut sur \"En attente\" puis enregistrez votre commande.",
     "submit-purchase": "Afin de soumettre votre demande à la cellule d'appui, définissez le statut sur \"En attente\" puis enregistrez votre demande.",
-    "Hi :name, you're logged in!": "Bonjour :name, vous êtes connecté !",
+    "Hi :name, you're logged in!": "Bonjour :name, vous êtes connecté(e) !",
     "Your last login was on :at from IP :from.": "Votre précédente connexion a eu lieu le :at depuis l'adresse IP :from.",
     "Last login on :at": "Dernière connexion le :at",
     "from IP :from": "depuis l'adresse IP :from",
