@@ -70,5 +70,7 @@
     "Institution": "Institution / Contract",
     "messaging-inactive": "Messaging will be available after you saved this page first time.",
     "wp-checkbox": "The agent must fill in a WP with this contract.",
-    "wp-sometimes": "There is no need to fill in a WP for this institution."
+    "wp-sometimes": "There is no need to fill in a WP for this institution.",
+    "incomplete-profile": "Your profile is incomplete, the following mandatory field is missing: :missing.|Your profile is incomplete, the following mandatory fields are missing: :missing.",
+    "please-complete": "Please complete this information on your <a href=\":profile\" class=\"text-indigo-800 hover:underline\">profile page</a>."
 }

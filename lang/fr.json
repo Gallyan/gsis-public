@@ -26,6 +26,7 @@
     "Are you sure you would like to remove this person from the team?": "Êtes-vous sûr de vouloir supprimer cette personne de cette équipe ?",
     "Author": "Auteur",
     "Birthday": "Date de naissance",
+    "Birthplace": "Lieu de naissance",
     "Books": "Livres",
     "Browser Sessions": "Sessions de navigateur",
     "Business Address": "Adresse professionnelle",
@@ -405,5 +406,7 @@
     "wp-checkbox": "L'agent doit renseigner un WP avec ce contrat.",
     "wp-sometimes": "Il n'est pas nécessaire de renseigner un WP pour cette institution.",
     "Purpose of the mission": "Objet de la mission",
-    "Your email address is not yet validated. For the moment, you only have access to your profile and your dashboard. You can request a new verification email by clicking on the button below:": "Votre adresse email n'est pas encore validée. Pour l'instant, vous n'avez accès qu'à votre profil et votre tableau de bord. Vous pouvez demander un nouvel envoi de l'email de vérification en cliquant sur le bouton ci-dessous:"
+    "Your email address is not yet validated. For the moment, you only have access to your profile and your dashboard. You can request a new verification email by clicking on the button below:": "Votre adresse email n'est pas encore validée. Pour l'instant, vous n'avez accès qu'à votre profil et votre tableau de bord. Vous pouvez demander un nouvel envoi de l'email de vérification en cliquant sur le bouton ci-dessous:",
+    "incomplete-profile": "Votre profil est incomplet, il manque le champ obligatoire suivant : :missing.|Votre profil est incomplet, il manque les champs obligatoires suivants : :missing.",
+    "please-complete": "Merci de compléter cette information sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\">page profil</a>."
 }

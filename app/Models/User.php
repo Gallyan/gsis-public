@@ -47,6 +47,21 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         });
     }
 
+    public function getMissingInfoAttribute() {
+        $fields = [ 'firstname'  => 'First Name',
+                    'lastname'   => 'Last Name',
+                    'email'      => 'E-mail',
+                    'birthday'   => 'Birthday',
+                    'birthplace' => 'Birthplace' ];
+        $missing = [];
+
+        foreach( $fields as $field=>$label ) {
+            if ( empty($this->$field) ) $missing[] = __($label);
+        }
+
+        return $missing;
+    }
+
     public function getNameAttribute() { return $this->firstname.' '.$this->lastname; }
 
     public function getRolesNamesAttribute() { return $this->getRoleNames()->map(function ($item, $key) { return __($item); })->implode(', '); }
