@@ -132,12 +132,14 @@ class EditUser extends Component
                 ),
             ]);
 
-            if ( Storage::disk('avatars')->exists( $old_avatar ) ) {
+            // Delete previous avatar if exists
+            if ( ! empty( $old_avatar ) && Storage::disk('avatars')->exists( $old_avatar ) ) {
 
                 Storage::disk('avatars')->delete( $old_avatar );
 
             }
 
+            // Reset avatar upload form
             $this->dispatchBrowserEvent('pondReset');
         }
 
