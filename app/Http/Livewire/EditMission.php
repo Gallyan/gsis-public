@@ -1,0 +1,353 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\User;
+use App\Models\Mission;
+use App\Models\Manager;
+use App\Models\Institution;
+use App\Mail\MissionStatusChange;
+use Livewire\Component;
+use App\Models\Document;
+use Livewire\WithFileUploads;
+use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+
+class EditMission extends Component
+{
+    use WithFileUploads, AuthorizesRequests;
+
+    public Mission $mission;
+    public $uploads = [];
+    public $programme; // Store uploaded conference programme temporary upload
+    public $del_docs = [];
+    public $modified = false; // True if form is modified and need to be saved
+    public $disabled = false; // True if user can't modify current editing Mission
+    public $disabledStatuses = []; // List of disabled status
+    public $showInformationMessage = false;
+    public $showModal = false;
+    public $isAuthManager = false;
+    public $showWP = false;
+
+    protected function rules() { return [
+        'mission.user_id'        => 'required|exists:users,id',
+        'mission.subject'        => 'required|string|max:255',
+        'mission.institution_id' => 'required|exists:institutions,id',
+        'mission.om'             => 'required_if:mission.status,on-hold',
+        'mission.wp'             => [
+            'sometimes',
+            Rule::requiredIf(fn () => Institution::find($this->mission->institution_id)->wp),
+            'nullable',
+            'integer',
+            'min:1'
+        ],
+        'mission.conference'     => 'boolean',
+        'mission.costs'          => 'boolean',
+        'mission.dest_country'   => 'string|max:2|uppercase',
+        'mission.dest_city'      => 'string|max:50',
+        'mission.departure'      => 'required|date',
+        'mission.from'           => 'boolean',
+        'mission.return'         => 'required|date',
+        'mission.to'             => 'boolean',
+        'mission.tickets'        => 'boolean',
+        'mission.accomodation'   => 'boolean',
+        'mission.extra'          => 'boolean',
+        'programme'              => 'nullable|mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
+        'uploads'                => 'nullable|array',
+        'uploads.*'              => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
+        'mission.comments'       => 'nullable|string',
+        'mission.status'         => 'required|in:'.collect(Mission::STATUSES)->keys()->implode(','),
+    ]; }
+
+    protected function messages() { return [
+        'uploads.*.image' => __('The :filename file must be an image.'),
+        'uploads.*.max' => __('The size of the :filename file cannot exceed :max kilobytes.'),
+        'uploads.*.mimes' => __('The file :filename must be a file of type: :values.'),
+        'uploads.*.mimetypes' => __('The file :filename must be a file of type: :values.'),
+        'mission.om.required_if' => __('validation.required'),
+    ];}
+
+    protected $listeners = ['refreshMission' => '$refresh'];
+
+    public function mount( $id = null ) {
+        $this->isAuthManager = auth()->user()->can('manage-users');
+
+        if ( is_null($id) ) {
+            $this->mission = $this->makeBlankMission();
+        } else {
+            $this->mission = Mission::findOrFail($id);
+            $this->showWP = $this->mission->institution->wp;
+
+            if ( ! auth()->user()->can('manage-users') && auth()->id() !== $this->mission->user_id )
+                abort(403);
+        }
+
+        $this->reset(['uploads','modified','del_docs']);
+        $this->dispatchBrowserEvent('pondReset');
+        $this->resetValidation();
+        $this->statesUpdate();
+    }
+
+    public function init() {
+        $this->mount( $this->mission->id );
+    }
+
+    public function statesUpdate() {
+        if ( $this->mission->status === 'cancelled' ) {
+            // Commande annulée, personne ne peut plus rien faire
+            $this->disabled = true;
+            $this->disabledStatuses = array_keys(Mission::STATUSES);
+
+        } elseif ( auth()->user()->can('manage-users') ) {
+            // Gestionnnaire
+            if ( $this->mission->user_id === auth()->id() ) {
+                // Le gestionnaire est aussi l'auteur de la commande
+
+                if ( $this->mission->status === 'draft' ) {
+                    $this->disabled = false;
+                    $this->disabledStatuses = array_diff( array_keys( Mission::STATUSES ), [ 'draft', 'on-hold', 'cancelled' ] );
+                } elseif ( $this->mission->status === 'on-hold' ) {
+
+                    $this->disabled = false;
+                    if ( $this->mission->managers->doesntContain( 'user_id', auth()->id() ) ) {
+                        $this->disabledStatuses = array_diff( array_keys( Mission::STATUSES ), [ 'draft', 'on-hold', 'cancelled' ] );
+                    } else {
+                        $this->disabledStatuses = [];
+                    }
+
+                } elseif ( $this->mission->status === 'in-progress' ) {
+                    if ( $this->mission->managers->doesntContain( 'user_id', auth()->id() ) ) {
+                        $this->disabled = true;
+                        $this->disabledStatuses = array_keys(Mission::STATUSES);
+
+                    } else {
+                        $this->disabled = false;
+                        $this->disabledStatuses = [ 'draft', 'on-hold' ];
+                    }
+
+                } elseif ( $this->mission->status === 'processed' ) {
+                    if ( $this->mission->managers->doesntContain( 'user_id', auth()->id() ) ) {
+                        $this->disabled = true;
+                        $this->disabledStatuses = array_keys( Mission::STATUSES );
+
+                    } else {
+                        $this->disabled = false;
+                        $this->disabledStatuses = array_keys(Mission::STATUSES);
+                    }
+                }
+
+            } else {
+                // Le gestionnaire n'est pas l'auteur de la commande
+
+                if ( $this->mission->managers->doesntContain( 'user_id', auth()->id() ) ) {
+                    // Le gestionnaire n'est pas associé à la commande, il ne peut rien faire sans s'associer
+                    $this->disabled = true;
+                    $this->disabledStatuses = array_keys(Mission::STATUSES);
+
+                } elseif ( $this->mission->status === 'draft' ) {
+                    $this->disabled = true;
+                    $this->disabledStatuses = array_keys(Mission::STATUSES);
+
+                } elseif ( $this->mission->status === 'on-hold' ) {
+                    $this->disabled = false;
+                    $this->disabledStatuses = [ 'draft' ];
+
+                } elseif ( $this->mission->status === 'in-progress' ) {
+                    $this->disabled = false;
+                    $this->disabledStatuses = [ 'draft', 'on-hold' ];
+
+                } elseif ( $this->mission->status === 'processed' ) {
+                    // Une commande terminée ne peut plus changer de status
+                    $this->disabled = false;
+                    $this->disabledStatuses = array_keys(Mission::STATUSES);
+                }
+            }
+        } else {
+            // Utilisateur
+            if ( in_array( $this->mission->status, [ 'draft', 'on-hold' ] ) ) {
+                $this->disabled = false;
+                $this->disabledStatuses = array_diff( array_keys( Mission::STATUSES ), [ 'draft', 'on-hold', 'cancelled' ] );
+            } else {
+                // Une fois la commande soumise, l'utilisateur ne peut plus rien faire
+                $this->disabled = true;
+                $this->disabledStatuses = array_keys( Mission::STATUSES );
+            }
+        }
+    }
+
+    public function render()
+    {
+        return view('livewire.edit-mission')
+            ->layoutData(['pageTitle' => __('Mission').' '.$this->mission->id ]);
+    }
+
+    // Ajoute un document à la liste des documents à supprimer
+    public function del_doc( $id ) {
+        if ( $this->disabled === true ) return;
+
+        if( !empty( Document::find( $id ) ) && !in_array( $id, $this->del_docs ) ) {
+
+            $this->del_docs[] = $id;
+            $this->modified = true;
+
+        }
+    }
+
+    // Associate current manager to Mission
+    public function associate() {
+        Manager::create([
+            'user_id' => auth()->id(),
+            'manageable_id' => $this->mission->id,
+            'manageable_type' => Mission::class,
+        ]);
+        if ( $this->mission->status === 'on-hold' ) {
+            $this->mission->update(['status'=>'in-progress']);
+            $user = User::findOrFail($this->mission->user_id);
+            Mail::to( $user )->send( new MissionStatusChange( $this->mission, $user->name, auth()->user()->name) );
+        }
+        $this->emit('refreshMission');
+        $this->emit('refreshMessages');
+        $this->init();
+    }
+
+    // Dissociate current manager from Mission if he's not the only one
+    public function dissociate() {
+        // Check if manager is not the only one
+        if ( count($this->mission->managers) > 1 ) {
+            Manager::where('user_id','=',auth()->id())
+                ->where('manageable_type','=',Mission::class)
+                ->where('manageable_id','=',$this->mission->id)
+                ->delete();
+                $this->emit('refreshMission');
+                $this->init();
+            }
+    }
+
+    public function updated($propertyName) {
+        $this->validateOnly($propertyName);
+        $this->modified = !empty($this->mission->getDirty()) ;
+    }
+
+    public function updatedUploads() {
+        if ( $this->uploads ) {
+
+            $this->validateOnly( 'uploads.*' );
+
+            $this->modified = true;
+        }
+    }
+
+    public function updatedMissionInstitutionId() {
+        $this->showWP = Institution::find($this->mission->institution_id)->wp;
+        ! $this->showWP && $this->validateOnly('mission.wp');
+    }
+
+    public function makeBlankMission()
+    {
+        return Mission::make([
+            'user_id' => Auth()->id(),
+            'hotels'   => [],
+            'status' => 'draft',
+            'dest_country' => 'FR',
+            'conference' => false,
+            'from' => true,
+            'to' => true,
+            'costs' => true
+        ]);
+    }
+
+    public function save()
+    {
+        $creation = is_null( $this->mission->id );
+
+        $this->mission->hotels = $this->mission->hotels; //Force json encodage
+
+        $this->withValidator(function (Validator $validator) {
+                if ($validator->fails()) {
+                    $this->emitSelf('notify-error');
+                }
+        })->validate();
+
+        $this->mission->save();
+
+        if ( $creation ) {
+            // Mise à jour de l'url à la création
+            $this->emit('urlChange', route('edit-order',$this->mission->id));
+        }
+
+        // Traitement des uploads
+
+        // Create user documents directory if not exists
+        if( !empty( $this->programme ) || !empty( $this->uploads ) ) {
+            $path = 'docs/'.$this->mission->user_id.'/';
+            Storage::makeDirectory( $path );
+        }
+
+        // Sauvegarde du programme si présent
+        if( !empty( $this->programme ) ) {
+            // Store file in directory
+            $filename = $this->programme->storeAs( '/'.$path, $this->programme->hashName() );
+
+            // Create file in BDD
+            Document::create([
+                "name" => Document::filter_filename( $this->programme->getClientOriginalName() ),
+                "type" => 'programme',
+                "size" => Storage::size( $filename ),
+                "filename" => $this->programme->hashName(),
+                "user_id" => $this->mission->user_id,
+                "documentable_id" => $this->mission->id,
+                "documentable_type" => Mission::class,
+            ]);
+        }
+
+        // Sauvegarde des fichiers ajoutés
+        if( !empty( $this->uploads ) ) {
+
+            foreach( $this->uploads as $file ) {
+                // Store file in directory
+                $filename = $file->storeAs( '/'.$path, $file->hashName() );
+
+                // Create file in BDD
+                Document::create([
+                    "name" => Document::filter_filename( $file->getClientOriginalName() ),
+                    "type" => 'document',
+                    "size" => Storage::size( $filename ),
+                    "filename" => $file->hashName(),
+                    "user_id" => $this->mission->user_id,
+                    "documentable_id" => $this->mission->id,
+                    "documentable_type" => Mission::class,
+                ]);
+            }
+        }
+
+        // Reset des composants filepond
+        if( !empty( $this->programme ) || !empty( $this->uploads ) ) {
+            $this->dispatchBrowserEvent('pondReset');
+        }
+
+        // Suppression des fichiers à supprimer
+        foreach( $this->del_docs as $id ) {
+
+            Document::findOrFail( $id )->delete() ;
+
+        }
+
+        $this->reset(['uploads','modified','del_docs','programme']);
+        $this->emit('refreshMission');
+        $this->emitSelf('notify-saved');
+        $this->statesUpdate();
+
+        if ( $this->mission->status === 'draft' && auth()->user()->cannot('manage-users') ) {
+            $this->showInformationMessage = 'submit-mission';
+        }
+
+        if ( array_key_exists( 'status', $this->mission->getChanges()) && $this->mission->status !== 'draft') {
+            // Envoi de mail lors d'un changement de status uniquement
+            $user = User::findOrFail($this->mission->user_id);
+            Mail::to( $user )->send( new MissionStatusChange( $this->mission, $user->name, auth()->user()->name) );
+        }
+    }
+}

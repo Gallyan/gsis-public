@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Mission extends Model
+{
+    use HasFactory;
+
+    const STATUSES = [
+        'draft'       => 'Draft',
+        'on-hold'     => 'On hold',
+        'in-progress' => 'In progress',
+        'processed'   => 'Processed',
+        'cancelled'   => 'Cancelled',
+    ];
+
+    // Automatically switch between json and array of hotels
+    protected $casts = [
+        'hotels' => 'array',
+        'departure' => 'date:Y-m-d',
+        'return' => 'date:Y-m-d',
+    ];
+
+    protected $guarded = [];
+
+    public function user() { return $this->belongsTo('App\Models\User'); }
+
+    public function institution() { return $this->belongsTo('App\Models\Institution'); }
+
+    public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
+
+    public function getAllStatusesAttribute() { return Mission::STATUSES; }
+
+    /**
+     * Get all of the mission's documents.
+     */
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
+
+    /**
+     * Get all of the mission's managers.
+     */
+    public function managers()
+    {
+        return $this->morphMany(Manager::class, 'manageable');
+    }
+
+    /**
+     * Get all of the mission's posts.
+     */
+    public function posts()
+    {
+        return $this->morphMany(Post::class, 'postable')->orderBy('id','desc');
+    }
+}
