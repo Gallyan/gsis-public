@@ -412,5 +412,14 @@
     "Mission with or without costs": "Mission avec ou sans frais",
     "Your email address is not yet validated. For the moment, you only have access to your profile and your dashboard. You can request a new verification email by clicking on the button below:": "Votre adresse email n'est pas encore validée. Pour l'instant, vous n'avez accès qu'à votre profil et votre tableau de bord. Vous pouvez demander un nouvel envoi de l'email de vérification en cliquant sur le bouton ci-dessous:",
     "incomplete-profile": "Votre profil est incomplet, il manque le champ obligatoire suivant : :missing.|Votre profil est incomplet, il manque les champs obligatoires suivants : :missing.",
-    "please-complete": "Merci de compléter cette information sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\">page profil</a>."
+    "please-complete": "Merci de compléter cette information sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\">page profil</a>.",
+    "From your address": "Depuis votre adresse",
+    "To your address": "Vers votre adresse",
+    "Work address": "Adresse professionnelle",
+    "Home address": "Adresse personnelle",
+    "Departure": "Départ",
+    "Return": "Retour",
+    "Transport Tickets": "Billets de transports",
+    "Accomodation": "Hébergement",
+    "Extra costs": "Frais annexes"
 }
