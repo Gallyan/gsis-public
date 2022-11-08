@@ -34,7 +34,7 @@ class EditUser extends Component
             'user.firstname' => 'required|max:255',
             'user.lastname' => 'required|max:255',
             'user.birthday' => 'required|date',
-            'user.birthplace' => 'nullable|string',
+            'user.birthplace' => 'required|string',
             'user.email' => 'required|max:255|email:rfc'.((App::environment('production'))?',dns,spoof':'').'|unique:App\Models\User,email,'.$this->user->id,
             'user.employer' => 'nullable|string',
             'user.hom_adr' => 'nullable|string',
@@ -132,12 +132,14 @@ class EditUser extends Component
                 ),
             ]);
 
-            if ( Storage::disk('avatars')->exists( $old_avatar ) ) {
+            // Delete previous avatar if exists
+            if ( ! empty( $old_avatar ) && Storage::disk('avatars')->exists( $old_avatar ) ) {
 
                 Storage::disk('avatars')->delete( $old_avatar );
 
             }
 
+            // Reset avatar upload form
             $this->dispatchBrowserEvent('pondReset');
         }
 

@@ -21,7 +21,7 @@
                 <x-input.date wire:model="user.birthday" id="birthday" placeholder="YYYY-MM-DD" required />
             </x-input.group>
 
-            <x-input.group label="Birthplace" for="birthplace" :error="$errors->first('user.birthplace')">
+            <x-input.group label="Birthplace" for="birthplace" :error="$errors->first('user.birthplace')" required>
                 <x-input.text wire:model.debounce.500ms="user.birthplace" id="birthplace">
                     <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
                 </x-input.text>
@@ -226,7 +226,7 @@
                         wire:model="doc.file"
                         id="file"
                         inputname="file"
-                        maxFileSize="2MB"
+                        maxFileSize="10MB"
                         acceptedFileTypes="[ 'image/*', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
                     />
                 </x-input.group>

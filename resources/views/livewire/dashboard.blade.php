@@ -4,12 +4,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="p-6 bg-white text-md">
                     <p>{{ __('Hi :name, you\'re logged in!',['name'=>$user->name]) }}</p>
                 </div>
 
                 @if ( session()->get('previous_login') && session()->get('previous_ip') )
-                <div class="p-6 bg-white text-md">
+                <div class="p-6 bg-white text-md border-t border-gray-200">
                     @php
                         \Illuminate\Support\Carbon::setlocale(config('app.locale'));
                     @endphp
@@ -19,22 +19,28 @@
                 @endif
 
                 @if ( $user->verified === false )
-                <div class="p-6 bg-white text-md">
-                    <p>{{ __('Your email address is not yet validated. For the moment, you only have access to your profile and your dashboard. You can request a new verification email by clicking on the button below:') }}</p>
+                <div class="p-6 bg-white text-md border-t border-gray-200">
+                    <p><x-icon.warning class="mr-2 flex-shrink-0 h-8 w-8 text-red-400" />{{ __('Your email address is not yet validated. For the moment, you only have access to your profile and your dashboard. You can request a new verification email by clicking on the button below:') }}</p>
                     <form method="POST" action="{{ route('verification.send') }}">
                         @csrf
-                        <x-auth.button class="my-4">
+                        <x-auth.button class="mt-4">
                             {{ __('Resend Verification Email') }}
                         </x-auth.button>
                     </form>
                     @if (session('status') == 'verification-link-sent')
-                    <div class="mb-4 font-medium text-sm text-green-600">
+                    <div class="mt-4 font-medium text-sm text-green-600">
                         {{ __('A new verification link has been sent to the email address you provided during registration.') }}
                     </div>
                     @endif
                 </div>
                 @endif
 
+                @if ( $user->missingInfo !== [] )
+                <div class="p-6 bg-white text-md border-t border-gray-200">
+                    <p><x-icon.warning class="mr-2 flex-shrink-0 h-8 w-8 text-red-400" />
+                    {{ trans_choice('incomplete-profile', count($user->missingInfo), ['missing'=>implode(', ',$user->missingInfo)]) }} {!! __('please-complete', ['profile' => route( 'edit-user', auth()->id() ) ] ) !!}</p>
+                </div>
+                @endif
             </div>
         </div>
     </div>

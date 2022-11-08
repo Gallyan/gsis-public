@@ -122,7 +122,7 @@
                     <x-input.text wire:model="editing.allocation" id="allocation" placeholder="{{ __('Allocation') }}" />
                 </x-input.group>
 
-                <x-input.group label="WP" :error="$errors->first('editing.wp')" required>
+                <x-input.group label="WP" :error="$errors->first('editing.wp')">
                     <x-input.checkbox wire:model="editing.wp" id="wp">{{ __('wp-checkbox') }}</x-input.checkbox>
                 </x-input.group>
             </x-slot>

@@ -24,7 +24,7 @@ class Institutions extends Component
         'editing.name' => 'required|string|max:255',
         'editing.contract' => 'required|string|max:255',
         'editing.allocation' => 'required|string|max:55',
-        'editing.wp' => 'required|boolean',
+        'editing.wp' => 'boolean',
     ]; }
 
     public function mount() { $this->editing = $this->makeBlankInstitution(); }
