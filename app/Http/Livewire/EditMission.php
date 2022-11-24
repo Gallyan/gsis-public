@@ -50,7 +50,7 @@ class EditMission extends Component
         'mission.dest_city'      => 'string|max:50',
         'mission.departure'      => 'required|date',
         'mission.from'           => 'boolean',
-        'mission.return'         => 'required|date',
+        'mission.return'         => 'required|date|after_or_equal:mission.departure',
         'mission.to'             => 'boolean',
         'mission.tickets'        => 'boolean',
         'mission.accomodation'   => 'boolean',
@@ -85,7 +85,7 @@ class EditMission extends Component
                 abort(403);
         }
 
-        $this->reset(['uploads','modified','del_docs']);
+        $this->reset(['uploads','modified','del_docs','programme']);
         $this->dispatchBrowserEvent('pondReset');
         $this->resetValidation();
         $this->statesUpdate();
@@ -248,15 +248,18 @@ class EditMission extends Component
     public function makeBlankMission()
     {
         return Mission::make([
-            'user_id' => Auth()->id(),
-            'hotels'   => [],
-            'status' => 'draft',
-            'dest_country' => 'FR',
-            'conference' => false,
-            'from' => true,
-            'to' => true,
-            'costs' => true
-        ]);
+            'user_id'        => Auth()->id(),
+            'hotels'         => [],
+            'status'         => 'draft',
+            'dest_country'   => 'FR',
+            'conference'     => false,
+            'costs'          => false,
+            'from'           => true,
+            'to'             => true,
+            'tickets'        => false,
+            'accomodation'   => false,
+            'extra'          => false,
+            ]);
     }
 
     public function save()

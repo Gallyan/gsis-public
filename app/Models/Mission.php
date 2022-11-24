@@ -34,6 +34,14 @@ class Mission extends Model
 
     public function getAllStatusesAttribute() { return Mission::STATUSES; }
 
+    public function getProgrammeAttribute() {
+        return $this->morphMany(
+                        Document::class,
+                        'documentable')
+                    ->where( 'type', '=', 'programme')
+                    ->first();
+    }
+
     /**
      * Get all of the mission's documents.
      */

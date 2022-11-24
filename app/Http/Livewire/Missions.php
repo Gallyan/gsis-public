@@ -67,7 +67,7 @@ class Missions extends Component
 
     public function updatedFilters() { $this->resetPage(); }
 
-    public function edit(Missio $mission) { return redirect()->route('edit-mission',[$mission]); }
+    public function edit(Mission $mission) { return redirect()->route('edit-mission',[$mission]); }
     public function create() { return redirect()->route('edit-mission'); }
 
     public function getRowsQueryProperty()
