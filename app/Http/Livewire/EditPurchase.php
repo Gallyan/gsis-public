@@ -91,7 +91,7 @@ class EditPurchase extends Component
         'supplier'   => 'required|string',
         'date'       => 'required|date_format:Y-m-d',
         'miscamount' => 'required|float',
-        'currency'   => 'required|required_with:misc_amount|string|size:3',
+        'currency'   => 'required|required_with:miscamount|string|size:3',
     ]; }
 
     protected function rcpt_rules() { return [
