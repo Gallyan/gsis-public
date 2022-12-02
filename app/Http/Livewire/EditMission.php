@@ -28,9 +28,19 @@ class EditMission extends Component
     public $disabled = false; // True if user can't modify current editing Mission
     public $disabledStatuses = []; // List of disabled status
     public $showInformationMessage = false;
-    public $showModal = false;
+    public $showExtra = false;
     public $isAuthManager = false;
     public $showWP = false;
+
+    // Extra costs
+    public $extra_meal;
+    public $extra_taxi;
+    public $extra_transport;
+    public $extra_personal_car;
+    public $extra_rental_car;
+    public $extra_parking;
+    public $extra_registration;
+    public $extra_others;
 
     protected function rules() { return [
         'mission.user_id'        => 'required|exists:users,id',
@@ -45,6 +55,8 @@ class EditMission extends Component
             'min:1'
         ],
         'mission.conference'     => 'boolean',
+        'mission.conf_amount'    => 'nullable|float',
+        'mission.conf_currency'  => 'required_with:conf_amount|string|size:3',
         'mission.costs'          => 'boolean',
         'mission.dest_country'   => 'string|max:2|uppercase',
         'mission.dest_city'      => 'string|max:50',
@@ -60,6 +72,17 @@ class EditMission extends Component
         'uploads.*'              => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
         'mission.comments'       => 'nullable|string',
         'mission.status'         => 'required|in:'.collect(Mission::STATUSES)->keys()->implode(','),
+    ]; }
+
+    protected function extra_rules() { return [
+        'extra_meal' => 'boolean',
+        'extra_taxi' => 'boolean',
+        'extra_transport' => 'boolean',
+        'extra_personal_car' => 'boolean',
+        'extra_rental_car' => 'boolean',
+        'extra_parking' => 'boolean',
+        'extra_registration' => 'boolean',
+        'extra_others' => 'nullable|string',
     ]; }
 
     protected function messages() { return [
@@ -227,8 +250,13 @@ class EditMission extends Component
     }
 
     public function updated($propertyName) {
-        $this->validateOnly($propertyName);
-        $this->modified = !empty($this->mission->getDirty()) ;
+        if( in_array( $propertyName, array_keys($this->extra_rules()) ) ) {
+            $this->validateOnly($propertyName, $this->extra_rules());
+
+        } else {
+            $this->validateOnly($propertyName);
+            $this->modified = !empty($this->mission->getDirty()) ;
+        }
     }
 
     public function updatedUploads() {
@@ -245,6 +273,35 @@ class EditMission extends Component
         ! $this->showWP && $this->validateOnly('mission.wp');
     }
 
+    // Start Extra
+
+    public function close_extra() {
+        // Hide modal
+        $this->showExtra = false;
+        // Reset form
+        $this->extra_meal = null;
+        $this->extra_taxi = null;
+        $this->extra_transport = null;
+        $this->extra_personal_car = null;
+        $this->extra_rental_car = null;
+        $this->extra_parking = null;
+        $this->extra_registration = null;
+        $this->extra_others = '';
+    }
+
+    // Ajoute un achat à la liste json des achats
+    public function add_extra() {
+
+        $this->mission->extra = $this->validate( $this->extra_rules() );
+
+        $this->modified = true;
+
+        $this->close_extra();
+    }
+
+    // End Extra
+
+
     public function makeBlankMission()
     {
         return Mission::make([
@@ -253,6 +310,7 @@ class EditMission extends Component
             'status'         => 'draft',
             'dest_country'   => 'FR',
             'conference'     => false,
+            'conf_currency'  => 'EUR',
             'costs'          => false,
             'from'           => true,
             'to'             => true,
