@@ -233,8 +233,8 @@
 
                 <x-input.group for="type" label="Type" :error="$errors->first('doc.type')" required>
                     <x-input.select wire:model="doc.type" id="type" placeholder="{{ __('Select Type...') }}" class="w-full">
-                        @foreach (\App\Models\User::DOCTYPE as $key => $label)
-                            <option value="{{ $key }}">{{ __($label) }}</option>
+                        @foreach (collect(\App\Models\User::DOCTYPE)->map(fn($i,$k)=>__($i))->sort() as $key => $label)
+                            <option value="{{ $key }}">{{ $label }}</option>
                         @endforeach
                     </x-input.select>
                 </x-input.group>
