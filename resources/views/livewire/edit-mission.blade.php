@@ -135,6 +135,14 @@
                 </ul>
                 @endif
 
+                <x-input.group for="conf_amount" label="Montant de l'inscription payé par l'institution" :error="$errors->first('mission.conf_amount')" class="mt-2" inline>
+                    <x-input.money wire:model.debounce.500ms="mission.conf_amount" id="conf_amount" :disabled="$disabled" />
+                </x-input.group>
+
+                <x-input.group for="conf_currency" label="Currency" :error="$errors->first('mission.conf_currency')" class="mt-2" inline>
+                    <x-input.currency wire:model="mission.conf_currency" id="conf_currency" :disabled="$disabled" />
+                </x-input.group>
+
             </x-input.group>
             @endif
 
@@ -180,7 +188,7 @@
                 />
             </x-input.group>
 
-            <x-input.group label="Transport Tickets" for="tickets" :error="$errors->first('mission.tickets')" >
+            <x-input.group label="Transport Tickets" for="tickets" :error="$errors->first('mission.tickets')">
                 <x-input.radiobar
                     id="tickets"
                     wire:model="mission.tickets"
@@ -342,34 +350,87 @@
     <livewire:messagerie :object="$mission" />
 
     <!-- Add book Modal -->
-    <form wire:submit.prevent="add_book">
+    <form wire:submit.prevent="add_extra">
         @csrf
 
-        <x-modal.dialog wire:model.defer="showModal">
-            <x-slot name="title">@if(isset($this->book_id)) @lang('Edit book') @else @lang('Add book') @endif</x-slot>
+        <x-modal.dialog wire:model.defer="showExtra">
+            <x-slot name="title">@lang('Edit extra')</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="title" label="Title" :error="$errors->first('title')" required>
-                    <x-input.text wire:model.debounce.500ms="title" id="title" placeholder="{{ __('Title') }}" />
+                <x-input.group label="Meal" for="extra_meal" :error="$errors->first('extra_meal')">
+                    <x-input.radiobar
+                        id="extra_meal"
+                        wire:model="extra_meal"
+                        :selected="$extra_meal"
+                        :keylabel="['Flat-rate costs','Actual costs']"
+                    />
                 </x-input.group>
 
-                <x-input.group for="author" label="Author" :error="$errors->first('author')" required>
-                    <x-input.text wire:model.debounce.500ms="author" id="author" placeholder="{{ __('Author') }}" />
+                <x-input.group label="Frais">
+                    <x-input.group :error="$errors->first('extra_taxi')" inline>
+                        <x-input.checkbox wire:model="extra_taxi" id="extra_taxi" for="extra_taxi">
+                            {{ __('Taxi') }}
+                        </x-input.checkbox>
+                    </x-input.group>
+                    <x-input.group :error="$errors->first('extra_transport')" inline>
+                        <x-input.checkbox wire:model="extra_transport" id="extra_transport" for="extra_transport">
+                            {{ __('Public transport') }}
+                        </x-input.checkbox>
+                    </x-input.group>
+                    <x-input.group :error="$errors->first('extra_personal_car')" inline>
+                        <x-input.checkbox wire:model="extra_personal_car" id="extra_personal_car" for="extra_personal_car">
+                            {{ __('Private car') }}
+                        </x-input.checkbox>
+
+                        @if ( $extra_personal_car )
+                            @php
+                                $missing_doc[] = __( 'car-registration' );
+                                $missing_doc[] = __( 'insurance' );
+                                if ( auth()->user()
+                                           ->load( ['documents' => fn ($query) => $query->whereIn('type', ['driver']) ] )
+                                           ->documents->count() == 0 ) $missing_doc[] = __( 'driver' );
+                            @endphp
+                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic">
+                            {!! __( 'helptext-personal-car', [
+                                'profile' => route( 'edit-user', auth()->id() ),
+                                'docs'    => implode( ', ', $missing_doc ) ] ) !!}
+                        </p>
+                        @endif
+                    </x-input.group>
+                    <x-input.group :error="$errors->first('extra_rental_car')" inline>
+                        <x-input.checkbox wire:model="extra_rental_car" id="extra_rental_car" for="extra_rental_car">
+                            {{ __('Rental car') }}
+                        </x-input.checkbox>
+                        @if ( $extra_rental_car &&
+                              auth()->user()
+                                    ->load( ['documents' => fn ($query) => $query->whereIn('type', ['driver']) ] )
+                                    ->documents->count() == 0 )
+                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic">
+                            {!! __( 'helptext-rental-car', [ 'profile' => route( 'edit-user', auth()->id() ) ] ) !!}
+                        </p>
+                        @endif
+                    </x-input.group>
+                    <x-input.group :error="$errors->first('extra_parking')" inline>
+                        <x-input.checkbox wire:model="extra_parking" id="extra_parking" for="extra_parking">
+                            {{ __('Parking') }}
+                        </x-input.checkbox>
+                    </x-input.group>
+                    <x-input.group :error="$errors->first('extra_registration')" inline>
+                        <x-input.checkbox wire:model="extra_registration" id="extra_registration" for="extra_registration">
+                            {{ __('Conference registration fee') }}
+                        </x-input.checkbox>
+                    </x-input.group>
                 </x-input.group>
 
-                <x-input.group for="isbn" label="ISBN" :error="$errors->first('isbn')" required>
-                    <x-input.text wire:model.debounce.500ms="isbn" id="isbn" placeholder="ISBN" />
-                </x-input.group>
-
-                <x-input.group for="edition" label="Edition" :error="$errors->first('edition')" required>
-                    <x-input.radio id="edition" wire:model="edition" :keylabel="$mission->allEditions" />
+                <x-input.group label="Others" for="extra_others" :error="$errors->first('extra_others')">
+                    <x-input.textarea wire:model.lazy="extra_others" id="extra_others" rows="5" class="text-gray-700" />
                 </x-input.group>
             </x-slot>
 
             <x-slot name="footer">
-                <x-button.secondary wire:click="close_modal">{{ __('Cancel') }}</x-button.secondary>
+                <x-button.secondary wire:click="close_extra">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary type="submit">@if(isset($this->book_id)) @lang('Update') @else @lang('Add') @endif</x-button.primary>
+                <x-button.primary type="submit">@lang('Save')</x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>
