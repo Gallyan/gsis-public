@@ -19,9 +19,10 @@ class Mission extends Model
 
     // Automatically switch between json and array of hotels
     protected $casts = [
-        'hotels' => 'array',
+        'hotels'    => 'array',
         'departure' => 'date:Y-m-d',
-        'return' => 'date:Y-m-d',
+        'return'    => 'date:Y-m-d',
+        'extra'     => 'array',
     ];
 
     protected $guarded = [];
