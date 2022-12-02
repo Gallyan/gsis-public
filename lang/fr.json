@@ -421,5 +421,19 @@
     "Return": "Retour",
     "Transport Tickets": "Billets de transports",
     "Accomodation": "Hébergement",
-    "Extra costs": "Frais annexes"
+    "Extra costs": "Frais annexes",
+    "Taxi": "Taxi",
+    "Public transport": "Transport en commun",
+    "Private car": "Voiture personnelle",
+    "Rental car": "Voiture de location",
+    "Parking": "Parking",
+    "Conference registration fee": "Frais d'inscription à un colloque",
+    "Meal": "Repas",
+    "Flat-rate costs": "Forfaitaire",
+    "Actual costs": "Frais réels",
+    "Edit extra": "Edition des frais prévisionnnels",
+    "Others": "Autres",
+    "car-registration": "Carte grise",
+    "helptext-rental-car": "Si vous comptez utiliser une voiture de location, n'oubliez pas d'ajouter votre permis de conduire sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profil</a>.",
+    "helptext-personal-car": "Si vous comptez utiliser votre voiture personnelle, n'oubliez pas d'ajouter les documents suivants à votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profil</a>: :docs."
 }
