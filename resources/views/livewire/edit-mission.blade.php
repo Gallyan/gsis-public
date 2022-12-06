@@ -206,13 +206,34 @@
                 />
             </x-input.group>
 
-            <x-input.group label="Extra costs" for="extra" :error="$errors->first('mission.extra')">
-                <x-input.radiobar
-                    id="extra"
-                    wire:model="mission.extra"
-                    :selected="$mission->extra"
-                    :keylabel="['Non','Oui']"
-                />
+            <x-input.group label="Expected extra costs" for="extra" :error="$errors->first('mission.extra')">
+                @if( ! is_null( $mission->extra ) )
+                    @if( isset( $mission->extra['extra_meal'] ) )
+                        <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-1">
+                            @lang('Meal'): {{ $mission->extra['extra_meal'] ? __('Actual costs') : __('Flat-rate costs') }}
+                        </p>
+                    @endif
+                    @php
+                        $extra_list = [];
+                        foreach( $mission->extra as $key => $extra )
+                            if( ! in_array( $key, ['extra_meal','extra_others'] ) && $extra )
+                                $extra_list[] = __($key);
+                    @endphp
+                    @if( ! empty( $extra_list ) )
+                        <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-1">
+                            @lang('Extra'): @php echo implode( ', ', $extra_list ) @endphp
+                        </p>
+                    @endif
+                    @if( !empty($mission->extra['extra_others']) )
+                        <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-1">
+                            @lang('Others'): {{ $mission->extra['extra_others'] }}
+                        </p>
+                    @endif
+                @endif
+
+                @if (!$disabled)
+                <x-button.secondary wire:click="edit_extra" @class(['mt-4'=>!is_null($mission->extra)]) :disabled="$disabled"><x-icon.pencil/> {{ __('Edit expected extra costs') }}</x-button.primary>
+                @endif
             </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('mission.comments')">
@@ -350,11 +371,11 @@
     <livewire:messagerie :object="$mission" />
 
     <!-- Add book Modal -->
-    <form wire:submit.prevent="add_extra">
+    <form wire:submit.prevent="save_extra">
         @csrf
 
         <x-modal.dialog wire:model.defer="showExtra">
-            <x-slot name="title">@lang('Edit extra')</x-slot>
+            <x-slot name="title">@lang('Edit expected extra costs')</x-slot>
 
             <x-slot name="content">
                 <x-input.group label="Meal" for="extra_meal" :error="$errors->first('extra_meal')">
@@ -366,7 +387,7 @@
                     />
                 </x-input.group>
 
-                <x-input.group label="Frais">
+                <x-input.group label="Extra">
                     <x-input.group :error="$errors->first('extra_taxi')" inline>
                         <x-input.checkbox wire:model="extra_taxi" id="extra_taxi" for="extra_taxi">
                             {{ __('Taxi') }}

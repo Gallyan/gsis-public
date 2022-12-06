@@ -22,7 +22,7 @@ class Mission extends Model
         'hotels'    => 'array',
         'departure' => 'date:Y-m-d',
         'return'    => 'date:Y-m-d',
-        'extra'     => 'array',
+        'extra'     => 'array', // Automatically switch between json and array
     ];
 
     protected $guarded = [];

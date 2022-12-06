@@ -66,7 +66,7 @@ class EditMission extends Component
         'mission.to'             => 'boolean',
         'mission.tickets'        => 'boolean',
         'mission.accomodation'   => 'boolean',
-        'mission.extra'          => 'boolean',
+        'mission.extra'          => 'sometimes|array',
         'programme'              => 'nullable|mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
         'uploads'                => 'nullable|array',
         'uploads.*'              => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
@@ -278,20 +278,41 @@ class EditMission extends Component
     public function close_extra() {
         // Hide modal
         $this->showExtra = false;
+
         // Reset form
-        $this->extra_meal = null;
-        $this->extra_taxi = null;
-        $this->extra_transport = null;
+        $this->extra_meal         = null;
+        $this->extra_taxi         = null;
+        $this->extra_transport    = null;
         $this->extra_personal_car = null;
-        $this->extra_rental_car = null;
-        $this->extra_parking = null;
+        $this->extra_rental_car   = null;
+        $this->extra_parking      = null;
         $this->extra_registration = null;
-        $this->extra_others = '';
+        $this->extra_others       = '';
     }
 
-    // Ajoute un achat à la liste json des achats
-    public function add_extra() {
+    // Affiche le modal d'édition des frais prévisionnels après en avoir initialisé les valeurs
+    public function edit_extra() {
+        if ( $this->disabled === true ) return;
 
+        // Get from json to array
+        $extra = $this->mission->extra;
+
+        // Initialize values
+        $this->extra_meal         = isset( $extra['extra_meal'] ) ? $extra['extra_meal'] : false;
+        $this->extra_taxi         = isset( $extra['extra_taxi'] ) ? $extra['extra_taxi'] : false;
+        $this->extra_transport    = isset( $extra['extra_transport'] ) ? $extra['extra_transport'] : false;
+        $this->extra_personal_car = isset( $extra['extra_personal_car'] ) ? $extra['extra_personal_car'] : false;
+        $this->extra_rental_car   = isset( $extra['extra_rental_car'] ) ? $extra['extra_rental_car'] : false;
+        $this->extra_parking      = isset( $extra['extra_parking'] ) ? $extra['extra_parking'] : false;
+        $this->extra_registration = isset( $extra['extra_registration'] ) ? $extra['extra_registration'] : false;
+        $this->extra_others       = isset( $extra['extra_others'] ) ? $extra['extra_others'] : '';
+
+        // Show modal
+        $this->showExtra = true;
+    }
+
+    // Valide le formulaire et stocke le résultat en json dans la mission
+    public function save_extra() {
         $this->mission->extra = $this->validate( $this->extra_rules() );
 
         $this->modified = true;
@@ -300,7 +321,6 @@ class EditMission extends Component
     }
 
     // End Extra
-
 
     public function makeBlankMission()
     {
@@ -316,7 +336,6 @@ class EditMission extends Component
             'to'             => true,
             'tickets'        => false,
             'accomodation'   => false,
-            'extra'          => false,
             ]);
     }
 
@@ -336,7 +355,7 @@ class EditMission extends Component
 
         if ( $creation ) {
             // Mise à jour de l'url à la création
-            $this->emit('urlChange', route('edit-order',$this->mission->id));
+            $this->emit('urlChange', route('edit-mission',$this->mission->id));
         }
 
         // Traitement des uploads
