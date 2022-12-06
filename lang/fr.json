@@ -423,6 +423,7 @@
     "Accomodation": "Hébergement",
     "Extra": "Frais",
     "Expected extra costs": "Frais annexes prévisionnels",
+    "No expected extra costs": "Pas de frais annexes prévisionnels",
     "Edit expected extra costs": "Editer les frais annexes prévisionnels",
     "extra_taxi": "Taxi",
     "extra_transport": "Transport",

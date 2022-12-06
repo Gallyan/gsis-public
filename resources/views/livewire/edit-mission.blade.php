@@ -234,6 +234,8 @@
                 @if (!$disabled)
                 <x-button.secondary wire:click="edit_extra" @class(['mt-4'=>!is_null($mission->extra)]) :disabled="$disabled"><x-icon.pencil/> {{ __('Edit expected extra costs') }}</x-button.primary>
                 @endif
+
+                @if ($disabled && is_null( $mission->extra ) ) @lang('No expected extra costs') @endif
             </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('mission.comments')">
