@@ -4,7 +4,7 @@
 ])
 
 <div
-  class="flex rounded-md shadow-sm mb-4 @if( $disabled ) bg-gray-300 opacity-75 cursor-not-allowed @endif"
+  class="flex rounded-md shadow-sm mb-4 min-h-24 @if( $disabled ) bg-gray-300 opacity-75 cursor-not-allowed @endif"
   x-data="{ content: @entangle( $attributes->whereStartsWith('wire:model')->first() ) }" >
     <div
       x-on:blur="content = $event.target.innerText"
