@@ -376,7 +376,7 @@
 
     <livewire:messagerie :object="$mission" />
 
-    <!-- Add book Modal -->
+    <!-- Edit extra Modal -->
     <form wire:submit.prevent="save_extra">
         @csrf
 
@@ -442,11 +442,13 @@
                             {{ __('Parking') }}
                         </x-input.checkbox>
                     </x-input.group>
+                    @empty($mission->conf_amount)
                     <x-input.group :error="$errors->first('extra_registration')" inline>
                         <x-input.checkbox wire:model="extra_registration" id="extra_registration" for="extra_registration">
                             {{ __('Conference registration fee') }}
                         </x-input.checkbox>
                     </x-input.group>
+                    @endempty
                 </x-input.group>
 
                 <x-input.group label="Others" for="extra_others" :error="$errors->first('extra_others')">

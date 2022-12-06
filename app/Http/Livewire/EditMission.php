@@ -304,7 +304,8 @@ class EditMission extends Component
         $this->extra_personal_car = isset( $extra['extra_personal_car'] ) ? $extra['extra_personal_car'] : false;
         $this->extra_rental_car   = isset( $extra['extra_rental_car'] ) ? $extra['extra_rental_car'] : false;
         $this->extra_parking      = isset( $extra['extra_parking'] ) ? $extra['extra_parking'] : false;
-        $this->extra_registration = isset( $extra['extra_registration'] ) ? $extra['extra_registration'] : false;
+        if( empty( $this->mission->conf_amount ) )
+            $this->extra_registration = isset( $extra['extra_registration'] ) ? $extra['extra_registration'] : false;
         $this->extra_others       = isset( $extra['extra_others'] ) ? $extra['extra_others'] : '';
 
         // Show modal
@@ -313,6 +314,9 @@ class EditMission extends Component
 
     // Valide le formulaire et stocke le résultat en json dans la mission
     public function save_extra() {
+        if( empty( $this->mission->conf_amount ) )
+            $this->extra_registration = false;
+
         $this->mission->extra = $this->validate( $this->extra_rules() );
 
         $this->modified = true;
