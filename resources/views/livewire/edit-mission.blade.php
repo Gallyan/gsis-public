@@ -226,7 +226,7 @@
                     @endif
                     @if( !empty($mission->extra['extra_others']) )
                         <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-1">
-                            @lang('Others'): {{ $mission->extra['extra_others'] }}
+                            @lang('Others'): {!! nl2br(e($mission->extra['extra_others'])) !!}
                         </p>
                     @endif
                 @endif
@@ -243,7 +243,7 @@
             </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('mission.comments')">
-                <x-input.textarea wire:model.lazy="mission.comments" id="comments" rows="5" class="text-gray-700" :disabled="$disabled" />
+                <x-input.contenteditable wire:model="mission.comments" id="comments" :content="$mission->comments" class="text-gray-700" :disabled="$disabled" />
             </x-input.group>
 
             @php
