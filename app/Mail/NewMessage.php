@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -15,7 +14,7 @@ class NewMessage extends Mailable
     /**
      * The object instance.
      *
-     * @var \App\Models\Order
+     * @var object
      */
     public $object;
 
@@ -52,6 +51,8 @@ class NewMessage extends Mailable
         $this->author = $author;
         switch( get_class($object) ) {
             case "App\Models\Order": $this->url = route('edit-order', [ $object, '#messaging' ]); break;
+            case "App\Models\Mission": $this->url = route('edit-mission', [ $object, '#messaging' ]); break;
+            case "App\Models\Purchase": $this->url = route('edit-purchase', [ $object, '#messaging' ]); break;
         }
     }
 
