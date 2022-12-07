@@ -56,7 +56,7 @@ class EditMission extends Component
         ],
         'mission.conference'     => 'boolean',
         'mission.conf_amount'    => 'nullable|float',
-        'mission.conf_currency'  => 'required_with:conf_amount|string|size:3',
+        'mission.conf_currency'  => 'required_with:conf_amount|nullable|string|size:3',
         'mission.costs'          => 'boolean',
         'mission.dest_country'   => 'string|max:2|uppercase',
         'mission.dest_city'      => 'string|max:50',
