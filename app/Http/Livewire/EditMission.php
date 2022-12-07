@@ -46,7 +46,7 @@ class EditMission extends Component
         'mission.user_id'        => 'required|exists:users,id',
         'mission.subject'        => 'required|string|max:255',
         'mission.institution_id' => 'required|exists:institutions,id',
-        'mission.om'             => 'required_if:mission.status,on-hold',
+        'mission.om'             => 'required_if:mission.status,in-progress',
         'mission.wp'             => [
             'sometimes',
             Rule::requiredIf(fn () => Institution::find($this->mission->institution_id)->wp),

@@ -62,8 +62,8 @@
                 />
             </x-input.group>
 
-            @if ($mission->status === 'on-hold')
-            <x-input.group label="MO number" for="om" :error="$errors->first('mission.om')" required>
+            @if ( in_array( $mission->status, ['in-progress','processed','cancelled'] ) )
+            <x-input.group label="MO number" for="om" :error="$errors->first('mission.om')">
                 <x-input.text wire:model.debounce.500ms="mission.om" id="om" leading-add-on="" :disabled="$disabled" />
             </x-input.group>
             @endif
