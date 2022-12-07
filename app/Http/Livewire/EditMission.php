@@ -66,7 +66,7 @@ class EditMission extends Component
         'mission.to'             => 'boolean',
         'mission.tickets'        => 'boolean',
         'mission.accomodation'   => 'boolean',
-        'mission.extra'          => 'sometimes|array',
+        'mission.extra'          => 'nullable|array',
         'programme'              => 'nullable|mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
         'uploads'                => 'nullable|array',
         'uploads.*'              => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
