@@ -2,7 +2,7 @@
     x-data="{ value: @entangle($attributes->wire('model')), picker: undefined }"
     x-init="new Pikaday({ field: $refs.input, format: 'YYYY-MM-DD', onOpen() { this.setDate($refs.input.value) }, firstDay: 1, yearRange: [1900, 2100] })"
     x-on:change="value = $event.target.value"
-    class="flex rounded-md shadow-sm"
+    class="flex rounded-md shadow-sm w-40"
 >
     <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 sm:text-sm">
         <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -14,7 +14,7 @@
         {{ $attributes->whereDoesntStartWith('wire:model') }}
         x-ref="input"
         x-bind:value="value"
-        class="rounded-none rounded-r-md flex-1 form-input block w-full transition duration-150 text-gray-700 ease-in-out sm:text-sm sm:leading-5"
+        class="rounded-none rounded-r-md flex-1 form-input block w-full transition duration-150 text-gray-700 ease-in-out sm:text-sm sm:leading-5 w-40"
     />
 </div>
 
