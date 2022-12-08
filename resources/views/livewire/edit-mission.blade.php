@@ -413,11 +413,11 @@
                     <x-input.text wire:model.lazy="ticket_number" id="ticket_number" class="text-gray-700" />
                 </x-input.group>
 
-                <x-input.group label="Date" innerclass="inline-flex" required >
+                <x-input.group label="Date" innerclass="sm:flex" required >
                     <x-input.group for="ticket_date" :error="$errors->first('ticket_date')" class="w-1/2" inline>
                         <x-input.date wire:model.lazy="ticket_date" id="ticket_date" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
-                    <x-input.group for="ticket_time" :error="$errors->first('ticket_time')" class="w-1/2"  inline>
+                    <x-input.group for="ticket_time" :error="$errors->first('ticket_time')" inline>
                         <x-input.time wire:model.lazy="ticket_time" id="ticket_time" />
                     </x-input.group>
                 </x-input.group>
