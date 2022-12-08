@@ -387,7 +387,7 @@
                         id="ticket_direction"
                         wire:model="ticket_direction"
                         :selected="$ticket_direction"
-                        :keylabel="['Departure','Return']"
+                        :keylabel="['Go','Return']"
                         required
                     />
                 </x-input.group>
