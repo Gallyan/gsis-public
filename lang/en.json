@@ -82,6 +82,7 @@
     "car-registration": "Car registration document (carte grise)",
     "helptext-rental-car": "If you plan to use a rental car, don't forget to add your driving licence to your <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profile</a>.",
     "helptext-personal-car": "If you plan to use your own car, don't forget to add the following documents to your <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profil</a>: :docs.",
+    "helptest-go-return": "Please remember to indicate the go AND the return, if necessary.",
     "extra_taxi": "Taxi",
     "extra_transport": "Public transport",
     "extra_personal_car": "Private car",

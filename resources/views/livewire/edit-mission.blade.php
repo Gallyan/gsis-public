@@ -199,14 +199,16 @@
                     </x-slot>
 
                     <x-slot name="body">
+                        @php $dirlist = []; @endphp
                         @forelse ($mission->tickets as $ticket)
+                        @php $dirlist[] = $ticket['ticket_direction']; @endphp
                         <x-table.row wire:loading.class.delay="opacity-50" wire:key="ticket-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
                             <x-table.cell class="text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 text-sm leading-5">
                                     <p class="text-cool-gray-600">
                                         {{ __('ticket-dir-mode', [
                                             'mode' => __($ticket['ticket_mode']),
-                                            'direction' => $ticket['ticket_direction'] ? __('Go'): __('Return')
+                                            'direction' => $ticket['ticket_direction'] ? __('Return') : __('Go')
                                             ]) }}
                                     </p>
                                 </span>
@@ -264,6 +266,12 @@
                         @endforelse
                     </x-slot>
                 </x-table>
+
+                @if( count( array_unique( $dirlist ) ) < 2 )
+                <p class="text-sm font-medium leading-5 text-gray-500 mt-4 italic">
+                    {{ __( 'helptext-go-return' )    }}
+                </p>
+                @endif
 
                 @if (!$disabled)
                 <x-button.secondary wire:click="$set('showTicket', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add ticket') }}</x-button.primary>
@@ -401,7 +409,7 @@
                     </x-input.select>
                 </x-input.group>
 
-                <x-input.group label="Number" for="ticket_number" :error="$errors->first('ticket_number')">
+                <x-input.group label="Flight/Train No." for="ticket_number" :error="$errors->first('ticket_number')" >
                     <x-input.text wire:model.lazy="ticket_number" id="ticket_number" class="text-gray-700" />
                 </x-input.group>
 
@@ -409,7 +417,7 @@
                     <x-input.date wire:model.lazy="ticket_date" id="ticket_date" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
 
-                <x-input.group label="Time" for="ticket_time" :error="$errors->first('ticket_time')" >
+                <x-input.group label="Time" for="ticket_time" :error="$errors->first('ticket_time')" required >
                     <x-input.time wire:model.lazy="ticket_time" id="ticket_time" />
                 </x-input.group>
 

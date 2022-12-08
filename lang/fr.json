@@ -449,6 +449,7 @@
     "car-registration": "Carte grise",
     "helptext-rental-car": "Si vous comptez utiliser une voiture de location, n'oubliez pas d'ajouter votre permis de conduire sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profil</a>.",
     "helptext-personal-car": "Si vous comptez utiliser votre voiture personnelle, n'oubliez pas d'ajouter les documents suivants à votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profil</a>: :docs.",
+    "helptext-go-return": "N'oubliez pas d'indiquer l'aller ET le retour, si nécessaire.",
     "Number": "Numéro",
     "transport-from": "Départ",
     "transport-to": "Arrivée",

@@ -90,7 +90,7 @@ class EditMission extends Component
         'ticket_direction' => 'required|boolean',
         'ticket_number'    => 'nullable|string',
         'ticket_date'      => 'required|date',
-        'ticket_time'      => 'nullable',
+        'ticket_time'      => 'required|date_format:H:i',
         'ticket_from'      => 'required|string',
         'ticket_to'        => 'required|string',
     ]; }
