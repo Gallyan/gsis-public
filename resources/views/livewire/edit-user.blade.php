@@ -97,9 +97,9 @@
 
             <x-input.group label="Documents">
                 @if (!empty($user->documents))
-                <ul role="list" class="divide-y divide-gray-200">
+                <ul role="list">
                 @foreach( $user->documents as $document )
-                    <li class="@if ($loop->first) pb-4 @else py-4 @endif flex">
+                    <li class="@if ($loop->first) mb-4 @else my-4 @endif flex border-dashed border-2 border-gray-300 rounded-md p-2">
                         <x-icon.document class="w-10 h-10 text-gray-500" />
                         <div class="mx-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">
