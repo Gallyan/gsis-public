@@ -28,9 +28,20 @@ class EditMission extends Component
     public $disabled = false; // True if user can't modify current editing Mission
     public $disabledStatuses = []; // List of disabled status
     public $showInformationMessage = false;
+    public $showTicket = true;
     public $showExtra = false;
     public $isAuthManager = false;
     public $showWP = false;
+
+    // Ticket
+    public $ticket_id;
+    public $ticket_mode;
+    public $ticket_direction;
+    public $ticket_number;
+    public $ticket_date;
+    public $ticket_time;
+    public $ticket_from;
+    public $ticket_to;
 
     // Extra costs
     public $extra_meal;
@@ -64,7 +75,7 @@ class EditMission extends Component
         'mission.from'           => 'boolean',
         'mission.return'         => 'required|date|after_or_equal:mission.departure',
         'mission.to'             => 'boolean',
-        'mission.tickets'        => 'boolean',
+        'mission.tickets'        => 'nullable|array',
         'mission.accomodation'   => 'boolean',
         'mission.extra'          => 'nullable|array',
         'programme'              => 'nullable|mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
@@ -72,6 +83,16 @@ class EditMission extends Component
         'uploads.*'              => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
         'mission.comments'       => 'nullable|string',
         'mission.status'         => 'required|in:'.collect(Mission::STATUSES)->keys()->implode(','),
+    ]; }
+
+    protected function ticket_rules() { return [
+        'ticket_mode' => 'nullable',
+        'ticket_direction' => 'nullable',
+        'ticket_number' => 'nullable',
+        'ticket_date' => 'nullable',
+        'ticket_time' => 'nullable',
+        'ticket_from' => 'nullable',
+        'ticket_to' => 'nullable',
     ]; }
 
     protected function extra_rules() { return [
@@ -253,6 +274,9 @@ class EditMission extends Component
         if( in_array( $propertyName, array_keys($this->extra_rules()) ) ) {
             $this->validateOnly($propertyName, $this->extra_rules());
 
+        } elseif( in_array( $propertyName, array_keys($this->ticket_rules()) ) ) {
+            $this->validateOnly($propertyName, $this->ticket_rules());
+
         } else {
             $this->validateOnly($propertyName);
             $this->modified = !empty($this->mission->getDirty()) ;
@@ -272,6 +296,82 @@ class EditMission extends Component
         $this->showWP = Institution::find($this->mission->institution_id)->wp;
         ! $this->showWP && $this->validateOnly('mission.wp');
     }
+
+    // Start Tickets
+
+    public function close_ticket() {
+        // Hide modal
+        $this->showTicket = false;
+
+        // Reset form
+        $this->ticket_mode      = null;
+        $this->ticket_direction = null;
+        $this->ticket_number    = null;
+        $this->ticket_date      = null;
+        $this->ticket_time      = null;
+        $this->ticket_from      = null;
+        $this->ticket_to        = null;
+        unset($this->ticket_id);
+    }
+
+    // Affiche le modal d'édition du ticket après en avoir initialisé les valeurs
+    public function edit_ticket( int $id ) {
+        if ( $this->disabled === true ) return;
+
+        // Get from json to array
+        $tickets = $this->mission->tickets;
+
+        // Control
+        if( $id < 1 || $id > count($tickets)) return;
+
+        // Initialize values
+        $this->ticket_id = $id;
+        $this->ticket_mode      = isset( $tickets[ $id-1 ]['ticket_mode'] ) ? $tickets[ $id-1 ]['ticket_mode'] : null;
+        $this->ticket_direction = isset( $tickets[ $id-1 ]['ticket_direction'] ) ? $tickets[ $id-1 ]['ticket_direction'] : null;
+        $this->ticket_number    = isset( $tickets[ $id-1 ]['ticket_number'] ) ? $tickets[ $id-1 ]['ticket_number'] : null;
+        $this->ticket_date      = isset( $tickets[ $id-1 ]['ticket_date'] ) ? $tickets[ $id-1 ]['ticket_date'] : null;
+        $this->ticket_time      = isset( $tickets[ $id-1 ]['ticket_time'] ) ? $tickets[ $id-1 ]['ticket_time'] : null;
+        $this->ticket_from      = isset( $tickets[ $id-1 ]['ticket_from'] ) ? $tickets[ $id-1 ]['ticket_from'] : null;
+        $this->ticket_to        = isset( $tickets[ $id-1 ]['ticket_to'] ) ? $tickets[ $id-1 ]['ticket_to'] : null;
+
+        // Show modal
+        $this->showTicket = true;
+    }
+
+    public function del_ticket( int $id ) {
+        if ( $this->disabled === true ) return;
+
+        $tickets = $this->mission->tickets;
+        if( $id < 1 || $id > count($tickets)) return;
+        if(isset($tickets[$id-1])) unset( $tickets[$id-1] );
+        $this->mission->tickets = array_values( $tickets );
+        $this->modified = true;
+    }
+
+    // Valide le formulaire et stocke le résultat en json dans la mission
+    public function save_ticket() {
+        // Validate current edited ticket
+        $current_ticket = $this->validate( $this->ticket_rules() );
+
+        // Get current tickets list
+        $tickets = $this->mission->tickets;
+
+        // New ticket or editing existing ticket, add to array
+        if( !empty( $this->ticket_id ) ) {
+            $tickets[ $this->ticket_id - 1 ] = $current_ticket;
+        } else {
+            $tickets[] = $current_ticket;
+        }
+
+        // Convert array to json
+        $this->mission->tickets = $tickets;
+
+        $this->modified = true;
+
+        $this->close_ticket();
+    }
+
+    // End Tickets
 
     // Start Extra
 
@@ -338,8 +438,9 @@ class EditMission extends Component
             'costs'          => false,
             'from'           => true,
             'to'             => true,
-            'tickets'        => false,
+            'tickets'        => [],
             'accomodation'   => false,
+            'extra'        => [],
             ]);
     }
 
@@ -347,7 +448,10 @@ class EditMission extends Component
     {
         $creation = is_null( $this->mission->id );
 
-        $this->mission->hotels = $this->mission->hotels; //Force json encodage
+        //Force json encodage
+        $this->mission->hotels = $this->mission->hotels;
+        $this->mission->tickets = $this->mission->tickets;
+        $this->mission->extra = $this->mission->extra;
 
         $this->withValidator(function (Validator $validator) {
                 if ($validator->fails()) {

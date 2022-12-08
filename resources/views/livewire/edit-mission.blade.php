@@ -165,7 +165,7 @@
             </x-input.group>
 
             <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required>
-                <x-input.date wire:model="mission.departure" id="departure" placeholder="YYYY-MM-DD" required />
+                <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" required />
                 <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-2 pb-1">@lang('From your address'):</p>
                 <x-input.radiobar
                     id="from"
@@ -176,7 +176,7 @@
             </x-input.group>
 
             <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required>
-                <x-input.date wire:model="mission.return" id="return" placeholder="YYYY-MM-DD" required />
+                <x-input.date wire:model="mission.return" id="return" placeholder="{{ __('YYYY-MM-DD') }}" required />
                 <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-2 pb-1">@lang('To your address'):</p>
                 <x-input.radiobar
                     id="to"
@@ -187,12 +187,85 @@
             </x-input.group>
 
             <x-input.group label="Transport Tickets" for="tickets" :error="$errors->first('mission.tickets')">
-                <x-input.radiobar
-                    id="tickets"
-                    wire:model="mission.tickets"
-                    :selected="$mission->tickets"
-                    :keylabel="['Non','Oui']"
-                />
+
+                <x-table>
+                    <x-slot name="head">
+                        <x-table.heading small>{{ __('Direction') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Number') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Date') }}</x-table.heading>
+                        <x-table.heading small>{{ __('transport-from') }}</x-table.heading>
+                        <x-table.heading small>{{ __('transport-to') }}</x-table.heading>
+                        <x-table.heading small class="w-6"></x-table.heading>
+                    </x-slot>
+
+                    <x-slot name="body">
+                        @forelse ($mission->tickets as $ticket)
+                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="ticket-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600">
+                                        {{ $ticket['ticket_mode'] ?? '' }} {{ $ticket['ticket_direction'] ?? '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
+
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600 truncate">
+                                        {{ $ticket['ticket_number'] ?? '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
+
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600 truncate">
+                                        {{ $ticket['ticket_date'] ?? '' }} {{ $ticket['ticket_time'] ?? '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
+
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600 truncate">
+                                        {{ $ticket['ticket_from'] ?? '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
+
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600 truncate">
+                                        {{ $ticket['ticket_to'] ?? '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
+
+                            <x-table.cell class="text-center">
+                                <span class="inline-flex text-sm leading-5">
+                                    <x-button.link wire:click="del_ticket({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
+                                        <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
+                                    </x-button.link>
+                                </span>
+                            </x-table.cell>
+                        </x-table.row>
+                        @empty
+                        <x-table.row>
+                            <x-table.cell colspan="6">
+                                <div class="flex justify-center items-center space-x-2">
+                                    <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
+                                    <span class="font-medium text-cool-gray-400 text-lg">{{ __('No tickets...') }}</span>
+                                </div>
+                            </x-table.cell>
+                        </x-table.row>
+                        @endforelse
+                    </x-slot>
+                </x-table>
+
+                @if (!$disabled)
+                <x-button.secondary wire:click="$set('showTicket', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add ticket') }}</x-button.primary>
+                @endif
+
             </x-input.group>
 
             <x-input.group label="Accomodation" for="accomodation" :error="$errors->first('mission.accomodation')">
@@ -289,79 +362,6 @@
             </x-input.group>
 
 {{--
-            <x-input.group label="Books" for="books" wire:model="mission.books" :error="$errors->first('mission.books')">
-                <x-table>
-                    <x-slot name="head">
-                        <x-table.heading small class="max-w-64">{{ __('Title') }}</x-table.heading>
-                        <x-table.heading small>{{ __('Author') }}</x-table.heading>
-                        <x-table.heading small>{{ __('ISBN') }}</x-table.heading>
-                        <x-table.heading small>{{ __('Edition') }}</x-table.heading>
-                        <x-table.heading small class="w-6"></x-table.heading>
-                    </x-slot>
-
-                    <x-slot name="body">
-                        @forelse ($mission->books as $book)
-                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
-                            <x-table.cell class="whitespace-normal cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                <span class="inline-flex space-x-2 text-sm leading-5">
-                                    <p class="text-cool-gray-600">
-                                        {{ $book['title'] ?? '' }}
-                                    </p>
-                                </span>
-                            </x-table.cell>
-
-                            <x-table.cell class="cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    <p class="text-cool-gray-600 truncate">
-                                        {{ $book['author'] ?? '' }}
-                                    </p>
-                                </span>
-                            </x-table.cell>
-
-                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    <p class="text-cool-gray-600 truncate">
-                                        {{ $book['isbn'] ?? '' }}
-                                    </p>
-                                </span>
-                            </x-table.cell>
-
-                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    <p class="text-cool-gray-600 truncate">
-                                        {{ isset( $book['edition'] ) ? ucfirst(__($book['edition'])) : '' }}
-                                    </p>
-                                </span>
-                            </x-table.cell>
-
-                            <x-table.cell class="text-center">
-                                <span class="inline-flex text-sm leading-5">
-                                    <x-button.link wire:click="del_book({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
-                                        <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
-                                    </x-button.link>
-                                </span>
-                            </x-table.cell>
-                        </x-table.row>
-                        @empty
-                        <x-table.row>
-                            <x-table.cell colspan="6">
-                                <div class="flex justify-center items-center space-x-2">
-                                    <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
-                                    <span class="font-medium text-cool-gray-400 text-lg">{{ __('No books...') }}</span>
-                                </div>
-                            </x-table.cell>
-                        </x-table.row>
-                        @endforelse
-                    </x-slot>
-                </x-table>
-
-                @if (!$disabled)
-                <x-button.secondary wire:click="$set('showModal', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add book') }}</x-button.primary>
-                @endif
-
-            </x-input.group>
---}}
-{{--
             @can ('manage-users')
             <x-input.group label="Amount excl." for="amount" :error="$errors->first('mission.amount')" helpText="helptext-amount">
                 <x-input.money wire:model.debounce.500ms="mission.amount" id="amount" :disabled="$disabled" />
@@ -373,6 +373,63 @@
     </form>
 
     <livewire:messagerie :object="$mission" />
+
+    <!-- Edit ticket Modal -->
+    <form wire:submit.prevent="save_ticket">
+        @csrf
+
+        <x-modal.dialog wire:model.defer="showTicket">
+            <x-slot name="title">@lang('Edit ticket')</x-slot>
+
+            <x-slot name="content">
+                <x-input.group label="Direction" for="ticket_direction" :error="$errors->first('ticket_direction')" required >
+                    <x-input.radiobar
+                        id="ticket_direction"
+                        wire:model="ticket_direction"
+                        :selected="$ticket_direction"
+                        :keylabel="['Departure','Return']"
+                        required
+                    />
+                </x-input.group>
+
+                <x-input.group label="Transport" for="ticket_mode" :error="$errors->first('ticket_mode')" required >
+                    <x-input.radiobar
+                        id="ticket_mode"
+                        wire:model="ticket_mode"
+                        :selected="$ticket_mode"
+                        :keylabel="['Flight','Train']"
+                        required
+                    />
+                </x-input.group>
+
+                <x-input.group label="Number" for="ticket_number" :error="$errors->first('ticket_number')">
+                    <x-input.text wire:model.lazy="ticket_number" id="ticket_number" class="text-gray-700" />
+                </x-input.group>
+
+                <x-input.group label="Date" for="ticket_date" :error="$errors->first('ticket_date')" required >
+                    <x-input.date wire:model.lazy="ticket_date" id="ticket_date" placeholder="{{ __('YYYY-MM-DD') }}" required />
+                </x-input.group>
+
+                <x-input.group label="Time" for="ticket_time" :error="$errors->first('ticket_time')" required >
+                    <x-input.time wire:model.lazy="ticket_time" id="ticket_time" required />
+                </x-input.group>
+
+                <x-input.group label="City of departure" for="ticket_from" :error="$errors->first('ticket_from')" required>
+                    <x-input.text wire:model.lazy="ticket_from " id="ticket_from" class="text-gray-700" required />
+                </x-input.group>
+
+                <x-input.group label="City of arrival" for="ticket_to" :error="$errors->first('ticket_to')" required >
+                    <x-input.text wire:model.lazy="ticket_to " id="ticket_to" class="text-gray-700" required />
+                </x-input.group>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-button.secondary wire:click="close_ticket">{{ __('Cancel') }}</x-button.secondary>
+
+                <x-button.primary type="submit">@lang('Save')</x-button.primary>
+            </x-slot>
+        </x-modal.dialog>
+    </form>
 
     <!-- Edit extra Modal -->
     <form wire:submit.prevent="save_extra">
