@@ -7,5 +7,5 @@
         </span>
     </span>
 
-    <input {{ $attributes }} type="time" class="form-input border-gray-300 block w-40 text-center text-gray-700 transition duration-150 ease-in-out sm:text-sm sm:leading-5 rounded-r-md" aria-describedby="time">
+    <input {{ $attributes }} type="time" class="form-input border-gray-300 block w-40 text-center text-gray-700 transition duration-150 ease-in-out sm:text-sm sm:leading-5 rounded-r-md" aria-describedby="time" pattern="[0-2][0-9]:[0-5][0-9]">
 </div>
