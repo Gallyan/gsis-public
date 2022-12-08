@@ -60,7 +60,7 @@
             </x-input.group>
 
             <x-input.group label="Home Address">
-                <x-input.group inline label="Street Address" for="hom_adr" :error="$errors->first('user.hom_adr')">
+                <x-input.group inline class="w-136" label="Street Address" for="hom_adr" :error="$errors->first('user.hom_adr')">
                     <x-input.text wire:model.lazy="user.hom_adr" id="hom_adr" />
                 </x-input.group>
 
@@ -76,11 +76,11 @@
             </x-input.group>
 
             <x-input.group label="Business Address">
-                <x-input.group inline label="Institution" for="pro_ins" :error="$errors->first('user.pro_ins')">
+                <x-input.group inline class="w-136" label="Institution" for="pro_ins" :error="$errors->first('user.pro_ins')">
                     <x-input.text wire:model.lazy="user.pro_ins" id="pro_ins" />
                 </x-input.group>
 
-                <x-input.group inline class="pt-4" label="Street Address" for="pro_adr" :error="$errors->first('user.pro_adr')">
+                <x-input.group inline class="w-136 pt-4" label="Street Address" for="pro_adr" :error="$errors->first('user.pro_adr')">
                     <x-input.text wire:model.lazy="user.pro_adr" id="pro_adr" />
                 </x-input.group>
 
