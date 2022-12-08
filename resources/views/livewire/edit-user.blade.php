@@ -18,7 +18,7 @@
             </x-input.group>
 
             <x-input.group label="Birthday" for="birthday" :error="$errors->first('user.birthday')" required>
-                <x-input.date wire:model="user.birthday" id="birthday" placeholder="YYYY-MM-DD" required />
+                <x-input.date wire:model="user.birthday" id="birthday" placeholder="{{ __('YYYY-MM-DD') }}" required />
             </x-input.group>
 
             <x-input.group label="Birthplace" for="birthplace" :error="$errors->first('user.birthplace')" required>
