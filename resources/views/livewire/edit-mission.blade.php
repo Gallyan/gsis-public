@@ -135,7 +135,7 @@
                 </ul>
                 @endif
 
-                <x-input.group for="conf_amount" label="Montant de l'inscription payé par l'institution" :error="$errors->first('mission.conf_amount')" class="mt-2" inline>
+                <x-input.group for="conf_amount" label="Amount of registration paid by the institution" :error="$errors->first('mission.conf_amount')" class="mt-2" inline>
                     <x-input.money wire:model.debounce.500ms="mission.conf_amount" id="conf_amount" :disabled="$disabled" />
                 </x-input.group>
 
@@ -402,7 +402,7 @@
                     />
                 </x-input.group>
 
-                <x-input.group label="Transport" for="ticket_mode" :error="$errors->first('ticket_mode')" required >
+                <x-input.group label="Travel mode" for="ticket_mode" :error="$errors->first('ticket_mode')" required >
                     <x-input.select wire:model="ticket_mode" id="ticket_mode" class="w-full" placeholder="{{ __('Select travel mode...') }}" >
                         <option value="Flight">{{ __('Flight') }}</option>
                         <option value="Train">{{ __('Train') }}</option>
@@ -413,12 +413,13 @@
                     <x-input.text wire:model.lazy="ticket_number" id="ticket_number" class="text-gray-700" />
                 </x-input.group>
 
-                <x-input.group label="Date" for="ticket_date" :error="$errors->first('ticket_date')" required >
-                    <x-input.date wire:model.lazy="ticket_date" id="ticket_date" placeholder="{{ __('YYYY-MM-DD') }}" />
-                </x-input.group>
-
-                <x-input.group label="Time" for="ticket_time" :error="$errors->first('ticket_time')" required >
-                    <x-input.time wire:model.lazy="ticket_time" id="ticket_time" />
+                <x-input.group label="Date" innerclass="inline-flex" required >
+                    <x-input.group for="ticket_date" :error="$errors->first('ticket_date')" class="w-1/2" inline>
+                        <x-input.date wire:model.lazy="ticket_date" id="ticket_date" placeholder="{{ __('YYYY-MM-DD') }}" />
+                    </x-input.group>
+                    <x-input.group for="ticket_time" :error="$errors->first('ticket_time')" class="w-1/2"  inline>
+                        <x-input.time wire:model.lazy="ticket_time" id="ticket_time" />
+                    </x-input.group>
                 </x-input.group>
 
                 <x-input.group label="City of departure" for="ticket_from" :error="$errors->first('ticket_from')" required>

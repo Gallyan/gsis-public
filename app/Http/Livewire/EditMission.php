@@ -60,7 +60,8 @@ class EditMission extends Component
         'mission.om'             => 'required_if:mission.status,in-progress',
         'mission.wp'             => [
             'sometimes',
-            Rule::requiredIf(fn () => Institution::find($this->mission->institution_id)->wp),
+            Rule::requiredIf(fn () => Institution::find($this->mission->institution_id) &&
+                                      Institution::find($this->mission->institution_id)->wp),
             'nullable',
             'integer',
             'min:1'
@@ -95,6 +96,32 @@ class EditMission extends Component
         'ticket_to'        => 'required|string',
     ]; }
 
+    protected function validationAttributes() { return [
+        'mission.subject'        => __('Purpose of the mission'),
+        'mission.institution_id' => __('Institution'),
+        'mission.om'             => __('om'),
+        'mission.conference'     => __('Conference'),
+        'mission.conf_amount'    => __('Amount of registration paid by the institution'),
+        'mission.conf_currency'  => __('Currency'),
+        'mission.costs'          => __('Mission with or without costs'),
+        'mission.dest_country'   => __('Destination'),
+        'mission.dest_city'      => __('City'),
+        'mission.departure'      => __('Departure'),
+        'mission.from'           => __('From your address'),
+        'mission.return'         => __('Return'),
+        'mission.to'             => __('To your address'),
+        'mission.tickets'        => __('Transport Tickets'),
+        'mission.accomodation'   => __('Accomodation'),
+        'mission.extra'          => __('Extra'),
+        'ticket_mode'            => __('Travel mode'),
+        'ticket_direction'       => __('Direction'),
+        'ticket_number'          => __('Flight/Train No.'),
+        'ticket_date'            => __('Date'),
+        'ticket_time'            => __('Time'),
+        'ticket_from'            => __('City of departure'),
+        'ticket_to'              => __('City of arrival'),
+    ]; }
+
     protected function extra_rules() { return [
         'extra_meal' => 'boolean',
         'extra_taxi' => 'boolean',
@@ -112,6 +139,8 @@ class EditMission extends Component
         'uploads.*.mimes' => __('The file :filename must be a file of type: :values.'),
         'uploads.*.mimetypes' => __('The file :filename must be a file of type: :values.'),
         'mission.om.required_if' => __('validation.required'),
+        'ticket_date.required' => __('The :attribute field is required.'),
+        'ticket_time.required' => __('The :attribute field is required.'),
     ];}
 
     protected $listeners = ['refreshMission' => '$refresh'];

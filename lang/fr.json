@@ -491,5 +491,9 @@
     "Select travel mode...": "Sélectionnez un moyen de transport...",
     "ticket-dir-mode": ":mode :direction",
     "Flight/Train No.": "N° Vol/Train",
-    "Ticket": "Billet"
+    "Ticket": "Billet",
+    "Time": "Heure",
+    "Travel mode": "Mode de transport",
+    "Amount of registration paid by the institution": "Montant de l'inscription payé par l'institution",
+    "The :attribute field is required.": "Le champ :attribute est obligatoire."
 }
