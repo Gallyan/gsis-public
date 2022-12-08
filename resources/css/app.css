@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .required:after {
-    content:" *";
+    content:"\00a0*";
     color: red;
 }
 
