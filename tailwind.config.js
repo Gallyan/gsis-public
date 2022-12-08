@@ -11,10 +11,14 @@ module.exports = {
         extend: {
             maxWidth: {
                 100: '100px',
+                136: '34rem'
               },
             minWidth: {
                 24: '6rem',
                 200: '200px',
+            },
+            spacing: {
+                136: '34rem',
             },
             minHeight: {
                 24: '6rem',
