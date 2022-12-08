@@ -86,13 +86,13 @@ class EditMission extends Component
     ]; }
 
     protected function ticket_rules() { return [
-        'ticket_mode' => 'nullable',
-        'ticket_direction' => 'nullable',
-        'ticket_number' => 'nullable',
-        'ticket_date' => 'nullable',
-        'ticket_time' => 'nullable',
-        'ticket_from' => 'nullable',
-        'ticket_to' => 'nullable',
+        'ticket_mode'      => 'required|string',
+        'ticket_direction' => 'required|boolean',
+        'ticket_number'    => 'nullable|string',
+        'ticket_date'      => 'required|date',
+        'ticket_time'      => 'nullable',
+        'ticket_from'      => 'required|string',
+        'ticket_to'        => 'required|string',
     ]; }
 
     protected function extra_rules() { return [
@@ -304,13 +304,13 @@ class EditMission extends Component
         $this->showTicket = false;
 
         // Reset form
-        $this->ticket_mode      = null;
-        $this->ticket_direction = null;
-        $this->ticket_number    = null;
+        $this->ticket_mode      = '';
+        $this->ticket_direction = '';
+        $this->ticket_number    = '';
         $this->ticket_date      = null;
         $this->ticket_time      = null;
-        $this->ticket_from      = null;
-        $this->ticket_to        = null;
+        $this->ticket_from      = '';
+        $this->ticket_to        = '';
         unset($this->ticket_id);
     }
 
@@ -326,13 +326,13 @@ class EditMission extends Component
 
         // Initialize values
         $this->ticket_id = $id;
-        $this->ticket_mode      = isset( $tickets[ $id-1 ]['ticket_mode'] ) ? $tickets[ $id-1 ]['ticket_mode'] : null;
-        $this->ticket_direction = isset( $tickets[ $id-1 ]['ticket_direction'] ) ? $tickets[ $id-1 ]['ticket_direction'] : null;
-        $this->ticket_number    = isset( $tickets[ $id-1 ]['ticket_number'] ) ? $tickets[ $id-1 ]['ticket_number'] : null;
+        $this->ticket_mode      = isset( $tickets[ $id-1 ]['ticket_mode'] ) ? $tickets[ $id-1 ]['ticket_mode'] : '';
+        $this->ticket_direction = isset( $tickets[ $id-1 ]['ticket_direction'] ) ? $tickets[ $id-1 ]['ticket_direction'] : '';
+        $this->ticket_number    = isset( $tickets[ $id-1 ]['ticket_number'] ) ? $tickets[ $id-1 ]['ticket_number'] : '';
         $this->ticket_date      = isset( $tickets[ $id-1 ]['ticket_date'] ) ? $tickets[ $id-1 ]['ticket_date'] : null;
         $this->ticket_time      = isset( $tickets[ $id-1 ]['ticket_time'] ) ? $tickets[ $id-1 ]['ticket_time'] : null;
-        $this->ticket_from      = isset( $tickets[ $id-1 ]['ticket_from'] ) ? $tickets[ $id-1 ]['ticket_from'] : null;
-        $this->ticket_to        = isset( $tickets[ $id-1 ]['ticket_to'] ) ? $tickets[ $id-1 ]['ticket_to'] : null;
+        $this->ticket_from      = isset( $tickets[ $id-1 ]['ticket_from'] ) ? $tickets[ $id-1 ]['ticket_from'] : '';
+        $this->ticket_to        = isset( $tickets[ $id-1 ]['ticket_to'] ) ? $tickets[ $id-1 ]['ticket_to'] : '';
 
         // Show modal
         $this->showTicket = true;

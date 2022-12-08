@@ -190,8 +190,8 @@
 
                 <x-table>
                     <x-slot name="head">
-                        <x-table.heading small>{{ __('Direction') }}</x-table.heading>
-                        <x-table.heading small>{{ __('Number') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Ticket') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Flight/Train No.') }}</x-table.heading>
                         <x-table.heading small>{{ __('Date') }}</x-table.heading>
                         <x-table.heading small>{{ __('transport-from') }}</x-table.heading>
                         <x-table.heading small>{{ __('transport-to') }}</x-table.heading>
@@ -204,7 +204,10 @@
                             <x-table.cell class="text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 text-sm leading-5">
                                     <p class="text-cool-gray-600">
-                                        {{ $ticket['ticket_mode'] ?? '' }} {{ $ticket['ticket_direction'] ?? '' }}
+                                        {{ __('ticket-dir-mode', [
+                                            'mode' => __($ticket['ticket_mode']),
+                                            'direction' => $ticket['ticket_direction'] ? __('Go'): __('Return')
+                                            ]) }}
                                     </p>
                                 </span>
                             </x-table.cell>
@@ -388,18 +391,14 @@
                         wire:model="ticket_direction"
                         :selected="$ticket_direction"
                         :keylabel="['Go','Return']"
-                        required
                     />
                 </x-input.group>
 
                 <x-input.group label="Transport" for="ticket_mode" :error="$errors->first('ticket_mode')" required >
-                    <x-input.radiobar
-                        id="ticket_mode"
-                        wire:model="ticket_mode"
-                        :selected="$ticket_mode"
-                        :keylabel="['Flight','Train']"
-                        required
-                    />
+                    <x-input.select wire:model="ticket_mode" id="ticket_mode" class="w-full" placeholder="{{ __('Select travel mode...') }}" >
+                        <option value="Flight">{{ __('Flight') }}</option>
+                        <option value="Train">{{ __('Train') }}</option>
+                    </x-input.select>
                 </x-input.group>
 
                 <x-input.group label="Number" for="ticket_number" :error="$errors->first('ticket_number')">
@@ -407,19 +406,19 @@
                 </x-input.group>
 
                 <x-input.group label="Date" for="ticket_date" :error="$errors->first('ticket_date')" required >
-                    <x-input.date wire:model.lazy="ticket_date" id="ticket_date" placeholder="{{ __('YYYY-MM-DD') }}" required />
+                    <x-input.date wire:model.lazy="ticket_date" id="ticket_date" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
 
-                <x-input.group label="Time" for="ticket_time" :error="$errors->first('ticket_time')" required >
-                    <x-input.time wire:model.lazy="ticket_time" id="ticket_time" required />
+                <x-input.group label="Time" for="ticket_time" :error="$errors->first('ticket_time')" >
+                    <x-input.time wire:model.lazy="ticket_time" id="ticket_time" />
                 </x-input.group>
 
                 <x-input.group label="City of departure" for="ticket_from" :error="$errors->first('ticket_from')" required>
-                    <x-input.text wire:model.lazy="ticket_from " id="ticket_from" class="text-gray-700" required />
+                    <x-input.text wire:model.lazy="ticket_from " id="ticket_from" class="text-gray-700" />
                 </x-input.group>
 
                 <x-input.group label="City of arrival" for="ticket_to" :error="$errors->first('ticket_to')" required >
-                    <x-input.text wire:model.lazy="ticket_to " id="ticket_to" class="text-gray-700" required />
+                    <x-input.text wire:model.lazy="ticket_to " id="ticket_to" class="text-gray-700" />
                 </x-input.group>
             </x-slot>
 

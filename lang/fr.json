@@ -450,8 +450,8 @@
     "helptext-rental-car": "Si vous comptez utiliser une voiture de location, n'oubliez pas d'ajouter votre permis de conduire sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profil</a>.",
     "helptext-personal-car": "Si vous comptez utiliser votre voiture personnelle, n'oubliez pas d'ajouter les documents suivants à votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profil</a>: :docs.",
     "Number": "Numéro",
-    "transport-from": "Depuis",
-    "transport-to": "Vers",
+    "transport-from": "Départ",
+    "transport-to": "Arrivée",
     "No tickets...": "Aucun billet...",
     "Add ticket": "Ajouter un billet",
     "Edit ticket": "Editer un billet",
@@ -486,5 +486,9 @@
     "Thu": "Jeu",
     "Fri": "Ven",
     "Sat": "Sam",
-    "Go": "Aller"
+    "Go": "Aller",
+    "Select travel mode...": "Sélectionnez un moyen de transport...",
+    "ticket-dir-mode": ":mode :direction",
+    "Flight/Train No.": "N° Vol/Train",
+    "Ticket": "Billet"
 }

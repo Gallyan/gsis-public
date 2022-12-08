@@ -89,5 +89,6 @@
     "extra_parking": "Parking",
     "extra_registration": "Conference registration fee",
     "transport-from": "From",
-    "transport-to": "To"
+    "transport-to": "To",
+    "ticket-dir-mode": ":direction :mode"
 }
