@@ -267,7 +267,7 @@
                     </x-slot>
                 </x-table>
 
-                @if( count( array_unique( $dirlist ) ) < 2 )
+                @if( count( array_unique( $dirlist ) ) == 1 )
                 <p class="text-sm font-medium leading-5 text-gray-500 mt-4 italic">
                     {{ __( 'helptext-go-return' )    }}
                 </p>
