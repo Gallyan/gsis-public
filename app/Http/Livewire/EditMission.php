@@ -28,7 +28,7 @@ class EditMission extends Component
     public $disabled = false; // True if user can't modify current editing Mission
     public $disabledStatuses = []; // List of disabled status
     public $showInformationMessage = false;
-    public $showTicket = true;
+    public $showTicket = false;
     public $showExtra = false;
     public $isAuthManager = false;
     public $showWP = false;
