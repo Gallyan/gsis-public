@@ -1,6 +1,44 @@
 <div
     x-data="{ value: @entangle($attributes->wire('model')), picker: undefined }"
-    x-init="new Pikaday({ field: $refs.input, format: 'YYYY-MM-DD', onOpen() { this.setDate($refs.input.value) }, firstDay: 1, yearRange: [1900, 2100] })"
+    x-init="new Pikaday({
+        field: $refs.input,
+        format: 'YYYY-MM-DD',
+        onOpen() { this.setDate($refs.input.value) },
+        firstDay: 1,
+        yearRange: [1900, 2100],
+        showDaysInNextAndPreviousMonths: true,
+        numberOfMonths: 1,
+        i18n: {
+            previousMonth : '{{ __('Previous Month') }}',
+            nextMonth     : '{{ __('Next Month') }}',
+            months        : [ '{{ __('January') }}',
+                              '{{ __('February') }}',
+                              '{{ __('March') }}',
+                              '{{ __('April') }}',
+                              '{{ __('May') }}',
+                              '{{ __('June') }}',
+                              '{{ __('July') }}',
+                              '{{ __('August') }}',
+                              '{{ __('September') }}',
+                              '{{ __('October') }}',
+                              '{{ __('November') }}',
+                              '{{ __('December') }}' ],
+            weekdays      : [ '{{ __('Sunday') }}',
+                              '{{ __('Monday') }}',
+                              '{{ __('Tuesday') }}',
+                              '{{ __('Wednesday') }}',
+                              '{{ __('Thursday') }}',
+                              '{{ __('Friday') }}',
+                              '{{ __('Saturday') }}' ],
+            weekdaysShort : [ '{{ __('Sun') }}',
+                              '{{ __('Mon') }}',
+                              '{{ __('Tue') }}',
+                              '{{ __('Wed') }}',
+                              '{{ __('Thu') }}',
+                              '{{ __('Fri') }}',
+                              '{{ __('Sat') }}' ]
+        }
+    })"
     x-on:change="value = $event.target.value"
     class="flex rounded-md shadow-sm w-40"
 >

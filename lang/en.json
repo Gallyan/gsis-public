@@ -87,5 +87,7 @@
     "extra_personal_car": "Private car",
     "extra_rental_car": "Rental car",
     "extra_parking": "Parking",
-    "extra_registration": "Conference registration fee"
+    "extra_registration": "Conference registration fee",
+    "transport-from": "From",
+    "transport-to": "To"
 }
