@@ -419,7 +419,9 @@
     "incomplete-profile": "Votre profil est incomplet, il manque le champ obligatoire suivant : :missing.|Votre profil est incomplet, il manque les champs obligatoires suivants : :missing.",
     "please-complete": "Merci de compléter cette information sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\">page profil</a>.",
     "From your address": "Depuis votre adresse",
+
     "To your address": "Vers votre adresse",
+    "To": "Vers",
     "Work address": "Adresse professionnelle",
     "Home address": "Adresse personnelle",
     "Departure": "Départ",
