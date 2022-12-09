@@ -32,7 +32,7 @@
           </span>
 
           <span class="ml-2 font-medium text-center text-sm leading-5">
-            {{ __($label) }}
+            {!! __($label) !!}
           </span>
 
         </span>
