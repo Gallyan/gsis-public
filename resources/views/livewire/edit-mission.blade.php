@@ -166,7 +166,7 @@
 
             <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required>
                 <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" required />
-                <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-2 pb-1">@lang('From your address'):</p>
+                <p class="text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-2 pb-1">@lang('From'):</p>
                 <x-input.radiobar
                     id="from"
                     wire:model="mission.from"
@@ -175,9 +175,9 @@
                 />
             </x-input.group>
 
-            <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required>
+            <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required >
                 <x-input.date wire:model="mission.return" id="return" placeholder="{{ __('YYYY-MM-DD') }}" required />
-                <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-2 pb-1">@lang('To your address'):</p>
+                <p class="text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-2 pb-1">@lang('To'):</p>
                 <x-input.radiobar
                     id="to"
                     wire:model="mission.to"
