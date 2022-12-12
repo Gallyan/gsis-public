@@ -3,12 +3,12 @@
     'selected' => false,
 ])
 
-<div class="border border-gray-300 rounded-md divide-y divide-x divide-gray-300 lg:flex lg:divide-y-0">
+<div {{ $attributes->only(['class'])->merge(['class' => 'border border-gray-300 rounded-md divide-y divide-x divide-gray-300 lg:flex lg:divide-y-0 w-full']) }} >
   @foreach ($keylabel as $key => $label)
-    <div class="relative md:flex-1 md:flex">
+    <div class="relative md:flex-auto md:flex">
       <input
         class="hidden"
-        {{ $attributes->except(['id']) }}
+        {{ $attributes->except(['id','class']) }}
         id="{{ $attributes['id'] }}-{{ $key }}"
         type="radio"
         name="{{ $attributes['id'] }}"
