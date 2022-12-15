@@ -29,6 +29,7 @@ class EditMission extends Component
     public $disabledStatuses = []; // List of disabled status
     public $showInformationMessage = false;
     public $showTicket = false;
+    public $showHotel = false;
     public $showExtra = false;
     public $isAuthManager = false;
     public $showWP = false;
@@ -42,6 +43,13 @@ class EditMission extends Component
     public $ticket_time;
     public $ticket_from;
     public $ticket_to;
+
+    // Hotel
+    public $hotel_id;
+    public $hotel_name;
+    public $hotel_city;
+    public $hotel_start;
+    public $hotel_end;
 
     // Extra costs
     public $extra_meal;
@@ -77,7 +85,7 @@ class EditMission extends Component
         'mission.return'         => 'required|date|after_or_equal:mission.departure',
         'mission.to'             => 'boolean',
         'mission.tickets'        => 'nullable|array',
-        'mission.accomodation'   => 'boolean',
+        'mission.hotels'         => 'nullable|array',
         'mission.extra'          => 'nullable|array',
         'programme'              => 'nullable|mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
         'uploads'                => 'nullable|array',
@@ -96,6 +104,13 @@ class EditMission extends Component
         'ticket_to'        => 'required|string',
     ]; }
 
+    protected function hotel_rules() { return [
+        'hotel_name'  => 'required|string',
+        'hotel_city'  => 'required|string',
+        'hotel_start' => 'nullable|string',
+        'hotel_end'   => 'required|date',
+    ]; }
+
     protected function validationAttributes() { return [
         'mission.subject'        => __('Purpose of the mission'),
         'mission.institution_id' => __('Institution'),
@@ -111,7 +126,7 @@ class EditMission extends Component
         'mission.return'         => __('Return'),
         'mission.to'             => __('To your address'),
         'mission.tickets'        => __('Transport Tickets'),
-        'mission.accomodation'   => __('Accomodation'),
+        'mission.hotels'         => __('Accomodation'),
         'mission.extra'          => __('Extra'),
         'ticket_mode'            => __('Travel mode'),
         'ticket_direction'       => __('Direction'),
@@ -120,6 +135,10 @@ class EditMission extends Component
         'ticket_time'            => __('Time'),
         'ticket_from'            => __('City of departure'),
         'ticket_to'              => __('City of arrival'),
+        'hotel_name'             => __('Name'),
+        'hotel_city'             => __('City'),
+        'hotel_start'            => __('Start'),
+        'hotel_end'              => __('End'),
     ]; }
 
     protected function extra_rules() { return [
@@ -306,6 +325,9 @@ class EditMission extends Component
         } elseif( in_array( $propertyName, array_keys($this->ticket_rules()) ) ) {
             $this->validateOnly($propertyName, $this->ticket_rules());
 
+        } elseif( in_array( $propertyName, array_keys($this->hotel_rules()) ) ) {
+            $this->validateOnly($propertyName, $this->hotel_rules());
+
         } else {
             $this->validateOnly($propertyName);
             $this->modified = !empty($this->mission->getDirty()) ;
@@ -402,6 +424,76 @@ class EditMission extends Component
 
     // End Tickets
 
+    // Start Hotels
+
+    public function close_hotel() {
+        // Hide modal
+        $this->showHotel = false;
+
+        // Reset form
+        $this->hotel_name  = '';
+        $this->hotel_city  = '';
+        $this->hotel_start = null;
+        $this->hotel_end   = null;
+        unset($this->hotel_id);
+    }
+
+    // Affiche le modal d'édition de l'hotel après en avoir initialisé les valeurs
+    public function edit_hotel( int $id ) {
+        if ( $this->disabled === true ) return;
+
+        // Get from json to array
+        $hotels = $this->mission->hotels;
+
+        // Control
+        if( $id < 1 || $id > count($hotels)) return;
+
+        // Initialize values
+        $this->hotel_id = $id;
+        $this->hotel_name  = isset( $hotels[ $id-1 ]['hotel_name'] ) ? $hotels[ $id-1 ]['hotel_name'] : '';
+        $this->hotel_city  = isset( $hotels[ $id-1 ]['hotel_city'] ) ? $hotels[ $id-1 ]['hotel_city'] : '';
+        $this->hotel_start = isset( $hotels[ $id-1 ]['hotel_start'] ) ? $hotels[ $id-1 ]['hotel_start'] : null;
+        $this->hotel_end   = isset( $hotels[ $id-1 ]['hotel_end'] ) ? $hotels[ $id-1 ]['hotel_end'] : null;
+
+        // Show modal
+        $this->showHotel = true;
+    }
+
+    public function del_hotel( int $id ) {
+        if ( $this->disabled === true ) return;
+
+        $hotels = $this->mission->hotels;
+        if( $id < 1 || $id > count($hotels)) return;
+        if(isset($hotels[$id-1])) unset( $hotels[$id-1] );
+        $this->mission->hotels = array_values( $hotels );
+        $this->modified = true;
+    }
+
+    // Valide le formulaire et stocke le résultat en json dans la mission
+    public function save_hotel() {
+        // Validate current edited hotel
+        $current_hotel = $this->validate( $this->hotel_rules() );
+
+        // Get current hotels list
+        $hotels = $this->mission->hotels;
+
+        // New hotel or editing existing hotel, add to array
+        if( !empty( $this->hotel_id ) ) {
+            $hotels[ $this->hotel_id - 1 ] = $current_hotel;
+        } else {
+            $hotels[] = $current_hotel;
+        }
+
+        // Convert array to json
+        $this->mission->hotels = $hotels;
+
+        $this->modified = true;
+
+        $this->close_hotel();
+    }
+
+    // End Hotels
+
     // Start Extra
 
     public function close_extra() {
@@ -468,7 +560,7 @@ class EditMission extends Component
             'from'           => true,
             'to'             => true,
             'tickets'        => [],
-            'accomodation'   => false,
+            'hotels'        => [],
             'extra'        => [],
             ]);
     }

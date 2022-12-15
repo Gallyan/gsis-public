@@ -186,7 +186,7 @@
                 />
             </x-input.group>
 
-            <x-input.group label="Transport Tickets" for="tickets" :error="$errors->first('mission.tickets')">
+            <x-input.group label="Transport Tickets" :error="$errors->first('mission.tickets')">
 
                 <x-table>
                     <x-slot name="head">
@@ -279,13 +279,68 @@
 
             </x-input.group>
 
-            <x-input.group label="Accomodation" for="accomodation" :error="$errors->first('mission.accomodation')">
-                <x-input.radiobar
-                    id="accomodation"
-                    wire:model="mission.accomodation"
-                    :selected="$mission->accomodation"
-                    :keylabel="['Non','Oui']"
-                />
+            <x-input.group label="Accomodations" :error="$errors->first('mission.hotels')">
+
+                <x-table>
+                    <x-slot name="head">
+                        <x-table.heading small>{{ __('Hotel') }}</x-table.heading>
+                        <x-table.heading small>{{ __('City') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Date') }}</x-table.heading>
+                        <x-table.heading small class="w-6"></x-table.heading>
+                    </x-slot>
+
+                    <x-slot name="body">
+                        @forelse ($mission->hotels as $hotel)
+                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="hotel-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_hotel({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600">
+                                        {{ $hotel['hotel_name'] }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
+
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_hotel({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600 truncate">
+                                        {{ $hotel['hotel_city'] ?? '' }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
+
+                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_hotel({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600 truncate">
+                                        {{ $hotel['hotel_start'] }} <x-icon.arrow-right /> {{ $hotel['hotel_end'] }}
+                                    </p>
+                                </span>
+                            </x-table.cell>
+
+                            <x-table.cell class="text-center">
+                                <span class="inline-flex text-sm leading-5">
+                                    <x-button.link wire:click="del_hotel({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
+                                        <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
+                                    </x-button.link>
+                                </span>
+                            </x-table.cell>
+                        </x-table.row>
+                        @empty
+                        <x-table.row>
+                            <x-table.cell colspan="6">
+                                <div class="flex justify-center items-center space-x-2">
+                                    <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
+                                    <span class="font-medium text-cool-gray-400 text-lg">{{ __('No accomodation...') }}</span>
+                                </div>
+                            </x-table.cell>
+                        </x-table.row>
+                        @endforelse
+                    </x-slot>
+                </x-table>
+
+                @if (!$disabled)
+                <x-button.secondary wire:click="$set('showHotel', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add hotel') }}</x-button.primary>
+                @endif
+
             </x-input.group>
 
             <x-input.group label="Expected extra costs" for="extra" :error="$errors->first('mission.extra')">
@@ -433,6 +488,39 @@
 
             <x-slot name="footer">
                 <x-button.secondary wire:click="close_ticket">{{ __('Cancel') }}</x-button.secondary>
+
+                <x-button.primary type="submit">@lang('Save')</x-button.primary>
+            </x-slot>
+        </x-modal.dialog>
+    </form>
+
+    <!-- Edit hotel Modal -->
+    <form wire:submit.prevent="save_hotel">
+        @csrf
+
+        <x-modal.dialog wire:model.defer="showHotel">
+            <x-slot name="title">@lang('Edit hotel')</x-slot>
+
+            <x-slot name="content">
+                <x-input.group label="Name" for="hotel_name" :error="$errors->first('hotel_name')" >
+                    <x-input.text wire:model.lazy="hotel_name" id="hotel_name" class="text-gray-700" />
+                </x-input.group>
+
+                <x-input.group label="City" for="hotel_city" :error="$errors->first('hotel_city')" >
+                    <x-input.text wire:model.lazy="hotel_city" id="hotel_city" class="text-gray-700" />
+                </x-input.group>
+
+                <x-input.group label="Start" for="hotel_start" :error="$errors->first('hotel_start')" >
+                    <x-input.date wire:model.lazy="hotel_start" id="hotel_start" placeholder="{{ __('YYYY-MM-DD') }}" />
+                </x-input.group>
+
+                <x-input.group label="End" for="hotel_end" :error="$errors->first('hotel_end')" >
+                    <x-input.date wire:model.lazy="hotel_end" id="hotel_end" placeholder="{{ __('YYYY-MM-DD') }}" />
+                </x-input.group>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-button.secondary wire:click="close_hotel">{{ __('Cancel') }}</x-button.secondary>
 
                 <x-button.primary type="submit">@lang('Save')</x-button.primary>
             </x-slot>

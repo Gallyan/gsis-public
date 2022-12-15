@@ -427,7 +427,7 @@
     "Departure": "Départ",
     "Return": "Retour",
     "Transport Tickets": "Billets de transports",
-    "Accomodation": "Hébergement",
+    "Accomodations": "Hébergements",
     "Extra": "Frais",
     "Expected extra costs": "Frais annexes prévisionnels",
     "No expected extra costs": "Pas de frais annexes prévisionnels",
@@ -497,5 +497,9 @@
     "Time": "Heure",
     "Travel mode": "Mode de transport",
     "Amount of registration paid by the institution": "Montant de l'inscription payé par l'institution",
-    "The :attribute field is required.": "Le champ :attribute est obligatoire."
+    "The :attribute field is required.": "Le champ :attribute est obligatoire.",
+    "No accomodation...": "Aucun hébergement...",
+    "Add hotel": "Ajouter un hotel",
+    "Start": "Du",
+    "End": "Au"
 }
