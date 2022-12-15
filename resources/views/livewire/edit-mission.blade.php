@@ -80,9 +80,9 @@
                 @if ($showWP)
                     <x-input.number wire:model="mission.wp" id="wp" min="1" :disabled="$disabled" />
                 @else
-                    <span class="sm:items-center text-cool-gray-600 sm:pb-5">
+                    <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">
                         {{ __('wp-sometimes') }}
-                    </span>
+                    </p>
                 @endif
             </x-input.group>
 
@@ -143,18 +143,11 @@
                     <x-input.currency wire:model="mission.conf_currency" id="conf_currency" :disabled="$disabled" />
                 </x-input.group>
 
+                @if ($mission->conf_amount)
+                    <p class="ml-1 mt-2 text-sm font-bold text-gray-700">{!! __('helptext-conf-amount') !!}</p>
+                @endif
             </x-input.group>
             @endif
-
-            <x-input.group label="Mission with or without costs" for="costs" :error="$errors->first('mission.costs')" required>
-                <x-input.radiobar
-                    id="costs"
-                    wire:model="mission.costs"
-                    :selected="$mission->costs"
-                    :keylabel="['Sans','Avec']"
-                    :disabled="$disabled"
-                />
-            </x-input.group>
 
             <x-input.group label="Destination" for="dest_country" :error="$errors->first('mission.dest_country')" required>
                 <x-input.country wire:model="mission.dest_country" id="dest_country" placeholder="{{ __('Select Country...') }}" class="w-full" :disabled="$disabled" />
@@ -166,7 +159,7 @@
 
             <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required>
                 <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" required />
-                <p class="text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-2 pb-1">@lang('From'):</p>
+                <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px pt-2 pb-1">@lang('From'):</p>
                 <x-input.radiobar
                     id="from"
                     wire:model="mission.from"
@@ -177,7 +170,7 @@
 
             <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required >
                 <x-input.date wire:model="mission.return" id="return" placeholder="{{ __('YYYY-MM-DD') }}" required />
-                <p class="text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-2 pb-1">@lang('To'):</p>
+                <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px pt-2 pb-1">@lang('To'):</p>
                 <x-input.radiobar
                     id="to"
                     wire:model="mission.to"
@@ -186,8 +179,19 @@
                 />
             </x-input.group>
 
+            <x-input.group label="Mission with or without costs" for="costs" :error="$errors->first('mission.costs')" required>
+                <x-input.radiobar
+                    id="costs"
+                    wire:model="mission.costs"
+                    :selected="$mission->costs"
+                    :keylabel="['Sans','Avec']"
+                    :disabled="$disabled"
+                />
+            </x-input.group>
+
             <x-input.group label="Transport Tickets" :error="$errors->first('mission.tickets')">
 
+            @if ($mission->costs)
                 <x-table>
                     <x-slot name="head">
                         <x-table.heading small>{{ __('Ticket') }}</x-table.heading>
@@ -277,10 +281,15 @@
                 <x-button.secondary wire:click="$set('showTicket', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add ticket') }}</x-button.primary>
                 @endif
 
+            @else
+                <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">{{ __('This is a no-cost mission.') }}</p>
+            @endif
+
             </x-input.group>
 
             <x-input.group label="Accomodations" :error="$errors->first('mission.hotels')">
 
+            @if ($mission->costs)
                 <x-table>
                     <x-slot name="head">
                         <x-table.heading small>{{ __('Hotel') }}</x-table.heading>
@@ -341,9 +350,16 @@
                 <x-button.secondary wire:click="$set('showHotel', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add hotel') }}</x-button.primary>
                 @endif
 
+            @else
+                <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">{{ __('This is a no-cost mission.') }}</p>
+            @endif
+
             </x-input.group>
 
             <x-input.group label="Expected extra costs" for="extra" :error="$errors->first('mission.extra')">
+
+            @if ($mission->costs)
+
                 @if( ! is_null( $mission->extra ) )
                     @if( isset( $mission->extra['extra_meal'] ) )
                         <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-1">
@@ -377,6 +393,11 @@
                         @lang('No expected extra costs')
                     </p>
                 @endif
+
+            @else
+                <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">{{ __('This is a no-cost mission.') }}</p>
+            @endif
+
             </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('mission.comments')">
