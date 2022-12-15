@@ -91,5 +91,6 @@
     "extra_registration": "Conference registration fee",
     "transport-from": "From",
     "transport-to": "To",
-    "ticket-dir-mode": ":direction :mode"
+    "ticket-dir-mode": ":direction :mode",
+    "helptext-conf-amount": "Please also create a <a href=\"/order\" target=\"_blank\">request in the Orders tab</a> for this resitration."
 }
