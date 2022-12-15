@@ -32,7 +32,7 @@
             <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
                 <div class="w-1/2 pr-2 space-y-4">
                     <x-input.group inline for="filter-institution" label="Institution">
-                        <x-input.select wire:model="filters.institution" id="filter-institution" class="w-full" placeholder="{{ __('Select Institution...') }}">
+                        <x-input.select wire:model="filters.institution" id="filter-institution" class="w-full" multiple>
                             @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                             <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                             @endforeach
@@ -46,7 +46,9 @@
                             @endforeach
                         </x-input.select>
                     </x-input.group>
+                </div>
 
+                <div class="w-1/2 pl-2 space-y-4">
                     @can('manage-users')
                     <x-input.group inline for="filter-user" label="User">
                         <x-input.text wire:model.debounce.500ms="filters.user" id="filter-user">
@@ -54,16 +56,16 @@
                         </x-input.text>
                     </x-input.group>
                     @endcan
-                </div>
 
-                <div class="w-1/2 pl-2 space-y-4">
-                    <x-input.group inline for="filter-date-min" label="Created after">
-                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="{{ __('YYYY-MM-DD') }}" />
-                    </x-input.group>
+                    <div class="flex flex-row flex-wrap">
+                        <x-input.group inline for="filter-date-min" label="Created after" class="xl:w-1/2 w-full">
+                            <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="{{ __('YYYY-MM-DD') }}" />
+                        </x-input.group>
 
-                    <x-input.group inline for="filter-date-max" label="Created before">
-                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="{{ __('YYYY-MM-DD') }}" />
-                    </x-input.group>
+                        <x-input.group inline for="filter-date-max" label="Created before" class="xl:w-1/2 w-full pt-4 xl:pt-0">
+                            <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="{{ __('YYYY-MM-DD') }}" />
+                        </x-input.group>
+                    </div>
 
                     @can('manage-users')
                     <x-input.group inline for="filter-manager" label="Manager">

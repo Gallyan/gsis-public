@@ -73,11 +73,20 @@ class Purchases extends Component
 
     public function getRowsQueryProperty()
     {
+        // Sanitize date filters
+        $date = date_parse_from_format('Y-m-d', $this->filters['date-min']);
+        if (!checkdate($date['month'], $date['day'], $date['year']))
+            $this->filters['date-min'] = null;
+
+        $date = date_parse_from_format('Y-m-d', $this->filters['date-max']);
+        if (!checkdate($date['month'], $date['day'], $date['year']))
+            $this->filters['date-max'] = null;
+
         $query = Purchase::query()
             ->join('users', 'users.id', '=', 'purchases.user_id')
             ->join('institutions', 'institutions.id', '=', 'purchases.institution_id')
             ->select('purchases.*','users.lastname','users.firstname','institutions.name as ins_name', 'institutions.contract as ins_contract')
-            ->when($this->filters['institution'], fn($query, $institution) => $query->where('purchases.institution_id', '=', $institution))
+            ->when($this->filters['institution'], fn($query, $institution) => $query->whereIn('purchases.institution_id', $institution))
             ->when($this->filters['date-min'], fn($query, $date) => $query->where('purchases.created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn($query, $date) => $query->where('purchases.created_at', '<=', Carbon::parse($date)))
             ->when($this->filters['manager'], fn($query) => $query->join('managers', function($join) {

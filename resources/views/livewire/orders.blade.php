@@ -58,13 +58,13 @@
                     @endcan
 
                     <div class="flex flex-row flex-wrap">
-                    <x-input.group inline for="filter-date-min" label="Created after" class="xl:w-1/2 w-full">
-                        <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="{{ __('YYYY-MM-DD') }}" />
-                    </x-input.group>
+                        <x-input.group inline for="filter-date-min" label="Created after" class="xl:w-1/2 w-full">
+                            <x-input.date wire:model="filters.date-min" id="filter-date-min" placeholder="{{ __('YYYY-MM-DD') }}" />
+                        </x-input.group>
 
-                    <x-input.group inline for="filter-date-max" label="Created before" class="xl:w-1/2 w-full pt-4 xl:pt-0">
-                        <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="{{ __('YYYY-MM-DD') }}" />
-                    </x-input.group>
+                        <x-input.group inline for="filter-date-max" label="Created before" class="xl:w-1/2 w-full pt-4 xl:pt-0">
+                            <x-input.date wire:model="filters.date-max" id="filter-date-max" placeholder="{{ __('YYYY-MM-DD') }}" />
+                        </x-input.group>
                     </div>
 
                     @can('manage-users')

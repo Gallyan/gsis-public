@@ -72,11 +72,20 @@ class Missions extends Component
 
     public function getRowsQueryProperty()
     {
+        // Sanitize date filters
+        $date = date_parse_from_format('Y-m-d', $this->filters['date-min']);
+        if (!checkdate($date['month'], $date['day'], $date['year']))
+            $this->filters['date-min'] = null;
+
+        $date = date_parse_from_format('Y-m-d', $this->filters['date-max']);
+        if (!checkdate($date['month'], $date['day'], $date['year']))
+            $this->filters['date-max'] = null;
+
         $query = Mission::query()
             ->join('users', 'users.id', '=', 'missions.user_id')
             ->join('institutions', 'institutions.id', '=', 'missions.institution_id')
             ->select('missions.*','users.lastname','users.firstname','institutions.name as ins_name', 'institutions.contract as ins_contract')
-            ->when($this->filters['institution'], fn($query, $institution) => $query->where('missions.institution_id', '=', $institution))
+            ->when($this->filters['institution'], fn($query, $institution) => $query->whereIn('missions.institution_id',  $institution))
             ->when($this->filters['date-min'], fn($query, $date) => $query->where('missions.created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn($query, $date) => $query->where('missions.created_at', '<=', Carbon::parse($date)))
             ->when($this->filters['manager'], fn($query) => $query->join('managers', function($join) {
