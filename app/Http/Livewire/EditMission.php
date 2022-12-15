@@ -107,7 +107,7 @@ class EditMission extends Component
     protected function hotel_rules() { return [
         'hotel_name'  => 'required|string',
         'hotel_city'  => 'required|string',
-        'hotel_start' => 'nullable|string',
+        'hotel_start' => 'required|date',
         'hotel_end'   => 'required|date',
     ]; }
 
