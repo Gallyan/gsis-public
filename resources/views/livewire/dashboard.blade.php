@@ -1,8 +1,9 @@
-<div class="grid gap-6 lg:gap-8">
+<div>
     <h1 class="text-2xl font-semibold text-gray-900">{{ __('Dashboard') }}</h1>
 
-    <div class="">
-        <div class="max-w-7xl mx-auto">
+    <div class="py-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+
+        <div class="mx-auto col-span-full w-full">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white text-md">
                     <p>{{ __('Hi :name, you\'re logged in!',['name'=>$user->name]) }}</p>
@@ -43,10 +44,8 @@
                 @endif
             </div>
         </div>
-    </div>
 
-    <div class="">
-        <div class="max-w-7xl mx-auto">
+        <div class="mx-auto col-span-full w-full">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white text-md">
                     {{ __('Vous avez déclaré') }}
@@ -56,7 +55,7 @@
                 </div>
             </div>
         </div>
-    </div>
 
+    </div>
 
 </div>
