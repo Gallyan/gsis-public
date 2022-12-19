@@ -1,8 +1,8 @@
-<div class="grid gap-8">
+<div class="grid gap-6 lg:gap-8">
     <h1 class="text-2xl font-semibold text-gray-900">{{ __('Dashboard') }}</h1>
 
     <div class="">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white text-md">
                     <p>{{ __('Hi :name, you\'re logged in!',['name'=>$user->name]) }}</p>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white text-md">
                     {{ __('Vous avez déclaré') }}
