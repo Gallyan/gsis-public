@@ -111,4 +111,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     {
         return $this->hasMany(Purchase::class);
     }
+
+    /**
+     * Get all of the user's purchases.
+     */
+    public function missions()
+    {
+        return $this->hasMany(Mission::class);
+    }
 }
