@@ -1,7 +1,7 @@
-<div>
+<div class="grid gap-8">
     <h1 class="text-2xl font-semibold text-gray-900">{{ __('Dashboard') }}</h1>
 
-    <div class="py-12">
+    <div class="">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white text-md">
@@ -41,6 +41,19 @@
                     {{ trans_choice('incomplete-profile', count($user->missingInfo), ['missing'=>implode(', ',$user->missingInfo)]) }} {!! __('please-complete', ['profile' => route( 'edit-user', auth()->id() ) ] ) !!}</p>
                 </div>
                 @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white text-md">
+                    {{ __('Vous avez déclaré') }}
+                    {{ count($user->missions) }} {{ __('missions') }},
+                    {{ count($user->purchases) }} {{ __('purchases') }},
+                    {{ count($user->orders) }} {{ __('orders') }}.
+                </div>
             </div>
         </div>
     </div>
