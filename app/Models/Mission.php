@@ -17,7 +17,6 @@ class Mission extends Model
         'cancelled'   => 'Cancelled',
     ];
 
-    // Automatically switch between json and array of hotels
     protected $casts = [
         'hotels'    => 'array', // Automatically switch between json and array
         'departure' => 'date:Y-m-d',
