@@ -399,23 +399,23 @@
             <x-slot name="title">@if(isset($this->misc_id)) @lang('Edit misc') @else @lang('Add misc') @endif</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="subject" label="Object" :error="$errors->first('subject')" required>
+                <x-input.group paddingless borderless class="sm:py-1" for="subject" label="Object" :error="$errors->first('subject')" required>
                     <x-input.text wire:model.debounce.500ms="subject" id="subject" placeholder="{{ __('Object') }}" />
                 </x-input.group>
 
-                <x-input.group for="supplier" label="Supplier" :error="$errors->first('supplier')" required>
+                <x-input.group paddingless borderless class="sm:py-1" for="supplier" label="Supplier" :error="$errors->first('supplier')" required>
                     <x-input.text wire:model.debounce="supplier" id="supplier" placeholder="{{ __('Supplier') }}" />
                 </x-input.group>
 
-                <x-input.group for="date" label="Date of purchase" :error="$errors->first('date')" required>
+                <x-input.group paddingless borderless class="sm:py-1" for="date" label="Date of purchase" :error="$errors->first('date')" required>
                     <x-input.date wire:model="date" id="date" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
 
-                <x-input.group for="miscamount" label="Amount" :error="$errors->first('miscamount')" required>
+                <x-input.group paddingless borderless class="sm:py-1" for="miscamount" label="Amount" :error="$errors->first('miscamount')" required>
                     <x-input.money wire:model.debounce.500ms="miscamount" id="miscamount"/>
                 </x-input.group>
 
-                <x-input.group for="currency" label="Currency" :error="$errors->first('currency')" required>
+                <x-input.group paddingless borderless class="sm:py-1" for="currency" label="Currency" :error="$errors->first('currency')" required>
                     <x-input.currency wire:model="currency" id="currency" />
                 </x-input.group>
             </x-slot>
@@ -453,7 +453,7 @@
                 </x-input.group>
 
                 <x-input.group paddingless borderless class="sm:py-1" for="rcpt_amount" label="Amount" :error="$errors->first('rcpt_amount')">
-                    <x-input.money wire:model.debounce.500ms="rcpt_amount" id="rcpt_amount" :leadingIcon="false" />
+                    <x-input.money wire:model.debounce.500ms="rcpt_amount" id="rcpt_amount" />
                 </x-input.group>
 
                 <x-input.group paddingless borderless class="sm:py-1" for="rcpt_currency" label="Currency" :error="$errors->first('rcpt_currency')" :required="$this->rcpt_amount">
