@@ -507,5 +507,6 @@
     "missions": "missions",
     "purchases": "achats divers hors mission",
     "orders": "commandes",
-    "Related expenses": "Frais liés"
+    "Related expenses": "Frais liés",
+    "Related expenses of mission": "Frais liés à la mission"
 }
