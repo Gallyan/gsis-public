@@ -108,19 +108,19 @@
             <x-slot name="title">{{ isset($this->editing->id) ? __('Edit Institution') : __('Create Institution') }}</x-slot>
 
             <x-slot name="content">
-                <x-input.group for="name" label="Name" :error="$errors->first('editing.name')" required>
+                <x-input.group paddingless borderless class="sm:py-1" for="name" label="Name" :error="$errors->first('editing.name')" required>
                     <x-input.text wire:model="editing.name" id="name" placeholder="{{ __('Name') }}" />
                 </x-input.group>
 
-                <x-input.group for="contract" label="Contract" :error="$errors->first('editing.contract')" required>
+                <x-input.group paddingless borderless class="sm:py-1" for="contract" label="Contract" :error="$errors->first('editing.contract')" required>
                     <x-input.text wire:model="editing.contract" id="contract" placeholder="{{ __('Contract') }}" />
                 </x-input.group>
 
-                <x-input.group for="allocation" label="Allocation" :error="$errors->first('editing.allocation')" required>
+                <x-input.group paddingless borderless class="sm:py-1" for="allocation" label="Allocation" :error="$errors->first('editing.allocation')" required>
                     <x-input.text wire:model="editing.allocation" id="allocation" placeholder="{{ __('Allocation') }}" />
                 </x-input.group>
 
-                <x-input.group label="WP" :error="$errors->first('editing.wp')">
+                <x-input.group paddingless borderless class="sm:py-1" label="WP" :error="$errors->first('editing.wp')">
                     <x-input.checkbox wire:model="editing.wp" id="wp">{{ __('wp-checkbox') }}</x-input.checkbox>
                 </x-input.group>
             </x-slot>
