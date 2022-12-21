@@ -551,7 +551,6 @@ class EditMission extends Component
     {
         return Mission::make([
             'user_id'        => Auth()->id(),
-            'hotels'         => [],
             'status'         => 'draft',
             'dest_country'   => 'FR',
             'conference'     => false,
