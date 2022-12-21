@@ -1,5 +1,10 @@
 <div class="relative">
-    <form wire:submit.prevent="save" wire:reset.prevent="init">
+    <form
+        wire:submit.prevent="save"
+        wire:reset.prevent="init"
+        x-data="{ dirty : @entangle( 'modified' ) }"
+        x-init="window.addEventListener('beforeunload', function(e) { if(dirty) { e.preventDefault(); e.returnValue = ''; } });"
+    >
         @csrf
 
         <x-stickytopbar title="{{ __('Mission') }} {{ $mission->id }}" :modified="$modified" :disabled="$disabled" />
@@ -11,6 +16,23 @@
             });
         </script>
 @endpush
+
+        <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+            <ul class="flex flex-wrap -mb-px">
+                <li class="mr-2">
+                    <a class="inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active cursor-pointer">{{ __('Mission') }}</a>
+                </li>
+                @if ( $mission->id && Route::has('edit-expense') )
+                <li class="mr-2">
+                    <a href="{{ route( 'edit-expense', [$mission] ) }}" class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300">{{ __('Expenses') }}</a>
+                </li>
+                @else
+                <li>
+                    <a class="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed">{{ __('Expenses') }}</a>
+                </li>
+                @endif
+            </ul>
+        </div>
 
         <div class="mt-6 sm:mt-5">
             @can('manage-users')
@@ -49,7 +71,7 @@
             </x-input.group>
 
             <x-input.group label="Purpose of the mission" for="subject" :error="$errors->first('mission.subject')" required>
-                <x-input.text wire:model.debounce.500ms="mission.subject" id="subject" leading-add-on="" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="mission.subject" id="subject" :disabled="$disabled" />
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('mission.status')" helpText="{!! __('helptext-status') !!}" required>
@@ -64,7 +86,7 @@
 
             @if ( in_array( $mission->status, ['in-progress','processed','cancelled'] ) )
             <x-input.group label="MO number" for="om" :error="$errors->first('mission.om')">
-                <x-input.text wire:model.debounce.500ms="mission.om" id="om" leading-add-on="" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="mission.om" id="om" :disabled="$disabled" />
             </x-input.group>
             @endif
 
@@ -154,7 +176,7 @@
             </x-input.group>
 
             <x-input.group label="City" for="dest_city" :error="$errors->first('mission.dest_city')" required>
-                <x-input.text wire:model.debounce.500ms="mission.dest_city" id="dest_city" leading-add-on="" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="mission.dest_city" id="dest_city" leadingIcon="location" :disabled="$disabled" />
             </x-input.group>
 
             <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required>
@@ -469,7 +491,7 @@
             <x-slot name="title">@lang('Edit ticket')</x-slot>
 
             <x-slot name="content">
-                <x-input.group label="Direction" for="ticket_direction" :error="$errors->first('ticket_direction')" required >
+                <x-input.group paddingless borderless class="sm:py-1" label="Direction" for="ticket_direction" :error="$errors->first('ticket_direction')" required >
                     <x-input.radiobar
                         id="ticket_direction"
                         wire:model="ticket_direction"
@@ -478,18 +500,20 @@
                     />
                 </x-input.group>
 
-                <x-input.group label="Travel mode" for="ticket_mode" :error="$errors->first('ticket_mode')" required >
+                <x-input.group paddingless borderless class="sm:py-1" label="Travel mode" for="ticket_mode" :error="$errors->first('ticket_mode')" required >
                     <x-input.select wire:model="ticket_mode" id="ticket_mode" class="w-full" placeholder="{{ __('Select travel mode...') }}" >
+                        <x-slot name="leadingAddOn"><x-icon.rocket class="text-gray-400" /></x-slot>
+
                         <option value="Flight">{{ __('Flight') }}</option>
                         <option value="Train">{{ __('Train') }}</option>
                     </x-input.select>
                 </x-input.group>
 
-                <x-input.group label="Flight/Train No." for="ticket_number" :error="$errors->first('ticket_number')" >
-                    <x-input.text wire:model.lazy="ticket_number" id="ticket_number" class="text-gray-700" />
+                <x-input.group paddingless borderless class="sm:py-1" label="Flight/Train No." for="ticket_number" :error="$errors->first('ticket_number')" >
+                    <x-input.text wire:model.lazy="ticket_number" id="ticket_number" leadingIcon="ticket" />
                 </x-input.group>
 
-                <x-input.group label="Date" innerclass="sm:flex" required >
+                <x-input.group paddingless borderless class="sm:py-1" label="Date" innerclass="sm:flex" required >
                     <x-input.group for="ticket_date" :error="$errors->first('ticket_date')" class="sm:w-1/2" inline>
                         <x-input.date wire:model.lazy="ticket_date" id="ticket_date" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
@@ -498,12 +522,12 @@
                     </x-input.group>
                 </x-input.group>
 
-                <x-input.group label="City of departure" for="ticket_from" :error="$errors->first('ticket_from')" required>
-                    <x-input.text wire:model.lazy="ticket_from " id="ticket_from" class="text-gray-700" />
+                <x-input.group paddingless borderless class="sm:py-1" label="City of departure" for="ticket_from" :error="$errors->first('ticket_from')" required>
+                    <x-input.text wire:model.lazy="ticket_from " id="ticket_from" leadingIcon="location" />
                 </x-input.group>
 
-                <x-input.group label="City of arrival" for="ticket_to" :error="$errors->first('ticket_to')" required >
-                    <x-input.text wire:model.lazy="ticket_to " id="ticket_to" class="text-gray-700" />
+                <x-input.group paddingless borderless class="sm:py-1" label="City of arrival" for="ticket_to" :error="$errors->first('ticket_to')" required >
+                    <x-input.text wire:model.lazy="ticket_to " id="ticket_to" leadingIcon="location" />
                 </x-input.group>
             </x-slot>
 
@@ -523,19 +547,19 @@
             <x-slot name="title">@lang('Edit hotel')</x-slot>
 
             <x-slot name="content">
-                <x-input.group label="Name" for="hotel_name" :error="$errors->first('hotel_name')" >
-                    <x-input.text wire:model.lazy="hotel_name" id="hotel_name" class="text-gray-700" />
+                <x-input.group paddingless borderless class="sm:py-1" label="Name" for="hotel_name" :error="$errors->first('hotel_name')" >
+                    <x-input.text wire:model.lazy="hotel_name" id="hotel_name" leadingIcon="building" />
                 </x-input.group>
 
-                <x-input.group label="City" for="hotel_city" :error="$errors->first('hotel_city')" >
-                    <x-input.text wire:model.lazy="hotel_city" id="hotel_city" class="text-gray-700" />
+                <x-input.group paddingless borderless class="sm:py-1" label="City" for="hotel_city" :error="$errors->first('hotel_city')" >
+                    <x-input.text wire:model.lazy="hotel_city" id="hotel_city" leadingIcon="location" />
                 </x-input.group>
 
-                <x-input.group label="Start" for="hotel_start" :error="$errors->first('hotel_start')" >
+                <x-input.group paddingless borderless class="sm:py-1" label="Start" for="hotel_start" :error="$errors->first('hotel_start')" >
                     <x-input.date wire:model.lazy="hotel_start" id="hotel_start" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
 
-                <x-input.group label="End" for="hotel_end" :error="$errors->first('hotel_end')" >
+                <x-input.group paddingless borderless class="sm:py-1" label="End" for="hotel_end" :error="$errors->first('hotel_end')" >
                     <x-input.date wire:model.lazy="hotel_end" id="hotel_end" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
             </x-slot>
@@ -556,7 +580,7 @@
             <x-slot name="title">@lang('Edit expected extra costs')</x-slot>
 
             <x-slot name="content">
-                <x-input.group label="Meal" for="extra_meal" :error="$errors->first('extra_meal')">
+                <x-input.group paddingless borderless class="sm:py-1" label="Meal" for="extra_meal" :error="$errors->first('extra_meal')">
                     <x-input.radiobar
                         id="extra_meal"
                         wire:model="extra_meal"
@@ -565,7 +589,7 @@
                     />
                 </x-input.group>
 
-                <x-input.group label="Extra">
+                <x-input.group paddingless borderless class="sm:py-1" label="Extra">
                     <x-input.group :error="$errors->first('extra_taxi')" inline>
                         <x-input.checkbox wire:model="extra_taxi" id="extra_taxi" for="extra_taxi">
                             {{ __('Taxi') }}
@@ -623,8 +647,8 @@
                     @endempty
                 </x-input.group>
 
-                <x-input.group label="Others" for="extra_others" :error="$errors->first('extra_others')">
-                    <x-input.textarea wire:model.lazy="extra_others" id="extra_others" rows="5" class="text-gray-700" />
+                <x-input.group paddingless borderless class="sm:py-1" label="Others" for="extra_others" :error="$errors->first('extra_others')">
+                    <x-input.textarea wire:model.lazy="extra_others" id="extra_others" rows="5" leadingIcon="chat"/>
                 </x-input.group>
             </x-slot>
 
