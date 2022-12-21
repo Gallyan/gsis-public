@@ -47,7 +47,7 @@
             </x-input.group>
 
             <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required helpText="helptext-order-subject">
-                <x-input.text wire:model.debounce.500ms="order.subject" id="subject" leading-add-on="" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="order.subject" id="subject" :disabled="$disabled" />
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('order.status')" helpText="{!! __('helptext-order-status') !!}" required>
@@ -75,7 +75,7 @@
             </x-input.group>
 
             <x-input.group label="Supplier" for="supplier" :error="$errors->first('order.supplier')">
-                <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" leading-add-on="" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" :disabled="$disabled" />
             </x-input.group>
 
             @php

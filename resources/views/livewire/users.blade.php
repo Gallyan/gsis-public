@@ -189,7 +189,7 @@
                 </x-input.group>
 
                 <x-input.group label="Phone" for="phone" :error="$errors->first('editing.phone')">
-                    <x-input.phone wire:model.debounce.500ms="editing.phone" id="phone" leading-add-on="" />
+                    <x-input.phone wire:model.debounce.500ms="editing.phone" id="phone" />
                 </x-input.group>
 
                 @can('manage-roles')

@@ -28,7 +28,7 @@
             </x-input.group>
 
             <x-input.group label="Email" for="email" :error="$errors->first('user.email')" helpText="{{ isset($user->getDirty()['email']) ? __('helptext-user-change-email') : '' }}" required>
-                <x-input.email wire:model.debounce.500ms="user.email" id="email" leading-add-on="" :verified="$user->verified" />
+                <x-input.email wire:model.debounce.500ms="user.email" id="email" :verified="$user->verified" />
             </x-input.group>
 
             <x-input.group label="Employer" for="employer" :error="$errors->first('user.employer')">
@@ -38,7 +38,7 @@
             </x-input.group>
 
             <x-input.group label="Phone" for="phone" :error="$errors->first('user.phone')">
-                <x-input.phone wire:model.debounce.500ms="user.phone" id="phone" leading-add-on="" />
+                <x-input.phone wire:model.debounce.500ms="user.phone" id="phone" />
             </x-input.group>
 
             <x-input.group label="Photo" for="photo" :error="$errors->first('upload')" innerclass="flex space-x-6">

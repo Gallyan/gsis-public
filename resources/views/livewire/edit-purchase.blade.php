@@ -47,7 +47,7 @@
             </x-input.group>
 
             <x-input.group label="Subject" for="subject" :error="$errors->first('purchase.subject')" required>
-                <x-input.text wire:model.debounce.500ms="purchase.subject" id="subject" leading-add-on="" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="purchase.subject" id="subject" :disabled="$disabled" />
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('purchase.status')" helpText="{!! __('helptext-purchase-status') !!}" required>
