@@ -24,7 +24,7 @@
                                 @csrf
                                 <x-input.textarea wire:model.debounce.500ms="body" id="body" rows="5" leadingIcon="chat" />
                                 <x-button.secondary class="mt-2" type="submit" wire:offline.attr="disabled">
-                                    <span wire:loading.remove.delay.shorter wire:target="save"><x-icon.paperplane class="filter brightness-200 mr-1" />{{ __('Add Message') }}</span>
+                                    <span wire:loading.remove.delay.shorter wire:target="save"><x-icon.paperplane class="brightness-200 mr-1" />{{ __('Add Message') }}</span>
                                     <span wire:loading.delay.shorter wire:target="save" class="invisible"><x-icon.paperplane />{{ __('Add Message') }}</span>
                                     <div wire:loading.delay.shorter wire:target="save" class="w-full float-left -mt-6"><x-icon.loading class="mx-auto w-6 h-6"/></div>
                                 </x-button.secondary>

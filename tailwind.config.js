@@ -1,6 +1,8 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
+    mode: 'jit',
+
     purge: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
@@ -31,19 +33,6 @@ module.exports = {
                 '95vh': '95vh',
             }
         },
-    },
-
-    variants: {
-        extend: {
-            backgroundColor: ['active','disabled'],
-            textColor: ['active','disabled'],
-            borderColor : ['focus'],
-            outlineColor : ['focus'],
-            outlineOffset : ['focus'],
-            outlineWidth : ['focus'],
-            opacity: ['disabled','hover'],
-            cursor: ['disabled'],
-        }
     },
 
     plugins: [require('@tailwindcss/forms')],
