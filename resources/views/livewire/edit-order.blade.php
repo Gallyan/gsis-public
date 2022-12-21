@@ -1,5 +1,10 @@
 <div class="relative">
-    <form wire:submit.prevent="save" wire:reset.prevent="init">
+    <form
+        wire:submit.prevent="save"
+        wire:reset.prevent="init"
+        x-data="{ dirty : @entangle( 'modified' ) }"
+        x-init="window.addEventListener('beforeunload', function(e) { if(dirty) { e.preventDefault(); e.returnValue = ''; } });"
+    >
         @csrf
 
         <x-stickytopbar title="{{ __('Purchase Order') }} {{ $order->id }}" :modified="$modified" :disabled="$disabled" />
