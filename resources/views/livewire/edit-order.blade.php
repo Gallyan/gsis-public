@@ -194,7 +194,7 @@
                 </x-table>
 
                 @if (!$disabled)
-                <x-button.secondary wire:click="$set('showModal', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add book') }}</x-button.primary>
+                <x-button.secondary wire:click="$set('showModal', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add book') }}</x-button.secondary>
                 @endif
 
             </x-input.group>
@@ -257,7 +257,7 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-button.primary wire:click="$toggle('showInformationMessage')">{{ __('Ok') }}</x-button.secondary>
+            <x-button.primary wire:click="$toggle('showInformationMessage')">{{ __('Ok') }}</x-button.primary>
         </x-slot>
     </x-modal.information>
 

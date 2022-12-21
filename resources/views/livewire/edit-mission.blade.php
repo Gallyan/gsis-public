@@ -300,7 +300,7 @@
                 @endif
 
                 @if (!$disabled)
-                <x-button.secondary wire:click="$set('showTicket', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add ticket') }}</x-button.primary>
+                <x-button.secondary wire:click="$set('showTicket', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add ticket') }}</x-button.secondary>
                 @endif
 
             @else
@@ -369,7 +369,7 @@
                 </x-table>
 
                 @if (!$disabled)
-                <x-button.secondary wire:click="$set('showHotel', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add hotel') }}</x-button.primary>
+                <x-button.secondary wire:click="$set('showHotel', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add hotel') }}</x-button.secondary>
                 @endif
 
             @else
@@ -407,7 +407,7 @@
                 @endif
 
                 @if (!$disabled)
-                <x-button.secondary wire:click="edit_extra" @class(['mt-4'=>!is_null($mission->extra)]) :disabled="$disabled"><x-icon.pencil/> {{ __('Edit expected extra costs') }}</x-button.primary>
+                <x-button.secondary wire:click="edit_extra" @class(['mt-4'=>!is_null($mission->extra)]) :disabled="$disabled"><x-icon.pencil/> {{ __('Edit expected extra costs') }}</x-button.secondary>
                 @endif
 
                 @if ($disabled && is_null( $mission->extra ) )
@@ -677,7 +677,7 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-button.primary wire:click="$toggle('showInformationMessage')">{{ __('Ok') }}</x-button.secondary>
+            <x-button.primary wire:click="$toggle('showInformationMessage')">{{ __('Ok') }}</x-button.primary>
         </x-slot>
     </x-modal.information>
 

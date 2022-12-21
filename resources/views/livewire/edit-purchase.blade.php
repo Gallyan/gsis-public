@@ -161,7 +161,7 @@
                 </x-table>
 
                 @if (!$disabled)
-                <x-button.secondary wire:click="$set('showModal', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add purchase') }}</x-button.primary>
+                <x-button.secondary wire:click="$set('showModal', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add purchase') }}</x-button.secondary>
                 @endif
 
             </x-input.group>
@@ -267,7 +267,7 @@
                                 </x-table>
 
                                 @if (!$disabled)
-                                <x-button.secondary wire:click="show_guest({{$loop->index}})" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add guest') }}</x-button.primary>
+                                <x-button.secondary wire:click="show_guest({{$loop->index}})" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add guest') }}</x-button.secondary>
                                 @endif
 
                             </x-table.cell>
@@ -300,7 +300,7 @@
                                 @else
 
                                 @if (!$disabled)
-                                <x-button.secondary wire:click="show_list({{$loop->index}})" :disabled="$disabled"><x-icon.plus/> {{ __('Add file') }}</x-button.primary>
+                                <x-button.secondary wire:click="show_list({{$loop->index}})" :disabled="$disabled"><x-icon.plus/> {{ __('Add file') }}</x-button.secondary>
                                 @endif
 
                                 @endif
@@ -339,7 +339,7 @@
                 @endforelse
 
                 @if (!$disabled)
-                <x-button.secondary wire:click="$set('showReception', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add reception') }}</x-button.primary>
+                <x-button.secondary wire:click="$set('showReception', true)" class="mt-4" :disabled="$disabled"><x-icon.plus/> {{ __('Add reception') }}</x-button.secondary>
                 @endif
 
             </x-input.group>

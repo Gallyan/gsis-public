@@ -203,7 +203,7 @@
         <x-slot name="footer">
             <x-button.secondary wire:click="close_modal">{{ __('Cancel') }}</x-button.secondary>
 
-            <x-button class="bg-red-600 hover:bg-red-500 active:bg-red-700" wire:click="del_doc({{ $showDeleteModal }})">{{ __('Delete') }}</x-button.primary>
+            <x-button class="bg-red-600 hover:bg-red-500 active:bg-red-700" wire:click="del_doc({{ $showDeleteModal }})">{{ __('Delete') }}</x-button>
         </x-slot>
     </x-modal.dialog>
 
