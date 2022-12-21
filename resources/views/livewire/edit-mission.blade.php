@@ -28,7 +28,7 @@
                 </li>
                 @else
                 <li>
-                    <a class="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed">{{ __('Expenses') }}</a>
+                    <a class="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed">{{ __('Related expenses') }}</a>
                 </li>
                 @endif
             </ul>
