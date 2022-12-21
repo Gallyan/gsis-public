@@ -5,9 +5,7 @@
         <!-- Top Bar -->
         <div class="flex justify-between flex-wrap gap-2">
             <div class="flex space-x-2">
-                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}">
-                    <x-slot name="leadingAddOn"><x-icon.magnifier class="text-gray-400"/></x-slot>
-                </x-input.text>
+                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" leadingIcon="magnifier" />
 
                 <x-button.link wire:click="toggleShowFilters">@if ($showFilters) {{ __('Hide') }} @endif {{ __('Advanced Search') }}...</x-button.link>
             </div>
@@ -51,9 +49,7 @@
                 <div class="sm:w-1/2 w-full sm:pl-2 space-y-4 pt-4 sm:pt-2">
                     @can('manage-users')
                     <x-input.group inline for="filter-user" label="User">
-                        <x-input.text wire:model.debounce.500ms="filters.user" id="filter-user">
-                            <x-slot name="leadingAddOn"><x-icon.user /></x-slot>
-                        </x-input.text>
+                        <x-input.text wire:model.debounce.500ms="filters.user" id="filter-user" leadingIcon="user" />
                     </x-input.group>
                     @endcan
 

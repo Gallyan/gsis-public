@@ -6,15 +6,11 @@
 
         <div class="mt-6 sm:mt-5">
             <x-input.group label="First Name" for="firstname" :error="$errors->first('user.firstname')" required borderless>
-                <x-input.text wire:model.debounce.500ms="user.firstname" id="firstname">
-                    <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
-                </x-input.text>
+                <x-input.text wire:model.debounce.500ms="user.firstname" id="firstname" leadingIcon="identity" />
             </x-input.group>
 
             <x-input.group label="Last Name" for="lastname" :error="$errors->first('user.lastname')" required>
-                <x-input.text wire:model.debounce.500ms="user.lastname" id="lastname">
-                    <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
-                </x-input.text>
+                <x-input.text wire:model.debounce.500ms="user.lastname" id="lastname" leadingIcon="identity" />
             </x-input.group>
 
             <x-input.group label="Birthday" for="birthday" :error="$errors->first('user.birthday')" required>
@@ -22,9 +18,7 @@
             </x-input.group>
 
             <x-input.group label="Birthplace" for="birthplace" :error="$errors->first('user.birthplace')" required>
-                <x-input.text wire:model.debounce.500ms="user.birthplace" id="birthplace">
-                    <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
-                </x-input.text>
+                <x-input.text wire:model.debounce.500ms="user.birthplace" id="birthplace" leadingIcon="city" />
             </x-input.group>
 
             <x-input.group label="Email" for="email" :error="$errors->first('user.email')" helpText="{{ isset($user->getDirty()['email']) ? __('helptext-user-change-email') : '' }}" required>
@@ -32,9 +26,7 @@
             </x-input.group>
 
             <x-input.group label="Employer" for="employer" :error="$errors->first('user.employer')">
-                <x-input.text wire:model.lazy="user.employer" id="employer">
-                    <x-slot name="leadingAddOn"><x-icon.company /></x-slot>
-                </x-input.text>
+                <x-input.text wire:model.lazy="user.employer" id="employer" leadingIcon="company" />
             </x-input.group>
 
             <x-input.group label="Phone" for="phone" :error="$errors->first('user.phone')">

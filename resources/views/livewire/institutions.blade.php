@@ -5,9 +5,7 @@
         <!-- Top Bar -->
         <div class="flex justify-between flex-wrap gap-2">
             <div class="flex space-x-2">
-                <x-input.text wire:model="search" placeholder="{{ __('Search...') }}">
-                    <x-slot name="leadingAddOn"><x-icon.magnifier class="text-gray-400"/></x-slot>
-                </x-input.text>
+                <x-input.text wire:model="search" placeholder="{{ __('Search...') }}" leadingIcon="magnifier" />
             </div>
 
             <div class="space-x-2 flex items-center">

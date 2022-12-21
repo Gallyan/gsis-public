@@ -5,9 +5,7 @@
         <!-- Top Bar -->
         <div class="flex justify-between flex-wrap gap-2">
             <div class="flex space-x-2">
-                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}">
-                    <x-slot name="leadingAddOn"><x-icon.magnifier class="text-gray-400"/></x-slot>
-                </x-input.text>
+                <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" leadingIcon="magnifier" />
 
                 <x-button.link wire:click="toggleShowFilters">@if ($showFilters) {{ __('Hide') }} @endif {{ __('Advanced Search') }}...</x-button.link>
             </div>
@@ -163,15 +161,11 @@
 
             <x-slot name="content">
                 <x-input.group for="lastname" label="Last Name" :error="$errors->first('editing.lastname')" required>
-                    <x-input.text wire:model="editing.lastname" id="lastname" placeholder="{{ __('Last Name') }}">
-                        <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
-                    </x-input.text>
+                    <x-input.text wire:model="editing.lastname" id="lastname" placeholder="{{ __('Last Name') }}" leadingIcon="identity" />
                 </x-input.group>
 
                 <x-input.group for="firstname" label="First Name" :error="$errors->first('editing.firstname')" required>
-                    <x-input.text wire:model="editing.firstname" id="firstname" placeholder="{{ __('First Name') }}">
-                        <x-slot name="leadingAddOn"><x-icon.identity /></x-slot>
-                    </x-input.text>
+                    <x-input.text wire:model="editing.firstname" id="firstname" placeholder="{{ __('First Name') }}" leadingIcon="identity" />
                 </x-input.group>
 
                 <x-input.group for="birthday" label="Birthday" :error="$errors->first('editing.birthday')" required>
@@ -183,9 +177,7 @@
                 </x-input.group>
 
                 <x-input.group for="employer" label="Employer" :error="$errors->first('editing.employer')">
-                    <x-input.text wire:model="editing.employer" id="employer" placeholder="{{ __('Employer') }}">
-                        <x-slot name="leadingAddOn"><x-icon.company /></x-slot>
-                    </x-input.text>
+                    <x-input.text wire:model="editing.employer" id="employer" placeholder="{{ __('Employer') }}" leadingIcon="company" />
                 </x-input.group>
 
                 <x-input.group label="Phone" for="phone" :error="$errors->first('editing.phone')">
