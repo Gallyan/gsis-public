@@ -18,7 +18,7 @@
             </x-input.group>
 
             <x-input.group label="Birthplace" for="birthplace" :error="$errors->first('user.birthplace')" required>
-                <x-input.text wire:model.debounce.500ms="user.birthplace" id="birthplace" leadingIcon="city" />
+                <x-input.text wire:model.debounce.500ms="user.birthplace" id="birthplace" leadingIcon="location" />
             </x-input.group>
 
             <x-input.group label="Email" for="email" :error="$errors->first('user.email')" helpText="{{ isset($user->getDirty()['email']) ? __('helptext-user-change-email') : '' }}" required>
