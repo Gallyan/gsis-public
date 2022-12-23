@@ -3,5 +3,5 @@
         <x-icon.coins />
     </span>
 
-    <input {{ $attributes }} type="number" step="0.01" class="form-input border-gray-300 block w-full text-gray-700 transition duration-150 ease-in-out sm:text-sm sm:leading-5 rounded-r-md" placeholder="0,00" aria-describedby="price-currency">
+    <input {{ $attributes->merge(['class' => "form-input border-gray-300 block w-full text-gray-700 transition duration-150 ease-in-out sm:text-sm sm:leading-5 rounded-r-md"]) }} type="number" step="0.01" placeholder="0,00" aria-describedby="price-currency">
 </div>
