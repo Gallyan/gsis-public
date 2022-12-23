@@ -508,5 +508,10 @@
     "purchases": "achats divers hors mission",
     "orders": "commandes",
     "Related expenses": "Frais liés",
-    "Related expenses of mission": "Frais liés à la mission"
+    "Related expenses of mission": "Frais liés à la mission",
+    "No meals...": "Aucun repas...",
+    "Lunch": "Déjeuner",
+    "Dinner": "Dîner",
+    "Add meal": "Ajouter un repas",
+    "Meals at actual cost": "Repas au frais réels"
 }
