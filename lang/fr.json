@@ -499,9 +499,12 @@
     "Amount of registration paid by the institution": "Montant de l'inscription payé par l'institution",
     "The :attribute field is required.": "Le champ :attribute est obligatoire.",
     "No accomodation...": "Aucun hébergement...",
-    "Add hotel": "Ajouter un hotel",
+    "Add hotel": "Ajouter un hôtel",
+    "Edit hotel": "Editer un hôtel",
     "Start": "Du",
     "End": "Au",
+    "start date": "date de départ",
+    "end date": "date de fin",
     "helptext-conf-amount": "Merci de créer également une <a href=\"/order\" target=\"_blank\" class=\"underline text-blue-500\">demande dans l'onglet Commandes</a> pour cette inscription.",
     "This is a no-cost mission.": "Il s'agit d'une mission sans frais.",
     "missions": "missions",
@@ -513,5 +516,7 @@
     "Lunch": "Déjeuner",
     "Dinner": "Dîner",
     "Add meal": "Ajouter un repas",
-    "Meals at actual cost": "Repas au frais réels"
+    "Meals at actual cost": "Repas au frais réels",
+    "Without": "Sans",
+    "With": "Avec"
 }
