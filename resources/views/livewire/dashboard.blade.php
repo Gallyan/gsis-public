@@ -48,7 +48,7 @@
         <div class="mx-auto col-span-full w-full">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white text-md">
-                    {{ __('Vous avez déclaré') }}
+                    {{ __('You have stated') }}
                     {{ count($user->missions) }} {{ __('missions') }},
                     {{ count($user->purchases) }} {{ __('purchases') }},
                     {{ count($user->orders) }} {{ __('orders') }}.
