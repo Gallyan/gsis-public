@@ -36,7 +36,7 @@
                 <x-slot name="body">
                     @forelse ($institutions as $institution)
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}" class="cursor-pointer hover:bg-gray-50"  wire:click="edit({{ $institution->id }})">
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5" >
                                 <p class="text-gray-600 truncate">
                                     {{ $institution->name }}
@@ -44,7 +44,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
                                     {{ $institution->contract }}
@@ -52,7 +52,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
                                     {{ $institution->allocation }}
@@ -60,7 +60,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
                                     @if ($institution->wp)
@@ -72,7 +72,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
                                     {{ $institution->date_for_humans }}

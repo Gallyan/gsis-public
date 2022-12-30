@@ -110,15 +110,15 @@
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
-                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    <p class="text-cool-gray-600 truncate">
+                            <x-table.cell class="whitespace-normal cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5 max-w-xs">
+                                    <p class="text-cool-gray-600">
                                         {{ $misc['supplier'] ?? '' }}
                                     </p>
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
+                            <x-table.cell class="whitespace-nowrap text-center cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                     <p class="text-cool-gray-600 truncate">
                                         @isset ($misc['date'])
@@ -128,7 +128,7 @@
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
+                            <x-table.cell class="whitespace-nowrap text-center cursor-pointer" wire:click="edit_misc({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                     <p class="text-cool-gray-600 truncate">
                                         @if (isset($misc['miscamount']) && !empty($misc['miscamount']))
@@ -139,7 +139,7 @@
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="text-center max-w-4">
+                            <x-table.cell class="whitespace-nowrap text-center max-w-4">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_misc({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
@@ -237,7 +237,7 @@
                                                 </span>
                                             </x-table.cell>
 
-                                            <x-table.cell class="cursor-pointer" wire:click="edit_guest({{ $loop->parent->index }},{{ $loop->index }})">
+                                            <x-table.cell class="whitespace-normal cursor-pointer" wire:click="edit_guest({{ $loop->parent->index }},{{ $loop->index }})">
                                                 <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                                     <p class="text-cool-gray-600 truncate">
                                                         {{ $guest['guest_establishment'] ?? '' }}

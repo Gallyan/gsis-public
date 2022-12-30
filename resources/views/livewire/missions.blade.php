@@ -100,16 +100,16 @@
                 <x-slot name="body">
                     @forelse ($missions as $mission)
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $mission->id }}" wire:click="edit({{ $mission->id }})" class="cursor-pointer hover:bg-cool-gray-50">
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-normal">
                             <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate max-w-lg" title="{{ $mission->subject }}">
+                                <p class="text-cool-gray-600" title="{{ $mission->subject }}">
                                     {{ $mission->subject }}
                                 </p>
                             </span>
                         </x-table.cell>
 
                         @can ('manage-users')
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate" title="{{ $mission->firstname }} {{ $mission->lastname }}">
                                     {{ $mission->firstname }} {{ $mission->lastname }}
@@ -118,17 +118,16 @@
                         </x-table.cell>
                         @endcan
 
-                        <x-table.cell>
-                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-100">
+                        <x-table.cell class="whitespace-nowrap">
+                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-[180px]">
                                 <p class="text-cool-gray-600 truncate" title="{{ $mission->ins_name }} / {{ $mission->ins_contract }}">
                                     {{ $mission->ins_name }} / {{ $mission->ins_contract }}
                                 </p>
-                            </span>
                         </x-table.cell>
 
-                        <x-table.cell>
-                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-100">
-                                <p class="text-cool-gray-600 break-all">
+                        <x-table.cell class="whitespace-normal">
+                            <span class="inline-flex space-x-2 text-sm leading-5">
+                                <p class="text-cool-gray-600 break-words">
                                     @foreach ($mission->managers->pluck('user_id')->unique() as $id)
                                         {{ $allmanagers[$id] }}<br />
                                     @endforeach
@@ -136,7 +135,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ __(App\Models\Mission::STATUSES[$mission->status]) }}
@@ -144,7 +143,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span
                                 class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600"
                                 title="{{ $mission->created_at }}"

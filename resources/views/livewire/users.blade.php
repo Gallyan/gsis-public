@@ -86,8 +86,8 @@
 
                 <x-slot name="body">
                     @forelse ($users as $user)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-gray-50">
-                        <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-gray-50 cursor-pointer">
+                        <x-table.cell wire:click="edit({{ $user->id }})" class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center">
                                 <img class="inline-block h-6 w-6 rounded-full text-xs text-gray-500 truncate" src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}">
                                 <p class="text-gray-600 truncate">
@@ -96,7 +96,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
+                        <x-table.cell wire:click="edit({{ $user->id }})" class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
                                     {{ $user->email }}
@@ -113,7 +113,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
+                        <x-table.cell wire:click="edit({{ $user->id }})" class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
                                     {{ ucwords( $user->roles->pluck('name')->map(function ($item, $key) { return __($item); })->implode(', ') ) }}
@@ -121,7 +121,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell wire:click="edit({{ $user->id }})" class="cursor-pointer">
+                        <x-table.cell wire:click="edit({{ $user->id }})" class="whitespace-nowrap">
                             <span
                                 class="inline-flex space-x-2 truncate text-sm leading-5"
                                 title="{{ $user->created_at }}"

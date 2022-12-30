@@ -100,16 +100,16 @@
                 <x-slot name="body">
                     @forelse ($orders as $order)
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer hover:bg-cool-gray-50">
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-normal">
                             <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate max-w-lg" title="{{ $order->subject }}">
+                                <p class="text-cool-gray-600" title="{{ $order->subject }}">
                                     {{ $order->subject }}
                                 </p>
                             </span>
                         </x-table.cell>
 
                         @can ('manage-users')
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate" title="{{ $order->firstname }} {{ $order->lastname }}">
                                     {{ $order->firstname }} {{ $order->lastname }}
@@ -118,15 +118,15 @@
                         </x-table.cell>
                         @endcan
 
-                        <x-table.cell>
-                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-100">
+                        <x-table.cell class="whitespace-nowrap">
+                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-[180px]">
                                 <p class="text-cool-gray-600 truncate" title="{{ $order->ins_name }} / {{ $order->ins_contract }}">
                                     {{ $order->ins_name }} / {{ $order->ins_contract }}
                                 </p>
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 text-sm leading-5 max-w-100">
                                 <p class="text-cool-gray-600 break-all">
                                     @foreach ($order->managers->pluck('user_id')->unique() as $id)
@@ -136,7 +136,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
                                     {{ __(App\Models\Order::STATUSES[$order->status]) }}
@@ -144,7 +144,7 @@
                             </span>
                         </x-table.cell>
 
-                        <x-table.cell>
+                        <x-table.cell class="whitespace-nowrap">
                             <span
                                 class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600"
                                 title="{{ $order->created_at }}"

@@ -148,31 +148,31 @@
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    <p class="text-cool-gray-600 truncate">
+                            <x-table.cell class="whitespace-normal cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600">
                                         {{ $book['author'] ?? '' }}
                                     </p>
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    <p class="text-cool-gray-600 truncate">
+                            <x-table.cell class="whitespace-nowrap text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600">
                                         {{ $book['isbn'] ?? '' }}
                                     </p>
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
-                                <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                    <p class="text-cool-gray-600 truncate">
+                            <x-table.cell class="whitespace-nowrap text-center cursor-pointer" wire:click="edit_book({{ $loop->iteration }})">
+                                <span class="inline-flex space-x-2 text-sm leading-5">
+                                    <p class="text-cool-gray-600">
                                         {{ isset( $book['edition'] ) ? ucfirst(__($book['edition'])) : '' }}
                                     </p>
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="text-center">
+                            <x-table.cell class="whitespace-nowrap text-center">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_book({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />

@@ -7,12 +7,11 @@
     'paddingless' => false,
     'borderless' => false,
     'required' => false,
-    'class' => '',
     'innerclass' => '',
 ])
 
 @if($inline)
-    <div class="{{ $class }}">
+    <div {{ $attributes->only(['class']) }}>
         @if($label)
         <label for="{{ $for }}" class="block text-sm font-medium leading-5 text-gray-700 ml-1 {{ $required ? 'required' : '' }}">{!! __($label) !!}</label>
         @endif
@@ -36,7 +35,12 @@
         </div>
     </div>
 @else
-    <div class="sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start {{ $borderless ? '' : ' sm:border-t ' }} sm:border-gray-200 {{ $paddingless ? '' : ' sm:py-5 ' }} {{ $class }}">
+    @php
+        $classes = "sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-gray-200";
+        if (!$borderless) $classes .= " sm:border-t";
+        if (!$paddingless) $classes .= " sm:py-5";
+    @endphp
+    <div {{ $attributes->only(['class'])->merge(['class' => $classes]) }}>
         @if($label)
         <label for="{{ $for }}" class="block text-sm font-bold sm:font-medium leading-5 text-gray-700 sm:mt-px pt-4 sm:pt-0 {{ $required ? 'required' : '' }}">{!! __($label) !!}</label>
         @endif

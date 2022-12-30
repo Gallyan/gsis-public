@@ -108,7 +108,7 @@ class EditMission extends Component
         'hotel_name'  => 'required|string',
         'hotel_city'  => 'required|string',
         'hotel_start' => 'required|date',
-        'hotel_end'   => 'required|date',
+        'hotel_end'   => 'required|date|after:hotel_start',
     ]; }
 
     protected function validationAttributes() { return [
@@ -137,8 +137,8 @@ class EditMission extends Component
         'ticket_to'              => __('City of arrival'),
         'hotel_name'             => __('Name'),
         'hotel_city'             => __('City'),
-        'hotel_start'            => __('Start'),
-        'hotel_end'              => __('End'),
+        'hotel_start'            => __('start date'),
+        'hotel_end'              => __('end date'),
     ]; }
 
     protected function extra_rules() { return [
