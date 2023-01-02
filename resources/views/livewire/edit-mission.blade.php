@@ -251,7 +251,10 @@
                             <x-table.cell class="whitespace-normal text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 text-sm leading-5">
                                     <p class="text-cool-gray-600">
-                                        {{ $ticket['ticket_date'] ?? '' }} {{ $ticket['ticket_time'] ?? '' }}
+                                        {{ isset($ticket['ticket_date'])
+                                            ? Illuminate\Support\Carbon::parse($ticket['ticket_date'])->format('d/m/Y')
+                                            : '' }}
+                                        {{ $ticket['ticket_time'] ?? '' }}
                                     </p>
                                 </span>
                             </x-table.cell>
@@ -342,7 +345,13 @@
                             <x-table.cell class="whitespace-normal text-center cursor-pointer" wire:click="edit_hotel({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 text-sm leading-5">
                                     <p class="text-cool-gray-600">
-                                        {{ $hotel['hotel_start'] }} <x-icon.arrow-right /> {{ $hotel['hotel_end'] }}
+                                        {{ isset($hotel['hotel_start'])
+                                            ? Illuminate\Support\Carbon::parse($hotel['hotel_start'])->format('d/m/Y')
+                                            : '' }}
+                                        <x-icon.arrow-right />
+                                        {{ isset($hotel['hotel_end'])
+                                            ? Illuminate\Support\Carbon::parse($hotel['hotel_end'])->format('d/m/Y')
+                                            : '' }}
                                     </p>
                                 </span>
                             </x-table.cell>
