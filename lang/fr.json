@@ -540,5 +540,6 @@
     "distance": "nb de kms",
     "route": "trajet",
     "amount": "montant",
-    "currency": "devise"
+    "currency": "devise",
+    "Edit transport": "Editer un transport"
 }
