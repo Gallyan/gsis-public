@@ -14,9 +14,9 @@ class MissionStatusChange extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * The order instance.
+     * The mission instance.
      *
-     * @var \App\Models\Order
+     * @var \App\Models\Mission
      */
     public Mission $mission;
 
@@ -28,14 +28,14 @@ class MissionStatusChange extends Mailable
     public $name;
 
     /**
-     * The order status.
+     * The mission status.
      *
      * @var string
      */
     public $status;
 
     /**
-     * The order's manager's name.
+     * The mission's manager's name.
      *
      * @var string
      */
@@ -44,7 +44,7 @@ class MissionStatusChange extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param  \App\Models\Order  $order
+     * @param  \App\Models\Mission  $mission
      * @return void
      */
     public function __construct( Mission $mission, $name = '', $manager = null )
