@@ -491,7 +491,7 @@
             <x-slot name="title">@lang('Edit ticket')</x-slot>
 
             <x-slot name="content">
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="Direction" for="ticket_direction" :error="$errors->first('ticket_direction')" required >
+                <x-input.group paddingless borderless class="sm:py-1" label="Direction" for="ticket_direction" :error="$errors->first('ticket_direction')" required >
                     <x-input.radiobar
                         id="ticket_direction"
                         wire:model="ticket_direction"
@@ -500,7 +500,7 @@
                     />
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="Travel mode" for="ticket_mode" :error="$errors->first('ticket_mode')" required >
+                <x-input.group paddingless borderless class="sm:py-1" label="Travel mode" for="ticket_mode" :error="$errors->first('ticket_mode')" required >
                     <x-input.select wire:model="ticket_mode" id="ticket_mode" class="w-full" placeholder="{{ __('Select travel mode...') }}" >
                         <x-slot name="leadingAddOn"><x-icon.rocket class="text-gray-400" /></x-slot>
 
@@ -509,11 +509,11 @@
                     </x-input.select>
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="Flight/Train No." for="ticket_number" :error="$errors->first('ticket_number')" >
+                <x-input.group paddingless borderless class="sm:py-1" label="Flight/Train No." for="ticket_number" :error="$errors->first('ticket_number')" >
                     <x-input.text wire:model.lazy="ticket_number" id="ticket_number" leadingIcon="ticket" />
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="Date" innerclass="sm:flex" required >
+                <x-input.group paddingless borderless class="sm:py-1" label="Date" innerclass="sm:flex" required >
                     <x-input.group for="ticket_date" :error="$errors->first('ticket_date')" class="sm:w-1/2" inline>
                         <x-input.date wire:model.lazy="ticket_date" id="ticket_date" placeholder="{{ __('YYYY-MM-DD') }}" />
                     </x-input.group>
@@ -522,11 +522,11 @@
                     </x-input.group>
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="City of departure" for="ticket_from" :error="$errors->first('ticket_from')" required>
+                <x-input.group paddingless borderless class="sm:py-1" label="City of departure" for="ticket_from" :error="$errors->first('ticket_from')" required>
                     <x-input.text wire:model.lazy="ticket_from " id="ticket_from" leadingIcon="location" />
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="City of arrival" for="ticket_to" :error="$errors->first('ticket_to')" required >
+                <x-input.group paddingless borderless class="sm:py-1" label="City of arrival" for="ticket_to" :error="$errors->first('ticket_to')" required >
                     <x-input.text wire:model.lazy="ticket_to " id="ticket_to" leadingIcon="location" />
                 </x-input.group>
             </x-slot>
@@ -547,19 +547,19 @@
             <x-slot name="title">@lang('Edit hotel')</x-slot>
 
             <x-slot name="content">
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="Name" for="hotel_name" :error="$errors->first('hotel_name')" >
+                <x-input.group paddingless borderless class="sm:py-1" label="Name" for="hotel_name" :error="$errors->first('hotel_name')" >
                     <x-input.text wire:model.lazy="hotel_name" id="hotel_name" leadingIcon="building" />
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="City" for="hotel_city" :error="$errors->first('hotel_city')" >
+                <x-input.group paddingless borderless class="sm:py-1" label="City" for="hotel_city" :error="$errors->first('hotel_city')" >
                     <x-input.text wire:model.lazy="hotel_city" id="hotel_city" leadingIcon="location" />
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="Start" for="hotel_start" :error="$errors->first('hotel_start')" >
+                <x-input.group paddingless borderless class="sm:py-1" label="Start" for="hotel_start" :error="$errors->first('hotel_start')" >
                     <x-input.date wire:model.lazy="hotel_start" id="hotel_start" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
 
-                <x-input.group paddingless borderless class="sm:py-1 sm:items-center" label="End" for="hotel_end" :error="$errors->first('hotel_end')" >
+                <x-input.group paddingless borderless class="sm:py-1" label="End" for="hotel_end" :error="$errors->first('hotel_end')" >
                     <x-input.date wire:model.lazy="hotel_end" id="hotel_end" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
             </x-slot>
