@@ -559,8 +559,8 @@ class EditMission extends Component
             'from'           => true,
             'to'             => true,
             'tickets'        => [],
-            'hotels'        => [],
-            'extra'        => [],
+            'hotels'         => [],
+            'extra'          => [],
             ]);
     }
 
