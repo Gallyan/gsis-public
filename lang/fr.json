@@ -340,6 +340,8 @@
     "Back": "Page précédente",
     "submit-order": "Afin de soumettre votre commande à la cellule d'appui, définissez le statut sur \"En attente\" puis enregistrez votre commande.",
     "submit-purchase": "Afin de soumettre votre demande à la cellule d'appui, définissez le statut sur \"En attente\" puis enregistrez votre demande.",
+    "submit-mission": "Afin de soumettre votre mission à la cellule d'appui, définissez le statut sur \"En attente\" puis enregistrez votre demande.",
+    "submit-expense": "Afin de transmettre vos dépenses à la cellule d'appui, définissez le statut sur \"En attente\" puis enregistrez votre demande.",
     "Hi :name, you're logged in!": "Bonjour :name, vous êtes connecté(e) !",
     "Your last login was on :at from IP :from.": "Votre précédente connexion a eu lieu le :at depuis l'adresse IP :from.",
     "Last login on :at": "Dernière connexion le :at",
@@ -363,6 +365,10 @@
     "mail-mission-in-progress": "Votre mission :id - \":subject\" est en cours de traitement par :manager",
     "mail-mission-processed": "Votre mission :id - \":subject\" a été traitée par :manager",
     "mail-mission-cancelled": "Votre mission :id - \":subject\" a été annulée par :manager",
+    "mail-expenses-on-hold": "Vos frais liés à la mission :id - \":subject\" ont été envoyés à la cellule d'appui",
+    "mail-expenses-in-progress": "Vos frais liés à la mission :id - \":subject\" sont en cours de traitement par :manager",
+    "mail-expenses-processed": "Vos frais liés à la mission :id - \":subject\" ont été traités par :manager",
+    "mail-expenses-cancelled": "Vos frais liés à la mission :id - \":subject\" ont été annulés par :manager",
     "draft": "brouillon",
     "on-hold": "en attente",
     "in-progress": "en cours",
@@ -373,6 +379,7 @@
     "mail-ending": "Cordialement,<br />L'équipe d'appui<br /><small>PS: ne pas répondre à ce mail automatique</small>",
     "Show my order": "Voir ma commande",
     "Show my mission": "Voir ma mission",
+    "Show my expenses": "Voir mes frais liés",
     "Show my non-mission purchase": "Voir mes achats divers hors mission",
     "Send reset password link by email": "Envoyer le lien de réinitialisation du mot de passe par e-mail",
     "Messaging": "Messagerie",
@@ -544,5 +551,7 @@
     "Edit transport": "Editer un transport",
     "Train to :dest": "Train pour :dest",
     "Flight to :dest": "Vol pour :dest",
-    "transport-public": "Transport en commun (:type), :nb tickets"
+    "transport-public": "Transport en commun (:type), :nb tickets",
+    "Expenses related to mission": "Frais liés à la mission",
+    "Mission :id expenses": "Frais de la mission :id"
 }
