@@ -94,5 +94,6 @@
     "ticket-dir-mode": ":direction :mode",
     "helptext-conf-amount": "Please also create a <a href=\"/order\" target=\"_blank\">request in the Orders tab</a> for this registration.",
     "helptext-go-return": "Do not forget to indicate the outward AND return journey, if necessary.",
-    "distance": "no. of kms"
+    "distance": "no. of km",
+    "transport-public": "Public transport (:type), :nb tickets"
 }

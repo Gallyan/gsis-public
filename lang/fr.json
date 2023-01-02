@@ -532,14 +532,17 @@
     "Personal car": "Véhicule personnel",
     "Public tansport": "Transport en commun",
     "Route": "Trajet",
-    "No. of kms": "Nb de kms",
+    "No. of km": "Nb de km",
     "Departure / Arrival": "Départ / Arrivée",
     "travel mode": "mode de transport",
     "transport type": "type de transport",
     "no. of tickets": "nb de tickets",
-    "distance": "nb de kms",
+    "distance": "nb de km",
     "route": "trajet",
     "amount": "montant",
     "currency": "devise",
-    "Edit transport": "Editer un transport"
+    "Edit transport": "Editer un transport",
+    "Train to :dest": "Train pour :dest",
+    "Flight to :dest": "Vol pour :dest",
+    "transport-public": "Transport en commun (:type), :nb tickets"
 }
