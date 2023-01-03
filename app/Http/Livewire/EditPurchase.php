@@ -514,7 +514,7 @@ class EditPurchase extends Component
             Mail::to( $user )->send( new PurchaseStatusChange( $this->purchase, $user->name, auth()->user()->name) );
         }
         $this->emit('refreshPurchase');
-        $this->emit('refreshMessages');
+        $this->emit('refreshMessagerie');
         $this->init();
     }
 

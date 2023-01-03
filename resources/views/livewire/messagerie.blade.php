@@ -4,8 +4,8 @@
         @push('scripts')
         <script>
         setInterval(function() {
-            Livewire.emit('refreshMessages');
-        }, 60 * 1000);
+            Livewire.emit('refreshMessagerie');
+        }, 10 * 1000);
         </script>
         @endpush
         <div class="flow-root">

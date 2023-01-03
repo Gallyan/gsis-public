@@ -20,7 +20,7 @@ class Messagerie extends Component
         'body' => 'required|string|max:5000',
     ]; }
 
-    protected $listeners = ['refreshMessages' => '$refresh'];
+    protected $listeners = ['refreshMessagerie' => '$refresh'];
 
     public function updated($propertyName) {
         $this->validateOnly($propertyName);
@@ -51,7 +51,7 @@ class Messagerie extends Component
         };
 
         $this->reset(['body']);
-        $this->emit('refreshMessages');
+        $this->emit('refreshMessagerie');
 
         // Liste des destinataires
         $authors_id = Post::whereHasMorph(

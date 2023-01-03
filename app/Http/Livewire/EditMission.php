@@ -301,7 +301,7 @@ class EditMission extends Component
             Mail::to( $user )->send( new MissionStatusChange( $this->mission, $user->name, auth()->user()->name) );
         }
         $this->emit('refreshMission');
-        $this->emit('refreshMessages');
+        $this->emit('refreshMessagerie');
         $this->init();
     }
 
