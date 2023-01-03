@@ -39,7 +39,7 @@
             <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
                 <a href="{{ route('edit-user', $mission->user) }}" target="_blank" class="hover:underline pr-4">{{ $mission->user->name ?? '' }} <sup><x-icon.new-window /></sup></a>
                 <a href="mailto:{{ $mission->user->email }}" class="pr-4"><x-icon.email /> {{ $mission->user->email }}</a>
-                <span><x-icon.birthday /> {{ $mission->user->birthday->format('d/m/Y') }}</span>
+                <span title="{{ __('Birthday') }}"><x-icon.birthday /> {{ $mission->user->birthday->format('d/m/Y') }}</span>
             </x-input.group>
             @endcan
 
