@@ -24,7 +24,7 @@
                 </li>
                 @if ( $mission->id && Route::has('edit-expense') )
                 <li class="mr-2">
-                    <a href="{{ route( 'edit-expense', [$mission] ) }}" class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300">{{ __('Expenses') }}</a>
+                    <a href="{{ route( 'edit-expense', [$mission, $mission->expense] ) }}" class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300">{{ __('Related expenses') }}</a>
                 </li>
                 @else
                 <li>

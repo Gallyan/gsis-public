@@ -9,7 +9,7 @@
 
     {{ __('mail-new-message', [
         'id' => $object->id,
-        'subject' => $object->subject,
+        'subject' => is_a($object,'App\Models\Expense') ? $object->mission->subject : $object->subject,
         'author' => $author ]) }}.<br /><br />
 
     @include('emails.button', [

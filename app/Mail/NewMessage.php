@@ -52,6 +52,7 @@ class NewMessage extends Mailable
         switch( get_class($object) ) {
             case "App\Models\Order": $this->url = route('edit-order', [ $object, '#messaging' ]); break;
             case "App\Models\Mission": $this->url = route('edit-mission', [ $object, '#messaging' ]); break;
+            case "App\Models\Expense": $this->url = route('edit-expense', [ $object->mission, $object, '#messaging' ]); break;
             case "App\Models\Purchase": $this->url = route('edit-purchase', [ $object, '#messaging' ]); break;
         }
     }

@@ -37,7 +37,12 @@ class Messagerie extends Component
             'read_at'       => Auth()->id() === $this->object->user_id ? now() : null,
         ]);
 
-        if ( in_array( Auth()->id(), $this->object->managers->pluck('user_id')->toArray() ) ) {
+        if ( is_a($this->object,'App\Models\Expense') ) {
+            $managers_id = $this->object->mission->managers->pluck('user_id')->toArray();
+        } else {
+            $managers_id = $this->object->managers->pluck('user_id')->toArray();
+        }
+        if ( in_array( Auth()->id(), $managers_id ) ) {
             // Si l'auteur est gestionnaire il faut alors mettre à jour le read_at de la relation manager
             Manager::where('user_id','=',Auth()->id())
             ->where('manageable_type','=',get_class($this->object))
@@ -56,8 +61,6 @@ class Messagerie extends Component
                 $query->where('id', '=', $this->object->id);
             }
         )->pluck('user_id')->unique()->toArray();
-
-        $managers_id = $this->object->managers->pluck('user_id')->toArray();
 
         if ( empty($managers_id) ) {
             $all_managers_id = User::role('manager')->pluck('id')->toArray();
