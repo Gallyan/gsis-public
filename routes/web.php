@@ -11,6 +11,7 @@ use App\Http\Livewire\Purchases;
 use App\Http\Livewire\EditPurchase;
 use App\Http\Livewire\Missions;
 use App\Http\Livewire\EditMission;
+use App\Http\Livewire\EditExpense;
 
 /**
  * App Routes
@@ -27,6 +28,7 @@ Route::middleware(['auth','verified','throttle:global'])->group(function () {
     Route::get('/purchase/{id?}', EditPurchase::class)->whereNumber('id')->name('edit-purchase');
     Route::get('/missions', Missions::class)->name('missions');
     Route::get('/mission/{id?}', EditMission::class)->whereNumber('id')->name('edit-mission');
+    Route::get('/mission/{mission}/expense/{expense?}', EditExpense::class)->whereNumber('mission')->whereNumber('expense')->name('edit-expense');
     Route::get('/documents/{id}', 'App\Http\Controllers\DocumentController@download')->whereNumber('id')->name('download');
 
     // Admin

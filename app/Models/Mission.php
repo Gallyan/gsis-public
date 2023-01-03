@@ -31,6 +31,8 @@ class Mission extends Model
 
     public function institution() { return $this->belongsTo('App\Models\Institution'); }
 
+    public function expense() { return $this->hasOne('App\Models\Expense'); }
+
     public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
 
     public function getAllStatusesAttribute() { return Mission::STATUSES; }
