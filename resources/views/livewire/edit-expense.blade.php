@@ -395,6 +395,85 @@
 
             </x-input.group>
 
+            <x-input.group label="Misc">
+
+                <x-table>
+                    <x-slot name="head">
+                        <x-table.heading small>{{ __('Object') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Date') }}</x-table.heading>
+                        <x-table.heading small class="w-48">{{ __('Amount') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Currency') }}</x-table.heading>
+                        <x-table.heading small class="w-6"></x-table.heading>
+                    </x-slot>
+
+                    <x-slot name="body">
+                        @forelse($expense->miscs as $misc)
+                        <x-table.row wire:loading.class.delay="opacity-50" wire:key="misc-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+
+                            <x-table.cell class="whitespace-normal text-center">
+                                <x-input.group
+                                    class="inline-flex space-x-2 text-sm leading-5"
+                                    :error="$errors->first('expense.miscs.'.$loop->index.'.misc_object')"
+                                    inline>
+                                    <x-input.text
+                                        id="expense.miscs.{{$loop->index}}.misc_object"
+                                        wire:model.debounce.500ms="expense.miscs.{{$loop->index}}.misc_object"
+                                        placeholder="" leadingIcon=""
+                                        :disabled="$disabled"
+                                    />
+                                </x-input.group>
+                            </x-table.cell>
+
+                            <x-table.cell class="whitespace-normal text-center">
+                                <x-input.group
+                                    class="inline-flex space-x-2 text-sm leading-5"
+                                    :error="$errors->first('expense.miscs.'.$loop->index.'.misc_date')"
+                                    inline>
+                                    <x-input.date wire:model.lazy="expense.miscs.{{$loop->index}}.misc_date" id="expense.miscs.{{$loop->index}}.misc_date" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled"/>
+                                </x-input.group>
+                            </x-table.cell>
+
+                            <x-table.cell class="whitespace-normal text-center">
+                                <x-input.group class="inline-flex space-x-2 text-sm leading-5" :error="$errors->first('expense.miscs.'.$loop->index.'.misc_amount')" inline>
+                                    <x-input.money wire:model.debounce.500ms="expense.miscs.{{$loop->index}}.misc_amount" id="expense.miscs.{{$loop->index}}.misc_amount" :disabled="$disabled" class="min-w-32" />
+                                </x-input>
+                            </x-table.cell>
+
+                            <x-table.cell class="whitespace-normal text-center">
+                                <x-input.group class="inline-flex space-x-2 text-sm leading-5" :error="$errors->first('expense.miscs.'.$loop->index.'.misc_currency')" inline>
+                                    <x-input.currency wire:model="expense.miscs.{{$loop->index}}.misc_currency" id="expense.miscs.{{$loop->index}}.misc_currency" class="max-w-36" :disabled="$disabled" />
+                                </x-input.group>
+                            </x-table.cell>
+
+                            <x-table.cell class="whitespace-nowrap text-center">
+                                <span class="inline-flex text-sm leading-5">
+                                    <x-button.link wire:click="del_misc({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
+                                        <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
+                                    </x-button.link>
+                                </span>
+                            </x-table.cell>
+                        </x-table.row>
+                        @empty
+                        <x-table.row>
+                            <x-table.cell colspan="6">
+                                <div class="flex justify-center items-center space-x-2">
+                                    <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
+                                    <span class="font-medium text-cool-gray-400 text-lg">{{ __('No misc expenses...') }}</span>
+                                </div>
+                            </x-table.cell>
+                        </x-table.row>
+                        @endforelse
+                    </x-slot>
+                </x-table>
+
+                @if (!$disabled)
+                <x-button.secondary wire:click="add_misc" class="mt-4" :disabled="$disabled">
+                    <x-icon.plus/> {{ __('Add misc expense') }}
+                </x-button.secondary>
+                @endif
+
+            </x-input.group>
+
             <x-input.group label="Comments" for="comments" :error="$errors->first('expense.comments')">
                 <x-input.contenteditable wire:model="expense.comments" id="comments" :content="$expense->comments" class="text-gray-700" :disabled="$disabled" />
             </x-input.group>

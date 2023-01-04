@@ -64,6 +64,11 @@ class EditExpense extends Component
         'expense.registrations.*.reg_name'          => 'required|string',
         'expense.registrations.*.reg_amount'        => 'required|float',
         'expense.registrations.*.reg_currency'      => 'required|string|max:3',
+        'expense.miscs'                             => 'nullable|array',
+        'expense.miscs.*.misc_object'               => 'required|string',
+        'expense.miscs.*.misc_date'                 => 'required|date',
+        'expense.miscs.*.misc_amount'               => 'required|float',
+        'expense.miscs.*.misc_currency'             => 'required|string|max:3',
         'expense.comments'                          => 'nullable|string',
     ]; }
 
@@ -80,11 +85,11 @@ class EditExpense extends Component
     ]; }
 
     protected function validationAttributes() { return [
-        'expense.hotels.*.hotel_date'     => __('date'),
-        'expense.hotels.*.hotel_name'     => __('name'),
-        'expense.hotels.*.hotel_nights'   => __('no. of nights'),
-        'expense.hotels.*.hotel_amount'   => __('amount'),
-        'expense.hotels.*.hotel_currency' => __('currency'),
+        'expense.hotels.*.hotel_date'               => __('date'),
+        'expense.hotels.*.hotel_name'               => __('name'),
+        'expense.hotels.*.hotel_nights'             => __('no. of nights'),
+        'expense.hotels.*.hotel_amount'             => __('amount'),
+        'expense.hotels.*.hotel_currency'           => __('currency'),
         'expense.actual_costs_meals.*.acm_date'     => __('date'),
         'expense.actual_costs_meals.*.acm_type'     => __('type'),
         'expense.actual_costs_meals.*.acm_amount'   => __('amount'),
@@ -92,15 +97,19 @@ class EditExpense extends Component
         'expense.registrations.*.reg_name'          => __('conference'),
         'expense.registrations.*.reg_amount'        => __('amount'),
         'expense.registrations.*.reg_currency'      => __('currency'),
-        'transport_mode'     => __('travel mode'),
-        'transport_date'     => __('date'),
-        'transport_dest'     => __('destination'),
-        'transport_type'     => __('transport type'),
-        'transport_number'   => __('no. of tickets'),
-        'transport_dist'     => __('distance'),
-        'transport_route'    => __('route'),
-        'transport_amount'   => __('amount'),
-        'transport_currency' => __('currency'),
+        'expense.miscs.*.misc_object'               => __('object'),
+        'expense.miscs.*.misc_date'                 => __('date'),
+        'expense.miscs.*.misc_amount'               => __('amount'),
+        'expense.miscs.*.misc_currency'             => __('currency'),
+        'transport_mode'                            => __('travel mode'),
+        'transport_date'                            => __('date'),
+        'transport_dest'                            => __('destination'),
+        'transport_type'                            => __('transport type'),
+        'transport_number'                          => __('no. of tickets'),
+        'transport_dist'                            => __('distance'),
+        'transport_route'                           => __('route'),
+        'transport_amount'                          => __('amount'),
+        'transport_currency'                        => __('currency'),
     ]; }
 
     protected function messages() { return [
@@ -272,6 +281,16 @@ class EditExpense extends Component
                 $this->validateOnly('expense.registrations.'.$line.'.reg_name');
                 $this->validateOnly('expense.registrations.'.$line.'.reg_amount');
                 $this->validateOnly('expense.registrations.'.$line.'.reg_currency');
+            }
+
+        }elseif( str_starts_with($propertyName, 'expense.miscs') ) {
+            $line = preg_replace('/expense\.miscs\.([0-9]+)\.misc_.+/', '$1', $propertyName);
+            $values = array_filter( $this->expense->miscs[$line] );
+            if ( count($values) == 5 ) {
+                $this->validateOnly('expense.miscs.'.$line.'.misc_object');
+                $this->validateOnly('expense.miscs.'.$line.'.misc_date');
+                $this->validateOnly('expense.miscs.'.$line.'.misc_amount');
+                $this->validateOnly('expense.miscs.'.$line.'.misc_currency');
             }
 
         } elseif( in_array( $propertyName, array_keys($this->transport_rules()) ) ) {
@@ -453,6 +472,36 @@ class EditExpense extends Component
     }
 
     /* End Gestion des registrations */
+
+    /* Start Gestion des miscs */
+
+    public function add_misc() {
+        if ( $this->disabled === true ) return;
+
+        $miscs = $this->expense->miscs;
+        $miscs[] = [
+            'misc_object'=>null,
+            'misc_date'=>null,
+            'misc_amount'=>null,
+            'misc_currency'=>'EUR'
+        ];
+        $this->expense->miscs = $miscs;
+
+        $this->modified = true;
+    }
+
+    public function del_misc( int $id ) {
+        if ( $this->disabled === true ) return;
+
+        $miscs = $this->expense->miscs;
+        if( $id < 1 || $id > count($miscs)) return;
+        if(isset($miscs[$id-1])) unset( $miscs[$id-1] );
+        $this->expense->miscs = array_values( $miscs );
+
+        $this->modified = !empty($this->expense->getDirty()) ;
+    }
+
+    /* End Gestion des miscs */
 
     // Start Transports
 
