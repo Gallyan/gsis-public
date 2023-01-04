@@ -14,7 +14,6 @@ class Expense extends Model
         'on-hold'     => 'On hold',
         'in-progress' => 'In progress',
         'processed'   => 'Processed',
-        'cancelled'   => 'Cancelled',
     ];
 
     const TRANSPORTS = [
