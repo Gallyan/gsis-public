@@ -421,6 +421,7 @@
     "wp-sometimes": "Il n'est pas nécessaire de renseigner un WP pour cette institution.",
     "Purpose of the mission": "Objet de la mission",
     "Conference": "Conférence",
+    "conference": "conférence",
     "Mission with or without costs": "Mission avec ou sans frais",
     "Your email address is not yet validated. For the moment, you only have access to your profile and your dashboard. You can request a new verification email by clicking on the button below:": "Votre adresse email n'est pas encore validée. Pour l'instant, vous n'avez accès qu'à votre profil et votre tableau de bord. Vous pouvez demander un nouvel envoi de l'email de vérification en cliquant sur le bouton ci-dessous:",
     "incomplete-profile": "Votre profil est incomplet, il manque le champ obligatoire suivant : :missing.|Votre profil est incomplet, il manque les champs obligatoires suivants : :missing.",
@@ -459,6 +460,7 @@
     "helptext-rental-car": "Si vous comptez utiliser une voiture de location, n'oubliez pas d'ajouter votre permis de conduire sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profil</a>.",
     "helptext-personal-car": "Si vous comptez utiliser votre voiture personnelle, n'oubliez pas d'ajouter les documents suivants à votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profil</a>: :docs.",
     "helptext-go-return": "N'oubliez pas d'indiquer l'aller ET le retour, si nécessaire.",
+    "helptext-conf-fees": "Joindre impérativement le programme définitif s’il n'a pas encore été transmis",
     "Number": "Numéro",
     "transport-from": "Départ",
     "transport-to": "Arrivée",
@@ -557,5 +559,9 @@
     "Mission :id expenses": "Frais de la mission :id",
     "No. of nights": "Nb de nuitées",
     "no. of nights": "nb de nuitées",
-    "Name of the hotel": "Nom de l'établissement"
+    "Name of the hotel": "Nom de l'établissement",
+    "Conference registration fees": "Frais d'inscription à un colloque",
+    "No hotels...": "Aucun hôtel...",
+    "No registrations...": "Aucune inscription...",
+    "Add registration": "Ajouter une inscription"
 }

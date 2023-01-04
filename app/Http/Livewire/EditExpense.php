@@ -60,6 +60,10 @@ class EditExpense extends Component
         'expense.hotels.*.hotel_nights'             => 'required|integer|min:1',
         'expense.hotels.*.hotel_amount'             => 'required|float',
         'expense.hotels.*.hotel_currency'           => 'required|string|max:3',
+        'expense.registrations'                     => 'nullable|array',
+        'expense.registrations.*.reg_name'          => 'required|string',
+        'expense.registrations.*.reg_amount'        => 'required|float',
+        'expense.registrations.*.reg_currency'      => 'required|string|max:3',
         'expense.comments'                          => 'nullable|string',
     ]; }
 
@@ -85,6 +89,9 @@ class EditExpense extends Component
         'expense.actual_costs_meals.*.acm_type'     => __('type'),
         'expense.actual_costs_meals.*.acm_amount'   => __('amount'),
         'expense.actual_costs_meals.*.acm_currency' => __('currency'),
+        'expense.registrations.*.reg_name'          => __('conference'),
+        'expense.registrations.*.reg_amount'        => __('amount'),
+        'expense.registrations.*.reg_currency'      => __('currency'),
         'transport_mode'     => __('travel mode'),
         'transport_date'     => __('date'),
         'transport_dest'     => __('destination'),
@@ -258,6 +265,15 @@ class EditExpense extends Component
                     $this->validateOnly('expense.hotels.'.$line.'.hotel_currency');
                 }
 
+        }elseif( str_starts_with($propertyName, 'expense.registrations') ) {
+            $line = preg_replace('/expense\.registrations\.([0-9]+)\.reg_.+/', '$1', $propertyName);
+            $values = array_filter( $this->expense->registrations[$line] );
+            if ( count($values) == 3 ) {
+                $this->validateOnly('expense.registrations.'.$line.'.reg_name');
+                $this->validateOnly('expense.registrations.'.$line.'.reg_amount');
+                $this->validateOnly('expense.registrations.'.$line.'.reg_currency');
+            }
+
         } elseif( in_array( $propertyName, array_keys($this->transport_rules()) ) ) {
             $this->validateOnly($propertyName, $this->transport_rules());
 
@@ -376,7 +392,7 @@ class EditExpense extends Component
         $this->modified = !empty($this->expense->getDirty()) ;
     }
 
-    /* End Gestion des hotels */
+    /* End Gestion des repas */
 
     /* Start Gestion des hotels */
 
@@ -408,6 +424,35 @@ class EditExpense extends Component
     }
 
     /* End Gestion des hotels */
+
+    /* Start Gestion des registrations */
+
+    public function add_reg() {
+        if ( $this->disabled === true ) return;
+
+        $registrations = $this->expense->registrations;
+        $registrations[] = [
+            'reg_name'=>null,
+            'reg_amount'=>null,
+            'reg_currency'=>'EUR'
+        ];
+        $this->expense->registrations = $registrations;
+
+        $this->modified = true;
+    }
+
+    public function del_reg( int $id ) {
+        if ( $this->disabled === true ) return;
+
+        $registrations = $this->expense->registrations;
+        if( $id < 1 || $id > count($registrations)) return;
+        if(isset($registrations[$id-1])) unset( $registrations[$id-1] );
+        $this->expense->registrations = array_values( $registrations );
+
+        $this->modified = !empty($this->expense->getDirty()) ;
+    }
+
+    /* End Gestion des registrations */
 
     // Start Transports
 

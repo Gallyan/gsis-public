@@ -88,7 +88,8 @@
     "car-registration": "Car registration document (carte grise)",
     "helptext-rental-car": "If you plan to use a rental car, don't forget to add your driving licence to your <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profile</a>.",
     "helptext-personal-car": "If you plan to use your own car, don't forget to add the following documents to your <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profile</a>: :docs.",
-    "helptest-go-return": "Please remember to indicate the go AND the return, if necessary.",
+    "helptext-go-return": "Do not forget to indicate the outward AND return journey, if necessary.",
+    "helptext-conf-fees": "Please attach the final programme if it has not yet been sent",
     "extra_taxi": "Taxi",
     "extra_transport": "Public transport",
     "extra_personal_car": "Private car",
@@ -99,7 +100,6 @@
     "transport-to": "To",
     "ticket-dir-mode": ":direction :mode",
     "helptext-conf-amount": "Please also create a <a href=\"/order\" target=\"_blank\">request in the Orders tab</a> for this registration.",
-    "helptext-go-return": "Do not forget to indicate the outward AND return journey, if necessary.",
     "distance": "no. of km",
     "transport-public": "Public transport (:type), :nb tickets"
 }
