@@ -508,6 +508,7 @@
     "No accomodation...": "Aucun hébergement...",
     "Add hotel": "Ajouter un hôtel",
     "Edit hotel": "Editer un hôtel",
+    "Hotel(s)": "Hôtel(s)",
     "Start": "Du",
     "End": "Au",
     "start date": "date de départ",
@@ -553,5 +554,8 @@
     "Flight to :dest": "Vol pour :dest",
     "transport-public": "Transport en commun (:type), :nb tickets",
     "Expenses related to mission": "Frais liés à la mission",
-    "Mission :id expenses": "Frais de la mission :id"
+    "Mission :id expenses": "Frais de la mission :id",
+    "No. of nights": "Nb de nuitées",
+    "no. of nights": "nb de nuitées",
+    "Name of the hotel": "Nom de l'établissement"
 }

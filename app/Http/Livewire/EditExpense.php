@@ -54,6 +54,12 @@ class EditExpense extends Component
         'expense.flat_rate_lunch'                   => 'nullable|integer|min:0',
         'expense.flat_rate_dinner'                  => 'nullable|integer|min:0',
         'expense.transports'                        => 'nullable|array',
+        'expense.hotels'                            => 'nullable|array',
+        'expense.hotels.*.hotel_date'               => 'required|date',
+        'expense.hotels.*.hotel_name'               => 'required|string',
+        'expense.hotels.*.hotel_nights'             => 'required|integer|min:1',
+        'expense.hotels.*.hotel_amount'             => 'required|float',
+        'expense.hotels.*.hotel_currency'           => 'required|string|max:3',
         'expense.comments'                          => 'nullable|string',
     ]; }
 
@@ -70,6 +76,15 @@ class EditExpense extends Component
     ]; }
 
     protected function validationAttributes() { return [
+        'expense.hotels.*.hotel_date'     => __('date'),
+        'expense.hotels.*.hotel_name'     => __('name'),
+        'expense.hotels.*.hotel_nights'   => __('no. of nights'),
+        'expense.hotels.*.hotel_amount'   => __('amount'),
+        'expense.hotels.*.hotel_currency' => __('currency'),
+        'expense.actual_costs_meals.*.acm_date'     => __('date'),
+        'expense.actual_costs_meals.*.acm_type'     => __('type'),
+        'expense.actual_costs_meals.*.acm_amount'   => __('amount'),
+        'expense.actual_costs_meals.*.acm_currency' => __('currency'),
         'transport_mode'     => __('travel mode'),
         'transport_date'     => __('date'),
         'transport_dest'     => __('destination'),
@@ -222,7 +237,7 @@ class EditExpense extends Component
     }
 
     public function updated($propertyName) {
-            if( str_starts_with($propertyName, 'expense.actual_costs_meals') ) {
+        if( str_starts_with($propertyName, 'expense.actual_costs_meals') ) {
             $line = preg_replace('/expense\.actual_costs_meals\.([0-9]+)\.acm_.+/', '$1', $propertyName);
             $values = array_filter( $this->expense->actual_costs_meals[$line] );
             if ( count($values) == 4 ) {
@@ -231,6 +246,17 @@ class EditExpense extends Component
                 $this->validateOnly('expense.actual_costs_meals.'.$line.'.acm_amount');
                 $this->validateOnly('expense.actual_costs_meals.'.$line.'.acm_currency');
             }
+
+        }elseif( str_starts_with($propertyName, 'expense.hotels') ) {
+                $line = preg_replace('/expense\.hotels\.([0-9]+)\.hotel_.+/', '$1', $propertyName);
+                $values = array_filter( $this->expense->hotels[$line] );
+                if ( count($values) == 5 ) {
+                    $this->validateOnly('expense.hotels.'.$line.'.hotel_date');
+                    $this->validateOnly('expense.hotels.'.$line.'.hotel_name');
+                    $this->validateOnly('expense.hotels.'.$line.'.hotel_nights');
+                    $this->validateOnly('expense.hotels.'.$line.'.hotel_amount');
+                    $this->validateOnly('expense.hotels.'.$line.'.hotel_currency');
+                }
 
         } elseif( in_array( $propertyName, array_keys($this->transport_rules()) ) ) {
             $this->validateOnly($propertyName, $this->transport_rules());
@@ -350,7 +376,38 @@ class EditExpense extends Component
         $this->modified = !empty($this->expense->getDirty()) ;
     }
 
-    /* End Gestion des repas */
+    /* End Gestion des hotels */
+
+    /* Start Gestion des hotels */
+
+    public function add_hotel() {
+        if ( $this->disabled === true ) return;
+
+        $hotels = $this->expense->hotels;
+        $hotels[] = [
+            'hotel_date'=>null,
+            'hotel_name'=>null,
+            'hotel_nights'=>null,
+            'hotel_amount'=>null,
+            'hotel_currency'=>'EUR'
+        ];
+        $this->expense->hotels = $hotels;
+
+        $this->modified = true;
+    }
+
+    public function del_hotel( int $id ) {
+        if ( $this->disabled === true ) return;
+
+        $hotels = $this->expense->hotels;
+        if( $id < 1 || $id > count($hotels)) return;
+        if(isset($hotels[$id-1])) unset( $hotels[$id-1] );
+        $this->expense->hotels = array_values( $hotels );
+
+        $this->modified = !empty($this->expense->getDirty()) ;
+    }
+
+    /* End Gestion des hotels */
 
     // Start Transports
 
