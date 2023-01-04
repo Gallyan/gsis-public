@@ -129,7 +129,7 @@
                             <span class="inline-flex space-x-2 text-sm leading-5">
                                 <p class="text-cool-gray-600 break-words">
                                     @foreach ($mission->managers->pluck('user_id')->unique() as $id)
-                                        {{ $allmanagers[$id] }}<br />
+                                        {{ App\Models\User::find($id)->name ?? '' }}<br />
                                     @endforeach
                                 </p>
                             </span>
