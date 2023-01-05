@@ -21,8 +21,11 @@ class DocumentController extends Controller
         if (empty($doc->name)) {
             $filename = $doc->user_id . '-' . $doc->type . '-' . $doc->filename;
         } else {
-            $extension = pathinfo( $pathToFile, PATHINFO_EXTENSION);
-            $filename = $doc->user_id . '-' . Str::slug( $doc->name ) . '.' . $extension;
+            $filename = $doc->user_id .
+                        '-' .
+                        Str::slug( pathinfo( $doc->name, PATHINFO_FILENAME) ) .
+                        '.' .
+                        pathinfo( $pathToFile, PATHINFO_EXTENSION);
         }
 
         // Check if file exist and download
