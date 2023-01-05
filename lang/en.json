@@ -103,5 +103,7 @@
     "distance": "no. of km",
     "transport-public": "Public transport (:type), :nb tickets",
     "om-later": "The mission order number will be available once the mission has been processed. You can then start entering your expenses.",
-    "available-later": "You will be able to start entering your expenses once the mission is processed."
+    "available-later": "You will be able to start entering your expenses once the mission is processed.",
+    "repas-frais-reels": "repas-frais-reels",
+    "repas-forfaitaire": "repas-forfaitaire"
 }
