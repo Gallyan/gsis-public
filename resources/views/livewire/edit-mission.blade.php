@@ -22,7 +22,7 @@
                 <li class="mr-2">
                     <a class="inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active cursor-pointer">{{ __('Mission') }}</a>
                 </li>
-                @if ( App\Models\Mission::find($mission->id)->status === 'processed' )
+                @if ( $mission->id && App\Models\Mission::find($mission->id)->status === 'processed' )
                 <li class="mr-2">
                     <a href="{{ route( 'edit-expense', [$mission, $mission->expense] ) }}" class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300">{{ __('Related expenses') }}</a>
                 </li>
@@ -161,7 +161,7 @@
                 </ul>
                 @endif
 
-                <x-input.group for="conf_amount" label="Amount of registration paid by the institution" :error="$errors->first('mission.conf_amount')" class="mt-2" inline>
+                <x-input.group for="conf_amount" label="Registration fee to be paid by the institution" :error="$errors->first('mission.conf_amount')" class="mt-2" inline>
                     <x-input.money wire:model.debounce.500ms="mission.conf_amount" id="conf_amount" :disabled="$disabled" />
                 </x-input.group>
 
@@ -600,6 +600,13 @@
                         :selected="$extra_meal"
                         :keylabel="['Flat-rate costs','Actual costs']"
                     />
+                    <p class="text-sm font-medium leading-5 text-gray-500 ml-2 mt-1 italic">
+                    @if($extra_meal)
+                    {{ __('repas-frais-reels') }}
+                    @else
+                    {{ __('repas-forfaitaire') }}
+                    @endif
+                    </p>
                 </x-input.group>
 
                 <x-input.group paddingless borderless class="sm:py-1" label="Extra">

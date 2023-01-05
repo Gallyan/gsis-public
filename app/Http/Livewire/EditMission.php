@@ -116,7 +116,7 @@ class EditMission extends Component
         'mission.institution_id' => __('Institution'),
         'mission.om'             => __('Mission order number'),
         'mission.conference'     => __('Conference'),
-        'mission.conf_amount'    => __('Amount of registration paid by the institution'),
+        'mission.conf_amount'    => __('Registration fee to be paid by the institution'),
         'mission.conf_currency'  => __('Currency'),
         'mission.costs'          => __('Mission with or without costs'),
         'mission.dest_country'   => __('Destination'),
