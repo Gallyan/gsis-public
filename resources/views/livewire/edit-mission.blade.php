@@ -22,13 +22,13 @@
                 <li class="mr-2">
                     <a class="inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active cursor-pointer">{{ __('Mission') }}</a>
                 </li>
-                @if ( $mission->id && Route::has('edit-expense') )
+                @if ( App\Models\Mission::find($mission->id)->status === 'processed' )
                 <li class="mr-2">
                     <a href="{{ route( 'edit-expense', [$mission, $mission->expense] ) }}" class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300">{{ __('Related expenses') }}</a>
                 </li>
                 @else
                 <li>
-                    <a class="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed">{{ __('Related expenses') }}</a>
+                    <a class="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed" title="{{ __('available-later') }}">{{ __('Related expenses') }}</a>
                 </li>
                 @endif
             </ul>
@@ -84,11 +84,15 @@
                 />
             </x-input.group>
 
-            @if ( in_array( $mission->status, ['in-progress','processed','cancelled'] ) )
-            <x-input.group label="MO number" for="om" :error="$errors->first('mission.om')">
-                <x-input.text wire:model.debounce.500ms="mission.om" id="om" :disabled="$disabled" />
+            <x-input.group label="Mission order number" for="om" :error="$errors->first('mission.om')">
+                @if ( in_array( $mission->status, ['in-progress','processed','cancelled'] ) )
+                    <x-input.text wire:model.debounce.500ms="mission.om" id="om" :disabled="$disabled" />
+                @else
+                    <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">
+                        {{ __('om-later') }}
+                    </p>
+                @endif
             </x-input.group>
-            @endif
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('mission.institution_id')" required>
                 <x-input.select wire:model="mission.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled">

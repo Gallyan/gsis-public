@@ -101,5 +101,7 @@
     "ticket-dir-mode": ":direction :mode",
     "helptext-conf-amount": "Please also create a <a href=\"/order\" target=\"_blank\">request in the Orders tab</a> for this registration.",
     "distance": "no. of km",
-    "transport-public": "Public transport (:type), :nb tickets"
+    "transport-public": "Public transport (:type), :nb tickets",
+    "om-later": "The mission order number will be available once the mission has been processed. You can then start entering your expenses.",
+    "available-later": "You will be able to start entering your expenses once the mission is processed."
 }

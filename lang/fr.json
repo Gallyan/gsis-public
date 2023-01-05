@@ -566,5 +566,9 @@
     "Add registration": "Ajouter une inscription",
     "No misc expenses...": "Aucune dépense diverse...",
     "Add misc expense": "Ajouter une dépense diverse",
-    "Misc": "Divers"
+    "Misc": "Divers",
+    "The :attribute field is required in order to complete the processing.": "Le champ :attribute est obligatoire afin de compléter le traitement.",
+    "Mission order number": "N° d'ordre de mission",
+    "om-later": "Le n° d'ordre de mission sera disponible une fois la mission traitée. Vous pourrez alors commencer à saisir vos frais.",
+    "available-later": "Vous pourrez commencer à saisir vos frais une fois que la mission sera traitée."
 }

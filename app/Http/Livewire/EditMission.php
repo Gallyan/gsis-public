@@ -65,7 +65,7 @@ class EditMission extends Component
         'mission.user_id'        => 'required|exists:users,id',
         'mission.subject'        => 'required|string|max:255',
         'mission.institution_id' => 'required|exists:institutions,id',
-        'mission.om'             => 'required_if:mission.status,in-progress',
+        'mission.om'             => 'required_if:mission.status,processed',
         'mission.wp'             => [
             'sometimes',
             Rule::requiredIf(fn () => Institution::find($this->mission->institution_id) &&
@@ -114,7 +114,7 @@ class EditMission extends Component
     protected function validationAttributes() { return [
         'mission.subject'        => __('Purpose of the mission'),
         'mission.institution_id' => __('Institution'),
-        'mission.om'             => __('om'),
+        'mission.om'             => __('Mission order number'),
         'mission.conference'     => __('Conference'),
         'mission.conf_amount'    => __('Amount of registration paid by the institution'),
         'mission.conf_currency'  => __('Currency'),
@@ -157,7 +157,7 @@ class EditMission extends Component
         'uploads.*.max' => __('The size of the :filename file cannot exceed :max kilobytes.'),
         'uploads.*.mimes' => __('The file :filename must be a file of type: :values.'),
         'uploads.*.mimetypes' => __('The file :filename must be a file of type: :values.'),
-        'mission.om.required_if' => __('validation.required'),
+        'mission.om.required_if' => __('The :attribute field is required in order to complete the processing.'),
         'ticket_date.required' => __('The :attribute field is required.'),
         'ticket_time.required' => __('The :attribute field is required.'),
     ];}
