@@ -68,8 +68,8 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                         <tr>
                             <td align="right" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 10px;" class="mobile-center">
                                 <div class="flex-shrink-0 flex items-center px-4">
-                                    <a href="{{ config('app.url') }}" target="_blank" style="color:white; text-decoration: none;">
-                                        <x-application-logo-light class="h-6 w-auto" />
+                                    <a href="{{ url('/') }}" target="_blank" style="color:white; text-decoration: none;">
+                                        <img href="{{ url('/logo-gsis2.png') }}" alt="GSIS 2 - v{{ config('app.version') }}" class="h-6 w-auto" />
                                     </a>
                                 </div>
                             </td>
@@ -118,6 +118,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                 <tr>
                 <td align="center" valign="top" width="600">
                 <![endif]-->
+                <a href="{{ url('/') }}" target="_blank" style="color:white; text-decoration: none; font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 400; line-height: 18px;">GSIS 2 - v{{ config('app.version') }}</a>
                 <!--[if (gte mso 9)|(IE)]>
                 </td>
                 </tr>
