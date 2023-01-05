@@ -304,7 +304,6 @@ class EditExpense extends Component
 
     public function save() {
         $creation = is_null( $this->expense->id );
-        if ( $creation ) $this->expense->id = $this->mission->id;
 
         //Force json encodage
         $this->expense->actual_costs_meals = $this->expense->actual_costs_meals;
@@ -318,6 +317,8 @@ class EditExpense extends Component
                     $this->emitSelf('notify-error');
                 }
         })->validate();
+
+        if ( $creation ) $this->expense->id = $this->mission->id;
 
         // Sauvegarde des dépenses
         $this->expense->save();
