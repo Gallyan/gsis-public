@@ -302,6 +302,27 @@ class EditExpense extends Component
         $this->modified = !empty($this->expense->getDirty()) ;
     }
 
+    public function updatedUploads() {
+        if ( $this->uploads ) {
+
+            $this->validateOnly( 'uploads.*' );
+
+            $this->modified = true;
+        }
+    }
+
+    // Ajoute un document à la liste des documents à supprimer
+    public function del_doc( $id ) {
+        if ( $this->disabled === true ) return;
+
+        if( !empty( Document::find( $id ) ) && !in_array( $id, $this->del_docs ) ) {
+
+            $this->del_docs[] = $id;
+            $this->modified = true;
+
+        }
+    }
+
     public function save() {
         $creation = is_null( $this->expense->id );
 
@@ -329,10 +350,10 @@ class EditExpense extends Component
         }
 
         // Traitement des uploads
-/*
+
         // Create user documents directory if not exists
         if( !empty( $this->uploads ) ) {
-            $path = 'docs/'.$this->mission->user_id.'/';
+            $path = 'docs/'.$this->expense->user_id.'/';
             Storage::makeDirectory( $path );
         }
 
@@ -349,8 +370,8 @@ class EditExpense extends Component
                     "type" => 'document',
                     "size" => Storage::size( $filename ),
                     "filename" => $file->hashName(),
-                    "user_id" => $this->mission->user_id,
-                    "documentable_id" => $this->mission->id,
+                    "user_id" => $this->expense->user_id,
+                    "documentable_id" => $this->expense->id,
                     "documentable_type" => Expense::class,
                 ]);
             }
@@ -366,7 +387,7 @@ class EditExpense extends Component
 
             Document::findOrFail( $id )->delete() ;
 
-        }*/
+        }
 
         $this->reset(['uploads','modified','del_docs']);
         $this->emit('refreshExpense');

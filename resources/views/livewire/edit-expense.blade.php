@@ -474,11 +474,7 @@
 
             </x-input.group>
 
-            <x-input.group label="Comments" for="comments" :error="$errors->first('expense.comments')">
-                <x-input.contenteditable wire:model="expense.comments" id="comments" :content="$expense->comments" class="text-gray-700" :disabled="$disabled" />
-            </x-input.group>
-
-{{--            @php
+            @php
                 $upload_errors = collect( $errors->get('uploads.*') )->map( function( $item, $key ) {
                     return str_replace(
                         ':filename',
@@ -520,7 +516,11 @@
                 </ul>
                 @endif
 
-            </x-input.group>--}}
+            </x-input.group>
+
+            <x-input.group label="Comments" for="comments" :error="$errors->first('expense.comments')">
+                <x-input.contenteditable wire:model="expense.comments" id="comments" :content="$expense->comments" class="text-gray-700" :disabled="$disabled" />
+            </x-input.group>
 
         </div>
 
