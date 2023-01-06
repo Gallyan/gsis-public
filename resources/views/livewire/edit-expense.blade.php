@@ -508,9 +508,9 @@
                 />
 
                 @if (!empty($expense->documents))
-                <ul role="list" class="divide-y divide-gray-200">
+                <ul role="list">
                 @foreach( $expense->documents as $document )
-                    <li class="py-4 flex text-gray-500 @if ( in_array( $document->id, $del_docs ) ) line-through italic @endif">
+                    <li class="flex text-gray-500 border-dashed border-2 border-gray-300 rounded-md p-2 my-2 items-center @if ( in_array( $document->id, $del_docs ) ) line-through italic @endif">
                         <x-icon.document class="w-10 h-10 text-gray-500" />
                         <div class="mx-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">
