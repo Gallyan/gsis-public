@@ -148,8 +148,8 @@
                     :disabled="$disabled"
                 />
                 @else
-                <ul role="list" class="divide-y divide-gray-200">
-                    <li class="py-4 flex text-gray-500">
+                <ul role="list">
+                    <li class="flex text-gray-500 border-dashed border-2 border-gray-300 rounded-md p-2 items-center @if ( in_array( $mission->programme->id, $del_docs ) ) line-through italic @endif">
                         <x-icon.document class="w-10 h-10 text-gray-500" />
                         <div class="mx-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">
@@ -517,10 +517,10 @@
                     :disabled="$disabled"
                 />
 
-                @if (!empty($mission->documents))
-                <ul role="list" class="divide-y divide-gray-200">
-                @foreach( $mission->documents as $document )
-                    <li class="py-4 flex text-gray-500 @if ( in_array( $document->id, $del_docs ) ) line-through italic @endif">
+                @if (!empty($mission->documents->filter(fn ($d) => $d->type != 'programme')))
+                <ul role="list">
+                @foreach( $mission->documents->filter(fn ($d) => $d->type != 'programme') as $document )
+                    <li class="flex text-gray-500 border-dashed border-2 border-gray-300 rounded-md p-2 my-2 items-center @if ( in_array( $document->id, $del_docs ) ) line-through italic @endif">
                         <x-icon.document class="w-10 h-10 text-gray-500" />
                         <div class="mx-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">

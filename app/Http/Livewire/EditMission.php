@@ -81,7 +81,7 @@ class EditMission extends Component
         'mission.personal_car'   => 'boolean',
         'mission.rental_car'     => 'boolean',
         'mission.parking'        => 'boolean',
-        'mission.registration'   => 'required_with:conf_amount|nullable|boolean',
+        'mission.registration'   => 'nullable|boolean',
         'mission.others'         => 'nullable|string',
         'programme'              => 'nullable|mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
         'uploads'                => 'nullable|array',
@@ -320,6 +320,13 @@ class EditMission extends Component
         } else {
             $this->validateOnly($propertyName);
             $this->modified = !empty($this->mission->getDirty()) ;
+        }
+    }
+
+    public function updatedProgramme() {
+        if ( $this->programme ) {
+            $this->validateOnly( 'programme' );
+            $this->modified = true;
         }
     }
 
