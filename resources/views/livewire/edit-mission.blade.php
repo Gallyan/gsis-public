@@ -598,13 +598,13 @@
                         id="extra_meal"
                         wire:model="extra_meal"
                         :selected="$extra_meal"
-                        :keylabel="['Flat-rate costs','Actual costs']"
+                        :keylabel="['forfait'=>'Flat-rate costs','reel'=>'Actual costs']"
                     />
                     <p class="text-sm font-medium leading-5 text-gray-500 ml-2 mt-1 italic">
-                    @if($extra_meal)
-                    {!! __('repas-frais-reels') !!}
-                    @else
-                    {!! __('repas-forfaitaire') !!}
+                    @if ( $extra_meal === 'reel' )
+                        {!! __('repas-frais-reels') !!}
+                    @elseif ( $extra_meal === 'forfait' )
+                        {!! __('repas-forfaitaire') !!}
                     @endif
                     </p>
                 </x-input.group>

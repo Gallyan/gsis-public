@@ -142,7 +142,7 @@ class EditMission extends Component
     ]; }
 
     protected function extra_rules() { return [
-        'extra_meal' => 'boolean',
+        'extra_meal' => 'nullable|string|in:forfait,reel',
         'extra_taxi' => 'boolean',
         'extra_transport' => 'boolean',
         'extra_personal_car' => 'boolean',
@@ -508,7 +508,7 @@ class EditMission extends Component
         $this->extra_rental_car   = null;
         $this->extra_parking      = null;
         $this->extra_registration = null;
-        $this->extra_others       = '';
+        $this->extra_others       = null;
     }
 
     // Affiche le modal d'édition des frais prévisionnels après en avoir initialisé les valeurs
@@ -519,15 +519,15 @@ class EditMission extends Component
         $extra = $this->mission->extra;
 
         // Initialize values
-        $this->extra_meal         = isset( $extra['extra_meal'] ) ? $extra['extra_meal'] : false;
+        $this->extra_meal         = isset( $extra['extra_meal'] ) ? $extra['extra_meal'] : null;
         $this->extra_taxi         = isset( $extra['extra_taxi'] ) ? $extra['extra_taxi'] : false;
         $this->extra_transport    = isset( $extra['extra_transport'] ) ? $extra['extra_transport'] : false;
         $this->extra_personal_car = isset( $extra['extra_personal_car'] ) ? $extra['extra_personal_car'] : false;
         $this->extra_rental_car   = isset( $extra['extra_rental_car'] ) ? $extra['extra_rental_car'] : false;
         $this->extra_parking      = isset( $extra['extra_parking'] ) ? $extra['extra_parking'] : false;
         if( empty( $this->mission->conf_amount ) )
-            $this->extra_registration = isset( $extra['extra_registration'] ) ? $extra['extra_registration'] : false;
-        $this->extra_others       = isset( $extra['extra_others'] ) ? $extra['extra_others'] : '';
+            $this->extra_registration = isset( $extra['extra_registration'] ) ? $extra['extra_registration'] : null;
+        $this->extra_others       = isset( $extra['extra_others'] ) ? $extra['extra_others'] : null;
 
         // Show modal
         $this->showExtra = true;
