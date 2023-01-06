@@ -186,26 +186,34 @@
                 <x-input.text wire:model.debounce.500ms="mission.dest_city" id="dest_city" leadingIcon="location" :disabled="$disabled" />
             </x-input.group>
 
-            <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required>
-                <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" required />
-                <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px pt-2 pb-1">@lang('From'):</p>
-                <x-input.radiobar
-                    id="from"
-                    wire:model="mission.from"
-                    :selected="$mission->from"
-                    :keylabel="['Work address','Home address']"
-                />
+            <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required innerclass="flex">
+                <div class="w-48">
+                    <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" />
+                </div>
+                <div class="flex flex-row items-center gap-2">
+                    <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px">@lang('From'):</p>
+                    <x-input.radiobar
+                        id="from"
+                        wire:model="mission.from"
+                        :selected="$mission->from"
+                        :keylabel="['Work address','Home address']"
+                    />
+                </div>
             </x-input.group>
 
-            <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required >
-                <x-input.date wire:model="mission.return" id="return" placeholder="{{ __('YYYY-MM-DD') }}" required />
-                <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px pt-2 pb-1">@lang('To'):</p>
-                <x-input.radiobar
-                    id="to"
-                    wire:model="mission.to"
-                    :selected="$mission->to"
-                    :keylabel="['Work address','Home address']"
-                />
+            <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required innerclass="flex">
+                <div class="w-48">
+                    <x-input.date wire:model="mission.return" id="return" placeholder="{{ __('YYYY-MM-DD') }}" />
+                </div>
+                <div class="flex flex-row items-center gap-2">
+                    <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px">@lang('To'):</p>
+                    <x-input.radiobar
+                        id="to"
+                        wire:model="mission.to"
+                        :selected="$mission->to"
+                        :keylabel="['Work address','Home address']"
+                    />
+                </div>
             </x-input.group>
 
             <x-input.group label="Mission with or without costs" for="costs" :error="$errors->first('mission.costs')" required>
