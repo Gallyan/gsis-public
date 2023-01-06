@@ -200,7 +200,7 @@
             </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('order.comments')">
-                <x-input.textarea wire:model.lazy="order.comments" id="comments" rows="5" class="text-gray-700" :disabled="$disabled" />
+                <x-input.contenteditable wire:model="order.comments" id="comments" leadingIcon="chat" :content="$order->comments" :disabled="$disabled" />
             </x-input.group>
         </div>
     </form>

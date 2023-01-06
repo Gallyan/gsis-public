@@ -389,7 +389,7 @@
             </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('purchase.comments')">
-                <x-input.textarea wire:model.lazy="purchase.comments" id="comments" rows="5" class="text-gray-700" :disabled="$disabled" />
+                <x-input.contenteditable wire:model="purchase.comments" id="comments" leadingIcon="chat" :content="$purchase->comments" :disabled="$disabled" />
             </x-input.group>
         </div>
     </form>

@@ -30,7 +30,6 @@ class EditMission extends Component
     public $showInformationMessage = false;
     public $showTicket = false;
     public $showHotel = false;
-    public $showExtra = false;
     public $isAuthManager = false;
     public $showWP = false;
 
@@ -50,16 +49,6 @@ class EditMission extends Component
     public $hotel_city;
     public $hotel_start;
     public $hotel_end;
-
-    // Extra costs
-    public $extra_meal;
-    public $extra_taxi;
-    public $extra_transport;
-    public $extra_personal_car;
-    public $extra_rental_car;
-    public $extra_parking;
-    public $extra_registration;
-    public $extra_others;
 
     protected function rules() { return [
         'mission.user_id'        => 'required|exists:users,id',
@@ -81,12 +70,19 @@ class EditMission extends Component
         'mission.dest_country'   => 'string|max:2|uppercase',
         'mission.dest_city'      => 'string|max:50',
         'mission.departure'      => 'required|date',
-        'mission.from'           => 'boolean',
+        'mission.from'           => 'string|in:home,work',
         'mission.return'         => 'required|date|after_or_equal:mission.departure',
-        'mission.to'             => 'boolean',
+        'mission.to'             => 'string|in:home,work',
         'mission.tickets'        => 'nullable|array',
         'mission.hotels'         => 'nullable|array',
-        'mission.extra'          => 'nullable|array',
+        'mission.meal'           => 'nullable|string|in:forfait,reel',
+        'mission.taxi'           => 'boolean',
+        'mission.transport'      => 'boolean',
+        'mission.personal_car'   => 'boolean',
+        'mission.rental_car'     => 'boolean',
+        'mission.parking'        => 'boolean',
+        'mission.registration'   => 'required_with:conf_amount|nullable|boolean',
+        'mission.others'         => 'nullable|string',
         'programme'              => 'nullable|mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
         'uploads'                => 'nullable|array',
         'uploads.*'              => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
@@ -127,7 +123,14 @@ class EditMission extends Component
         'mission.to'             => __('To your address'),
         'mission.tickets'        => __('Transport Tickets'),
         'mission.hotels'         => __('Accomodation'),
-        'mission.extra'          => __('Extra'),
+        'mission.meal'           => __('Meal'),
+        'mission.taxi'           => __('Taxi'),
+        'mission.transport'      => __('Public transport'),
+        'mission.personal_car'   => __('Private car'),
+        'mission.rental_car'     => __('Rental car'),
+        'mission.parking'        => __('Parking'),
+        'mission.registration'   => __('Conference registration fee'),
+        'mission.others'         => __('Other expenses'),
         'ticket_mode'            => __('Travel mode'),
         'ticket_direction'       => __('Direction'),
         'ticket_number'          => __('Flight/Train No.'),
@@ -139,17 +142,6 @@ class EditMission extends Component
         'hotel_city'             => __('City'),
         'hotel_start'            => __('start date'),
         'hotel_end'              => __('end date'),
-    ]; }
-
-    protected function extra_rules() { return [
-        'extra_meal' => 'nullable|string|in:forfait,reel',
-        'extra_taxi' => 'boolean',
-        'extra_transport' => 'boolean',
-        'extra_personal_car' => 'boolean',
-        'extra_rental_car' => 'boolean',
-        'extra_parking' => 'boolean',
-        'extra_registration' => 'boolean',
-        'extra_others' => 'nullable|string',
     ]; }
 
     protected function messages() { return [
@@ -319,10 +311,7 @@ class EditMission extends Component
     }
 
     public function updated($propertyName) {
-        if( in_array( $propertyName, array_keys($this->extra_rules()) ) ) {
-            $this->validateOnly($propertyName, $this->extra_rules());
-
-        } elseif( in_array( $propertyName, array_keys($this->ticket_rules()) ) ) {
+        if( in_array( $propertyName, array_keys($this->ticket_rules()) ) ) {
             $this->validateOnly($propertyName, $this->ticket_rules());
 
         } elseif( in_array( $propertyName, array_keys($this->hotel_rules()) ) ) {
@@ -494,73 +483,25 @@ class EditMission extends Component
 
     // End Hotels
 
-    // Start Extra
-
-    public function close_extra() {
-        // Hide modal
-        $this->showExtra = false;
-
-        // Reset form
-        $this->extra_meal         = null;
-        $this->extra_taxi         = null;
-        $this->extra_transport    = null;
-        $this->extra_personal_car = null;
-        $this->extra_rental_car   = null;
-        $this->extra_parking      = null;
-        $this->extra_registration = null;
-        $this->extra_others       = null;
-    }
-
-    // Affiche le modal d'édition des frais prévisionnels après en avoir initialisé les valeurs
-    public function edit_extra() {
-        if ( $this->disabled === true ) return;
-
-        // Get from json to array
-        $extra = $this->mission->extra;
-
-        // Initialize values
-        $this->extra_meal         = isset( $extra['extra_meal'] ) ? $extra['extra_meal'] : null;
-        $this->extra_taxi         = isset( $extra['extra_taxi'] ) ? $extra['extra_taxi'] : false;
-        $this->extra_transport    = isset( $extra['extra_transport'] ) ? $extra['extra_transport'] : false;
-        $this->extra_personal_car = isset( $extra['extra_personal_car'] ) ? $extra['extra_personal_car'] : false;
-        $this->extra_rental_car   = isset( $extra['extra_rental_car'] ) ? $extra['extra_rental_car'] : false;
-        $this->extra_parking      = isset( $extra['extra_parking'] ) ? $extra['extra_parking'] : false;
-        if( empty( $this->mission->conf_amount ) )
-            $this->extra_registration = isset( $extra['extra_registration'] ) ? $extra['extra_registration'] : null;
-        $this->extra_others       = isset( $extra['extra_others'] ) ? $extra['extra_others'] : null;
-
-        // Show modal
-        $this->showExtra = true;
-    }
-
-    // Valide le formulaire et stocke le résultat en json dans la mission
-    public function save_extra() {
-        if( empty( $this->mission->conf_amount ) )
-            $this->extra_registration = false;
-
-        $this->mission->extra = $this->validate( $this->extra_rules() );
-
-        $this->modified = true;
-
-        $this->close_extra();
-    }
-
-    // End Extra
-
     public function makeBlankMission()
     {
         return Mission::make([
-            'user_id'        => Auth()->id(),
-            'status'         => 'draft',
-            'dest_country'   => 'FR',
-            'conference'     => false,
-            'conf_currency'  => 'EUR',
-            'costs'          => false,
-            'from'           => true,
-            'to'             => true,
-            'tickets'        => [],
-            'hotels'         => [],
-            'extra'          => [],
+            'user_id'       => Auth()->id(),
+            'status'        => 'draft',
+            'dest_country'  => 'FR',
+            'conference'    => false,
+            'conf_currency' => 'EUR',
+            'costs'         => true,
+            'from'          => 'home',
+            'to'            => 'home',
+            'tickets'       => [],
+            'hotels'        => [],
+            'taxi'          => false,
+            'transport'     => false,
+            'personal_car'  => false,
+            'rental_car'    => false,
+            'parking'       => false,
+            'registration'  => false,
             ]);
     }
 
@@ -571,7 +512,6 @@ class EditMission extends Component
         //Force json encodage
         $this->mission->hotels = $this->mission->hotels;
         $this->mission->tickets = $this->mission->tickets;
-        $this->mission->extra = $this->mission->extra;
 
         $this->withValidator(function (Validator $validator) {
                 if ($validator->fails()) {

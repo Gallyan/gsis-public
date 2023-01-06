@@ -196,7 +196,7 @@
                         id="from"
                         wire:model="mission.from"
                         :selected="$mission->from"
-                        :keylabel="['Work address','Home address']"
+                        :keylabel="['work'=>'Work address','home'=>'Home address']"
                     />
                 </div>
             </x-input.group>
@@ -211,7 +211,7 @@
                         id="to"
                         wire:model="mission.to"
                         :selected="$mission->to"
-                        :keylabel="['Work address','Home address']"
+                        :keylabel="['work'=>'Work address','home'=>'Home address']"
                     />
                 </div>
             </x-input.group>
@@ -220,8 +220,8 @@
                 <x-input.toggle
                     id="costs"
                     wire:model="mission.costs"
-                    :before="'Without'"
-                    :after="'With'"
+                    :before="'Without costs'"
+                    :after="'With costs'"
                     :choice="$mission->costs"
                     class="inline-flex mr-4"
                 />
@@ -403,43 +403,86 @@
 
             </x-input.group>
 
-            <x-input.group label="Expected extra costs" for="extra" :error="$errors->first('mission.extra')">
+            <x-input.group label="Expected extra costs">
 
             @if ($mission->costs)
-
-                @if( ! is_null( $mission->extra ) )
-                    @if( isset( $mission->extra['extra_meal'] ) )
-                        <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-1">
-                            @lang('Meal'): {{ $mission->extra['extra_meal'] ? __('Actual costs') : __('Flat-rate costs') }}
-                        </p>
+                <x-input.group paddingless borderless inline label="Meal" for="meal" :error="$errors->first('mission.meal')">
+                    <x-input.radiobar
+                        id="meal"
+                        wire:model="mission.meal"
+                        :selected="$mission->meal"
+                        :keylabel="['forfait'=>'Flat-rate costs','reel'=>'Actual costs']"
+                    />
+                    <p class="text-sm font-medium leading-5 text-gray-500 ml-2 mt-1 italic">
+                    @if ( $mission->meal === 'reel' )
+                        {!! __('repas-frais-reels') !!}
+                    @elseif ( $mission->meal === 'forfait' )
+                        {!! __('repas-forfaitaire') !!}
                     @endif
-                    @php
-                        $extra_list = [];
-                        foreach( $mission->extra as $key => $extra )
-                            if( ! in_array( $key, ['extra_meal','extra_others'] ) && $extra )
-                                $extra_list[] = __($key);
-                    @endphp
-                    @if( ! empty( $extra_list ) )
-                        <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-1">
-                            @lang('Extra'): @php echo implode( ', ', $extra_list ) @endphp
-                        </p>
-                    @endif
-                    @if( !empty($mission->extra['extra_others']) )
-                        <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-1">
-                            @lang('Others'): {!! nl2br(e($mission->extra['extra_others'])) !!}
-                        </p>
-                    @endif
-                @endif
-
-                @if (!$disabled)
-                <x-button.secondary wire:click="edit_extra" @class(['mt-4'=>!is_null($mission->extra)]) :disabled="$disabled"><x-icon.pencil/> {{ __('Edit expected extra costs') }}</x-button.secondary>
-                @endif
-
-                @if ($disabled && is_null( $mission->extra ) )
-                    <p class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px pt-1">
-                        @lang('No expected extra costs')
                     </p>
-                @endif
+                </x-input.group>
+
+                <x-input.group paddingless borderless inline label="Extra">
+                    <x-input.group :error="$errors->first('mission.taxi')" inline>
+                        <x-input.checkbox wire:model="mission.taxi" id="taxi" for="taxi">
+                            {{ __('Taxi') }}
+                        </x-input.checkbox>
+                    </x-input.group>
+                    <x-input.group :error="$errors->first('mission.transport')" inline>
+                        <x-input.checkbox wire:model="mission.transport" id="transport" for="transport">
+                            {{ __('Public transport') }}
+                        </x-input.checkbox>
+                    </x-input.group>
+                    <x-input.group :error="$errors->first('mission.personal_car')" inline>
+                        <x-input.checkbox wire:model="mission.personal_car" id="personal_car" for="personal_car">
+                            {{ __('Private car') }}
+                        </x-input.checkbox>
+
+                        @if ( $mission->personal_car )
+                            @php
+                                $missing_doc[] = __( 'car-registration' );
+                                $missing_doc[] = __( 'insurance' );
+                                if ( auth()->user()
+                                           ->load( ['documents' => fn ($query) => $query->whereIn('type', ['driver']) ] )
+                                           ->documents->count() == 0 ) $missing_doc[] = __( 'driver' );
+                            @endphp
+                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic">
+                            {!! __( 'helptext-personal-car', [
+                                'profile' => route( 'edit-user', auth()->id() ),
+                                'docs'    => implode( ', ', $missing_doc ) ] ) !!}
+                        </p>
+                        @endif
+                    </x-input.group>
+                    <x-input.group :error="$errors->first('mission.rental_car')" inline>
+                        <x-input.checkbox wire:model="mission.rental_car" id="rental_car" for="rental_car">
+                            {{ __('Rental car') }}
+                        </x-input.checkbox>
+                        @if ( $mission->rental_car &&
+                              auth()->user()
+                                    ->load( ['documents' => fn ($query) => $query->whereIn('type', ['driver']) ] )
+                                    ->documents->count() == 0 )
+                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic">
+                            {!! __( 'helptext-rental-car', [ 'profile' => route( 'edit-user', auth()->id() ) ] ) !!}
+                        </p>
+                        @endif
+                    </x-input.group>
+                    <x-input.group :error="$errors->first('mission.parking')" inline>
+                        <x-input.checkbox wire:model="mission.parking" id="parking" for="parking">
+                            {{ __('Parking') }}
+                        </x-input.checkbox>
+                    </x-input.group>
+                    @empty($mission->conf_amount)
+                    <x-input.group :error="$errors->first('mission.registration')" inline>
+                        <x-input.checkbox wire:model="mission.registration" id="registration" for="registration">
+                            {{ __('Conference registration fee') }}
+                        </x-input.checkbox>
+                    </x-input.group>
+                    @endempty
+                </x-input.group>
+
+                <x-input.group paddingless borderless inline label="Other expenses" for="others" :error="$errors->first('mission.others')">
+                    <x-input.contenteditable wire:model="mission.others" id="others" leadingIcon="chat" :content="$mission->others" :disabled="$disabled"/>
+                </x-input.group>
 
             @else
                 <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">{{ __('This is a no-cost mission.') }}</p>
@@ -448,7 +491,7 @@
             </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('mission.comments')">
-                <x-input.contenteditable wire:model="mission.comments" id="comments" :content="$mission->comments" class="text-gray-700" :disabled="$disabled" />
+                <x-input.contenteditable wire:model="mission.comments" id="comments" leadingIcon="chat" :content="$mission->comments" :disabled="$disabled" />
             </x-input.group>
 
             @php
@@ -591,101 +634,6 @@
 
             <x-slot name="footer">
                 <x-button.secondary wire:click="close_hotel">{{ __('Cancel') }}</x-button.secondary>
-
-                <x-button.primary type="submit">@lang('Save')</x-button.primary>
-            </x-slot>
-        </x-modal.dialog>
-    </form>
-
-    <!-- Edit extra Modal -->
-    <form wire:submit.prevent="save_extra">
-        @csrf
-
-        <x-modal.dialog wire:model.defer="showExtra">
-            <x-slot name="title">@lang('Edit expected extra costs')</x-slot>
-
-            <x-slot name="content">
-                <x-input.group paddingless borderless class="sm:py-1" label="Meal" for="extra_meal" :error="$errors->first('extra_meal')">
-                    <x-input.radiobar
-                        id="extra_meal"
-                        wire:model="extra_meal"
-                        :selected="$extra_meal"
-                        :keylabel="['forfait'=>'Flat-rate costs','reel'=>'Actual costs']"
-                    />
-                    <p class="text-sm font-medium leading-5 text-gray-500 ml-2 mt-1 italic">
-                    @if ( $extra_meal === 'reel' )
-                        {!! __('repas-frais-reels') !!}
-                    @elseif ( $extra_meal === 'forfait' )
-                        {!! __('repas-forfaitaire') !!}
-                    @endif
-                    </p>
-                </x-input.group>
-
-                <x-input.group paddingless borderless class="sm:py-1" label="Extra">
-                    <x-input.group :error="$errors->first('extra_taxi')" inline>
-                        <x-input.checkbox wire:model="extra_taxi" id="extra_taxi" for="extra_taxi">
-                            {{ __('Taxi') }}
-                        </x-input.checkbox>
-                    </x-input.group>
-                    <x-input.group :error="$errors->first('extra_transport')" inline>
-                        <x-input.checkbox wire:model="extra_transport" id="extra_transport" for="extra_transport">
-                            {{ __('Public transport') }}
-                        </x-input.checkbox>
-                    </x-input.group>
-                    <x-input.group :error="$errors->first('extra_personal_car')" inline>
-                        <x-input.checkbox wire:model="extra_personal_car" id="extra_personal_car" for="extra_personal_car">
-                            {{ __('Private car') }}
-                        </x-input.checkbox>
-
-                        @if ( $extra_personal_car )
-                            @php
-                                $missing_doc[] = __( 'car-registration' );
-                                $missing_doc[] = __( 'insurance' );
-                                if ( auth()->user()
-                                           ->load( ['documents' => fn ($query) => $query->whereIn('type', ['driver']) ] )
-                                           ->documents->count() == 0 ) $missing_doc[] = __( 'driver' );
-                            @endphp
-                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic">
-                            {!! __( 'helptext-personal-car', [
-                                'profile' => route( 'edit-user', auth()->id() ),
-                                'docs'    => implode( ', ', $missing_doc ) ] ) !!}
-                        </p>
-                        @endif
-                    </x-input.group>
-                    <x-input.group :error="$errors->first('extra_rental_car')" inline>
-                        <x-input.checkbox wire:model="extra_rental_car" id="extra_rental_car" for="extra_rental_car">
-                            {{ __('Rental car') }}
-                        </x-input.checkbox>
-                        @if ( $extra_rental_car &&
-                              auth()->user()
-                                    ->load( ['documents' => fn ($query) => $query->whereIn('type', ['driver']) ] )
-                                    ->documents->count() == 0 )
-                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic">
-                            {!! __( 'helptext-rental-car', [ 'profile' => route( 'edit-user', auth()->id() ) ] ) !!}
-                        </p>
-                        @endif
-                    </x-input.group>
-                    <x-input.group :error="$errors->first('extra_parking')" inline>
-                        <x-input.checkbox wire:model="extra_parking" id="extra_parking" for="extra_parking">
-                            {{ __('Parking') }}
-                        </x-input.checkbox>
-                    </x-input.group>
-                    @empty($mission->conf_amount)
-                    <x-input.group :error="$errors->first('extra_registration')" inline>
-                        <x-input.checkbox wire:model="extra_registration" id="extra_registration" for="extra_registration">
-                            {{ __('Conference registration fee') }}
-                        </x-input.checkbox>
-                    </x-input.group>
-                    @endempty
-                </x-input.group>
-
-                <x-input.group paddingless borderless class="sm:py-1" label="Others" for="extra_others" :error="$errors->first('extra_others')">
-                    <x-input.textarea wire:model.lazy="extra_others" id="extra_others" rows="5" leadingIcon="chat"/>
-                </x-input.group>
-            </x-slot>
-
-            <x-slot name="footer">
-                <x-button.secondary wire:click="close_extra">{{ __('Cancel') }}</x-button.secondary>
 
                 <x-button.primary type="submit">@lang('Save')</x-button.primary>
             </x-slot>

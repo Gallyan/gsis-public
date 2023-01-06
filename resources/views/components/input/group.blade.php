@@ -13,7 +13,7 @@
 @if($inline)
     <div {{ $attributes->only(['class']) }}>
         @if($label)
-        <label for="{{ $for }}" class="block text-sm font-medium leading-5 text-gray-700 ml-1 mt-2 {{ $required ? 'required' : '' }}">{!! __($label) !!}</label>
+        <label for="{{ $for }}" class="block text-sm font-medium leading-5 text-gray-700 ml-1 mt-2 mb-1 {{ $required ? 'required' : '' }}">{!! __($label) !!} :</label>
         @endif
 
         <div class="mt-1 sm:mt-0 relative rounded-md {{ $innerclass }}">

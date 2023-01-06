@@ -529,7 +529,7 @@
             </x-input.group>
 
             <x-input.group label="Comments" for="comments" :error="$errors->first('expense.comments')">
-                <x-input.contenteditable wire:model="expense.comments" id="comments" :content="$expense->comments" class="text-gray-700" :disabled="$disabled" />
+                <x-input.contenteditable wire:model="expense.comments" id="comments" :content="$expense->comments" class="text-gray-700" :disabled="$disabled" leadingIcon="chat" />
             </x-input.group>
 
         </div>
