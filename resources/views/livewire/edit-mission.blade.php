@@ -217,12 +217,13 @@
             </x-input.group>
 
             <x-input.group label="Mission with or without costs" for="costs" :error="$errors->first('mission.costs')" required>
-                <x-input.radiobar
+                <x-input.toggle
                     id="costs"
                     wire:model="mission.costs"
-                    :selected="$mission->costs"
-                    :keylabel="['Without','With']"
-                    :disabled="$disabled"
+                    :before="'Without'"
+                    :after="'With'"
+                    :choice="$mission->costs"
+                    class="inline-flex mr-4"
                 />
             </x-input.group>
 
