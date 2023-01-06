@@ -120,6 +120,7 @@
                     :after="'Yes'"
                     :choice="$mission->conference"
                     class="inline-flex mr-4"
+                    :disabled="$disabled"
                 />
                 <span class="text-sm text-gray-500">{!! __('helptext-mission-conference') !!}</span>
             </x-input.group>
@@ -188,7 +189,7 @@
 
             <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required innerclass="flex">
                 <div class="w-48">
-                    <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" />
+                    <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled" />
                 </div>
                 <div class="flex flex-row items-center gap-2">
                     <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px">@lang('From'):</p>
@@ -197,13 +198,14 @@
                         wire:model="mission.from"
                         :selected="$mission->from"
                         :keylabel="['work'=>'Work address','home'=>'Home address']"
+                        :disabled="$disabled"
                     />
                 </div>
             </x-input.group>
 
             <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required innerclass="flex">
                 <div class="w-48">
-                    <x-input.date wire:model="mission.return" id="return" placeholder="{{ __('YYYY-MM-DD') }}" />
+                    <x-input.date wire:model="mission.return" id="return" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled" />
                 </div>
                 <div class="flex flex-row items-center gap-2">
                     <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px">@lang('To'):</p>
@@ -212,6 +214,7 @@
                         wire:model="mission.to"
                         :selected="$mission->to"
                         :keylabel="['work'=>'Work address','home'=>'Home address']"
+                        :disabled="$disabled"
                     />
                 </div>
             </x-input.group>
@@ -224,6 +227,7 @@
                     :after="'With costs'"
                     :choice="$mission->costs"
                     class="inline-flex mr-4"
+                    :disabled="$disabled"
                 />
             </x-input.group>
 
@@ -412,6 +416,7 @@
                         wire:model="mission.meal"
                         :selected="$mission->meal"
                         :keylabel="['forfait'=>'Flat-rate costs','reel'=>'Actual costs']"
+                        :disabled="$disabled"
                     />
                     <p class="text-sm font-medium leading-5 text-gray-500 ml-2 mt-1 italic">
                     @if ( $mission->meal === 'reel' )
@@ -424,17 +429,17 @@
 
                 <x-input.group paddingless borderless inline label="Extra">
                     <x-input.group :error="$errors->first('mission.taxi')" inline>
-                        <x-input.checkbox wire:model="mission.taxi" id="taxi" for="taxi">
+                        <x-input.checkbox wire:model="mission.taxi" id="taxi" for="taxi" :disabled="$disabled">
                             {{ __('Taxi') }}
                         </x-input.checkbox>
                     </x-input.group>
                     <x-input.group :error="$errors->first('mission.transport')" inline>
-                        <x-input.checkbox wire:model="mission.transport" id="transport" for="transport">
+                        <x-input.checkbox wire:model="mission.transport" id="transport" for="transport" :disabled="$disabled">
                             {{ __('Public transport') }}
                         </x-input.checkbox>
                     </x-input.group>
                     <x-input.group :error="$errors->first('mission.personal_car')" inline>
-                        <x-input.checkbox wire:model="mission.personal_car" id="personal_car" for="personal_car">
+                        <x-input.checkbox wire:model="mission.personal_car" id="personal_car" for="personal_car" :disabled="$disabled">
                             {{ __('Private car') }}
                         </x-input.checkbox>
 
@@ -454,7 +459,7 @@
                         @endif
                     </x-input.group>
                     <x-input.group :error="$errors->first('mission.rental_car')" inline>
-                        <x-input.checkbox wire:model="mission.rental_car" id="rental_car" for="rental_car">
+                        <x-input.checkbox wire:model="mission.rental_car" id="rental_car" for="rental_car" :disabled="$disabled">
                             {{ __('Rental car') }}
                         </x-input.checkbox>
                         @if ( $mission->rental_car &&
@@ -467,13 +472,13 @@
                         @endif
                     </x-input.group>
                     <x-input.group :error="$errors->first('mission.parking')" inline>
-                        <x-input.checkbox wire:model="mission.parking" id="parking" for="parking">
+                        <x-input.checkbox wire:model="mission.parking" id="parking" for="parking" :disabled="$disabled">
                             {{ __('Parking') }}
                         </x-input.checkbox>
                     </x-input.group>
                     @empty($mission->conf_amount)
                     <x-input.group :error="$errors->first('mission.registration')" inline>
-                        <x-input.checkbox wire:model="mission.registration" id="registration" for="registration">
+                        <x-input.checkbox wire:model="mission.registration" id="registration" for="registration" :disabled="$disabled">
                             {{ __('Conference registration fee') }}
                         </x-input.checkbox>
                     </x-input.group>

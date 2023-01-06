@@ -1,3 +1,7 @@
+@props([
+    'disabled' => false,
+])
+
 <div
     x-data="{ value: @entangle($attributes->wire('model')), picker: undefined }"
     x-init="new Pikaday({
@@ -52,7 +56,8 @@
         {{ $attributes->whereDoesntStartWith('wire:model') }}
         x-ref="input"
         x-bind:value="value"
-        class="rounded-none rounded-r-md form-input transition duration-150 text-gray-700 ease-in-out sm:text-sm sm:leading-5 max-w-32"
+        class="rounded-none rounded-r-md form-input transition duration-150 text-gray-700 ease-in-out sm:text-sm sm:leading-5 max-w-32 @if($disabled) cursor-not-allowed @endif"
+        @disabled($disabled)
     />
 </div>
 
