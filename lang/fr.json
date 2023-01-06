@@ -572,5 +572,7 @@
     "om-later": "Le n° d'ordre de mission sera disponible une fois la mission traitée. Vous pourrez alors commencer à saisir vos frais.",
     "available-later": "Vous pourrez commencer à saisir vos frais une fois que la mission sera traitée.",
     "repas-frais-reels": "<strong>Seule l'UGE</strong> permet de rembourser des repas aux frais réels sur <strong>présentation d'un justificatif</strong>.<br />Merci de vérifier l'imputation de votre demande avant de faire votre choix.",
-    "repas-forfaitaire": "Le montant d'un repas forfaitaire est fixe et diffère selon chaque pays (se renseigner auprès de votre gestionnaire).<br />Si vous optez pour ce choix, le montant du remboursement des frais de repas sera égal au nombre de repas x montant indemnité.<br />Vous avez droit à deux repas par jour sur <b>présentation d'un justificatif</b>."
+    "repas-forfaitaire": "Le montant d'un repas forfaitaire est fixe et diffère selon chaque pays (se renseigner auprès de votre gestionnaire).<br />Si vous optez pour ce choix, le montant du remboursement des frais de repas sera égal au nombre de repas x montant indemnité.<br />Vous avez droit à deux repas par jour sur <b>présentation d'un justificatif</b>.",
+    "No": "Non",
+    "Yes": "Oui"
 }

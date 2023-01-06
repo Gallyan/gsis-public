@@ -112,13 +112,16 @@
                 @endif
             </x-input.group>
 
-            <x-input.group label="Conference" for="conference" :error="$errors->first('mission.conference')" helpText="helptext-mission-conference" required>
-                <x-input.radiobar
+            <x-input.group label="Conference" for="conference" :error="$errors->first('mission.conference')" required>
+                <x-input.toggle
                     id="conference"
                     wire:model="mission.conference"
-                    :selected="$mission->conference"
-                    :keylabel="['Non','Oui']"
+                    :before="'No'"
+                    :after="'Yes'"
+                    :choice="$mission->conference"
+                    class="inline-flex mr-4"
                 />
+                <span class="text-sm text-gray-500">{!! __('helptext-mission-conference') !!}</span>
             </x-input.group>
 
             @if ( $mission->conference )
@@ -134,7 +137,7 @@
                     );
                 });
             @endphp
-            <x-input.group label="" for="" :error="$programme_errors->all()" borderless innerclass="sm:col-start-2" >
+            <x-input.group label="" for="" :error="$programme_errors->all()" borderless paddingless class="pb-5" innerclass="sm:col-start-2" >
                 @if (empty($mission->programme))
                 <x-input.filepond
                     wire:model="programme"
