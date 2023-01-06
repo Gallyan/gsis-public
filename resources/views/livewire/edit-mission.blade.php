@@ -602,9 +602,9 @@
                     />
                     <p class="text-sm font-medium leading-5 text-gray-500 ml-2 mt-1 italic">
                     @if($extra_meal)
-                    {{ __('repas-frais-reels') }}
+                    {!! __('repas-frais-reels') !!}
                     @else
-                    {{ __('repas-forfaitaire') }}
+                    {!! __('repas-forfaitaire') !!}
                     @endif
                     </p>
                 </x-input.group>

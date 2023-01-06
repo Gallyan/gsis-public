@@ -104,6 +104,6 @@
     "transport-public": "Public transport (:type), :nb tickets",
     "om-later": "The mission order number will be available once the mission has been processed. You can then start entering your expenses.",
     "available-later": "You will be able to start entering your expenses once the mission is processed.",
-    "repas-frais-reels": "repas-frais-reels",
-    "repas-forfaitaire": "repas-forfaitaire"
+    "repas-frais-reels": "<b>Only UGE</b> allows the reimbursement of meals at actual cost on <b>presentation of a receipt</b>.<br />Please check the allocation of your request before making your choice.",
+    "repas-forfaitaire": "The cost of a flat rate meal is fixed and differs from country to country (check with your manager).<br />If you choose this option, the amount of the meal reimbursement will be equal to the number of meals x allowance amount.<br />You are entitled to two meals per day upon <b>presentation of proof</b>."
 }
