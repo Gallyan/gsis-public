@@ -71,7 +71,9 @@
                         <x-table.heading small>{{ __('Lunch') . ' / ' . __('Dinner') }}</x-table.heading>
                         <x-table.heading small>{{ __('Amount') }}</x-table.heading>
                         <x-table.heading small>{{ __('Currency') }}</x-table.heading>
+                        @if(!$disabled)
                         <x-table.heading small class="w-6"></x-table.heading>
+                        @endif
                     </x-slot>
 
                     <x-slot name="body">
@@ -113,6 +115,7 @@
                                 </x-input.group>
                             </x-table.cell>
 
+                            @if(!$disabled)
                             <x-table.cell class="whitespace-nowrap text-center">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_acm({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
@@ -120,6 +123,7 @@
                                     </x-button.link>
                                 </span>
                             </x-table.cell>
+                            @endif
                         </x-table.row>
                         @empty
                         <x-table.row>
@@ -165,16 +169,18 @@
 
                 <x-table>
                     <x-slot name="head">
-                        <x-table.heading small class="max-w-[200px]">{{ __('Date') }}</x-table.heading>
-                        <x-table.heading small colspan="4">{{ __('Info') }}</x-table.heading>
+                        <x-table.heading small class="w-32">{{ __('Date') }}</x-table.heading>
+                        <x-table.heading small>{{ __('Info') }}</x-table.heading>
+                        @if(!$disabled)
                         <x-table.heading small class="w-6"></x-table.heading>
+                        @endif
                     </x-slot>
 
                     <x-slot name="body">
                         @forelse($expense->transports as $transport)
                         <x-table.row wire:loading.class.delay="opacity-50" wire:key="transport-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
 
-                            <x-table.cell class="whitespace-normal text-center cursor-pointer max-w-[200px]" wire:click="edit_transport({{ $loop->iteration }})">
+                            <x-table.cell class="whitespace-normal text-center cursor-pointer w-32" wire:click="edit_transport({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 text-sm leading-5">
                                     <p class="text-cool-gray-600">
                                         {{ isset($transport['transport_date'])
@@ -184,7 +190,7 @@
                                 </span>
                             </x-table.cell>
 
-                            <x-table.cell class="whitespace-normal text-center cursor-pointer" wire:click="edit_transport({{ $loop->iteration }})" colspan="4">
+                            <x-table.cell class="whitespace-normal text-center cursor-pointer" wire:click="edit_transport({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 text-sm leading-5">
                                     <p class="text-cool-gray-600">
                                         @switch($transport['transport_mode'])
@@ -215,6 +221,7 @@
                                 </span>
                             </x-table.cell>
 
+                            @if(!$disabled)
                             <x-table.cell class="whitespace-nowrap text-center pl-2 pr-2">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_transport({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
@@ -222,10 +229,11 @@
                                     </x-button.link>
                                 </span>
                             </x-table.cell>
+                            @endif
                         </x-table.row>
                         @empty
                         <x-table.row>
-                            <x-table.cell colspan="6">
+                            <x-table.cell colspan="3">
                                 <div class="flex justify-center items-center space-x-2">
                                     <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
                                     <span class="font-medium text-cool-gray-400 text-lg">{{ __('No transport...') }}</span>
@@ -253,7 +261,9 @@
                         <x-table.heading small class="w-28">{{ __('No. of nights') }}</x-table.heading>
                         <x-table.heading small class="w-48">{{ __('Amount') }}</x-table.heading>
                         <x-table.heading small>{{ __('Currency') }}</x-table.heading>
+                        @if(!$disabled)
                         <x-table.heading small class="w-6"></x-table.heading>
+                        @endif
                     </x-slot>
 
                     <x-slot name="body">
@@ -308,6 +318,7 @@
                                 </x-input.group>
                             </x-table.cell>
 
+                            @if(!$disabled)
                             <x-table.cell class="whitespace-nowrap text-center">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_hotel({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
@@ -315,6 +326,7 @@
                                     </x-button.link>
                                 </span>
                             </x-table.cell>
+                            @endif
                         </x-table.row>
                         @empty
                         <x-table.row>
@@ -344,7 +356,9 @@
                         <x-table.heading small>{{ __('Conference') }}</x-table.heading>
                         <x-table.heading small class="w-48">{{ __('Amount') }}</x-table.heading>
                         <x-table.heading small>{{ __('Currency') }}</x-table.heading>
+                        @if(!$disabled)
                         <x-table.heading small class="w-6"></x-table.heading>
+                        @endif
                     </x-slot>
 
                     <x-slot name="body">
@@ -376,6 +390,7 @@
                                 </x-input.group>
                             </x-table.cell>
 
+                            @if(!$disabled)
                             <x-table.cell class="whitespace-nowrap text-center">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_reg({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
@@ -383,6 +398,7 @@
                                     </x-button.link>
                                 </span>
                             </x-table.cell>
+                            @endif
                         </x-table.row>
                         @empty
                         <x-table.row>
@@ -413,7 +429,9 @@
                         <x-table.heading small>{{ __('Date') }}</x-table.heading>
                         <x-table.heading small class="w-48">{{ __('Amount') }}</x-table.heading>
                         <x-table.heading small>{{ __('Currency') }}</x-table.heading>
+                        @if(!$disabled)
                         <x-table.heading small class="w-6"></x-table.heading>
+                        @endif
                     </x-slot>
 
                     <x-slot name="body">
@@ -455,6 +473,7 @@
                                 </x-input.group>
                             </x-table.cell>
 
+                            @if(!$disabled)
                             <x-table.cell class="whitespace-nowrap text-center">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_misc({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
@@ -462,10 +481,11 @@
                                     </x-button.link>
                                 </span>
                             </x-table.cell>
+                            @endif
                         </x-table.row>
                         @empty
                         <x-table.row>
-                            <x-table.cell colspan="6">
+                            <x-table.cell colspan="5">
                                 <div class="flex justify-center items-center space-x-2">
                                     <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
                                     <span class="font-medium text-cool-gray-400 text-lg">{{ __('No misc expenses...') }}</span>
