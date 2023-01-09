@@ -7,9 +7,17 @@
         </x-slot>
 
         <x-slot name="footer">
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-center mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
                     {{ __('Create an account') }}
+                </a>
+            </div>
+            <div class="flex flex-row flex-wrap justify-center mt-4">
+                <a class="p-2 text-xs text-gray-600 hover:text-gray-900 hover:underline text-center" href="{{ route('terms') }}">
+                    {{ __('Terms of use') }}
+                </a>
+                <a class="p-2 text-xs text-gray-600 hover:text-gray-900 hover:underline text-center" href="{{ route('privacy') }}">
+                    {{ __('Privacy policy') }}
                 </a>
             </div>
         </x-slot>

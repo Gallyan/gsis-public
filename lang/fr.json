@@ -570,5 +570,11 @@
     "No": "Non",
     "Yes": "Oui",
     "Confirmation password does not match.": "La confirmation du mot-de-passe ne correspond pas.",
-    "Password must be at least :min characters.": "Le mot-de-passe doit contenir au moins :min caractères."
+    "Password must be at least :min characters.": "Le mot-de-passe doit contenir au moins :min caractères.",
+    "validate-cgu": "En cochant cette case vous acceptez nos <a href=\":terms\" class=\"text-indigo-800 hover:underline\">conditions générales d'utilisation</a> et notre <a href=\":privacy\" class=\"text-indigo-800 hover:underline\">politique de confidentialité</a>.",
+    "A profile with this email address already exists.": "Un compte existe déjà pour cette adresse e-mail.",
+    "Terms of use & Privacy policy": "Conditions générales d'utilisation et politique de confidentialité",
+    "Terms of use": "Conditions générales d'utilisation",
+    "Privacy policy": "Politique de confidentialité",
+    "You must agree to the Terms of Use and Privacy Policy in order to create an account.": "Vous devez accepter nos conditions générales d'utilisation et notre politique de confidentialité pour pouvoir créer un compte."
 }
