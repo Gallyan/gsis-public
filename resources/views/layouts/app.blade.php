@@ -7,7 +7,7 @@
     <div class="h-screen flex overflow-hidden bg-cool-gray-100" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
         <!-- Off-canvas menu for mobile -->
         <div x-show="sidebarOpen" class="md:hidden" style="display: none;">
-            <div class="fixed inset-0 flex z-40">
+            <div class="fixed inset-0 flex z-30">
                 <div @click="sidebarOpen = false" x-show="sidebarOpen" x-description="Off-canvas menu overlay, show/hide based on off-canvas menu state." x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0" style="display: none;">
                     <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
                 </div>
