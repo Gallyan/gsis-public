@@ -117,7 +117,7 @@
                             </p>
                             <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
                         </div>
-                        @if ( !in_array( $document->id, $del_docs ) )
+                        @if ( !in_array( $document->id, $del_docs ) && !$disabled)
                         <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="del_doc({{ $document->id }})"/>
                         @endif
                     </li>
@@ -134,7 +134,9 @@
                         <x-table.heading small>{{ __('Author') }}</x-table.heading>
                         <x-table.heading small>{{ __('ISBN') }}</x-table.heading>
                         <x-table.heading small>{{ __('Edition') }}</x-table.heading>
+                        @if(!$disabled)
                         <x-table.heading small class="w-6"></x-table.heading>
+                        @endif
                     </x-slot>
 
                     <x-slot name="body">
@@ -172,6 +174,7 @@
                                 </span>
                             </x-table.cell>
 
+                            @if(!$disabled)
                             <x-table.cell class="whitespace-nowrap text-center">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_book({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
@@ -179,10 +182,11 @@
                                     </x-button.link>
                                 </span>
                             </x-table.cell>
+                            @endif
                         </x-table.row>
                         @empty
                         <x-table.row>
-                            <x-table.cell colspan="6">
+                            <x-table.cell colspan="5">
                                 <div class="flex justify-center items-center space-x-2">
                                     <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
                                     <span class="font-medium text-cool-gray-400 text-lg">{{ __('No books...') }}</span>

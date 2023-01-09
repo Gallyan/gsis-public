@@ -96,7 +96,9 @@
                         <x-table.heading small>{{ __('Supplier') }}</x-table.heading>
                         <x-table.heading small>{{ __('Date') }}</x-table.heading>
                         <x-table.heading small>{{ __('Amount') }}</x-table.heading>
+                        @if(!$disabled)
                         <x-table.heading small class="w-6"></x-table.heading>
+                        @endif
                     </x-slot>
 
                     <x-slot name="body">
@@ -139,6 +141,7 @@
                                 </span>
                             </x-table.cell>
 
+                            @if(!$disabled)
                             <x-table.cell class="whitespace-nowrap text-center max-w-4">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_misc({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
@@ -146,10 +149,11 @@
                                     </x-button.link>
                                 </span>
                             </x-table.cell>
+                            @endif
                         </x-table.row>
                         @empty
                         <x-table.row>
-                            <x-table.cell colspan="6">
+                            <x-table.cell colspan="5">
                                 <div class="flex justify-center items-center space-x-2">
                                     <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
                                     <span class="font-medium text-cool-gray-400 text-lg">{{ __('No purchases...') }}</span>
@@ -175,6 +179,7 @@
                             <span class="inline-flex text-md leading-5 pr-4">
                                 {{ __('Reception :id', ['id'=>$loop->iteration]) }}
                             </span>
+                            @if(!$disabled)
                             <span class="inline-flex text-sm leading-5 pr-4">
                                 <x-button.link wire:click="edit_reception({{ $loop->index }})" wire:loading.attr="disabled" title="{{ __('Edit') }}">
                                     <x-icon.pencil class="h-4 w-4 text-cool-gray-400" />
@@ -185,6 +190,7 @@
                                     <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
                                 </x-button.link>
                             </span>
+                            @endif
                         </x-table.heading>
                     </x-slot>
                     <x-slot name="body">
@@ -223,7 +229,9 @@
                                     <x-slot name="head">
                                         <x-table.heading small>{{ __('Name') }}</x-table.heading>
                                         <x-table.heading small>{{ __('Establishment') }}</x-table.heading>
+                                        @if(!$disabled)
                                         <x-table.heading small class="w-6"></x-table.heading>
+                                        @endif
                                     </x-slot>
 
                                     <x-slot name="body">
@@ -245,6 +253,7 @@
                                                 </span>
                                             </x-table.cell>
 
+                                            @if(!$disabled)
                                             <x-table.cell class="text-center max-w-4">
                                                 <span class="inline-flex text-sm leading-5">
                                                     <x-button.link wire:click="del_guest({{ $loop->parent->index }},{{ $loop->index }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
@@ -252,6 +261,7 @@
                                                     </x-button.link>
                                                 </span>
                                             </x-table.cell>
+                                            @endif
                                         </x-table.row>
                                         @empty
                                         <x-table.row>
@@ -378,7 +388,7 @@
                             </p>
                             <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
                         </div>
-                        @if ( !in_array( $document->id, $del_docs ) )
+                        @if ( !in_array( $document->id, $del_docs ) && !$disabled)
                         <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="del_doc({{ $document->id }})"/>
                         @endif
                     </li>
