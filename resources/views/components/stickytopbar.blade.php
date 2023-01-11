@@ -2,10 +2,16 @@
     'title' => '',
 ])
 
-<div class="sticky flex flex-row top-0 bg-cool-gray-100 pb-6 border-b border-gray-200 z-40">
+<div class="sticky flex flex-row top-0 bg-cool-gray-100 pb-4 border-b border-gray-200 z-40 print:pb-0 print:bg-white">
     <h1 class="text-lg md:text-2xl font-semibold text-gray-900">{{ __($title) }}</h1>
 
-    <div class="flex-grow">
+    <div class="flex-grow hidden print:block">
+        <div class="text-sm sm:mt-2 text-cool-gray-600 text-right">
+            @lang('Printed on :date',['date'=>date('d/m/Y H:i')])
+        </div>
+    </div>
+
+    <div class="flex-grow print:hidden">
         <div class="flex flex-col">
             <div class="flex-1 space-x-3 flex justify-end items-center mt-1">
 

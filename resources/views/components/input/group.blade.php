@@ -30,7 +30,7 @@
             @endif
 
             @if ($helpText)
-                <p class="mt-2 text-sm text-gray-500">{{ __($helpText) }}</p>
+                <p class="mt-2 text-sm text-gray-500 print:hidden">{{ __($helpText) }}</p>
             @endif
         </div>
     </div>
@@ -60,7 +60,7 @@
         @endif
 
         @if ($helpText)
-            <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">{!! __($helpText) !!}</p>
+            <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500 print:hidden">{!! __($helpText) !!}</p>
         @endif
     </div>
 @endif

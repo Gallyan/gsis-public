@@ -52,7 +52,7 @@
         this.addEventListener('{{ $attributes['eventReset'] ?? 'pondReset' }}', e => {
             pond.removeFiles();
         });"
-    {{ $attributes->only('class') }}
+    {{ $attributes->only('class')->merge(['class'=>'print:hidden']) }}
 >
 
     <input type="file" name="{{ $inputname }}" x-ref="input" {{ $attributes->only('disabled') }} />

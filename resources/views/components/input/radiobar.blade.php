@@ -4,7 +4,11 @@
     'disabled' => false,
 ])
 
-<div {{ $attributes->only(['class'])->merge(['class' => 'border border-gray-300 rounded-md divide-y divide-x divide-gray-300 lg:flex lg:divide-y-0 w-full']) }} >
+@if($selected)
+<div class="hidden print:block text-sm text-cool-gray-600">{{ __($keylabel[$selected] ?? null) }}</div>
+@endisset
+
+<div {{ $attributes->only(['class'])->merge(['class' => 'border border-gray-300 rounded-md divide-y divide-x divide-gray-300 lg:flex lg:divide-y-0 w-full'.($selected ? ' print:hidden' : '')]) }} >
   @foreach ($keylabel as $key => $label)
     <div class="relative md:flex-auto md:flex">
       <input

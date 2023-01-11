@@ -5,13 +5,13 @@
         <script>
         setInterval(function() {
             Livewire.emit('refreshMessagerie');
-        }, 10 * 1000);
+        }, 60 * 1000);
         </script>
         @endpush
         <div class="flow-root">
-            <div class="relative @if (count($object->posts)) pb-8 @endif">
-                <span class="absolute top-5 left-5 -ml-px h-full w-0.5 border-dashed border border-gray-200" aria-hidden="true"></span>
-                <div class="relative flex items-start space-x-3">
+            <div class="relative @if(count($object->posts)) pb-8 @endif">
+                <span class="absolute top-5 left-5 -ml-px h-full w-0.5 border-dashed border border-gray-200 print:hidden" aria-hidden="true"></span>
+                <div class="relative flex items-start space-x-3 print:hidden">
                     <div class="relative">
                         <img class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500 truncate ring-1 ring-white" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}">
                     </div>
@@ -64,7 +64,7 @@
                                     {{ $post->created_at->diffForHumans() }}
                                 </span>
                             </div>
-                            <div class="mt-2 text-sm text-gray-700 max-w-xl bg-gray-50 rounded-md py-2 px-4 border border-gray-200">
+                            <div class="mt-2 text-sm text-gray-700 max-w-xl bg-gray-50 print:bg-white rounded-md py-2 px-4 border border-gray-200">
                                 <p>{!! nl2br(e($post->body)) !!}</p>
                             </div>
                         </div>

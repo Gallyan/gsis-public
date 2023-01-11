@@ -4,7 +4,7 @@
         @isset($pageTitle) {!! $pageTitle !!} | @endisset
     </x-slot>
 
-    <div class="h-screen flex bg-cool-gray-100" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
+    <div class="h-screen flex bg-cool-gray-100 print:bg-white" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
         <!-- Off-canvas menu for mobile -->
         <div x-show="sidebarOpen" class="md:hidden print:hidden" style="display: none;">
             <div class="fixed inset-0 flex z-30">

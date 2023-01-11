@@ -5,7 +5,7 @@
 ])
 
 <div
-  class="flex rounded-md shadow-sm mb-4 min-h-24 @if( $disabled ) bg-gray-300 opacity-75 cursor-not-allowed @endif"
+  class="flex rounded-md shadow-sm mb-4 min-h-24 @if( $disabled ) bg-gray-300 print:bg-white opacity-75 cursor-not-allowed @endif @if(!$content) print:hidden @endif"
   x-data="{ content: @entangle( $attributes->whereStartsWith('wire:model')->first() ) }" >
     @if ($leadingIcon)
         @php $leadingIcon = "icon.".$leadingIcon @endphp

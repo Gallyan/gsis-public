@@ -3,7 +3,7 @@
 
     <div class="py-4 space-y-4">
         <!-- Top Bar -->
-        <div class="flex justify-between flex-wrap gap-2">
+        <div class="flex justify-between flex-wrap gap-2 print:hidden">
             <div class="flex space-x-2">
                 <x-input.text wire:model="filters.search" placeholder="{{ __('Search...') }}" leadingIcon="magnifier" />
 
@@ -27,7 +27,7 @@
         <!-- Advanced Search -->
         <div>
             @if ($showFilters)
-            <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
+            <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative print:hidden">
                 <div class="w-1/2 pr-2 space-y-4">
                     <x-input.group inline for="filter-role" label="Role">
                         <x-input.select wire:model="filters.role" id="filter-role" class="w-full">

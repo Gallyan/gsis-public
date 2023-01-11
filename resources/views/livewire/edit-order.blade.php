@@ -52,7 +52,7 @@
             </x-input.group>
 
             <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required helpText="helptext-order-subject">
-                <x-input.text wire:model.debounce.500ms="order.subject" id="subject" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="order.subject" id="subject" :disabled="$disabled" :print="$order->subject"/>
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('order.status')" helpText="{!! __('helptext-order-status') !!}" required>
@@ -67,12 +67,12 @@
 
             @can ('manage-users')
             <x-input.group label="Amount excl." for="amount" :error="$errors->first('order.amount')" helpText="helptext-amount">
-                <x-input.money wire:model.debounce.500ms="order.amount" id="amount" :disabled="$disabled" />
+                <x-input.money wire:model.debounce.500ms="order.amount" id="amount" :disabled="$disabled" :print="$order->amount" />
             </x-input.group>
             @endcan
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('order.institution_id')" required>
-                <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled">
+                <x-input.select wire:model="order.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled" :print="$order->institution->namecontract ?? null">
                     @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                     <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                     @endforeach
@@ -80,7 +80,7 @@
             </x-input.group>
 
             <x-input.group label="Supplier" for="supplier" :error="$errors->first('order.supplier')">
-                <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" :disabled="$disabled" :print="$order->supplier"/>
             </x-input.group>
 
             @php
@@ -118,7 +118,7 @@
                             <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
                         </div>
                         @if ( !in_array( $document->id, $del_docs ) && !$disabled)
-                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="del_doc({{ $document->id }})"/>
+                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer print:hidden" wire:click="del_doc({{ $document->id }})"/>
                         @endif
                     </li>
                 @endforeach
@@ -135,7 +135,7 @@
                         <x-table.heading small>{{ __('ISBN') }}</x-table.heading>
                         <x-table.heading small>{{ __('Edition') }}</x-table.heading>
                         @if(!$disabled)
-                        <x-table.heading small class="w-6"></x-table.heading>
+                        <x-table.heading small class="w-6 print:hidden"></x-table.heading>
                         @endif
                     </x-slot>
 
@@ -175,7 +175,7 @@
                             </x-table.cell>
 
                             @if(!$disabled)
-                            <x-table.cell class="whitespace-nowrap text-center">
+                            <x-table.cell class="whitespace-nowrap text-center print:hidden">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_book({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
@@ -209,7 +209,7 @@
         </div>
     </form>
 
-    <livewire:messagerie :object="$order" />
+    <livewire:messagerie key="msg" :object="$order" />
 
     <!-- Add book Modal -->
     <form wire:submit.prevent="add_book">

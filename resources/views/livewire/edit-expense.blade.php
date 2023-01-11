@@ -116,7 +116,7 @@
                             </x-table.cell>
 
                             @if(!$disabled)
-                            <x-table.cell class="whitespace-nowrap text-center">
+                            <x-table.cell class="whitespace-nowrap text-center print:hidden">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_acm({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
@@ -172,7 +172,7 @@
                         <x-table.heading small class="w-32">{{ __('Date') }}</x-table.heading>
                         <x-table.heading small>{{ __('Info') }}</x-table.heading>
                         @if(!$disabled)
-                        <x-table.heading small class="w-6"></x-table.heading>
+                        <x-table.heading small class="w-6 print:hidden"></x-table.heading>
                         @endif
                     </x-slot>
 
@@ -222,7 +222,7 @@
                             </x-table.cell>
 
                             @if(!$disabled)
-                            <x-table.cell class="whitespace-nowrap text-center pl-2 pr-2">
+                            <x-table.cell class="whitespace-nowrap text-center pl-2 pr-2 print:hidden">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_transport({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
@@ -262,7 +262,7 @@
                         <x-table.heading small class="w-48">{{ __('Amount') }}</x-table.heading>
                         <x-table.heading small>{{ __('Currency') }}</x-table.heading>
                         @if(!$disabled)
-                        <x-table.heading small class="w-6"></x-table.heading>
+                        <x-table.heading small class="w-6 print:hidden"></x-table.heading>
                         @endif
                     </x-slot>
 
@@ -274,7 +274,7 @@
                                     class="inline-flex space-x-2 text-sm leading-5"
                                     :error="$errors->first('expense.hotels.'.$loop->index.'.hotel_date')"
                                     inline>
-                                    <x-input.date wire:model.lazy="expense.hotels.{{$loop->index}}.hotel_date" id="expense.hotels.{{$loop->index}}.hotel_date" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled"/>
+                                    <x-input.date wire:model.lazy="expense.hotels.{{$loop->index}}.hotel_date" id="expense.hotels.{{$loop->index}}.hotel_date" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled" :print="$hotel['hotel_date']"/>
                                 </x-input.group>
                             </x-table.cell>
 
@@ -288,6 +288,7 @@
                                         wire:model.debounce.500ms="expense.hotels.{{$loop->index}}.hotel_name"
                                         placeholder="" leadingIcon=""
                                         :disabled="$disabled"
+                                        :print="$hotel['hotel_name']"
                                     />
                                 </x-input.group>
                             </x-table.cell>
@@ -302,24 +303,25 @@
                                         wire:model.debounce.500ms="expense.hotels.{{$loop->index}}.hotel_nights"
                                         placeholder="0" leadingIcon=""
                                         :disabled="$disabled"
+                                        :print="$hotel['hotel_nights']"
                                     />
                                 </x-input.group>
                             </x-table.cell>
 
                             <x-table.cell class="whitespace-normal text-center">
                                 <x-input.group class="inline-flex space-x-2 text-sm leading-5" :error="$errors->first('expense.hotels.'.$loop->index.'.hotel_amount')" inline>
-                                    <x-input.money wire:model.debounce.500ms="expense.hotels.{{$loop->index}}.hotel_amount" id="expense.hotels.{{$loop->index}}.hotel_amount" :disabled="$disabled" class="min-w-32" />
+                                    <x-input.money wire:model.debounce.500ms="expense.hotels.{{$loop->index}}.hotel_amount" id="expense.hotels.{{$loop->index}}.hotel_amount" :disabled="$disabled" class="min-w-32" :print="$hotel['hotel_amount']" />
                                 </x-input>
                             </x-table.cell>
 
                             <x-table.cell class="whitespace-normal text-center">
                                 <x-input.group class="inline-flex space-x-2 text-sm leading-5" :error="$errors->first('expense.hotels.'.$loop->index.'.hotel_currency')" inline>
-                                    <x-input.currency wire:model="expense.hotels.{{$loop->index}}.hotel_currency" id="expense.hotels.{{$loop->index}}.hotel_currency" class="max-w-36" :disabled="$disabled" />
+                                    <x-input.currency wire:model="expense.hotels.{{$loop->index}}.hotel_currency" id="expense.hotels.{{$loop->index}}.hotel_currency" class="max-w-36" :disabled="$disabled" :print="$hotel['hotel_currency']" />
                                 </x-input.group>
                             </x-table.cell>
 
                             @if(!$disabled)
-                            <x-table.cell class="whitespace-nowrap text-center">
+                            <x-table.cell class="whitespace-nowrap text-center print:hidden">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_hotel({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
@@ -357,7 +359,7 @@
                         <x-table.heading small class="w-48">{{ __('Amount') }}</x-table.heading>
                         <x-table.heading small>{{ __('Currency') }}</x-table.heading>
                         @if(!$disabled)
-                        <x-table.heading small class="w-6"></x-table.heading>
+                        <x-table.heading small class="w-6 print:hidden"></x-table.heading>
                         @endif
                     </x-slot>
 
@@ -374,24 +376,25 @@
                                         wire:model.debounce.500ms="expense.registrations.{{$loop->index}}.reg_name"
                                         placeholder="" leadingIcon=""
                                         :disabled="$disabled"
+                                        :print="$registration['reg_name']"
                                     />
                                 </x-input.group>
                             </x-table.cell>
 
                             <x-table.cell class="whitespace-normal text-center">
                                 <x-input.group class="inline-flex space-x-2 text-sm leading-5" :error="$errors->first('expense.registrations.'.$loop->index.'.reg_amount')" inline>
-                                    <x-input.money wire:model.debounce.500ms="expense.registrations.{{$loop->index}}.reg_amount" id="expense.registrations.{{$loop->index}}.reg_amount" :disabled="$disabled" class="min-w-32" />
+                                    <x-input.money wire:model.debounce.500ms="expense.registrations.{{$loop->index}}.reg_amount" id="expense.registrations.{{$loop->index}}.reg_amount" :disabled="$disabled" class="min-w-32" :print="$registration['reg_amount']" />
                                 </x-input>
                             </x-table.cell>
 
                             <x-table.cell class="whitespace-normal text-center">
                                 <x-input.group class="inline-flex space-x-2 text-sm leading-5" :error="$errors->first('expense.registrations.'.$loop->index.'.reg_currency')" inline>
-                                    <x-input.currency wire:model="expense.registrations.{{$loop->index}}.reg_currency" id="expense.registrations.{{$loop->index}}.reg_currency" class="max-w-36" :disabled="$disabled" />
+                                    <x-input.currency wire:model="expense.registrations.{{$loop->index}}.reg_currency" id="expense.registrations.{{$loop->index}}.reg_currency" class="max-w-36" :disabled="$disabled" :print="$registration['reg_currency']" />
                                 </x-input.group>
                             </x-table.cell>
 
                             @if(!$disabled)
-                            <x-table.cell class="whitespace-nowrap text-center">
+                            <x-table.cell class="whitespace-nowrap text-center print:hidden">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_reg({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
@@ -430,7 +433,7 @@
                         <x-table.heading small class="w-48">{{ __('Amount') }}</x-table.heading>
                         <x-table.heading small>{{ __('Currency') }}</x-table.heading>
                         @if(!$disabled)
-                        <x-table.heading small class="w-6"></x-table.heading>
+                        <x-table.heading small class="w-6 print:hidden"></x-table.heading>
                         @endif
                     </x-slot>
 
@@ -448,6 +451,7 @@
                                         wire:model.debounce.500ms="expense.miscs.{{$loop->index}}.misc_object"
                                         placeholder="" leadingIcon=""
                                         :disabled="$disabled"
+                                        :print="$misc['misc_object']"
                                     />
                                 </x-input.group>
                             </x-table.cell>
@@ -457,24 +461,24 @@
                                     class="inline-flex space-x-2 text-sm leading-5"
                                     :error="$errors->first('expense.miscs.'.$loop->index.'.misc_date')"
                                     inline>
-                                    <x-input.date wire:model.lazy="expense.miscs.{{$loop->index}}.misc_date" id="expense.miscs.{{$loop->index}}.misc_date" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled"/>
+                                    <x-input.date wire:model.lazy="expense.miscs.{{$loop->index}}.misc_date" id="expense.miscs.{{$loop->index}}.misc_date" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled" :print="$misc['misc_date']"/>
                                 </x-input.group>
                             </x-table.cell>
 
                             <x-table.cell class="whitespace-normal text-center">
                                 <x-input.group class="inline-flex space-x-2 text-sm leading-5" :error="$errors->first('expense.miscs.'.$loop->index.'.misc_amount')" inline>
-                                    <x-input.money wire:model.debounce.500ms="expense.miscs.{{$loop->index}}.misc_amount" id="expense.miscs.{{$loop->index}}.misc_amount" :disabled="$disabled" class="min-w-32" />
+                                    <x-input.money wire:model.debounce.500ms="expense.miscs.{{$loop->index}}.misc_amount" id="expense.miscs.{{$loop->index}}.misc_amount" :disabled="$disabled" class="min-w-32" :print="$misc['misc_amount']"/>
                                 </x-input>
                             </x-table.cell>
 
                             <x-table.cell class="whitespace-normal text-center">
                                 <x-input.group class="inline-flex space-x-2 text-sm leading-5" :error="$errors->first('expense.miscs.'.$loop->index.'.misc_currency')" inline>
-                                    <x-input.currency wire:model="expense.miscs.{{$loop->index}}.misc_currency" id="expense.miscs.{{$loop->index}}.misc_currency" class="max-w-36" :disabled="$disabled" />
+                                    <x-input.currency wire:model="expense.miscs.{{$loop->index}}.misc_currency" id="expense.miscs.{{$loop->index}}.misc_currency" class="max-w-36" :disabled="$disabled" :print="$misc['misc_currency']"/>
                                 </x-input.group>
                             </x-table.cell>
 
                             @if(!$disabled)
-                            <x-table.cell class="whitespace-nowrap text-center">
+                            <x-table.cell class="whitespace-nowrap text-center print:hidden">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_misc({{ $loop->iteration }})" class="text-cool-gray-600" title="{{ __('Delete') }}" :disabled="$disabled">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
@@ -538,8 +542,8 @@
                             </p>
                             <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
                         </div>
-                        @if ( !in_array( $document->id, $del_docs ) )
-                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="del_doc({{ $document->id }})"/>
+                        @if ( !in_array( $document->id, $del_docs ) && !$disabled )
+                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer print:hidden" wire:click="del_doc({{ $document->id }})"/>
                         @endif
                     </li>
                 @endforeach
@@ -556,7 +560,7 @@
 
     </form>
 
-    <livewire:messagerie :object="$expense" />
+    <livewire:messagerie key="msg" :object="$expense" />
 
     <!-- Edit transport Modal -->
     <form wire:submit.prevent="save_transport">

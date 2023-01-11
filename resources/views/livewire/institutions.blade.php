@@ -3,7 +3,7 @@
 
     <div class="py-4 space-y-4">
         <!-- Top Bar -->
-        <div class="flex justify-between flex-wrap gap-2">
+        <div class="flex justify-between flex-wrap gap-2 print:hidden">
             <div class="flex space-x-2">
                 <x-input.text wire:model="search" placeholder="{{ __('Search...') }}" leadingIcon="magnifier" />
             </div>

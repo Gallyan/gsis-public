@@ -72,7 +72,7 @@
             @endcan
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('purchase.institution_id')" required>
-                <x-input.select wire:model="purchase.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled">
+                <x-input.select wire:model="purchase.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled" :print="$purchase->institution->namecontract ?? null">
                     @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                     <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                     @endforeach
@@ -83,7 +83,7 @@
                 @if ($showWP)
                     <x-input.number wire:model="purchase.wp" id="wp" min="1" :disabled="$disabled"/>
                 @else
-                    <span class="sm:items-center text-cool-gray-600 sm:pb-5">
+                    <span class="sm:items-center text-sm text-cool-gray-600 sm:pb-5">
                         {{ __('wp-sometimes') }}
                     </span>
                 @endif
@@ -404,7 +404,7 @@
         </div>
     </form>
 
-    <livewire:messagerie :object="$purchase" />
+    <livewire:messagerie key="msg" :object="$purchase" />
 
     <!-- Add misc Modal -->
     <form wire:submit.prevent="add_misc">
@@ -485,8 +485,8 @@
         </x-modal.dialog>
     </form>
 
-        <!-- Add Guest Modal -->
-        <form wire:submit.prevent="add_guest">
+    <!-- Add Guest Modal -->
+    <form wire:submit.prevent="add_guest">
         @csrf
 
         <x-modal.dialog wire:model.defer="showGuest">

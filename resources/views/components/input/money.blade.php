@@ -1,4 +1,12 @@
-<div class="flex rounded-md shadow-sm">
+@props([
+    'print' => '',
+])
+
+@if($print)
+<div class="hidden print:block text-sm sm:mt-2 text-cool-gray-600 sm:pb-5">{{ __($print) }}</div>
+@endif
+
+<div class="flex rounded-md shadow-sm @if($print) print:hidden @endif">
     <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-400 sm:text-sm sm:leading-5">
         <x-icon.coins />
     </span>

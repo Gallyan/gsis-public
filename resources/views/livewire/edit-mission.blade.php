@@ -43,7 +43,7 @@
             </x-input.group>
             @endcan
 
-            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" innerclass="flex items-center" :borderless="!$isAuthManager" :paddingless="!$isAuthManager">
+            <x-input.group label="Manager" class="sm:items-center text-sm text-cool-gray-600 sm:pb-5" innerclass="flex items-center" :borderless="!$isAuthManager" :paddingless="!$isAuthManager">
                {{ $mission->managers->isNotEmpty() ?
                     $mission->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->name)->implode(', ') :
                     __('There is no manager yet.') }}
@@ -71,7 +71,7 @@
             </x-input.group>
 
             <x-input.group label="Purpose of the mission" for="subject" :error="$errors->first('mission.subject')" required>
-                <x-input.text wire:model.debounce.500ms="mission.subject" id="subject" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="mission.subject" id="subject" :disabled="$disabled" :print="$mission->subject"/>
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('mission.status')" helpText="{!! __('helptext-status') !!}" required>
@@ -86,16 +86,16 @@
 
             <x-input.group label="Mission order number" for="om" :error="$errors->first('mission.om')">
                 @if ( in_array( $mission->status, ['in-progress','processed','cancelled'] ) )
-                    <x-input.text wire:model.debounce.500ms="mission.om" id="om" :disabled="$disabled" />
+                    <x-input.text wire:model.debounce.500ms="mission.om" id="om" :disabled="$disabled" :print="$mission->om"/>
                 @else
-                    <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">
+                    <p class="sm:items-center text-sm text-cool-gray-600 sm:pb-5 mt-2">
                         {{ __('om-later') }}
                     </p>
                 @endif
             </x-input.group>
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('mission.institution_id')" required>
-                <x-input.select wire:model="mission.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled">
+                <x-input.select wire:model="mission.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled" :print="$mission->institution->namecontract ?? null">
                     @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
                     <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                     @endforeach
@@ -104,9 +104,9 @@
 
             <x-input.group label="WP" for="wp" :error="$errors->first('mission.wp')" :required="$showWP">
                 @if ($showWP)
-                    <x-input.number wire:model="mission.wp" id="wp" min="1" :disabled="$disabled" />
+                    <x-input.number wire:model="mission.wp" id="wp" min="1" :disabled="$disabled" :print="$mission->wp"/>
                 @else
-                    <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">
+                    <p class="sm:items-center text-sm text-cool-gray-600 sm:pb-5">
                         {{ __('wp-sometimes') }}
                     </p>
                 @endif
@@ -122,7 +122,7 @@
                     class="inline-flex mr-4"
                     :disabled="$disabled"
                 />
-                <span class="text-sm text-gray-500">{!! __('helptext-mission-conference') !!}</span>
+                <span class="text-sm text-gray-500 print:hidden">{!! __('helptext-mission-conference') !!}</span>
             </x-input.group>
 
             @if ( $mission->conference )
@@ -158,19 +158,19 @@
                             </p>
                             <p class="text-sm text-gray-500">{{ __($mission->programme->type) }}</p>
                         </div>
-                        @if ( !in_array( $mission->programme->id, $del_docs ) )
-                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="del_doc({{ $mission->programme->id }})"/>
+                        @if ( !in_array( $mission->programme->id, $del_docs ) && !$disabled )
+                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer print:hidden" wire:click="del_doc({{ $mission->programme->id }})"/>
                         @endif
                     </li>
                 </ul>
                 @endif
 
                 <x-input.group for="conf_amount" label="Registration fee to be paid by the institution" :error="$errors->first('mission.conf_amount')" class="mt-2" inline>
-                    <x-input.money wire:model.debounce.500ms="mission.conf_amount" id="conf_amount" :disabled="$disabled" />
+                    <x-input.money wire:model.debounce.500ms="mission.conf_amount" id="conf_amount" :disabled="$disabled" :print="$mission->conf_amount"/>
                 </x-input.group>
 
                 <x-input.group for="conf_currency" label="Currency" :error="$errors->first('mission.conf_currency')" class="mt-2" inline>
-                    <x-input.currency wire:model="mission.conf_currency" id="conf_currency" :disabled="$disabled" />
+                    <x-input.currency wire:model="mission.conf_currency" id="conf_currency" :disabled="$disabled" :print="$mission->conf_currency"/>
                 </x-input.group>
 
                 @if ($mission->conf_amount)
@@ -180,19 +180,19 @@
             @endif
 
             <x-input.group label="Destination" for="dest_country" :error="$errors->first('mission.dest_country')" required>
-                <x-input.country wire:model="mission.dest_country" id="dest_country" placeholder="{{ __('Select Country...') }}" class="w-full" :disabled="$disabled" />
+                <x-input.country wire:model="mission.dest_country" id="dest_country" placeholder="{{ __('Select Country...') }}" class="w-full" :disabled="$disabled" :print="$mission->dest_country"/>
             </x-input.group>
 
             <x-input.group label="City" for="dest_city" :error="$errors->first('mission.dest_city')" required>
-                <x-input.text wire:model.debounce.500ms="mission.dest_city" id="dest_city" leadingIcon="location" :disabled="$disabled" />
+                <x-input.text wire:model.debounce.500ms="mission.dest_city" id="dest_city" leadingIcon="location" :disabled="$disabled" :print="$mission->dest_city"/>
             </x-input.group>
 
-            <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required innerclass="flex">
+            <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required innerclass="flex flex-row flex-wrap gap-2">
                 <div class="w-48">
-                    <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled" />
+                    <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled" :print="$mission->departure ? $mission->departure->translatedFormat('D d M Y') : ''"/>
                 </div>
-                <div class="flex flex-row items-center gap-2">
-                    <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px">@lang('From'):</p>
+                <div class="flex flex-row scr:items-center gap-2 print:mt-2">
+                    <p class="text-sm font-medium text-gray-500">@lang('From'):</p>
                     <x-input.radiobar
                         id="from"
                         wire:model="mission.from"
@@ -203,12 +203,12 @@
                 </div>
             </x-input.group>
 
-            <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required innerclass="flex">
+            <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required innerclass="flex flex-row flex-wrap gap-2">
                 <div class="w-48">
-                    <x-input.date wire:model="mission.return" id="return" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled" />
+                    <x-input.date wire:model="mission.return" id="return" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled" :print="$mission->return ? $mission->return->translatedFormat('D d M Y') : ''"/>
                 </div>
-                <div class="flex flex-row items-center gap-2">
-                    <p class="text-sm font-medium leading-5 text-gray-500 sm:mt-px">@lang('To'):</p>
+                <div class="flex flex-row scr:items-center gap-2 print:mt-2">
+                    <p class="text-sm font-medium text-gray-500">@lang('To'):</p>
                     <x-input.radiobar
                         id="to"
                         wire:model="mission.to"
@@ -331,7 +331,7 @@
                 @endif
 
             @else
-                <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">{{ __('This is a no-cost mission.') }}</p>
+                <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500 print:hidden">{{ __('This is a no-cost mission.') }}</p>
             @endif
 
             </x-input.group>
@@ -410,7 +410,7 @@
                 @endif
 
             @else
-                <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">{{ __('This is a no-cost mission.') }}</p>
+                <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500 print:hidden">{{ __('This is a no-cost mission.') }}</p>
             @endif
 
             </x-input.group>
@@ -426,7 +426,7 @@
                         :keylabel="['forfait'=>'Flat-rate costs','reel'=>'Actual costs']"
                         :disabled="$disabled"
                     />
-                    <p class="text-sm font-medium leading-5 text-gray-500 ml-2 mt-1 italic">
+                    <p class="text-sm font-medium leading-5 text-gray-500 ml-2 mt-1 italic print:hidden">
                     @if ( $mission->meal === 'reel' )
                         {!! __('repas-frais-reels') !!}
                     @elseif ( $mission->meal === 'forfait' )
@@ -459,7 +459,7 @@
                                            ->load( ['documents' => fn ($query) => $query->whereIn('type', ['driver']) ] )
                                            ->documents->count() == 0 ) $missing_doc[] = __( 'driver' );
                             @endphp
-                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic">
+                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic print:hidden">
                             {!! __( 'helptext-personal-car', [
                                 'profile' => route( 'edit-user', auth()->id() ),
                                 'docs'    => implode( ', ', $missing_doc ) ] ) !!}
@@ -474,7 +474,7 @@
                               auth()->user()
                                     ->load( ['documents' => fn ($query) => $query->whereIn('type', ['driver']) ] )
                                     ->documents->count() == 0 )
-                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic">
+                        <p class="text-sm font-medium leading-5 text-gray-500 ml-10 italic print:hidden">
                             {!! __( 'helptext-rental-car', [ 'profile' => route( 'edit-user', auth()->id() ) ] ) !!}
                         </p>
                         @endif
@@ -498,7 +498,7 @@
                 </x-input.group>
 
             @else
-                <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500">{{ __('This is a no-cost mission.') }}</p>
+                <p class="mt-1 col-start-2 col-span-4 text-sm text-gray-500 print:hidden">{{ __('This is a no-cost mission.') }}</p>
             @endif
 
             </x-input.group>
@@ -541,8 +541,8 @@
                             </p>
                             <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
                         </div>
-                        @if ( !in_array( $document->id, $del_docs ) )
-                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="del_doc({{ $document->id }})"/>
+                        @if ( !in_array( $document->id, $del_docs ) && !$disabled )
+                        <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer print:hidden" wire:click="del_doc({{ $document->id }})"/>
                         @endif
                     </li>
                 @endforeach
@@ -554,7 +554,7 @@
 {{--
             @can ('manage-users')
             <x-input.group label="Amount excl." for="amount" :error="$errors->first('mission.amount')" helpText="helptext-amount">
-                <x-input.money wire:model.debounce.500ms="mission.amount" id="amount" :disabled="$disabled" />
+                <x-input.money wire:model.debounce.500ms="mission.amount" id="amount" :disabled="$disabled" :print="$mission->amount"/>
             </x-input.group>
             @endcan
 --}}
@@ -562,7 +562,7 @@
 
     </form>
 
-    <livewire:messagerie :object="$mission" />
+    <livewire:messagerie key="msg" :object="$mission" />
 
     <!-- Edit ticket Modal -->
     <form wire:submit.prevent="save_ticket">
