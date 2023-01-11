@@ -24,7 +24,7 @@
 
         @env(['production','prod'])
         @else
-            <div class="fixed bg-red-500 text-white text-xs font-bold px-10 py-1 rotate-45 -right-10 top-4 text-center w-40">{{ ucfirst(App::environment()) }}</div>
+            <div class="fixed bg-red-500 text-white text-xs font-bold px-10 py-1 rotate-45 -right-10 top-4 text-center w-40 z-50">{{ ucfirst(App::environment()) }}</div>
         @endenv
 
         {{ $slot }}
