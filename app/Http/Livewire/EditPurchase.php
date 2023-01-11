@@ -73,7 +73,8 @@ class EditPurchase extends Component
         'purchase.institution_id' => 'required|exists:institutions,id',
         'purchase.wp'             => [
             'sometimes',
-            Rule::requiredIf(fn () => Institution::find($this->purchase->institution_id)->wp),
+            Rule::requiredIf(fn () => Institution::find($this->purchase->institution_id) &&
+                                      Institution::find($this->purchase->institution_id)->wp),
             'nullable',
             'integer',
             'min:1'
@@ -589,7 +590,7 @@ class EditPurchase extends Component
 
         if ( $creation ) {
             // Mise à jour de l'url à la création
-            $this->emit('urlChange', route('edit-order',$this->purchase->id));
+            $this->emit('urlChange', route('edit-purchase',$this->purchase->id));
         }
 
         // Sauvegarde des fichiers ajoutés
