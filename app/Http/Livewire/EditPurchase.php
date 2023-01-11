@@ -559,6 +559,7 @@ class EditPurchase extends Component
 
     public function updatedPurchaseInstitutionId() {
         $this->showWP = Institution::find($this->purchase->institution_id)->wp;
+        ! $this->showWP && $this->validateOnly('purchase.wp');
     }
 
     public function makeBlankPurchase()
