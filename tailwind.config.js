@@ -33,7 +33,10 @@ module.exports = {
             },
             maxHeight: {
                 '95vh': '95vh',
-            }
+            },
+            screens: {
+                'print': {'raw': 'print'},
+              }
         },
     },
 
