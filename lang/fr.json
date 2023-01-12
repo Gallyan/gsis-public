@@ -579,5 +579,8 @@
     "You must agree to the Terms of Use and Privacy Policy in order to create an account.": "Vous devez accepter nos conditions générales d'utilisation et notre politique de confidentialité pour pouvoir créer un compte.",
     "Created at": "Créé le",
     "Last updated at": "Dernière modification le",
-    "Printed on :date": "Imprimé le :date"
+    "Printed on :date": "Imprimé le :date",
+    "change-pro-address": "Pour modifier votre adresse administrative, merci de vous rapprocher de la cellule d'appui.",
+    "change-hom-address": "Pour modifier votre adresse personnelle, merci de vous rapprocher de la cellule d'appui.",
+    "pro-ins": "Institution"
 }

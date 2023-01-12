@@ -22,6 +22,7 @@ class EditUser extends Component
     public $upload; // Store avatar temporary upload
     public $modified = false; // True if form is modified and need to be saved
     public $selectedroles = [];
+    public $isAuthManager = false;
     /* Modal d'ajout de document */
     public $showModal = false;
     public $showDeleteModal = false;
@@ -65,6 +66,8 @@ class EditUser extends Component
     public function mount( int $id ) {
         if ( ! auth()->user()->can('manage-users') && auth()->id() !== $id )
             abort(403);
+
+        $this->isAuthManager = auth()->user()->can('manage-users');
 
         $this->user_id = $id;
         $this->init();
