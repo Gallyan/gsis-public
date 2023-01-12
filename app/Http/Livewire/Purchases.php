@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use App\Models\Manager;
 use App\Models\Purchase;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -123,19 +124,25 @@ class Purchases extends Component
 
     public function render()
     {
-        $allmanagers = User::role('manager')->get()->mapWithKeys(
+        // Get Managers by role or by association with at least one order
+        $allmanagers = User::role('manager')
+        ->orWhereIn(
+            'id',
+            Manager::whereHasMorph( 'manageable', Purchase::class )
+                ->get()
+                ->pluck('user_id')
+                ->unique()
+            )
+        ->get()
+        ->mapWithKeys(
             function( $manager ) {
-                return [$manager->id => ucwords( $manager->firstname.' '.$manager->lastname )];
+                return [$manager->id => ucwords( $manager->name )];
             }
         );
 
         return view('livewire.purchases', [
             'purchases' => $this->rows,
-            'allmanagers' => User::role('manager')->get()->mapWithKeys(
-                                function( $manager ) {
-                                    return [$manager->id => ucwords( $manager->firstname.' '.$manager->lastname )];
-                                }
-                            ),
+            'allmanagers' => $allmanagers,
         ])->layoutData([
             'pageTitle' => __('Non-mission purchases'),
         ]);

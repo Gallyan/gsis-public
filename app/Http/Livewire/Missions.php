@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use App\Models\Manager;
 use App\Models\Mission;
 use Livewire\Component;
 use Illuminate\Support\Carbon;
@@ -122,19 +123,25 @@ class Missions extends Component
 
     public function render()
     {
-        $allmanagers = User::role('manager')->get()->mapWithKeys(
+        // Get Managers by role or by association with at least one order
+        $allmanagers = User::role('manager')
+        ->orWhereIn(
+            'id',
+            Manager::whereHasMorph( 'manageable', Mission::class )
+                ->get()
+                ->pluck('user_id')
+                ->unique()
+            )
+        ->get()
+        ->mapWithKeys(
             function( $manager ) {
-                return [$manager->id => ucwords( $manager->firstname.' '.$manager->lastname )];
+                return [$manager->id => ucwords( $manager->name )];
             }
         );
 
         return view('livewire.missions', [
             'missions' => $this->rows,
-            'allmanagers' => User::role('manager')->get()->mapWithKeys(
-                                function( $manager ) {
-                                    return [$manager->id => ucwords( $manager->firstname.' '.$manager->lastname )];
-                                }
-                            ),
+            'allmanagers' => $allmanagers,
         ])->layoutData([
             'pageTitle' => __('Missions'),
         ]);
