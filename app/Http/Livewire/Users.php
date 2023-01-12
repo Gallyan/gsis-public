@@ -30,7 +30,7 @@ class Users extends Component
     public User $editing;
     public $selectedroles = [];
 
-    protected $queryString = ['sorts'];
+    protected $queryString = ['sorts'=>['as'=>'s']];
 
     public function rules() { return [
         'editing.firstname' => 'required|max:255',

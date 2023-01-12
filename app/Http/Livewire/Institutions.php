@@ -18,7 +18,7 @@ class Institutions extends Component
     public $search = '';
     public Institution $editing;
 
-    protected $queryString = ['sorts'];
+    protected $queryString = ['sorts'=>['as'=>'s']];
 
     public function rules() { return [
         'editing.name' => 'required|string|max:255',
