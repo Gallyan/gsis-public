@@ -50,6 +50,7 @@
                 <div class="p-6 bg-white text-md">
                     {{ __('You have stated') }}
                     {{ count($user->missions) }} {{ __('missions') }},
+                    {{ count($user->expenses) }} {{ strtolower(__('Mission expenses')) }},
                     {{ count($user->purchases) }} {{ __('purchases') }},
                     {{ count($user->orders) }} {{ __('orders') }}.
                 </div>

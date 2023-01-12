@@ -425,7 +425,7 @@
     "Mission with or without costs": "Mission avec ou sans frais",
     "Your email address is not yet validated. For the moment, you only have access to your profile and your dashboard. You can request a new verification email by clicking on the button below:": "Votre adresse email n'est pas encore validée. Pour l'instant, vous n'avez accès qu'à votre profil et votre tableau de bord. Vous pouvez demander un nouvel envoi de l'email de vérification en cliquant sur le bouton ci-dessous:",
     "incomplete-profile": "Votre profil est incomplet, il manque le champ obligatoire suivant : :missing.|Votre profil est incomplet, il manque les champs obligatoires suivants : :missing.",
-    "please-complete": "Merci de compléter cette information sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\">page profil</a>.",
+    "please-complete": "Merci de compléter cette information sur votre <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"blank\">profil <sup><svg class=\"inline-block w-3 h-3\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14\"/></svg></sup></a>.",
     "From your address": "Depuis votre adresse",
     "From": "Depuis",
     "To your address": "Vers votre adresse",

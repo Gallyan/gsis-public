@@ -71,6 +71,30 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     public function getVerifiedAttribute() { return !is_null($this->email_verified_at); }
 
+    public function getHomeAddressAttribute() {
+        $adr = trim(
+            implode(
+                ' ',
+                array_filter($this->toArray(), function($key) {
+                    return str_starts_with($key, 'hom_');
+                }, ARRAY_FILTER_USE_KEY)
+            )
+        );
+        return $adr === "" ? null : e($adr);
+    }
+
+    public function getWorkAddressAttribute() {
+        $adr = trim(
+            implode(
+                ' ',
+                array_filter($this->toArray(), function($key) {
+                    return str_starts_with($key, 'pro_');
+                }, ARRAY_FILTER_USE_KEY)
+            )
+        );
+        return $adr === "" ? null : e($adr);
+    }
+
     public function avatarUrl()
     {
         return $this->avatar
@@ -118,5 +142,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     public function missions()
     {
         return $this->hasMany(Mission::class);
+    }
+
+    /**
+     * Get all of the user's expenses.
+     */
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
     }
 }
