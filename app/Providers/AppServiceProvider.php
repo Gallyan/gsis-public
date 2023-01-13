@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 use Validator;
 use Spatie\Permission\Models\Role;
@@ -31,6 +33,13 @@ class AppServiceProvider extends ServiceProvider
     {
         // For length to get indexes on string field, spatie permission prerequisite
         Schema::defaultStringLength(125);
+
+        // Renforcement des règles de mot de passe en production
+        Password::defaults(function () {
+            return App::environment('production')
+                    ? Password::min(12)->letters()->mixedCase()->numbers()->symbols()->uncompromised()
+                    : Password::min(8);
+        });
 
         // Add a validation rule for phone numbers
         Validator::extend('phone', function($attribute, $value, $parameters, $validator) {
