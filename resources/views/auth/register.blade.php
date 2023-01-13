@@ -39,6 +39,7 @@
             <!-- Password -->
             <div class="mt-2">
                 <x-auth.label for="password" :value="__('Password')" />
+                <x-auth.label :value="__('password-rules')" class="text-xs"/>
 
                 <x-auth.input id="password" class="block mt-1 w-full"
                                 type="password"

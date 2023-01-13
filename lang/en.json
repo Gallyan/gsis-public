@@ -103,5 +103,6 @@
     "validate-cgu": "By checking this box you agree to our <a href=\":terms\" class=\"text-indigo-800 hover:underline\">terms of use</a> and <a href=\":privacy\" class=\"text-indigo-800 hover:underline\">privacy policy</a>.",
     "change-pro-address": "To change your administrative address, please contact the support unit.",
     "change-hom-address": "To change your home address, please contact the support unit.",
-    "pro-ins": "Institution"
+    "pro-ins": "Institution",
+    "password-rules": "The password must contain at least one upper case, one lower case, one number, one special character and 12 characters."
 }

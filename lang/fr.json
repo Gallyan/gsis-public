@@ -582,5 +582,6 @@
     "Printed on :date": "Imprimé le :date",
     "change-pro-address": "Pour modifier votre adresse administrative, merci de vous rapprocher de la cellule d'appui.",
     "change-hom-address": "Pour modifier votre adresse personnelle, merci de vous rapprocher de la cellule d'appui.",
-    "pro-ins": "Institution"
+    "pro-ins": "Institution",
+    "password-rules": "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et 12 caractères."
 }
