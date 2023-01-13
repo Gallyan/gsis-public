@@ -46,6 +46,10 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 $user->sendEmailVerificationNotification();
             }
         });
+
+        static::created(function (User $user) {
+            $user->assignRole('user');
+        });
     }
 
     public function getMissingInfoAttribute() {
