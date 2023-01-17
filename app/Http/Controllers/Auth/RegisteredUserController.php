@@ -43,10 +43,10 @@ class RegisteredUserController extends Controller
             'password.confirmed' => __('Confirmation password does not match.'),
             'password.min' => __('Password must be at least :min characters.'),
             'email.unique' => __('A profile with this email address already exists.'),
-            'cgu.accepted' => __('You must agree to the Terms of Use and Privacy Policy in order to create an account.'),
+            'cgu.accepted' => __('must-agree'),
         ], [
             'email'=>__('E-mail'),
-            'cgu'=>__('Terms of use & Privacy policy'),
+            'cgu'=>__('Terms of use'),
         ]);
 
         $user = User::create([

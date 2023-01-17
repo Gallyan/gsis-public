@@ -8,16 +8,12 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Auth\TermsAndPrivacyController;
+use App\Http\Controllers\Auth\TermsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/terms', [TermsAndPrivacyController::class, 'terms'])
+Route::get('/terms', [TermsController::class, 'terms'])
                 ->middleware('guest')
                 ->name('terms');
-
-Route::get('/privacy-policy', [TermsAndPrivacyController::class, 'privacy'])
-                ->middleware('guest')
-                ->name('privacy');
 
 Route::get('/register', [RegisteredUserController::class, 'create'])
                 ->middleware('guest')

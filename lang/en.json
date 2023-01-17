@@ -100,9 +100,10 @@
     "available-later": "You will be able to start entering your expenses once the mission is processed.",
     "repas-frais-reels": "<b>Only UGE</b> allows the reimbursement of meals at actual cost on <b>presentation of a receipt</b>.<br />Please check the allocation of your request before making your choice.",
     "repas-forfaitaire": "The cost of a flat rate meal is fixed and differs from country to country (check with your manager).<br />If you choose this option, the amount of the meal reimbursement will be equal to the number of meals x allowance amount.<br />You are entitled to two meals per day upon <b>presentation of proof</b>.",
-    "validate-cgu": "By checking this box you agree to our <a href=\":terms\" class=\"text-indigo-800 hover:underline\">terms of use</a> and <a href=\":privacy\" class=\"text-indigo-800 hover:underline\">privacy policy</a>.",
+    "validate-cgu": "By checking this box you agree to our <a href=\":terms\" class=\"text-indigo-800 hover:underline\">terms of use</a>.",
     "change-pro-address": "To change your administrative address, please contact the support unit.",
     "change-hom-address": "To change your home address, please contact the support unit.",
     "pro-ins": "Institution",
-    "password-rules": "The password must contain at least one upper case, one lower case, one number, one special character and 12 characters."
+    "password-rules": "The password must contain at least one upper case, one lower case, one number, one special character and 12 characters.",
+    "must-agree": "You must agree to the Terms of Use in order to create an account."
 }

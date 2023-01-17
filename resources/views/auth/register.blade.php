@@ -63,7 +63,7 @@
                 <x-auth.input id="cgu" class="mt-1" :checked="old('cgu')"
                                 type="checkbox"
                                 name="cgu" />
-                <span class="text-gray-700 text-xs">{!! __('validate-cgu', ['terms'=>route('terms'),'privacy'=>route('privacy')]) !!}</span>
+                <span class="text-gray-700 text-xs">{!! __('validate-cgu', ['terms'=>route('terms')]) !!}</span>
 
                 <x-auth.auth-validation-errors class="mb-2" :errors="$errors->get('cgu')" />
             </div>

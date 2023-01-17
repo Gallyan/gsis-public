@@ -16,9 +16,6 @@
                 <a class="p-2 text-xs text-gray-600 hover:text-gray-900 hover:underline text-center" href="{{ route('terms') }}">
                     {{ __('Terms of use') }}
                 </a>
-                <a class="p-2 text-xs text-gray-600 hover:text-gray-900 hover:underline text-center" href="{{ route('privacy') }}">
-                    {{ __('Privacy policy') }}
-                </a>
             </div>
         </x-slot>
 
