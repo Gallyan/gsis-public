@@ -3,7 +3,7 @@
 
     <div class="py-8 grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
 
-        <div class="col-span-2 bg-white overflow-hidden shadow-md sm:rounded-lg">
+        <div class="lg:col-span-2 bg-white overflow-hidden shadow-md sm:rounded-lg">
             <div class="p-6 bg-white text-md">
                 <p>{{ __('Hi :name, you\'re logged in!',['name'=>$user->name]) }}</p>
             </div>
@@ -42,13 +42,20 @@
             @endif
         </div>
 
-        <div class="col-span-2 bg-white overflow-hidden shadow-md sm:rounded-lg">
-            <div class="p-6 bg-white text-md">
-                {{ __('You have stated') }}
-                {{ count($user->missions) }} {{ __('missions') }},
-                {{ count($user->expenses) }} {{ strtolower(__('Mission expenses')) }},
-                {{ count($user->purchases) }} {{ __('purchases') }},
-                {{ count($user->orders) }} {{ __('orders') }}.
+        <div class="col-span-1 bg-white overflow-hidden shadow-md sm:rounded-lg flex flex-col">
+            <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-yellow-600 to-yellow-400 text-white shadow-yellow-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
+                <x-icon.stats fill="currentColor" class="w-8 h-8"/>
+            </div>
+            <div class="p-4 text-right">
+                <p class="block text-sm text-gray-500">
+                    @lang('Your activity')
+                </p>
+            </div>
+            <div class="border-t border-blue-gray-50 p-4">
+                <p class="block font-normal text-gray-600"><strong>{{ count($user->missions) }}</strong>&nbsp;{{ __('missions') }}</p>
+                <p class="block font-normal text-gray-600"><strong>{{ count($user->expenses) }}</strong>&nbsp;{{ strtolower(__('Mission expenses')) }}</p>
+                <p class="block font-normal text-gray-600"><strong>{{ count($user->purchases) }}</strong>&nbsp;{{ __('purchases') }}</p>
+                <p class="block font-normal text-gray-600"><strong>{{ count($user->orders) }}</strong>&nbsp;{{ __('orders') }}</p>
             </div>
         </div>
 
@@ -69,11 +76,11 @@
                 </h4>
             </div>
             <div class="border-t border-blue-gray-50 p-4">
-                <p class="block text-sm font-normal text-gray-500">
-                {{ count(
+                <p class="block text-sm font-normal text-gray-600">
+                <strong>{{ count(
                     \App\Models\User::whereDate('last_seen_at', Illuminate\Support\Carbon::today())
                                     ->get()
-                    ) }} @lang('have connected today')
+                    ) }}</strong> @lang('have connected today')
                 </p>
             </div>
         </div>

@@ -581,5 +581,6 @@
     "pro-ins": "Institution",
     "password-rules": "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et 12 caractères.",
     "have connected today": "ce sont connectés aujourd'hui",
-    "Connected Users": "Utilisateurs Connectés"
+    "Connected Users": "Utilisateurs Connectés",
+    "Your activity": "Votre activité"
 }
