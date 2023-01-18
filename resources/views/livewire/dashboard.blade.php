@@ -66,17 +66,23 @@
             </div>
             <div class="p-4 text-right">
                 <p class="block text-sm text-gray-500">
-                    @lang('Connected Users')
+                    @lang('Connected users')
                 </p>
-                <h4 class="block tracking-normal text-3xl font-semibold leading-snug text-gray-900">
-                    {{ count(
-                    \App\Models\User::where('last_seen_at', '>', Illuminate\Support\Carbon::now()->subMinutes(30)->toDateTimeString())
-                                    ->get()
-                    ) }}
-                </h4>
             </div>
             <div class="border-t border-blue-gray-50 p-4">
-                <p class="block text-sm font-normal text-gray-600">
+                <p class="block text-base font-normal text-gray-600">
+                <strong>{{ count(
+                    \App\Models\User::where('last_seen_at', '>', Illuminate\Support\Carbon::now()->subMinutes(5)->toDateTimeString())
+                                    ->get()
+                    ) }}</strong> @lang('since :nb minutes',['nb'=>5])
+                </p>
+                <p class="block text-base font-normal text-gray-600">
+                <strong>{{ count(
+                    \App\Models\User::where('last_seen_at', '>', Illuminate\Support\Carbon::now()->subMinutes(30)->toDateTimeString())
+                                    ->get()
+                    ) }}</strong> @lang('since :nb minutes',['nb'=>30])
+                </p>
+                <p class="block text-base font-normal text-gray-600">
                 <strong>{{ count(
                     \App\Models\User::whereDate('last_seen_at', Illuminate\Support\Carbon::today())
                                     ->get()

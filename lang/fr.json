@@ -580,7 +580,8 @@
     "change-hom-address": "Pour modifier votre adresse personnelle, merci de vous rapprocher de la cellule d'appui.",
     "pro-ins": "Institution",
     "password-rules": "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et 12 caractères.",
-    "have connected today": "ce sont connectés aujourd'hui",
-    "Connected Users": "Utilisateurs Connectés",
-    "Your activity": "Votre activité"
+    "have connected today": "se sont connectés aujourd'hui",
+    "Connected users": "Utilisateurs connectés",
+    "Your activity": "Votre activité",
+    "since :nb minutes": "depuis :nb minutes"
 }
