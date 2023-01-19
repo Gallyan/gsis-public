@@ -35,7 +35,7 @@ class Institutions extends Component
                 })->ignore($this->editing->id)],
         'editing.wp'         => 'boolean',
         'editing.from'       => 'nullable|date:Y-m-d',
-        'editing.to'         => 'nullable|date:Y-m-d|after_or_equal:editing.from',
+        'editing.to'         => 'nullable|date:Y-m-d'.($this->editing->from?'|after_or_equal:editing.from':''),
     ]; }
 
     protected function messages() { return [
@@ -78,9 +78,6 @@ class Institutions extends Component
 
     public function save()
     {
-        if( $this->editing->from === "" ) $this->editing->from = null;
-        if( $this->editing->to === "" ) $this->editing->to = null;
-
         $this->validate();
 
         $this->editing->save();
@@ -90,7 +87,15 @@ class Institutions extends Component
 
     public function updatedSearch() { $this->resetPage(); }
 
-    public function updated($propertyName) { $this->validateOnly($propertyName); }
+    public function updated($propertyName) {
+
+        if( in_array($propertyName,['editing.from','editing.to']) ) {
+            $this->validateOnly('editing.from');
+            $this->validateOnly('editing.to');
+        } else {
+            $this->validateOnly($propertyName);
+        }
+    }
 
     public function getRowsQueryProperty()
     {

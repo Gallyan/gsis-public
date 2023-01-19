@@ -64,7 +64,7 @@
                         <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
-                                    {{ $institution->from }}
+                                    {{ $institution->fromFormatted }}
                                 </p>
                             </span>
                         </x-table.cell>
@@ -72,7 +72,7 @@
                         <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
-                                    {{ $institution->to }}
+                                    {{ $institution->toFormatted }}
                                 </p>
                             </span>
                         </x-table.cell>
