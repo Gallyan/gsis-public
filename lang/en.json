@@ -105,5 +105,8 @@
     "change-hom-address": "To change your home address, please contact the support unit.",
     "pro-ins": "Institution",
     "password-rules": "The password must contain at least one upper case, one lower case, one number, one special character and 12 characters.",
-    "must-agree": "You must agree to the Terms of Use in order to create an account."
+    "must-agree": "You must agree to the Terms of Use in order to create an account.",
+    "editing-startdate": "start date",
+    "editing-enddate": "end date",
+    "mission-from": "From"
 }
