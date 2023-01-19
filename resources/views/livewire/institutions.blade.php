@@ -29,8 +29,9 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('name')" :direction="$sorts['name'] ?? null" class="w-full">{{ __('Name') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('contract')" :direction="$sorts['contract'] ?? null">{{ __('Contract') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('allocation')" :direction="$sorts['allocation'] ?? null" class="whitespace-nowrap">{{ __('Allocation') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('from')" :direction="$sorts['from'] ?? null">{{ __('Start') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('to')" :direction="$sorts['to'] ?? null">{{ __('End') }}</x-table.heading>
                     <x-table.heading class="whitespace-nowrap">{{ __('WP') }}</x-table.heading>
-                    <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">{{ __('Created') }}</x-table.heading>
                 </x-slot>
 
                 <x-slot name="body">
@@ -63,6 +64,22 @@
                         <x-table.cell class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-gray-600 truncate">
+                                    {{ $institution->from }}
+                                </p>
+                            </span>
+                        </x-table.cell>
+
+                        <x-table.cell class="whitespace-nowrap">
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                <p class="text-gray-600 truncate">
+                                    {{ $institution->to }}
+                                </p>
+                            </span>
+                        </x-table.cell>
+
+                        <x-table.cell class="whitespace-nowrap">
+                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
+                                <p class="text-gray-600 truncate">
                                     @if ($institution->wp)
                                         <x-icon.check class="text-green-500 h-5 w-5"/>
                                     @else
@@ -71,18 +88,10 @@
                                 </p>
                             </span>
                         </x-table.cell>
-
-                        <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-gray-600 truncate">
-                                    {{ $institution->date_for_humans }}
-                                </p>
-                            </span>
-                        </x-table.cell>
                     </x-table.row>
                     @empty
                     <x-table.row>
-                        <x-table.cell colspan="5">
+                        <x-table.cell colspan="6">
                             <div class="flex justify-center items-center space-x-2">
                                 <x-icon.inbox class="h-8 w-8 text-gray-400" />
                                 <span class="font-medium py-8 text-gray-400 text-xl">{{ __('Nothing found...') }}</span>
@@ -121,7 +130,23 @@
                 </x-input.group>
 
                 <x-input.group paddingless borderless class="sm:py-1" label="WP" :error="$errors->first('editing.wp')">
-                    <x-input.checkbox wire:model="editing.wp" id="wp">{{ __('wp-checkbox') }}</x-input.checkbox>
+                    <p class="block text-sm font-medium leading-5 text-gray-700">{{ __('wp-checkbox') }}</p>
+                    <x-input.toggle
+                        id="wp"
+                        wire:model="editing.wp"
+                        :before="'Non'"
+                        :after="'Oui'"
+                        :choice="$editing->wp"
+                        class="inline-flex mr-4"
+                    />
+                </x-input.group>
+
+                <x-input.group paddingless borderless class="sm:py-1" for="from" label="Start date" :error="$errors->first('editing.from')" >
+                    <x-input.date wire:model.lazy="editing.from" id="from" placeholder="{{ __('YYYY-MM-DD') }}" />
+                </x-input.group>
+
+                <x-input.group paddingless borderless class="sm:py-1" for="to" label="End date" :error="$errors->first('editing.to')" >
+                    <x-input.date wire:model.lazy="editing.to" id="to" placeholder="{{ __('YYYY-MM-DD') }}" />
                 </x-input.group>
             </x-slot>
 

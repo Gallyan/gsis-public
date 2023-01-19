@@ -96,7 +96,7 @@
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('mission.institution_id')" required>
                 <x-input.select wire:model="mission.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled" :print="$mission->institution->namecontract ?? null">
-                    @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
+                    @foreach (\App\Models\Institution::available()->sortBy('name') as $ins)
                     <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                     @endforeach
                 </x-input.select>
@@ -192,7 +192,7 @@
                     <x-input.date wire:model="mission.departure" id="departure" placeholder="{{ __('YYYY-MM-DD') }}" :disabled="$disabled" :print="$mission->departure ? $mission->departure->translatedFormat('D d M Y') : ''"/>
                 </div>
                 <div class="flex flex-row scr:items-center gap-2 print:mt-2">
-                    <p class="text-sm font-medium text-gray-500">@lang('From'):</p>
+                    <p class="text-sm font-medium text-gray-500">@lang('mission-from'):</p>
                     <x-input.radiobar
                         id="from"
                         wire:model="mission.from"

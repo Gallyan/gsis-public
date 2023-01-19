@@ -21,11 +21,35 @@ class Institutions extends Component
     protected $queryString = ['sorts'=>['as'=>'s']];
 
     public function rules() { return [
-        'editing.name' => 'required|string|max:255',
-        'editing.contract' => 'required|string|max:255',
-        'editing.allocation' => 'required|string|max:55',
-        'editing.wp' => 'boolean',
+        'editing.name'       => 'required|string|max:255',
+        'editing.contract'   => 'required|string|max:255',
+        'editing.allocation' => ['required','string','max:55',
+            Rule::unique('institutions','allocation')->where(
+                function ($query) {
+                    return $query->where(
+                        [
+                            ["name", "=", $this->editing->name],
+                            ["contract", "=", $this->editing->contract],
+                        ]
+                    );
+                })->ignore($this->editing->id)],
+        'editing.wp'         => 'boolean',
+        'editing.from'       => 'nullable|date:Y-m-d',
+        'editing.to'         => 'nullable|date:Y-m-d|after_or_equal:editing.from',
     ]; }
+
+    protected function messages() { return [
+        'editing.allocation.unique' => 'This institution already exists.',
+    ];}
+
+    protected function validationAttributes() { return [
+        'editing.name'       => strtolower(__('Name')),
+        'editing.contract'   => strtolower(__('Contract')),
+        'editing.allocation' => strtolower(__('Allocation')),
+        'editing.wp'         => 'WP',
+        'editing.from'       => __('editing-startdate'),
+        'editing.to'         => __('editing-enddate'),
+    ];}
 
     public function mount() { $this->editing = $this->makeBlankInstitution(); }
 
@@ -54,22 +78,10 @@ class Institutions extends Component
 
     public function save()
     {
-        $this->validate();
+        if( $this->editing->from === "" ) $this->editing->from = null;
+        if( $this->editing->to === "" ) $this->editing->to = null;
 
-        $this->validate( [
-            'editing.allocation' => Rule::unique('institutions','allocation')->where(
-                // Prise en compte des autres champs dans le calcul d'unicité
-                function ($query) {
-                    return $query->where(
-                        [
-                            ["name", "=", $this->editing->name],
-                            ["contract", "=", $this->editing->contract],
-                        ]
-                    );
-                })->ignore($this->editing->id)
-        ], [
-            'editing.allocation.unique' => 'This institution already exists.',
-        ]);
+        $this->validate();
 
         $this->editing->save();
 

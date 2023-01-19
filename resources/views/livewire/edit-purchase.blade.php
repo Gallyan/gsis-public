@@ -73,7 +73,7 @@
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('purchase.institution_id')" required>
                 <x-input.select wire:model="purchase.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled" :print="$purchase->institution->namecontract ?? null">
-                    @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
+                    @foreach (\App\Models\Institution::available()->sortBy('name') as $ins)
                     <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                     @endforeach
                 </x-input.select>
