@@ -31,7 +31,14 @@
                 <div class="sm:w-1/2 w-full pr-2 space-y-4">
                     <x-input.group inline for="filter-institution" label="Institution">
                         <x-input.select wire:model="filters.institution" id="filter-institution" class="w-full" multiple>
-                            @foreach (\App\Models\Institution::all()->sortBy('name') as $ins)
+                            @php
+                                if( auth()->user()->can('manage-users') ) {
+                                    $user_inst = \App\models\Mission::select('institution_id')->distinct()->get()->pluck('institution_id');
+                                } else {
+                                    $user_inst = \App\models\Mission::where('user_id','=',auth()->id())->select('institution_id')->distinct()->get()->pluck('institution_id');
+                                }
+                            @endphp
+                            @foreach (\App\Models\Institution::whereIn('id', $user_inst)->get()->sortBy('name') as $ins)
                             <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                             @endforeach
                         </x-input.select>
