@@ -87,7 +87,7 @@
                 </div>
             </x-input.group>
 
-            <x-input.group label="Documents">
+            <x-input.group label="Documents" helpText="helptext-documents">
                 @if (!empty($user->documents))
                 <ul role="list">
                 @foreach( $user->documents as $document )

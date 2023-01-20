@@ -90,6 +90,7 @@
     "helptext-personal-car": "If you plan to use your own car, don't forget to add the following documents to your <a href=\":profile\" class=\"text-indigo-800 hover:underline\" target=\"_blank\">profile</a>: :docs.",
     "helptext-go-return": "Do not forget to indicate the outward AND return journey, if necessary.",
     "helptext-conf-fees": "Please attach the final programme if it has not yet been sent",
+    "helptext-documents": "Here you can add your identity card and passport, driving licence, loyalty cards, insurance certificates, vehicle registration document and bank details for processing your files.",
     "transport-from": "From",
     "transport-to": "To",
     "ticket-dir-mode": ":direction :mode",
