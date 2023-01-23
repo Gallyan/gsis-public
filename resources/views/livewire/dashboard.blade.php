@@ -59,6 +59,7 @@
             </div>
         </div>
 
+        <!-- Connected Users //-->
         @if( auth()->user()->can('manage-admin') )
         <div class="col-span-1 bg-white overflow-hidden shadow-md sm:rounded-lg flex flex-col">
             <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-pink-600 to-pink-400 text-white shadow-pink-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
@@ -71,19 +72,26 @@
             </div>
             <div class="border-t border-blue-gray-50 p-4">
                 <p class="block text-base font-normal text-gray-600">
-                <strong>{{ count(
+                    <strong>{{ count(
+                    \App\Models\User::where('last_seen_at', '>', Illuminate\Support\Carbon::now()->subMinutes(1)->toDateTimeString())
+                                    ->get()
+                    ) }}</strong> @lang('since :nb minutes',['nb'=>1])
+                </p>
+
+                <p class="block text-base font-normal text-gray-600">
+                    <strong>{{ count(
                     \App\Models\User::where('last_seen_at', '>', Illuminate\Support\Carbon::now()->subMinutes(5)->toDateTimeString())
                                     ->get()
                     ) }}</strong> @lang('since :nb minutes',['nb'=>5])
                 </p>
                 <p class="block text-base font-normal text-gray-600">
-                <strong>{{ count(
+                    <strong>{{ count(
                     \App\Models\User::where('last_seen_at', '>', Illuminate\Support\Carbon::now()->subMinutes(30)->toDateTimeString())
                                     ->get()
                     ) }}</strong> @lang('since :nb minutes',['nb'=>30])
                 </p>
                 <p class="block text-base font-normal text-gray-600">
-                <strong>{{ count(
+                    <strong>{{ count(
                     \App\Models\User::whereDate('last_seen_at', Illuminate\Support\Carbon::today())
                                     ->get()
                     ) }}</strong> @lang('have connected today')
@@ -91,6 +99,7 @@
             </div>
         </div>
         @endif
+        <!-- End Connected Users //-->
 
     </div>
 
