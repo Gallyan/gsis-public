@@ -26,67 +26,43 @@
         <div class="flex-col space-y-4">
             <x-table>
                 <x-slot name="head">
-                    <x-table.heading sortable multi-column wire:click="sortBy('name')" :direction="$sorts['name'] ?? null" class="w-full">{{ __('Name') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('name')" :direction="$sorts['name'] ?? null">{{ __('Name') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('contract')" :direction="$sorts['contract'] ?? null">{{ __('Contract') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('allocation')" :direction="$sorts['allocation'] ?? null" class="whitespace-nowrap">{{ __('Allocation') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('from')" :direction="$sorts['from'] ?? null">{{ __('Start') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('to')" :direction="$sorts['to'] ?? null">{{ __('End') }}</x-table.heading>
-                    <x-table.heading class="whitespace-nowrap">{{ __('WP') }}</x-table.heading>
+                    <x-table.heading>{{ __('WP') }}</x-table.heading>
                 </x-slot>
 
                 <x-slot name="body">
                     @forelse ($institutions as $institution)
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}" class="cursor-pointer hover:bg-gray-50"  wire:click="edit({{ $institution->id }})">
-                        <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5" >
-                                <p class="text-gray-600 truncate">
-                                    {{ $institution->name }}
-                                </p>
-                            </span>
+                        <x-table.cell class="whitespace-normal">
+                            {{ $institution->name }}
+                        </x-table.cell>
+
+                        <x-table.cell class="whitespace-normal">
+                            {{ $institution->contract }}
+                        </x-table.cell>
+
+                        <x-table.cell class="whitespace-normal">
+                            {{ $institution->allocation }}
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-gray-600 truncate">
-                                    {{ $institution->contract }}
-                                </p>
-                            </span>
+                            {{ $institution->fromFormatted }}
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-gray-600 truncate">
-                                    {{ $institution->allocation }}
-                                </p>
-                            </span>
+                            {{ $institution->toFormatted }}
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-gray-600 truncate">
-                                    {{ $institution->fromFormatted }}
-                                </p>
-                            </span>
-                        </x-table.cell>
-
-                        <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-gray-600 truncate">
-                                    {{ $institution->toFormatted }}
-                                </p>
-                            </span>
-                        </x-table.cell>
-
-                        <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 truncate text-sm leading-5">
-                                <p class="text-gray-600 truncate">
-                                    @if ($institution->wp)
-                                        <x-icon.check class="text-green-500 h-5 w-5"/>
-                                    @else
-                                        <x-icon.x class="text-red-500 h-5 w-5"/>
-                                    @endif
-                                </p>
-                            </span>
+                            @if ($institution->wp)
+                                <x-icon.check class="text-green-500 h-5 w-5"/>
+                            @else
+                                <x-icon.x class="text-red-500 h-5 w-5"/>
+                            @endif
                         </x-table.cell>
                     </x-table.row>
                     @empty
