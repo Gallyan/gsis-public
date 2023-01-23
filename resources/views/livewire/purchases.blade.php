@@ -108,54 +108,31 @@
                     @forelse ($purchases as $purchase)
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $purchase->id }}" wire:click="edit({{ $purchase->id }})" class="cursor-pointer hover:bg-cool-gray-50">
                         <x-table.cell class="whitespace-normal">
-                            <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600" title="{{ $purchase->subject }}">
-                                    {{ $purchase->subject }}
-                                </p>
-                            </span>
+                            {{ $purchase->subject }}
                         </x-table.cell>
 
                         @can ('manage-users')
                         <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate" title="{{ $purchase->firstname }} {{ $purchase->lastname }}">
-                                    {{ $purchase->firstname }} {{ $purchase->lastname }}
-                                </p>
-                            </span>
+                            {{ $purchase->user->name }}
                         </x-table.cell>
                         @endcan
 
-                        <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-[180px]">
-                                <p class="text-cool-gray-600 truncate" title="{{ $purchase->ins_name }} / {{ $purchase->ins_contract }}">
-                                    {{ $purchase->ins_name }} / {{ $purchase->ins_contract }}
-                                </p>
-                            </span>
+                        <x-table.cell class="whitespace-normal">
+                            {{ $purchase->ins_name }} / {{ $purchase->ins_contract }}
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-100">
-                                <p class="text-cool-gray-600 break-all">
-                                    @foreach ($purchase->managers->pluck('user_id')->unique() as $id)
-                                        {{ App\Models\User::find($id)->name ?? '' }}<br />
-                                    @endforeach
-                                </p>
-                            </span>
+                            @foreach ($purchase->managers->pluck('user_id')->unique() as $id)
+                                {{ App\Models\User::find($id)->name ?? '' }}<br />
+                            @endforeach
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
-                                    {{ __(App\Models\Purchase::STATUSES[$purchase->status]) }}
-                                </p>
-                            </span>
+                            {{ __(App\Models\Purchase::STATUSES[$purchase->status]) }}
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            <span
-                                class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600"
-                                title="{{ $purchase->created_at }}"
-                            >
+                            <span title="{{ $purchase->created_at }}">
                                 {{ $purchase->date_for_humans }}
                             </span>
                         </x-table.cell>

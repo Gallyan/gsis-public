@@ -108,53 +108,31 @@
                     @forelse ($missions as $mission)
                     <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $mission->id }}" wire:click="edit({{ $mission->id }})" class="cursor-pointer hover:bg-cool-gray-50">
                         <x-table.cell class="whitespace-normal">
-                            <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600" title="{{ $mission->subject }}">
-                                    {{ $mission->subject }}
-                                </p>
-                            </span>
+                            {{ $mission->subject }}
                         </x-table.cell>
 
                         @can ('manage-users')
                         <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate" title="{{ $mission->firstname }} {{ $mission->lastname }}">
-                                    {{ $mission->firstname }} {{ $mission->lastname }}
-                                </p>
-                            </span>
+                            {{ $mission->user->name }}
                         </x-table.cell>
                         @endcan
 
-                        <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 text-sm leading-5 max-w-[180px]">
-                                <p class="text-cool-gray-600 truncate" title="{{ $mission->ins_name }} / {{ $mission->ins_contract }}">
-                                    {{ $mission->ins_name }} / {{ $mission->ins_contract }}
-                                </p>
-                        </x-table.cell>
-
                         <x-table.cell class="whitespace-normal">
-                            <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 break-words">
-                                    @foreach ($mission->managers->pluck('user_id')->unique() as $id)
-                                        {{ App\Models\User::find($id)->name ?? '' }}<br />
-                                    @endforeach
-                                </p>
-                            </span>
+                            {{ $mission->ins_name }} / {{ $mission->ins_contract }}
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            <span class="inline-flex space-x-2 text-sm leading-5">
-                                <p class="text-cool-gray-600 truncate">
-                                    {{ __(App\Models\Mission::STATUSES[$mission->status]) }}
-                                </p>
-                            </span>
+                            @foreach ($mission->managers->pluck('user_id')->unique() as $id)
+                                {{ App\Models\User::find($id)->name ?? '' }}<br />
+                            @endforeach
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            <span
-                                class="inline-flex space-x-2 truncate text-sm leading-5 text-cool-gray-600"
-                                title="{{ $mission->created_at }}"
-                            >
+                            {{ __(App\Models\Mission::STATUSES[$mission->status]) }}
+                        </x-table.cell>
+
+                        <x-table.cell class="whitespace-nowrap">
+                            <span title="{{ $mission->created_at }}">
                                 {{ $mission->date_for_humans }}
                             </span>
                         </x-table.cell>
