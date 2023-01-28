@@ -67,7 +67,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         return $missing;
     }
 
-    public function getNameAttribute() { return $this->firstname.' '.$this->lastname; }
+    public function getNameAttribute() { return ucwords(strtolower($this->firstname.' '.$this->lastname)); }
 
     public function getRolesNamesAttribute() { return $this->getRoleNames()->map(function ($item, $key) { return __($item); })->implode(', '); }
 
