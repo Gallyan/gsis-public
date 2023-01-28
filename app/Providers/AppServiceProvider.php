@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use Validator;
 use Spatie\Permission\Models\Role;
@@ -31,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Model::preventLazyLoading(! app()->isProduction());
+
         // For length to get indexes on string field, spatie permission prerequisite
         Schema::defaultStringLength(125);
 

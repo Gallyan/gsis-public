@@ -122,9 +122,7 @@
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            @foreach ($purchase->managers->pluck('user_id')->unique() as $id)
-                                {{ App\Models\User::find($id)->name ?? '' }}<br />
-                            @endforeach
+                            {!! nl2br(e($purchase->managers->pluck('name')->unique()->implode(PHP_EOL))) !!}
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">

@@ -14,7 +14,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 {
     use Notifiable, HasFactory, HasRoles;
 
-    protected $guarded = [];
+    protected $guarded = ['email_verified_at','password','roles'];
 
     protected $hidden = [
         'password', 'remember_token',

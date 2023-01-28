@@ -9,6 +9,8 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $with = ['user'];
+
     protected $guarded = [];
 
     /**
@@ -18,6 +20,8 @@ class Post extends Model
     {
         return $this->morphTo();
     }
+
+    public function getAuthorAttribute() { return $this->user->name; }
 
     /**
      * Get the user that owns the phone.

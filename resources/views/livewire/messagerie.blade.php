@@ -53,12 +53,12 @@
                     @endif
                     <div class="relative flex items-start space-x-3">
                         <div class="relative">
-                            <img class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500 truncate ring-1 ring-white" src="{{ $post->user()->first()->avatarUrl() }}" alt="{{ $post->user()->first()->name }}">
+                            <img class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-xs text-gray-500 truncate ring-1 ring-white" src="{{ $post->user->avatarUrl() }}" alt="{{ $post->author }}">
                         </div>
                         <div class="min-w-0 flex-1">
                             <div>
                                 <span class="text-sm font-medium text-gray-700">
-                                    {{ $post->user()->first()->name }}
+                                    {{ $post->author }}
                                 </span>
                                 <span class="mt-0.5 text-sm text-gray-500" title="{{ $post->created_at }}">
                                     {{ $post->created_at->diffForHumans() }}

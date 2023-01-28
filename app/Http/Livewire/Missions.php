@@ -82,7 +82,7 @@ class Missions extends Component
         if (!checkdate($date['month'], $date['day'], $date['year']))
             $this->filters['date-max'] = null;
 
-        $query = Mission::query()
+        $query = Mission::query()->with('managers')->with('user')
             ->join('users', 'users.id', '=', 'missions.user_id')
             ->join('institutions', 'institutions.id', '=', 'missions.institution_id')
             ->select('missions.*','users.lastname','users.firstname','institutions.name as ins_name', 'institutions.contract as ins_contract')

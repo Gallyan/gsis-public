@@ -83,7 +83,7 @@ class Orders extends Component
         if (!checkdate($date['month'], $date['day'], $date['year']))
             $this->filters['date-max'] = null;
 
-        $query = Order::query()
+        $query = Order::query()->with('managers')->with('user')
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->join('institutions', 'institutions.id', '=', 'orders.institution_id')
             ->select('orders.*','users.lastname','users.firstname','institutions.name as ins_name', 'institutions.contract as ins_contract')

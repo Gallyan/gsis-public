@@ -83,7 +83,7 @@ class Purchases extends Component
         if (!checkdate($date['month'], $date['day'], $date['year']))
             $this->filters['date-max'] = null;
 
-        $query = Purchase::query()
+        $query = Purchase::query()->with('managers')->with('user')
             ->join('users', 'users.id', '=', 'purchases.user_id')
             ->join('institutions', 'institutions.id', '=', 'purchases.institution_id')
             ->select('purchases.*','users.lastname','users.firstname','institutions.name as ins_name', 'institutions.contract as ins_contract')
