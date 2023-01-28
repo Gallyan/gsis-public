@@ -32,7 +32,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Throw exception when code is not optimum outside production
         Model::preventLazyLoading(! app()->isProduction());
+        Model::shouldBeStrict(! app()->isProduction());
 
         // For length to get indexes on string field, spatie permission prerequisite
         Schema::defaultStringLength(125);
