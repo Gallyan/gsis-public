@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class LastSeenAt
 {
@@ -18,8 +18,9 @@ class LastSeenAt
     public function handle(Request $request, Closure $next)
     {
         if( auth()->id() ) {
+            auth()->user()->timestamps = false; // Don't update updated_at
             auth()->user()->update([
-                'last_seen_at' => Carbon::now()->toDateTimeString(),
+                'last_seen_at' => DB::raw('now()'),
             ]);
         }
 
