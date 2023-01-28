@@ -124,25 +124,10 @@ class Purchases extends Component
 
     public function render()
     {
-        // Get Managers by role or by association with at least one order
-        $allmanagers = User::role('manager')
-        ->orWhereIn(
-            'id',
-            Manager::whereHasMorph( 'manageable', Purchase::class )
-                ->get()
-                ->pluck('user_id')
-                ->unique()
-            )
-        ->get()
-        ->mapWithKeys(
-            function( $manager ) {
-                return [$manager->id => ucwords( $manager->name )];
-            }
-        );
-
         return view('livewire.purchases', [
             'purchases' => $this->rows,
-            'allmanagers' => $allmanagers,
+            'allmanagers' => Manager::whereHasMorph( 'manageable', Purchase::class )
+                                ->get()->pluck('name','user_id'),
         ])->layoutData([
             'pageTitle' => __('Non-mission purchases'),
         ]);

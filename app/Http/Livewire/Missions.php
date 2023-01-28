@@ -123,25 +123,10 @@ class Missions extends Component
 
     public function render()
     {
-        // Get Managers by role or by association with at least one order
-        $allmanagers = User::role('manager')
-        ->orWhereIn(
-            'id',
-            Manager::whereHasMorph( 'manageable', Mission::class )
-                ->get()
-                ->pluck('user_id')
-                ->unique()
-            )
-        ->get()
-        ->mapWithKeys(
-            function( $manager ) {
-                return [$manager->id => ucwords( $manager->name )];
-            }
-        );
-
         return view('livewire.missions', [
             'missions' => $this->rows,
-            'allmanagers' => $allmanagers,
+            'allmanagers' => Manager::whereHasMorph( 'manageable', Mission::class )
+                                ->get()->pluck('name','user_id'),
         ])->layoutData([
             'pageTitle' => __('Missions'),
         ]);
