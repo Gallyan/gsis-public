@@ -107,7 +107,7 @@ class EditUser extends Component
                     'fr' => __('fr',[],'fr'),
                     'en' => __('en',[],'en')
                 ],
-            ])->layoutData(['pageTitle' => $this->user->FullName]);
+            ])->layoutData(['pageTitle' => $this->user->name]);
     }
 
     public function save()
