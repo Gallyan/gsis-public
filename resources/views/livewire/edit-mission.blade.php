@@ -201,11 +201,11 @@
                         :disabled="$disabled"
                     />
                 </div>
-                <div class="flex-grow w-full">
+                {{-- <div class="flex-grow w-full">
                     <p class="text-sm font-medium leading-5 text-gray-500 mt-4 italic">
                         {!! $mission->user->{$mission->from.'Address'} ?? __('please-complete', ['profile' => route( 'edit-user', $mission->user ) ]) !!}
                     </p>
-                </div>
+                </div> --}}
             </x-input.group>
 
             <x-input.group label="Return" for="return" :error="$errors->first('mission.return')" required innerclass="flex flex-row flex-wrap gap-2">
@@ -222,11 +222,11 @@
                         :disabled="$disabled"
                     />
                 </div>
-                <div class="flex-grow w-full">
+                {{-- <div class="flex-grow w-full">
                     <p class="text-sm font-medium leading-5 text-gray-500 mt-4 italic">
                         {!! $mission->user->{$mission->to.'Address'} ?? __('please-complete', ['profile' => route( 'edit-user', $mission->user ) ]) !!}
                     </p>
-                </div>
+                </div> --}}
             </x-input.group>
 
             <x-input.group label="Mission with or without costs" for="costs" :error="$errors->first('mission.costs')" required>
