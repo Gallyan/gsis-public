@@ -52,7 +52,7 @@
                     @if ( $mission->id && $mission->status !== 'draft' )
                     @if ( $mission->managers->contains('user_id',auth()->id()) )
                         @if ( count($mission->managers) > 1 )
-                        <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled">
+                        <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled" wire:loading.attr="disabled">
                             {{ __('Dissociate') }}
                         </x-button.secondary>
                         @else
@@ -61,7 +61,7 @@
                         </x-button.secondary>
                         @endif
                     @else
-                    <x-button.primary wire:click="associate" wire:offline.attr="disabled">
+                    <x-button.primary wire:click="associate" wire:offline.attr="disabled" wire:loading.attr="disabled">
                         {{ __('Associate') }}
                     </x-button.primary>
                     @endif
@@ -71,7 +71,7 @@
             </x-input.group>
 
             <x-input.group label="Purpose of the mission" for="subject" :error="$errors->first('mission.subject')" required>
-                <x-input.text wire:model.debounce.500ms="mission.subject" id="subject" :disabled="$disabled" :print="$mission->subject"/>
+                <x-input.text wire:model.lazy="mission.subject" id="subject" :disabled="$disabled" :print="$mission->subject"/>
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('mission.status')" helpText="{!! __('helptext-status') !!}" required>
@@ -86,7 +86,7 @@
 
             <x-input.group label="Mission order number" for="om" :error="$errors->first('mission.om')">
                 @if ( in_array( $mission->status, ['in-progress','processed','cancelled'] ) )
-                    <x-input.text wire:model.debounce.500ms="mission.om" id="om" :disabled="$disabled" :print="$mission->om"/>
+                    <x-input.text wire:model.lazy="mission.om" id="om" :disabled="$disabled" :print="$mission->om"/>
                 @else
                     <p class="sm:items-center text-sm text-cool-gray-600 sm:pb-5 mt-2">
                         {{ __('om-later') }}
@@ -166,7 +166,7 @@
                 @endif
 
                 <x-input.group for="conf_amount" label="Registration fee to be paid by the institution" :error="$errors->first('mission.conf_amount')" class="mt-2" inline>
-                    <x-input.money wire:model.debounce.500ms="mission.conf_amount" id="conf_amount" :disabled="$disabled" :print="$mission->conf_amount"/>
+                    <x-input.money wire:model.lazy="mission.conf_amount" id="conf_amount" :disabled="$disabled" :print="$mission->conf_amount"/>
                 </x-input.group>
 
                 <x-input.group for="conf_currency" label="Currency" :error="$errors->first('mission.conf_currency')" class="mt-2" inline>
@@ -184,7 +184,7 @@
             </x-input.group>
 
             <x-input.group label="City" for="dest_city" :error="$errors->first('mission.dest_city')" required>
-                <x-input.text wire:model.debounce.500ms="mission.dest_city" id="dest_city" leadingIcon="location" :disabled="$disabled" :print="$mission->dest_city"/>
+                <x-input.text wire:model.lazy="mission.dest_city" id="dest_city" leadingIcon="location" :disabled="$disabled" :print="$mission->dest_city"/>
             </x-input.group>
 
             <x-input.group label="Departure" for="departure" :error="$errors->first('mission.departure')" required innerclass="flex flex-row flex-wrap gap-2">
@@ -560,14 +560,6 @@
                 @endif
 
             </x-input.group>
-
-{{--
-            @can ('manage-users')
-            <x-input.group label="Amount excl." for="amount" :error="$errors->first('mission.amount')" helpText="helptext-amount">
-                <x-input.money wire:model.debounce.500ms="mission.amount" id="amount" :disabled="$disabled" :print="$mission->amount"/>
-            </x-input.group>
-            @endcan
---}}
         </div>
 
     </form>

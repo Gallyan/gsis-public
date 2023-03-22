@@ -33,7 +33,7 @@
                     @if ( $order->id && $order->status !== 'draft' )
                     @if ( $order->managers->contains('user_id',auth()->id()) )
                         @if ( count($order->managers) > 1 )
-                        <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled">
+                        <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled" wire:loading.attr="disabled">
                             {{ __('Dissociate') }}
                         </x-button.secondary>
                         @else
@@ -42,7 +42,7 @@
                         </x-button.secondary>
                         @endif
                     @else
-                    <x-button.primary wire:click="associate" wire:offline.attr="disabled">
+                    <x-button.primary wire:click="associate" wire:offline.attr="disabled" wire:loading.attr="disabled">
                         {{ __('Associate') }}
                     </x-button.primary>
                     @endif
@@ -52,7 +52,7 @@
             </x-input.group>
 
             <x-input.group label="Subject" for="subject" :error="$errors->first('order.subject')" required helpText="helptext-order-subject">
-                <x-input.text wire:model.debounce.500ms="order.subject" id="subject" :disabled="$disabled" :print="$order->subject"/>
+                <x-input.text wire:model.lazy="order.subject" id="subject" :disabled="$disabled" :print="$order->subject"/>
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('order.status')" helpText="{!! __('helptext-order-status') !!}" required>
@@ -67,7 +67,7 @@
 
             @can ('manage-users')
             <x-input.group label="Amount excl." for="amount" :error="$errors->first('order.amount')" helpText="helptext-amount">
-                <x-input.money wire:model.debounce.500ms="order.amount" id="amount" :disabled="$disabled" :print="$order->amount" />
+                <x-input.money wire:model.lazy="order.amount" id="amount" :disabled="$disabled" :print="$order->amount" />
             </x-input.group>
             @endcan
 
@@ -80,7 +80,7 @@
             </x-input.group>
 
             <x-input.group label="Supplier" for="supplier" :error="$errors->first('order.supplier')">
-                <x-input.text wire:model.debounce.500ms="order.supplier" id="supplier" :disabled="$disabled" :print="$order->supplier"/>
+                <x-input.text wire:model.lazy="order.supplier" id="supplier" :disabled="$disabled" :print="$order->supplier"/>
             </x-input.group>
 
             @php

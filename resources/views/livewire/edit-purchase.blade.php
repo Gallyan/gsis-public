@@ -33,7 +33,7 @@
                     @if ( $purchase->id && $purchase->status !== 'draft' )
                     @if ( $purchase->managers->contains('user_id',auth()->id()) )
                         @if ( count($purchase->managers) > 1 )
-                        <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled">
+                        <x-button.secondary wire:click="dissociate" wire:offline.attr="disabled" wire:loading.attr="disabled">
                             {{ __('Dissociate') }}
                         </x-button.secondary>
                         @else
@@ -42,7 +42,7 @@
                         </x-button.secondary>
                         @endif
                     @else
-                    <x-button.primary wire:click="associate" wire:offline.attr="disabled">
+                    <x-button.primary wire:click="associate" wire:offline.attr="disabled" wire:loading.attr="disabled">
                         {{ __('Associate') }}
                     </x-button.primary>
                     @endif
@@ -52,7 +52,7 @@
             </x-input.group>
 
             <x-input.group label="Subject" for="subject" :error="$errors->first('purchase.subject')" required>
-                <x-input.text wire:model.debounce.500ms="purchase.subject" id="subject" :disabled="$disabled" :print="$purchase->subject" />
+                <x-input.text wire:model.lazy="purchase.subject" id="subject" :disabled="$disabled" :print="$purchase->subject" />
             </x-input.group>
 
             <x-input.group label="Status" for="status" :error="$errors->first('purchase.status')" helpText="{!! __('helptext-purchase-status') !!}" required>
@@ -67,7 +67,7 @@
 
             @can ('manage-users')
             <x-input.group label="Amount excl." for="amount" :error="$errors->first('purchase.amount')" helpText="helptext-amount">
-                <x-input.money wire:model.debounce.500ms="purchase.amount" id="amount" :disabled="$disabled" :print="$purchase->amount" />
+                <x-input.money wire:model.lazy="purchase.amount" id="amount" :disabled="$disabled" :print="$purchase->amount" />
             </x-input.group>
             @endcan
 
