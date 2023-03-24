@@ -7,7 +7,7 @@
     >
         @csrf
 
-        <x-stickytopbar title="{{ __('Purchase Order') }} {{ $order->id }}" :modified="$modified" :disabled="$disabled" />
+        <x-stickytopbar title="{!! __('Purchase Order') !!} {{ $order->id }}" :modified="$modified" :disabled="$disabled" />
 
 @push('scripts')
         <script type="text/javascript">
