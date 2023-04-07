@@ -82,6 +82,9 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('email')" :direction="$sorts['email'] ?? null" class="whitespace-nowrap">{{ __('Email') }}</x-table.heading>
                     <x-table.heading class="text-left">{{ __('Roles') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">{{ __('Created') }}</x-table.heading>
+                    @can('manage-admin')
+                    <x-table.heading sortable multi-column wire:click="sortBy('last_seen_at')" :direction="$sorts['last_seen_at'] ?? null">{{ __('Last action') }}</x-table.heading>
+                    @endcan
                 </x-slot>
 
                 <x-slot name="body">
@@ -131,6 +134,19 @@
                                 </p>
                             </span>
                         </x-table.cell>
+
+                        @can('manage-admin')
+                        <x-table.cell wire:click="edit({{ $user->id }})" class="whitespace-nowrap">
+                            <span
+                                class="inline-flex space-x-2 truncate text-sm leading-5"
+                                title="{{ $user->last_seen_at }}"
+                            >
+                            @if  ($user->last_seen_at )
+                                {{ \Illuminate\Support\Carbon::parse($user->last_seen_at)->diffForHumans() }}
+                            @endif
+                        </span>
+                        </x-table.cell>
+                        @endcan
                     </x-table.row>
                     @empty
                     <x-table.row>

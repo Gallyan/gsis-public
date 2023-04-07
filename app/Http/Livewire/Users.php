@@ -45,6 +45,11 @@ class Users extends Component
 
     public function mount() {
         $this->editing = $this->makeBlankUser();
+
+        // Tri par défaut pour les admins
+        if(auth()->user()->can('manage-admin') && empty($this->sorts))
+            $this->sorts['last_seen_at']='desc';
+
         $this->selectedroles = [ 'user' => 1 ]; // Tous utilisateurs par défaut
     }
 
