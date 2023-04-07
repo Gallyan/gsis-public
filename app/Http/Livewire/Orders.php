@@ -31,7 +31,7 @@ class Orders extends Component
 
     public function mount() {
         if ( empty(array_filter($this->filters)) )
-            $initial_status = auth()->user()->can('manage-users') ? ['on-hold','in-progress'] : [];
+            $initial_status = auth()->user()->hasRole('manager') ? ['on-hold','in-progress'] : [];
         elseif ( !empty(array_diff_key(array_filter($this->filters),['search'=>null])) &&
                 ! ( array_keys(array_diff_key(array_filter($this->filters),['search'=>null])) == ['status'] &&
                     $this->filters['status'] == ['on-hold','in-progress'] ) )
