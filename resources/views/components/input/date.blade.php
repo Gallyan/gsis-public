@@ -61,7 +61,7 @@
         {{ $attributes->whereDoesntStartWith('wire:model') }}
         x-ref="input"
         x-bind:value="value"
-        class="rounded-none rounded-r-md form-input transition duration-150 text-gray-700 ease-in-out sm:text-sm sm:leading-5 max-w-32 @if($disabled) cursor-not-allowed @endif @if($print) print:hidden @endif"
+        class="rounded-none rounded-r-md form-input transition duration-150 text-gray-700 border-gray-300 ease-in-out sm:text-sm sm:leading-5 max-w-32 @if($disabled) cursor-not-allowed @endif @if($print) print:hidden @endif"
         @disabled($disabled)
     />
 </div>

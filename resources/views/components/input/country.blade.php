@@ -13,7 +13,7 @@
         <x-icon.world />
     </span>
 
-    <select {{ $attributes->merge(['class' => 'form-select block pl-3 pr-10 py-2 text-base leading-6 border-gray-300 text-gray-700 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5 rounded-l-none']) }}>
+    <select {{ $attributes->merge(['class' => 'form-select block pl-3 pr-10 py-2 text-base leading-6 border-gray-300 text-gray-700 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5 rounded-r-md']) }}>
         <option value="">{{ __('Select country') }}</option>
 
         @foreach($countries as $codes)

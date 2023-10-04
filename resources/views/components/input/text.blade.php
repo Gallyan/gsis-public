@@ -16,5 +16,5 @@
         </span>
     @endif
 
-    <input {{ $attributes->except(['size'])->merge(['class' => 'flex-1 form-input border-gray-300 text-gray-700 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5' . ($leadingIcon ? ' rounded-none rounded-r-md' : '') . ($disabled?' bg-gray-100 cursor-not-allowed':'')]) }} @disabled($disabled)/>
+    <input {{ $attributes->except(['size'])->merge(['class' => 'flex-1 form-input border-gray-300 text-gray-700 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5' . ($leadingIcon ? ' rounded-r-md' : ' rounded-md') . ($disabled?' bg-gray-100 cursor-not-allowed':'')]) }} @disabled($disabled)/>
 </div>

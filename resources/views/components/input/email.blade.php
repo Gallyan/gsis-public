@@ -4,7 +4,7 @@
 ])
 
 @php
-    $classes = 'flex-1 form-input border-cool-gray-300 block w-full transition duration-150 ease-in-out text-gray-700 sm:text-sm sm:leading-5 rounded-none';
+    $classes = 'flex-1 form-input border-gray-300 block w-full transition duration-150 ease-in-out text-gray-700 sm:text-sm sm:leading-5 rounded-none';
     if ( is_null($verified) )
         $classes .= ' rounded-r-md';
     if ( $disabled )
