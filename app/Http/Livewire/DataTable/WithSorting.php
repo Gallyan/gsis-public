@@ -8,21 +8,25 @@ trait WithSorting
 
     public function sortBy($field)
     {
-       if (! isset($this->sorts[$field])) return $this->sorts[$field] = 'asc';
+        if (! isset($this->sorts[$field])) {
+            return $this->sorts[$field] = 'asc';
+        }
 
-       if ($this->sorts[$field] === 'asc') return $this->sorts[$field] = 'desc';
+        if ($this->sorts[$field] === 'asc') {
+            return $this->sorts[$field] = 'desc';
+        }
 
         unset($this->sorts[$field]);
     }
 
     public function applySorting($query)
     {
-        if ( $this->sorts ) {
+        if ($this->sorts) {
             foreach ($this->sorts as $field => $direction) {
                 $query->orderBy($field, $direction);
             }
         } else {
-            $query->orderBy($query->from.'.id','desc');
+            $query->orderBy($query->from.'.id', 'desc');
         }
 
         return $query;

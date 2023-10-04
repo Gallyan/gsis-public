@@ -21,7 +21,10 @@ class Post extends Model
         return $this->morphTo();
     }
 
-    public function getAuthorAttribute() { return $this->user->name; }
+    public function getAuthorAttribute()
+    {
+        return $this->user->name;
+    }
 
     /**
      * Get the user that owns the phone.

@@ -2,7 +2,7 @@
     'title' => '',
 ])
 
-<div class="sticky flex flex-row top-0 bg-cool-gray-100 pb-4 border-b border-gray-200 z-40 print:pb-0 print:bg-white">
+<div class="sticky flex flex-row top-0 bg-gray-50 pb-4 border-b border-gray-200 z-40 print:pb-0 print:bg-white">
     <h1 class="text-lg md:text-2xl font-semibold text-gray-900">{{ __($title) }}</h1>
 
     <div class="flex-grow hidden print:block">

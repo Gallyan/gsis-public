@@ -15,7 +15,7 @@
     @endif
     <div
       x-on:blur="content = $event.target.innerText"
-      {{ $attributes->only(['class'])->merge(['class' => 'form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 text-gray-700' . ($leadingIcon ? ' rounded-none rounded-r-md' : '')]) }}
+      {{ $attributes->only(['class'])->merge(['class' => 'form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 text-gray-700 border-gray-300' . ($leadingIcon ? ' rounded-none rounded-r-md' : '')]) }}
       contenteditable="{{ $disabled ? "false" : "true" }}" >
       {!! nl2br(e($content)) !!}
     </div>

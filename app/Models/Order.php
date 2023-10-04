@@ -10,15 +10,15 @@ class Order extends Model
     use HasFactory;
 
     const STATUSES = [
-        'draft'       => 'Draft',
-        'on-hold'     => 'On hold',
+        'draft' => 'Draft',
+        'on-hold' => 'On hold',
         'in-progress' => 'In progress',
-        'processed'   => 'Processed',
-        'cancelled'   => 'Cancelled',
+        'processed' => 'Processed',
+        'cancelled' => 'Cancelled',
     ];
 
     const EDITION = [
-        'paper'   => 'Paper book',
+        'paper' => 'Paper book',
         'digital' => 'Digital book',
     ];
 
@@ -33,18 +33,33 @@ class Order extends Model
         'books',
         'user_id',
         'status',
-        'amount'
+        'amount',
     ];
 
-    public function user() { return $this->belongsTo('App\Models\User'); }
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 
-    public function institution() { return $this->belongsTo('App\Models\Institution'); }
+    public function institution()
+    {
+        return $this->belongsTo(\App\Models\Institution::class);
+    }
 
-    public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
+    public function getDateForHumansAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
 
-    public function getAllStatusesAttribute() { return Order::STATUSES; }
+    public function getAllStatusesAttribute()
+    {
+        return Order::STATUSES;
+    }
 
-    public function getAllEditionsAttribute() { return Order::EDITION; }
+    public function getAllEditionsAttribute()
+    {
+        return Order::EDITION;
+    }
 
     /**
      * Get all of the order's documents.
@@ -67,6 +82,6 @@ class Order extends Model
      */
     public function posts()
     {
-        return $this->morphMany(Post::class, 'postable')->orderBy('id','desc');
+        return $this->morphMany(Post::class, 'postable')->orderBy('id', 'desc');
     }
 }

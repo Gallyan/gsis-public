@@ -9,7 +9,7 @@ class Reception extends Model
 {
     use HasFactory;
 
-     // Automatically switch between json and array
+    // Automatically switch between json and array
     protected $casts = [
         'guests' => 'array',
         'date' => 'date:Y-m-d',
@@ -26,8 +26,7 @@ class Reception extends Model
         $doc = $this->guestslist;
 
         $res = parent::delete();
-        if ( $res === true )
-        {
+        if ($res === true) {
             $doc->delete();
         }
     }
@@ -35,8 +34,9 @@ class Reception extends Model
     /**
      * Get the purchase of the reception.
      */
-    public function purchase() {
-        return $this->belongsTo('App\Models\Purchase');
+    public function purchase()
+    {
+        return $this->belongsTo(\App\Models\Purchase::class);
     }
 
     /**
@@ -46,5 +46,4 @@ class Reception extends Model
     {
         return $this->morphOne(Document::class, 'documentable');
     }
-
 }

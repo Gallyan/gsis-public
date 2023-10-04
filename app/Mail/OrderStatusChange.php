@@ -2,10 +2,9 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,8 +14,6 @@ class OrderStatusChange extends Mailable
 
     /**
      * The order instance.
-     *
-     * @var \App\Models\Order
      */
     public Order $order;
 
@@ -44,25 +41,22 @@ class OrderStatusChange extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param  \App\Models\Order  $order
      * @return void
      */
-    public function __construct( Order $order, $name = '', $manager = null )
+    public function __construct(Order $order, $name = '', $manager = null)
     {
         $this->order = $order;
         $this->status = $order->status;
-        $this->name =  $name;
+        $this->name = $name;
         $this->manager = $manager;
     }
 
     /**
      * Build the message.
-     *
-     * @return $this
      */
-    public function build()
+    public function build(): static
     {
-        return $this->subject( '['.config('app.name').'] '.__('Order').' '.$this->order->id.' '.__($this->status))
-                    ->view('emails.order-status-change');
+        return $this->subject('['.config('app.name').'] '.__('Order').' '.$this->order->id.' '.__($this->status))
+            ->view('emails.order-status-change');
     }
 }

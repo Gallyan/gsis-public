@@ -10,38 +10,54 @@ class Mission extends Model
     use HasFactory;
 
     const STATUSES = [
-        'draft'       => 'Draft',
-        'on-hold'     => 'On hold',
+        'draft' => 'Draft',
+        'on-hold' => 'On hold',
         'in-progress' => 'In progress',
-        'processed'   => 'Processed',
-        'cancelled'   => 'Cancelled',
+        'processed' => 'Processed',
+        'cancelled' => 'Cancelled',
     ];
 
     protected $casts = [
-        'hotels'    => 'array', // Automatically switch between json and array
+        'hotels' => 'array', // Automatically switch between json and array
         'departure' => 'date:Y-m-d',
-        'return'    => 'date:Y-m-d',
-        'tickets'   => 'array', // Automatically switch between json and array
+        'return' => 'date:Y-m-d',
+        'tickets' => 'array', // Automatically switch between json and array
     ];
 
     protected $guarded = [];
 
-    public function user() { return $this->belongsTo('App\Models\User'); }
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 
-    public function institution() { return $this->belongsTo('App\Models\Institution'); }
+    public function institution()
+    {
+        return $this->belongsTo(\App\Models\Institution::class);
+    }
 
-    public function expense() { return $this->hasOne('App\Models\Expense'); }
+    public function expense()
+    {
+        return $this->hasOne(\App\Models\Expense::class);
+    }
 
-    public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
+    public function getDateForHumansAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
 
-    public function getAllStatusesAttribute() { return Mission::STATUSES; }
+    public function getAllStatusesAttribute()
+    {
+        return Mission::STATUSES;
+    }
 
-    public function getProgrammeAttribute() {
+    public function getProgrammeAttribute()
+    {
         return $this->morphMany(
-                        Document::class,
-                        'documentable')
-                    ->where( 'type', '=', 'programme')
-                    ->first();
+            Document::class,
+            'documentable')
+            ->where('type', '=', 'programme')
+            ->first();
     }
 
     /**
@@ -65,6 +81,6 @@ class Mission extends Model
      */
     public function posts()
     {
-        return $this->morphMany(Post::class, 'postable')->orderBy('id','desc');
+        return $this->morphMany(Post::class, 'postable')->orderBy('id', 'desc');
     }
 }

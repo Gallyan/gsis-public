@@ -2,31 +2,40 @@
 
 namespace App\Http\Livewire;
 
-use Str;
-use App\Models\User;
-use Livewire\Component;
 use App\Models\Document;
+use App\Models\User;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Validator;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\App;
-use Illuminate\Validation\Validator;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Password;
+use Str;
 
 class EditUser extends Component
 {
     use WithFileUploads;
 
     public $user_id;
+
     public User $user;
+
     public $upload; // Store avatar temporary upload
+
     public $modified = false; // True if form is modified and need to be saved
+
     public $selectedroles = [];
+
     public $isAuthManager = false;
+
     /* Modal d'ajout de document */
     public $showModal = false;
+
     public $showDeleteModal = false;
+
     public $delDocName = '';
+
     public $doc = []; // Store uploaded document
 
     protected function rules()
@@ -36,7 +45,7 @@ class EditUser extends Component
             'user.lastname' => 'required|max:255',
             'user.birthday' => 'required|date',
             'user.birthplace' => 'required|string',
-            'user.email' => 'required|max:255|email:rfc'.((App::environment('production'))?',dns,spoof':'').'|unique:App\Models\User,email,'.$this->user->id,
+            'user.email' => 'required|max:255|email:rfc'.((App::environment('production')) ? ',dns,spoof' : '').'|unique:App\Models\User,email,'.$this->user->id,
             'user.employer' => 'nullable|string',
             'user.hom_adr' => 'nullable|string',
             'user.hom_zip' => 'nullable|string',
@@ -47,25 +56,28 @@ class EditUser extends Component
             'user.pro_cit' => 'nullable|string',
             'user.phone' => 'sometimes|phone',
             'upload' => 'nullable|image|max:1000',
-            'user.locale' => "required|in:fr,en",
+            'user.locale' => 'required|in:fr,en',
             'selectedroles' => 'sometimes|array',
             'selectedroles.*' => 'sometimes|boolean',
         ];
     }
 
-    protected function doc_rules() {
+    protected function doc_rules()
+    {
         return [
             'doc.file' => 'required|file',
             'doc.type' => 'required|string',
-            'doc.name' => 'required|string'
+            'doc.name' => 'required|string',
         ];
     }
 
     protected $listeners = ['refreshUser' => '$refresh'];
 
-    public function mount( int $id ) {
-        if ( ! auth()->user()->can('manage-users') && auth()->id() !== $id )
+    public function mount(int $id)
+    {
+        if (! auth()->user()->can('manage-users') && auth()->id() !== $id) {
             abort(403);
+        }
 
         $this->isAuthManager = auth()->user()->can('manage-users');
 
@@ -73,47 +85,50 @@ class EditUser extends Component
         $this->init();
     }
 
-    public function init() {
-        $this->user = User::findOrFail( $this->user_id );
-        $this->selectedroles = array_fill_keys( $this->user->roles->pluck('name')->toArray(), '1');
-        $this->reset(['upload','modified']);
+    public function init()
+    {
+        $this->user = User::findOrFail($this->user_id);
+        $this->selectedroles = array_fill_keys($this->user->roles->pluck('name')->toArray(), '1');
+        $this->reset(['upload', 'modified']);
         $this->dispatchBrowserEvent('pondReset');
         $this->resetValidation();
     }
 
-    public function isRoleModified() {
+    public function isRoleModified()
+    {
         return
-            array_fill_keys( $this->user->roles->pluck('name')->toArray(), "1" )
+            array_fill_keys($this->user->roles->pluck('name')->toArray(), '1')
             !==
-            array_filter( $this->selectedroles );
+            array_filter($this->selectedroles);
     }
 
     public function updated($propertyName)
     {
-        $this->modified = !empty($this->user->getDirty()) || $this->upload || $this->isRoleModified();
+        $this->modified = ! empty($this->user->getDirty()) || $this->upload || $this->isRoleModified();
 
-        if( explode(".",$propertyName)[0] === "doc") {
+        if (explode('.', $propertyName)[0] === 'doc') {
             $this->validateOnly($propertyName, $this->doc_rules());
-        }else{
+        } else {
             $this->validateOnly($propertyName);
         }
     }
 
     public function render()
     {
-        return view('livewire.edit-user',[
-                'Roles' => Role::all()->sortByDesc('id')->pluck('name'),
-                'languages' => [
-                    'fr' => __('fr',[],'fr'),
-                    'en' => __('en',[],'en')
-                ],
-            ])->layoutData(['pageTitle' => $this->user->name]);
+        return view('livewire.edit-user', [
+            'Roles' => Role::all()->sortByDesc('id')->pluck('name'),
+            'languages' => [
+                'fr' => __('fr', [], 'fr'),
+                'en' => __('en', [], 'en'),
+            ],
+        ])->layoutData(['pageTitle' => $this->user->name]);
     }
 
     public function save()
     {
-        if ( ! auth()->user()->can('manage-users') && auth()->id() !== $this->user->id )
+        if (! auth()->user()->can('manage-users') && auth()->id() !== $this->user->id) {
             abort(403);
+        }
 
         $this->withValidator(function (Validator $validator) {
             if ($validator->fails()) {
@@ -123,7 +138,7 @@ class EditUser extends Component
 
         $this->user->save();
 
-        if ( $this->upload ) {
+        if ($this->upload) {
 
             $old_avatar = $this->user->avatar;
 
@@ -136,9 +151,9 @@ class EditUser extends Component
             ]);
 
             // Delete previous avatar if exists
-            if ( ! empty( $old_avatar ) && Storage::disk('avatars')->exists( $old_avatar ) ) {
+            if (! empty($old_avatar) && Storage::disk('avatars')->exists($old_avatar)) {
 
-                Storage::disk('avatars')->delete( $old_avatar );
+                Storage::disk('avatars')->delete($old_avatar);
 
             }
 
@@ -146,13 +161,13 @@ class EditUser extends Component
             $this->dispatchBrowserEvent('pondReset');
         }
 
-        if ( $this->isRoleModified() && auth()->user()->can('manage-roles') ) {
-            foreach( $this->selectedroles as $role => $assigned ) {
-                if ( $role !== "admin" || auth()->user()->can('manage-admin') ) {
-                    if ( (bool)$assigned === true && Role::findByName($role) ) {
-                        $this->user->assignRole( $role );
+        if ($this->isRoleModified() && auth()->user()->can('manage-roles')) {
+            foreach ($this->selectedroles as $role => $assigned) {
+                if ($role !== 'admin' || auth()->user()->can('manage-admin')) {
+                    if ((bool) $assigned === true && Role::findByName($role)) {
+                        $this->user->assignRole($role);
                     } else {
-                        $this->user->removeRole( $role );
+                        $this->user->removeRole($role);
                     }
                 }
             }
@@ -164,30 +179,34 @@ class EditUser extends Component
     }
 
     /* Initialisation du nom après l'upload de document */
-    public function updatedDocFile() {
+    public function updatedDocFile()
+    {
         // Apres l'upload initialiser le nom du fichier
-        if ( isset($this->doc['file']) && ( !isset($this->doc['name']) || empty($this->doc['name']) ) ) {
+        if (isset($this->doc['file']) && (! isset($this->doc['name']) || empty($this->doc['name']))) {
             $this->doc['name'] =
                 Str::slug(
                     pathinfo(
-                        Document::filter_filename( $this->doc['file']->getClientOriginalName() ),
-                    PATHINFO_FILENAME
-                )
-            );
+                        Document::filter_filename($this->doc['file']->getClientOriginalName()),
+                        PATHINFO_FILENAME
+                    )
+                );
         }
     }
 
-    public function confirm( $id ) {
+    public function confirm($id)
+    {
         $this->showDeleteModal = $id;
-        $this->delDocName = Document::findOrFail( $id )->name;
+        $this->delDocName = Document::findOrFail($id)->name;
     }
 
-    public function del_doc( $id ) {
+    public function del_doc($id)
+    {
 
-        $document = Document::findOrFail( $id ) ;
+        $document = Document::findOrFail($id);
 
-        if ( ! auth()->user()->can('manage-users') && auth()->id() !== $document->user_id )
+        if (! auth()->user()->can('manage-users') && auth()->id() !== $document->user_id) {
             abort(403);
+        }
 
         $document->delete();
 
@@ -195,46 +214,48 @@ class EditUser extends Component
         $this->close_modal();
     }
 
-    public function save_doc() {
+    public function save_doc()
+    {
         $this->withValidator(function (Validator $validator) {
             if ($validator->fails()) {
                 $this->emitSelf('dialog-error');
             }
-        })->validate( $this->doc_rules() );
+        })->validate($this->doc_rules());
 
         // Create user documents directory if not exists
         $path = 'docs/'.$this->user->id.'/';
-        Storage::makeDirectory( $path );
+        Storage::makeDirectory($path);
 
         $filename = $this->doc['file']->storeAs(
-                        '/docs/'.$this->user->id.'/',
-                        $this->doc['file']->hashName()
-                    );
+            '/docs/'.$this->user->id.'/',
+            $this->doc['file']->hashName()
+        );
 
         Document::create([
-            "name" => $this->doc['name'],
-            "type" => $this->doc['type'],
-            "size" => Storage::size( $filename ),
-            "filename" => $this->doc['file']->hashName(),
-            "user_id" => $this->user->id,
-            "documentable_id" => $this->user->id,
-            "documentable_type" => User::class,
+            'name' => $this->doc['name'],
+            'type' => $this->doc['type'],
+            'size' => Storage::size($filename),
+            'filename' => $this->doc['file']->hashName(),
+            'user_id' => $this->user->id,
+            'documentable_id' => $this->user->id,
+            'documentable_type' => User::class,
         ]);
 
         $this->emit('refreshUser');
         $this->close_modal();
     }
 
-    public function close_modal() {
-        $this->reset(['doc','showModal','showDeleteModal','delDocName']);
+    public function close_modal()
+    {
+        $this->reset(['doc', 'showModal', 'showDeleteModal', 'delDocName']);
         $this->dispatchBrowserEvent('pondReset');
     }
 
     public function reset_password()
     {
-        $status = Password::sendResetLink(['email'=>$this->user->email]);
+        $status = Password::sendResetLink(['email' => $this->user->email]);
 
-        if ( $status === Password::RESET_LINK_SENT ) {
+        if ($status === Password::RESET_LINK_SENT) {
             $this->emit('notify-sent-ok');
         } else {
             $this->addError('password', $status);

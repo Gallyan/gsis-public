@@ -89,7 +89,7 @@
 
                 <x-slot name="body">
                     @forelse ($users as $user)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }} cursor-pointer">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $user->id }}" class="hover:bg-gray-100 {{ $loop->even ? 'bg-cool-gray-50' : '' }} cursor-pointer">
                         <x-table.cell wire:click="edit({{ $user->id }})" class="whitespace-nowrap">
                             <span class="inline-flex space-x-2 truncate text-sm leading-5 items-center">
                                 <img class="inline-block h-6 w-6 rounded-full text-xs text-gray-500 truncate" src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}">

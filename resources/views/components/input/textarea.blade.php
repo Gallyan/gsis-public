@@ -10,5 +10,5 @@
         </span>
     @endif
 
-    <textarea {{ $attributes->merge(['class' => 'flex-1 form-textarea border-cool-gray-300 text-gray-700 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5' . ($leadingIcon ? ' rounded-none rounded-r-md' : ''), 'rows' => "3"]) }} ></textarea>
+    <textarea {{ $attributes->merge(['class' => 'flex-1 form-textarea border-gray-300 text-gray-700 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5' . ($leadingIcon ? ' rounded-none rounded-r-md' : ''), 'rows' => "3"]) }} ></textarea>
 </div>

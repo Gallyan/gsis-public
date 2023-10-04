@@ -313,5 +313,5 @@ return [
     'name-YER' => 'Yemeni Rial',
     'name-ZMW' => 'ZMW',
     'name-ZWL' => 'Zimbabwean Dollar',
-    'name-BTC' => 'Bitcoin'
+    'name-BTC' => 'Bitcoin',
 ];

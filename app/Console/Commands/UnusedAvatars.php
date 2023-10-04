@@ -34,21 +34,21 @@ class UnusedAvatars extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $this->avatars = DB::table('users')->whereNotNull('avatar')->pluck('avatar')->toArray();
 
         $files = Storage::files('avatars');
 
-        $to_delete = array_values( array_filter( $files, function( $file ) {
-            return $file[8] !== '.' && !in_array( substr($file,8), $this->avatars );
-        } ) );
+        $to_delete = array_values(array_filter($files, function ($file) {
+            return $file[8] !== '.' && ! in_array(substr($file, 8), $this->avatars);
+        }));
 
-        foreach( $to_delete as $file ) $this->info( $file  );
+        foreach ($to_delete as $file) {
+            $this->info($file);
+        }
 
-        $this->info( count($to_delete) . ' avatar(s) non affecté(s)' );
+        $this->info(count($to_delete).' avatar(s) non affecté(s)');
     }
 }

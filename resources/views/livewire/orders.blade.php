@@ -106,7 +106,7 @@
 
                 <x-slot name="body">
                     @forelse ($orders as $order)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $order->id }}" wire:click="edit({{ $order->id }})" class="cursor-pointer hover:bg-gray-100 {{ $loop->even ? 'bg-cool-gray-50' : '' }}">
                         <x-table.cell class="whitespace-normal">
                             {{ $order->subject }}
                         </x-table.cell>

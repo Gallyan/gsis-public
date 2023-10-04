@@ -36,7 +36,7 @@
 
                 <x-slot name="body">
                     @forelse ($institutions as $institution)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}" class="cursor-pointer hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}"  wire:click="edit({{ $institution->id }})">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $institution->id }}" class="cursor-pointer hover:bg-gray-100 {{ $loop->even ? 'bg-cool-gray-50' : '' }}"  wire:click="edit({{ $institution->id }})">
                         <x-table.cell class="whitespace-normal">
                             {{ $institution->name }}
                         </x-table.cell>

@@ -34,22 +34,20 @@ class CleanDocuments extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $documents = DB::table('documents')->whereNotNull('filename')->pluck('filename')->toArray();
 
         $cpt = 0;
 
-        foreach( Storage::directories('docs') as $dir ) {
+        foreach (Storage::directories('docs') as $dir) {
 
-            foreach( Storage::files($dir) as $file ) {
+            foreach (Storage::files($dir) as $file) {
 
-                if ( ! in_array( preg_replace( '/\/?docs\/[0-9]+\//', '', $file ), $documents ) ) {
+                if (! in_array(preg_replace('/\/?docs\/[0-9]+\//', '', $file), $documents)) {
 
-                    Storage::delete( $file );
+                    Storage::delete($file);
 
                     $cpt++;
 

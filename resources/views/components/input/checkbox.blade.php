@@ -7,7 +7,7 @@
     <div class="flex items-center h-5">
         <input {{ $attributes }}
             type="checkbox"
-            class="form-checkbox focus:ring-cyan-600 h-4 w-4 text-cyan-600 border-gray-400 rounded transition duration-150 ease-in-out sm:text-sm sm:leading-5 @if($disabled) cursor-not-allowed @endif"
+            class="form-checkbox focus:ring-indigo-600 h-4 w-4 text-indigo-600 border-gray-400 rounded transition duration-150 ease-in-out sm:text-sm sm:leading-5 @if($disabled) cursor-not-allowed @endif"
             @disabled($disabled)
         />
     </div>

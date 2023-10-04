@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use App\Models\Order;
 use App\Models\Manager;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /* Call tinker with App\Models\Manager::factory()->count(5)->create(); to associate 5 managers to elements */
@@ -15,18 +15,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class ManagerFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = Manager::class;
-
-    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
 
         // Select a manager
@@ -38,7 +31,7 @@ class ManagerFactory extends Factory
         ]);
 
         // Object id
-        if ( $object === 'App\Models\Order' ) {
+        if ($object === \App\Models\Order::class) {
             $id = Order::all()->random(1)->pluck('id')->first();
         }
 

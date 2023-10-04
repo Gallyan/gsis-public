@@ -27,7 +27,7 @@
         <!-- Advanced Search -->
         <div>
             @if ($showFilters)
-            <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative flex-row flex-wrap print:hidden">
+            <div class="bg-cool-gray-200 p-4 rounded-md shadow-inner flex relative flex-row flex-wrap print:hidden">
                 <div class="sm:w-1/2 w-full pr-2 space-y-4">
                     <x-input.group inline for="filter-institution" label="Institution">
                         <x-input.select wire:model="filters.institution" id="filter-institution" class="w-full" multiple>
@@ -41,7 +41,7 @@
                             @foreach (\App\Models\Institution::whereIn('id', $user_inst)->get()->sortBy('name') as $ins)
                             <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                             @endforeach
-                        </x-input.select>
+                            </x-input.select>
                     </x-input.group>
 
                     <x-input.group inline for="filter-status" label="Status">
@@ -106,7 +106,7 @@
 
                 <x-slot name="body">
                     @forelse ($missions as $mission)
-                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $mission->id }}" wire:click="edit({{ $mission->id }})" class="cursor-pointer hover:bg-gray-100 {{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+                    <x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $mission->id }}" wire:click="edit({{ $mission->id }})" class="cursor-pointer hover:bg-gray-100 {{ $loop->even ? 'bg-cool-gray-50' : '' }}">
                         <x-table.cell class="whitespace-normal">
                             {{ $mission->subject }}
                         </x-table.cell>

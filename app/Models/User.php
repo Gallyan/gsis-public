@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
     use Notifiable, HasFactory, HasRoles;
 
-    protected $guarded = ['email_verified_at','password','roles'];
+    protected $guarded = ['email_verified_at', 'password', 'roles'];
 
     protected $hidden = [
         'password', 'remember_token',
@@ -26,13 +26,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     ];
 
     const DOCTYPE = [
-        'id'        => 'id',
-        'bank'      => 'RIB',
-        'passport'  => 'passport',
-        'driver'    => 'driver',
+        'id' => 'id',
+        'bank' => 'RIB',
+        'passport' => 'passport',
+        'driver' => 'driver',
         'insurance' => 'insurance',
-        'car'       => 'car-registration',
-        'loyalty'   => 'loyalty',
+        'car' => 'car-registration',
+        'loyalty' => 'loyalty',
     ];
 
     protected static function boot()
@@ -52,51 +52,72 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         });
     }
 
-    public function getMissingInfoAttribute() {
-        $fields = [ 'firstname'  => 'First Name',
-                    'lastname'   => 'Last Name',
-                    'email'      => 'E-mail',
-                    'birthday'   => 'Birthday',
-                    'birthplace' => 'Birthplace' ];
+    public function getMissingInfoAttribute()
+    {
+        $fields = ['firstname' => 'First Name',
+            'lastname' => 'Last Name',
+            'email' => 'E-mail',
+            'birthday' => 'Birthday',
+            'birthplace' => 'Birthplace'];
         $missing = [];
 
-        foreach( $fields as $field=>$label ) {
-            if ( empty($this->$field) ) $missing[] = __($label);
+        foreach ($fields as $field => $label) {
+            if (empty($this->$field)) {
+                $missing[] = __($label);
+            }
         }
 
         return $missing;
     }
 
-    public function getNameAttribute() { return ucwords(strtolower($this->firstname.' '.$this->lastname)); }
+    public function getNameAttribute()
+    {
+        return ucwords(strtolower($this->firstname.' '.$this->lastname));
+    }
 
-    public function getRolesNamesAttribute() { return $this->getRoleNames()->map(function ($item, $key) { return __($item); })->implode(', '); }
+    public function getRolesNamesAttribute()
+    {
+        return $this->getRoleNames()->map(function ($item, $key) {
+            return __($item);
+        })->implode(', ');
+    }
 
-    public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
+    public function getDateForHumansAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
 
-    public function getVerifiedAttribute() { return !is_null($this->email_verified_at); }
+    public function getVerifiedAttribute()
+    {
+        return ! is_null($this->email_verified_at);
+    }
 
-    public function getHomeAddressAttribute() {
+    public function getHomeAddressAttribute()
+    {
         $adr = trim(
             implode(
                 ' ',
-                array_filter($this->toArray(), function($key) {
+                array_filter($this->toArray(), function ($key) {
                     return str_starts_with($key, 'hom_');
                 }, ARRAY_FILTER_USE_KEY)
             )
         );
-        return $adr === "" ? null : e($adr);
+
+        return $adr === '' ? null : e($adr);
     }
 
-    public function getWorkAddressAttribute() {
+    public function getWorkAddressAttribute()
+    {
         $adr = trim(
             implode(
                 ' ',
-                array_filter($this->toArray(), function($key) {
+                array_filter($this->toArray(), function ($key) {
                     return str_starts_with($key, 'pro_');
                 }, ARRAY_FILTER_USE_KEY)
             )
         );
-        return $adr === "" ? null : e($adr);
+
+        return $adr === '' ? null : e($adr);
     }
 
     public function avatarUrl()
@@ -108,10 +129,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     /**
      * Get the user's preferred locale.
-     *
-     * @return string
      */
-    public function preferredLocale()
+    public function preferredLocale(): string
     {
         return $this->locale;
     }
