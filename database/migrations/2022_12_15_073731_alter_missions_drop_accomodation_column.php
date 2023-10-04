@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::table('missions', function (Blueprint $table) {
             $table->dropColumn('accomodation');
         });
-        DB::table('missions')->whereNull('hotels')->update(['hotels'=>'[]']);
+        DB::table('missions')->whereNull('hotels')->update(['hotels' => '[]']);
     }
 
     /**
@@ -30,6 +30,6 @@ return new class extends Migration
         Schema::table('missions', function (Blueprint $table) {
             $table->boolean('accomodation')->default(0)->after('tickets');
         });
-        DB::table('missions')->where('hotels','[]')->update(['hotels'=>null]);
+        DB::table('missions')->where('hotels', '[]')->update(['hotels' => null]);
     }
 };

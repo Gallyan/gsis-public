@@ -2,21 +2,20 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\User;
-use App\Models\Manager;
-use App\Models\Purchase;
-use Livewire\Component;
-use Livewire\WithPagination;
-use Illuminate\Support\Carbon;
-use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
+use App\Http\Livewire\DataTable\WithSorting;
+use App\Models\Manager;
+use App\Models\Purchase;
+use Illuminate\Support\Carbon;
+use Livewire\Component;
 
 class Purchases extends Component
 {
     use WithSorting, WithCachedRows, WithPerPagePagination;
 
     public $showFilters = false;
+
     public $filters = [
         'search' => null,
         'user' => null,
@@ -27,17 +26,19 @@ class Purchases extends Component
         'date-max' => null,
     ];
 
-    protected $queryString = ['sorts'=>['as'=>'s'],'filters'=>['as'=>'f']];
+    protected $queryString = ['sorts' => ['as' => 's'], 'filters' => ['as' => 'f']];
 
-    public function mount() {
-        if ( empty(array_filter($this->filters)) )
-            $initial_status = auth()->user()->hasRole('manager') ? ['on-hold','in-progress'] : [];
-        elseif ( !empty(array_diff_key(array_filter($this->filters),['search'=>null])) &&
-                ! ( array_keys(array_diff_key(array_filter($this->filters),['search'=>null])) == ['status'] &&
-                    $this->filters['status'] == ['on-hold','in-progress'] ) )
+    public function mount()
+    {
+        if (empty(array_filter($this->filters))) {
+            $initial_status = auth()->user()->hasRole('manager') ? ['on-hold', 'in-progress'] : [];
+        } elseif (! empty(array_diff_key(array_filter($this->filters), ['search' => null])) &&
+                ! (array_keys(array_diff_key(array_filter($this->filters), ['search' => null])) == ['status'] &&
+                    $this->filters['status'] == ['on-hold', 'in-progress'])) {
             $this->showFilters = true;
+        }
 
-        $this->filters = array_merge( [
+        $this->filters = array_merge([
             'search' => null,
             'user' => null,
             'institution' => null,
@@ -47,73 +48,89 @@ class Purchases extends Component
             'date-max' => null,
         ], $this->filters);
 
-        if ( isset( $initial_status ) )
+        if (isset($initial_status)) {
             $this->filters['status'] = $initial_status;
+        }
     }
 
-    public function toggleShowFilters() {
+    public function toggleShowFilters()
+    {
 
         $this->useCachedRows();
 
         $this->showFilters = ! $this->showFilters;
     }
 
-    public function resetFilters() {
+    public function resetFilters()
+    {
         $this->reset('filters');
-        if ( auth()->user()->can('manage-users') ) {
-            $this->filters['status'] = ['on-hold','in-progress'];
+        if (auth()->user()->can('manage-users')) {
+            $this->filters['status'] = ['on-hold', 'in-progress'];
         } else {
             $this->filters['status'] = [];
         }
     }
 
-    public function updatedFilters() { $this->resetPage(); }
+    public function updatedFilters()
+    {
+        $this->resetPage();
+    }
 
-    public function edit(Purchase $purchase) { return redirect()->route('edit-purchase',[$purchase]); }
-    public function create() { return redirect()->route('edit-purchase'); }
+    public function edit(Purchase $purchase)
+    {
+        return redirect()->route('edit-purchase', [$purchase]);
+    }
+
+    public function create()
+    {
+        return redirect()->route('edit-purchase');
+    }
 
     public function getRowsQueryProperty()
     {
         // Sanitize date filters
         $date = date_parse_from_format('Y-m-d', $this->filters['date-min']);
-        if (!checkdate($date['month'], $date['day'], $date['year']))
+        if (! checkdate($date['month'], $date['day'], $date['year'])) {
             $this->filters['date-min'] = null;
+        }
 
         $date = date_parse_from_format('Y-m-d', $this->filters['date-max']);
-        if (!checkdate($date['month'], $date['day'], $date['year']))
+        if (! checkdate($date['month'], $date['day'], $date['year'])) {
             $this->filters['date-max'] = null;
+        }
 
         $query = Purchase::query()->with('managers')->with('user')
             ->join('users', 'users.id', '=', 'purchases.user_id')
             ->join('institutions', 'institutions.id', '=', 'purchases.institution_id')
-            ->select('purchases.*','users.lastname','users.firstname','institutions.name as ins_name', 'institutions.contract as ins_contract')
-            ->when($this->filters['institution'], fn($query, $institution) => $query->whereIn('purchases.institution_id', $institution))
-            ->when($this->filters['date-min'], fn($query, $date) => $query->where('purchases.created_at', '>=', Carbon::parse($date)))
-            ->when($this->filters['date-max'], fn($query, $date) => $query->where('purchases.created_at', '<=', Carbon::parse($date)))
-            ->when($this->filters['manager'], fn($query) => $query->join('managers', function($join) {
+            ->select('purchases.*', 'users.lastname', 'users.firstname', 'institutions.name as ins_name', 'institutions.contract as ins_contract')
+            ->when($this->filters['institution'], fn ($query, $institution) => $query->whereIn('purchases.institution_id', $institution))
+            ->when($this->filters['date-min'], fn ($query, $date) => $query->where('purchases.created_at', '>=', Carbon::parse($date)))
+            ->when($this->filters['date-max'], fn ($query, $date) => $query->where('purchases.created_at', '<=', Carbon::parse($date)))
+            ->when($this->filters['manager'], fn ($query) => $query->join('managers', function ($join) {
                 $join->on('purchases.id', '=', 'managers.manageable_id')
                     ->where('managers.manageable_type', '=', Purchase::class)
                     ->where('managers.user_id', '=', $this->filters['manager']);
             }))
-            ->when($this->filters['user'], function($query) {
-                foreach (explode(' ',trim($this->filters['user'])) as $term) {
-                    $query->where( function($query) use ($term) {
-                        $query->search('users.firstname',$term)
-                        ->orSearch('users.lastname', $term)
-                        ->orWhere('users.id', $term);
+            ->when($this->filters['user'], function ($query) {
+                foreach (explode(' ', trim($this->filters['user'])) as $term) {
+                    $query->where(function ($query) use ($term) {
+                        $query->search('users.firstname', $term)
+                            ->orSearch('users.lastname', $term)
+                            ->orWhere('users.id', $term);
                     });
                 }
             })
-            ->when($this->filters['status'], fn($query, $status) => $query->whereIn('purchases.status', $status))
-            ->when($this->filters['search'], fn($query, $search) => $query->search('purchases.subject', $search)
-                                                                          ->orSearch('purchases.id', $search));
+            ->when($this->filters['status'], fn ($query, $status) => $query->whereIn('purchases.status', $status))
+            ->when($this->filters['search'], fn ($query, $search) => $query->search('purchases.subject', $search)
+                ->orSearch('purchases.id', $search));
 
         // Un utilisateur sans droit n'accède qu'à son contenu
-        if ( ! auth()->user()->hasPermissionTo('manage-users') )
-            $query->where('purchases.user_id','=',auth()->id());
-
-            return $this->applySorting($query);
+        if (! auth()->user()->hasPermissionTo('manage-users')) {
+            $query->where('purchases.user_id', '=', auth()->id());
         }
+
+        return $this->applySorting($query);
+    }
 
     public function getRowsProperty()
     {
@@ -126,8 +143,8 @@ class Purchases extends Component
     {
         return view('livewire.purchases', [
             'purchases' => $this->rows,
-            'allmanagers' => Manager::whereHasMorph( 'manageable', Purchase::class )
-                                ->get()->pluck('name','user_id'),
+            'allmanagers' => Manager::whereHasMorph('manageable', Purchase::class)
+                ->get()->pluck('name', 'user_id'),
         ])->layoutData([
             'pageTitle' => __('Non-mission purchases'),
         ]);

@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use App\Models\Order;
 use App\Models\Manager;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /* Call tinker with App\Models\Manager::factory()->count(5)->create(); to associate 5 managers to elements */
@@ -38,7 +38,7 @@ class ManagerFactory extends Factory
         ]);
 
         // Object id
-        if ( $object === 'App\Models\Order' ) {
+        if ($object === 'App\Models\Order') {
             $id = Order::all()->random(1)->pluck('id')->first();
         }
 

@@ -2,10 +2,9 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use App\Models\Purchase;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,8 +14,6 @@ class PurchaseStatusChange extends Mailable
 
     /**
      * The purchase instance.
-     *
-     * @var \App\Models\Purchase
      */
     public Purchase $purchase;
 
@@ -44,14 +41,13 @@ class PurchaseStatusChange extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param  \App\Models\Purchase  $purchase
      * @return void
      */
-    public function __construct( Purchase $purchase, $name = '', $manager = null )
+    public function __construct(Purchase $purchase, $name = '', $manager = null)
     {
         $this->purchase = $purchase;
         $this->status = $purchase->status;
-        $this->name =  $name;
+        $this->name = $name;
         $this->manager = $manager;
     }
 
@@ -62,7 +58,7 @@ class PurchaseStatusChange extends Mailable
      */
     public function build()
     {
-        return $this->subject( '['.config('app.name').'] '.__('Non-mission purchase').' '.$this->purchase->id.' '.__($this->status))
-                    ->view('emails.purchase-status-change');
+        return $this->subject('['.config('app.name').'] '.__('Non-mission purchase').' '.$this->purchase->id.' '.__($this->status))
+            ->view('emails.purchase-status-change');
     }
 }

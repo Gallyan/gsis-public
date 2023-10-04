@@ -10,36 +10,45 @@ class Expense extends Model
     use HasFactory;
 
     const STATUSES = [
-        'draft'       => 'Draft',
-        'on-hold'     => 'On hold',
+        'draft' => 'Draft',
+        'on-hold' => 'On hold',
         'in-progress' => 'In progress',
-        'processed'   => 'Processed',
+        'processed' => 'Processed',
     ];
 
     const TRANSPORTS = [
-        'train'    => 'Train',
-        'flight'   => 'Flight',
-        'public'   => 'Public transport',
-        'taxi'     => 'Taxi',
+        'train' => 'Train',
+        'flight' => 'Flight',
+        'public' => 'Public transport',
+        'taxi' => 'Taxi',
         'personal' => 'Personal car',
     ];
 
     // Automatically switch between json and array
     protected $casts = [
-        'actual_costs_meals'    => 'array',
-        'transports'            => 'array',
-        'hotels'                => 'array',
-        'registrations'         => 'array',
-        'miscs'                 => 'array',
+        'actual_costs_meals' => 'array',
+        'transports' => 'array',
+        'hotels' => 'array',
+        'registrations' => 'array',
+        'miscs' => 'array',
     ];
 
     protected $guarded = [];
 
-    public function user() { return $this->belongsTo('App\Models\User'); }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 
-    public function mission() { return $this->belongsTo('App\Models\Mission'); }
+    public function mission()
+    {
+        return $this->belongsTo('App\Models\Mission');
+    }
 
-    public function getAllStatusesAttribute() { return Expense::STATUSES; }
+    public function getAllStatusesAttribute()
+    {
+        return Expense::STATUSES;
+    }
 
     /**
      * Get all of the mission's documents.
@@ -54,6 +63,6 @@ class Expense extends Model
      */
     public function posts()
     {
-        return $this->morphMany(Post::class, 'postable')->orderBy('id','desc');
+        return $this->morphMany(Post::class, 'postable')->orderBy('id', 'desc');
     }
 }

@@ -43,13 +43,13 @@ class UnusedDocuments extends Command
 
         $cpt = 0;
 
-        foreach( Storage::directories('docs') as $dir ) {
+        foreach (Storage::directories('docs') as $dir) {
 
-            foreach( Storage::files($dir) as $file ) {
+            foreach (Storage::files($dir) as $file) {
 
-                if ( ! in_array( preg_replace( '/\/?docs\/[0-9]+\//', '', $file ), $documents ) ) {
+                if (! in_array(preg_replace('/\/?docs\/[0-9]+\//', '', $file), $documents)) {
 
-                    $this->info( $file );
+                    $this->info($file);
 
                     $cpt++;
 
@@ -58,6 +58,6 @@ class UnusedDocuments extends Command
             }
         }
 
-        $this->info( $cpt . ' fichier(s) non associé(s)' );
+        $this->info($cpt.' fichier(s) non associé(s)');
     }
 }

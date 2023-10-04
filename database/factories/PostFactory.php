@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,40 +24,40 @@ class PostFactory extends Factory
         ]);
 
         // Select object
-        if ( $object_type === 'App\Models\Order' ) {
+        if ($object_type === 'App\Models\Order') {
             // Choisir un élément au hasard ayant un manager, sinon pas de messagerie
-            $object = Order::whereIn('status',['in-progress','processed','cancelled'])
+            $object = Order::whereIn('status', ['in-progress', 'processed', 'cancelled'])
                 ->has('managers')
                 ->get()
                 ->random(1)
                 ->firstOrFail();
 
             // Existe-t-il déjà des messages liés
-            if ( count( $object->posts ) === 0 ) {
+            if (count($object->posts) === 0) {
                 // Le premier auteur doit être un manager, il existe forcément un manager étant donné le statut de l'objet
                 $author = $object->managers->random(1)->first()->user_id;
 
             } else {
                 // Sinon choisir parmi le user et les managers
                 $author = array_rand(
-                            array_flip(
-                                array_unique(
-                                    array_merge(
-                                        $object->managers->pluck('user_id')->toArray(),
-                                        [ $object->user_id ]
-                                    )
-                                )
+                    array_flip(
+                        array_unique(
+                            array_merge(
+                                $object->managers->pluck('user_id')->toArray(),
+                                [$object->user_id]
                             )
-                        );
+                        )
+                    )
+                );
             }
         }
 
         return [
-            'user_id'       => $author,
-            'postable_id'   => $object->id,
+            'user_id' => $author,
+            'postable_id' => $object->id,
             'postable_type' => $object_type,
-            'body'          => $this->faker->paragraphs(mt_rand(1, 3),true),
-            'read_at'       => ( $author === $object->user_id || mt_rand(0,1) ) ? now() : null,
+            'body' => $this->faker->paragraphs(mt_rand(1, 3), true),
+            'read_at' => ($author === $object->user_id || mt_rand(0, 1)) ? now() : null,
         ];
     }
 }

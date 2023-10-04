@@ -2,56 +2,69 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Institution;
-use Livewire\Component;
-use Livewire\WithPagination;
-use App\Http\Livewire\DataTable\WithSorting;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
+use App\Http\Livewire\DataTable\WithSorting;
+use App\Models\Institution;
 use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class Institutions extends Component
 {
     use WithSorting, WithCachedRows, WithPerPagePagination;
 
     public $showEditModal = false;
+
     public $search = '';
+
     public Institution $editing;
 
-    protected $queryString = ['sorts'=>['as'=>'s']];
+    protected $queryString = ['sorts' => ['as' => 's']];
 
-    public function rules() { return [
-        'editing.name'       => 'required|string|max:255',
-        'editing.contract'   => 'required|string|max:255',
-        'editing.allocation' => ['required','string','max:55',
-            Rule::unique('institutions','allocation')->where(
-                function ($query) {
-                    return $query->where(
-                        [
-                            ["name", "=", $this->editing->name],
-                            ["contract", "=", $this->editing->contract],
-                        ]
-                    );
-                })->ignore($this->editing->id)],
-        'editing.wp'         => 'boolean',
-        'editing.from'       => 'nullable|date:Y-m-d',
-        'editing.to'         => 'nullable|date:Y-m-d'.($this->editing->from?'|after_or_equal:editing.from':''),
-    ]; }
+    public function rules()
+    {
+        return [
+            'editing.name' => 'required|string|max:255',
+            'editing.contract' => 'required|string|max:255',
+            'editing.allocation' => ['required', 'string', 'max:55',
+                Rule::unique('institutions', 'allocation')->where(
+                    function ($query) {
+                        return $query->where(
+                            [
+                                ['name', '=', $this->editing->name],
+                                ['contract', '=', $this->editing->contract],
+                            ]
+                        );
+                    })->ignore($this->editing->id)],
+            'editing.wp' => 'boolean',
+            'editing.from' => 'nullable|date:Y-m-d',
+            'editing.to' => 'nullable|date:Y-m-d'.($this->editing->from ? '|after_or_equal:editing.from' : ''),
+        ];
+    }
 
-    protected function messages() { return [
-        'editing.allocation.unique' => 'This institution already exists.',
-    ];}
+    protected function messages()
+    {
+        return [
+            'editing.allocation.unique' => 'This institution already exists.',
+        ];
+    }
 
-    protected function validationAttributes() { return [
-        'editing.name'       => strtolower(__('Name')),
-        'editing.contract'   => strtolower(__('Contract')),
-        'editing.allocation' => strtolower(__('Allocation')),
-        'editing.wp'         => 'WP',
-        'editing.from'       => __('editing-startdate'),
-        'editing.to'         => __('editing-enddate'),
-    ];}
+    protected function validationAttributes()
+    {
+        return [
+            'editing.name' => strtolower(__('Name')),
+            'editing.contract' => strtolower(__('Contract')),
+            'editing.allocation' => strtolower(__('Allocation')),
+            'editing.wp' => 'WP',
+            'editing.from' => __('editing-startdate'),
+            'editing.to' => __('editing-enddate'),
+        ];
+    }
 
-    public function mount() { $this->editing = $this->makeBlankInstitution(); }
+    public function mount()
+    {
+        $this->editing = $this->makeBlankInstitution();
+    }
 
     public function makeBlankInstitution()
     {
@@ -62,7 +75,9 @@ class Institutions extends Component
     {
         $this->useCachedRows();
 
-        if ($this->editing->getKey()) $this->editing = $this->makeBlankInstitution();
+        if ($this->editing->getKey()) {
+            $this->editing = $this->makeBlankInstitution();
+        }
 
         $this->showEditModal = true;
     }
@@ -71,7 +86,9 @@ class Institutions extends Component
     {
         $this->useCachedRows();
 
-        if ($this->editing->isNot($institution)) $this->editing = $institution;
+        if ($this->editing->isNot($institution)) {
+            $this->editing = $institution;
+        }
 
         $this->showEditModal = true;
     }
@@ -85,11 +102,15 @@ class Institutions extends Component
         $this->showEditModal = false;
     }
 
-    public function updatedSearch() { $this->resetPage(); }
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
-    public function updated($propertyName) {
+    public function updated($propertyName)
+    {
 
-        if( in_array($propertyName,['editing.from','editing.to']) ) {
+        if (in_array($propertyName, ['editing.from', 'editing.to'])) {
             $this->validateOnly('editing.from');
             $this->validateOnly('editing.to');
         } else {
@@ -100,8 +121,8 @@ class Institutions extends Component
     public function getRowsQueryProperty()
     {
         $query = Institution::query();
-        foreach (explode(' ',$this->search) as $term) {
-            $query = $query->where(function($query) use ($term) {
+        foreach (explode(' ', $this->search) as $term) {
+            $query = $query->where(function ($query) use ($term) {
                 $query->search('name', $term)
                     ->orSearch('contract', $term)
                     ->orSearch('allocation', $term);

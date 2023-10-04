@@ -43,12 +43,14 @@ class UnusedAvatars extends Command
 
         $files = Storage::files('avatars');
 
-        $to_delete = array_values( array_filter( $files, function( $file ) {
-            return $file[8] !== '.' && !in_array( substr($file,8), $this->avatars );
-        } ) );
+        $to_delete = array_values(array_filter($files, function ($file) {
+            return $file[8] !== '.' && ! in_array(substr($file, 8), $this->avatars);
+        }));
 
-        foreach( $to_delete as $file ) $this->info( $file  );
+        foreach ($to_delete as $file) {
+            $this->info($file);
+        }
 
-        $this->info( count($to_delete) . ' avatar(s) non affecté(s)' );
+        $this->info(count($to_delete).' avatar(s) non affecté(s)');
     }
 }

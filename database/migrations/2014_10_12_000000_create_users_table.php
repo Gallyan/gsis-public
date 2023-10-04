@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('pro_adr')->nullable();
             $table->string('pro_zip')->nullable();
             $table->string('pro_cit')->nullable();
-            $table->string('locale',2)->default('fr');
+            $table->string('locale', 2)->default('fr');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

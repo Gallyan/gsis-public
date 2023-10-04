@@ -10,11 +10,11 @@ class Purchase extends Model
     use HasFactory;
 
     const STATUSES = [
-        'draft'       => 'Draft',
-        'on-hold'     => 'On hold',
+        'draft' => 'Draft',
+        'on-hold' => 'On hold',
         'in-progress' => 'In progress',
-        'processed'   => 'Processed',
-        'cancelled'   => 'Cancelled',
+        'processed' => 'Processed',
+        'cancelled' => 'Cancelled',
     ];
 
     // Automatically switch between json and array of misc
@@ -29,18 +29,33 @@ class Purchase extends Model
         'user_id',
         'wp',
         'status',
-        'amount'
+        'amount',
     ];
 
-    public function user() { return $this->belongsTo('App\Models\User'); }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 
-    public function institution() { return $this->belongsTo('App\Models\Institution'); }
+    public function institution()
+    {
+        return $this->belongsTo('App\Models\Institution');
+    }
 
-    public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
+    public function getDateForHumansAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
 
-    public function getAllStatusesAttribute() { return Purchase::STATUSES; }
+    public function getAllStatusesAttribute()
+    {
+        return Purchase::STATUSES;
+    }
 
-    public function getAllWPAttribute() { return Purchase::STATUSES; }
+    public function getAllWPAttribute()
+    {
+        return Purchase::STATUSES;
+    }
 
     /**
      * Get all of the order's documents.
@@ -63,7 +78,7 @@ class Purchase extends Model
      */
     public function posts()
     {
-        return $this->morphMany(Post::class, 'postable')->orderBy('id','desc');
+        return $this->morphMany(Post::class, 'postable')->orderBy('id', 'desc');
     }
 
     /**

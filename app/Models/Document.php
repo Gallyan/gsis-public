@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Document extends Model
 {
@@ -17,38 +17,43 @@ class Document extends Model
         return $this->morphTo();
     }
 
-    public function getDownloadAttribute() {
-        return;
+    public function getDownloadAttribute()
+    {
+
         //return Storage::url('docs/'.$this->user_id.'/'.$this->file_name);
     }
 
-    public function delete() {
+    public function delete()
+    {
 
         $res = parent::delete();
 
-        if ( $res === true ) {
+        if ($res === true) {
 
-            $pathToFile = '/docs/' . $this->user_id . '/' . $this->filename;
+            $pathToFile = '/docs/'.$this->user_id.'/'.$this->filename;
 
             // Check if file exist and download
-            if ( Storage::exists( $pathToFile ) ) {
+            if (Storage::exists($pathToFile)) {
 
-                Storage::delete( $pathToFile );
+                Storage::delete($pathToFile);
 
             }
         }
     }
 
-    public function getSizeForHumansAttribute() {
+    public function getSizeForHumansAttribute()
+    {
         $units = ['Bytes', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb'];
         $bytes = $this->size;
         for ($i = 0; $bytes > 1000; $i++) {
             $bytes /= 1000;
         }
-        return round($bytes, 2) . ' ' . __($units[$i]);
+
+        return round($bytes, 2).' '.__($units[$i]);
     }
 
-    public static function filter_filename($filename) {
+    public static function filter_filename($filename)
+    {
         // sanitize filename
         $filename = preg_replace(
             '~
@@ -62,27 +67,28 @@ class Document extends Model
         // avoids ".", ".." or ".hiddenFiles"
         $filename = ltrim($filename, '.-');
         // reduce consecutive characters
-        $filename = preg_replace(array(
+        $filename = preg_replace([
             // "file   name.zip" becomes "file-name.zip"
             '/ +/',
             // "file___name.zip" becomes "file-name.zip"
             '/_+/',
             // "file---name.zip" becomes "file-name.zip"
-            '/-+/'
-        ), '-', $filename);
-        $filename = preg_replace(array(
+            '/-+/',
+        ], '-', $filename);
+        $filename = preg_replace([
             // "file--.--.-.--name.zip" becomes "file.name.zip"
             '/-*\.-*/',
             // "file...name..zip" becomes "file.name.zip"
-            '/\.{2,}/'
-        ), '.', $filename);
+            '/\.{2,}/',
+        ], '.', $filename);
         // lowercase for windows/unix interoperability http://support.microsoft.com/kb/100625
         $filename = mb_strtolower($filename, mb_detect_encoding($filename));
         // ".file-name.-" becomes "file-name"
         $filename = trim($filename, '.-');
         // maximize filename length to 255 bytes http://serverfault.com/a/9548/44086
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
-        $filename = mb_strcut(pathinfo($filename, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($filename)) . ($ext ? '.' . $ext : '');
+        $filename = mb_strcut(pathinfo($filename, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($filename)).($ext ? '.'.$ext : '');
+
         return $filename;
     }
 }

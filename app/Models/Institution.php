@@ -14,38 +14,52 @@ class Institution extends Model
 
     protected $guarded = [];
 
-    public function setFromAttribute($date) {
+    public function setFromAttribute($date)
+    {
         $this->attributes['from'] = empty($date) ? null : Carbon::parse($date)->format('Y-m-d');
     }
 
-    public function getFromFormattedAttribute() {
-        return $this->attributes['from'] ? Carbon::parse($this->attributes['from'])->format('d/m/Y'): '';
+    public function getFromFormattedAttribute()
+    {
+        return $this->attributes['from'] ? Carbon::parse($this->attributes['from'])->format('d/m/Y') : '';
     }
 
-    public function setToAttribute($date) {
+    public function setToAttribute($date)
+    {
         $this->attributes['to'] = empty($date) ? null : Carbon::parse($date)->format('Y-m-d');
     }
 
-    public function getToFormattedAttribute() {
-        return $this->attributes['to'] ? Carbon::parse($this->attributes['to'])->format('d/m/Y'): '';
+    public function getToFormattedAttribute()
+    {
+        return $this->attributes['to'] ? Carbon::parse($this->attributes['to'])->format('d/m/Y') : '';
     }
 
-    public function getDateForHumansAttribute() { return $this->created_at->diffForHumans(); }
+    public function getDateForHumansAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
 
-    public function getNameContractAttribute() { return $this->name.' / '.$this->contract; }
+    public function getNameContractAttribute()
+    {
+        return $this->name.' / '.$this->contract;
+    }
 
-    public static function available() {
-        return Institution::where(function($query) {
-                $query->where('from', '<=', Carbon::today())
-                      ->orWhereNull('from');
-            })
-            ->where(function($query) {
+    public static function available()
+    {
+        return Institution::where(function ($query) {
+            $query->where('from', '<=', Carbon::today())
+                ->orWhereNull('from');
+        })
+            ->where(function ($query) {
                 $query->where('to', '>=', Carbon::today())
-                      ->orWhereNull('to');
+                    ->orWhereNull('to');
             })
             ->get();
     }
 
     // Initialise
-    function __construct() { $this->wp = false; }
+    public function __construct()
+    {
+        $this->wp = false;
+    }
 }

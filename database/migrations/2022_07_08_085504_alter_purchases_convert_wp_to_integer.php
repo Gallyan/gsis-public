@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Purchase;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Purchase;
 
 return new class extends Migration
 {
@@ -14,8 +14,8 @@ return new class extends Migration
      */
     public function up()
     {
-        foreach( Purchase::whereNotNull('wp')->get() as $p ) {
-            $p->wp = substr( $p->wp, 2 );
+        foreach (Purchase::whereNotNull('wp')->get() as $p) {
+            $p->wp = substr($p->wp, 2);
             $p->save();
         }
 
@@ -35,8 +35,8 @@ return new class extends Migration
             $table->string('wp')->nullable()->change();
         });
 
-        foreach( Purchase::whereNotNull('wp')->get() as $p ) {
-            $p->wp = 'wp' . $p->wp;
+        foreach (Purchase::whereNotNull('wp')->get() as $p) {
+            $p->wp = 'wp'.$p->wp;
             $p->save();
         }
     }

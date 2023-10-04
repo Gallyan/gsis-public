@@ -2,12 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use App\Models\Order;
-use App\Models\Document;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Document>
@@ -23,14 +21,14 @@ class DocumentFactory extends Factory
     {
         // Select owner
         $users = User::all()->pluck('id');
-        $owner_id = $users[mt_rand(0,count($users)-1)];
+        $owner_id = $users[mt_rand(0, count($users) - 1)];
 
         // Create user documents directory if not exists
         $path = 'docs/'.$owner_id.'/';
-        Storage::makeDirectory( $path );
+        Storage::makeDirectory($path);
 
         // Create fake file
-        $filename = $this->faker->image( storage_path('app/'.$path), mt_rand(100,400), mt_rand(50,200), null, false );
+        $filename = $this->faker->image(storage_path('app/'.$path), mt_rand(100, 400), mt_rand(50, 200), null, false);
 
         // Object that can be associated with documents
         $documentable = $this->faker->randomElement([
@@ -43,10 +41,10 @@ class DocumentFactory extends Factory
             'type' => $documentable === User::class ?
                     $this->faker->randomElement(array_keys(User::DOCTYPE)) :
                     'quotation',
-            'size' => Storage::size( $path.$filename ),
+            'size' => Storage::size($path.$filename),
             'filename' => $filename,
             'user_id' => $owner_id,
-            'documentable_id' => $documentable === User::class ? $owner_id : $documentable::factory(['user_id'=>$owner_id]),
+            'documentable_id' => $documentable === User::class ? $owner_id : $documentable::factory(['user_id' => $owner_id]),
             'documentable_type' => $documentable,
         ];
     }

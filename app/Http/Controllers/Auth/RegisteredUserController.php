@@ -26,7 +26,6 @@ class RegisteredUserController extends Controller
     /**
      * Handle an incoming registration request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -45,8 +44,8 @@ class RegisteredUserController extends Controller
             'email.unique' => __('A profile with this email address already exists.'),
             'cgu.accepted' => __('must-agree'),
         ], [
-            'email'=>__('E-mail'),
-            'cgu'=>__('Terms of use'),
+            'email' => __('E-mail'),
+            'cgu' => __('Terms of use'),
         ]);
 
         $user = User::create([
