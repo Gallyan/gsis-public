@@ -56,7 +56,7 @@ class OrderStatusChange extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->subject('['.config('app.name').'] '.__('Order').' '.$this->order->id.' '.__($this->status))
             ->view('emails.order-status-change');

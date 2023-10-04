@@ -56,7 +56,7 @@ class MissionStatusChange extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->subject('['.config('app.name').'] '.__('Mission').' '.$this->mission->id.' '.__($this->status))
             ->view('emails.mission-status-change');

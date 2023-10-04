@@ -132,7 +132,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
      *
      * @return string
      */
-    public function preferredLocale()
+    public function preferredLocale(): string
     {
         return $this->locale;
     }

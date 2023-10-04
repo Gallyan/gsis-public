@@ -63,7 +63,7 @@ class ExpenseStatusChange extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->subject('['.config('app.name').'] '.__('Mission :id expenses', ['id' => $this->mission->id]).' '.__($this->status))
             ->view('emails.expense-status-change');

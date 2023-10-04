@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Layouts;
 
+use Illuminate\View\View;
 use Illuminate\View\Component;
 
 class Guest extends Component
@@ -11,7 +12,7 @@ class Guest extends Component
      *
      * @return \Illuminate\View\View
      */
-    public function render()
+    public function render(): View
     {
         return view('layouts.guest');
     }

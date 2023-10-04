@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 
 class TermsController extends Controller
@@ -11,7 +12,7 @@ class TermsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function terms()
+    public function terms(): View
     {
         return view('auth.terms');
     }

@@ -56,7 +56,7 @@ class PurchaseStatusChange extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->subject('['.config('app.name').'] '.__('Non-mission purchase').' '.$this->purchase->id.' '.__($this->status))
             ->view('emails.purchase-status-change');
