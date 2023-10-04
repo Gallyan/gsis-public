@@ -38,7 +38,7 @@ class ManagerFactory extends Factory
         ]);
 
         // Object id
-        if ($object === 'App\Models\Order') {
+        if ($object === \App\Models\Order::class) {
             $id = Order::all()->random(1)->pluck('id')->first();
         }
 

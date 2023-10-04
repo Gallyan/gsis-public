@@ -49,13 +49,13 @@ class NewMessage extends Mailable
         $this->name = $name;
         $this->author = $author;
         switch (get_class($object)) {
-            case "App\Models\Order": $this->url = route('edit-order', [$object, '#messaging']);
+            case \App\Models\Order::class: $this->url = route('edit-order', [$object, '#messaging']);
                 break;
-            case "App\Models\Mission": $this->url = route('edit-mission', [$object, '#messaging']);
+            case \App\Models\Mission::class: $this->url = route('edit-mission', [$object, '#messaging']);
                 break;
-            case "App\Models\Expense": $this->url = route('edit-expense', [$object->mission, $object, '#messaging']);
+            case \App\Models\Expense::class: $this->url = route('edit-expense', [$object->mission, $object, '#messaging']);
                 break;
-            case "App\Models\Purchase": $this->url = route('edit-purchase', [$object, '#messaging']);
+            case \App\Models\Purchase::class: $this->url = route('edit-purchase', [$object, '#messaging']);
                 break;
         }
     }

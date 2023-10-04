@@ -24,7 +24,7 @@ class PostFactory extends Factory
         ]);
 
         // Select object
-        if ($object_type === 'App\Models\Order') {
+        if ($object_type === \App\Models\Order::class) {
             // Choisir un élément au hasard ayant un manager, sinon pas de messagerie
             $object = Order::whereIn('status', ['in-progress', 'processed', 'cancelled'])
                 ->has('managers')

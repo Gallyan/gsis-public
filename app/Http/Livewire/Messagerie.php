@@ -42,7 +42,7 @@ class Messagerie extends Component
             'read_at' => Auth()->id() === $this->object->user_id ? now() : null,
         ]);
 
-        if (is_a($this->object, 'App\Models\Expense')) {
+        if (is_a($this->object, \App\Models\Expense::class)) {
             $managers_id = $this->object->mission->managers->pluck('user_id')->toArray();
         } else {
             $managers_id = $this->object->managers->pluck('user_id')->toArray();

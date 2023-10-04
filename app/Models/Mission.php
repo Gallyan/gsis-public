@@ -28,17 +28,17 @@ class Mission extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(\App\Models\User::class);
     }
 
     public function institution()
     {
-        return $this->belongsTo('App\Models\Institution');
+        return $this->belongsTo(\App\Models\Institution::class);
     }
 
     public function expense()
     {
-        return $this->hasOne('App\Models\Expense');
+        return $this->hasOne(\App\Models\Expense::class);
     }
 
     public function getDateForHumansAttribute()

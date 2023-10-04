@@ -36,7 +36,7 @@ class Reception extends Model
      */
     public function purchase()
     {
-        return $this->belongsTo('App\Models\Purchase');
+        return $this->belongsTo(\App\Models\Purchase::class);
     }
 
     /**
