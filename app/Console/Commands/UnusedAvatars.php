@@ -37,7 +37,7 @@ class UnusedAvatars extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $this->avatars = DB::table('users')->whereNotNull('avatar')->pluck('avatar')->toArray();
 

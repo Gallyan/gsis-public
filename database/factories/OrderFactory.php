@@ -14,7 +14,7 @@ class OrderFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $institutions = Institution::all()->pluck('id');
 

@@ -12,7 +12,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         foreach (Purchase::whereNotNull('wp')->get() as $p) {
             $p->wp = substr($p->wp, 2);
@@ -29,7 +29,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('purchases', function (Blueprint $table) {
             $table->string('wp')->nullable()->change();

@@ -17,7 +17,7 @@ class DocumentFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         // Select owner
         $users = User::all()->pluck('id');

@@ -15,7 +15,7 @@ use Storage;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         // Creation des roles
         foreach (['admin', 'manager', 'user'] as $role) {

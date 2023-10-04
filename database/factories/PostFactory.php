@@ -16,7 +16,7 @@ class PostFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         // Object that can be associated with documents
         $object_type = $this->faker->randomElement([
