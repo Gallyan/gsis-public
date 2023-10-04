@@ -9,8 +9,6 @@ class TermsController extends Controller
 {
     /**
      * Display the terms of use view.
-     *
-     * @return \Illuminate\View\View
      */
     public function terms(): View
     {

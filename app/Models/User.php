@@ -129,8 +129,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     /**
      * Get the user's preferred locale.
-     *
-     * @return string
      */
     public function preferredLocale(): string
     {
