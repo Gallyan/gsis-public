@@ -33,6 +33,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'insurance' => 'insurance',
         'car' => 'car-registration',
         'loyalty' => 'loyalty',
+        'season' => 'season',
+        'other' => 'other',
     ];
 
     protected static function boot()

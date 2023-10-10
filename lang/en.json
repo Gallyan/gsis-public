@@ -35,6 +35,8 @@
     "passport": "Passport",
     "insurance": "Insurance certificate",
     "loyalty": "Loyalty card",
+    "season": "Season ticket",
+    "other": "Autre",
     "quotation": "Quotation",
     "admin": "Administrator",
     "admin-description": " ",

@@ -302,6 +302,8 @@
     "passport": "Passeport",
     "insurance": "Attestation d'assurance",
     "loyalty": "Carte de fidélité",
+    "season": "Carte d'abonnement",
+    "other": "Autre",
     "quotation": "Devis",
     "Added :date": "Ajouté :date",
     "Add document": "Ajouter un document",
@@ -594,5 +596,6 @@
     "editing-startdate": "début",
     "editing-enddate": "fin",
     "To be created": "A créer",
-    "Off-market accomodation": "Hébergement hors marché"
+    "Off-market accomodation": "Hébergement hors marché",
+    "Expenses": "Frais de missions"
 }
