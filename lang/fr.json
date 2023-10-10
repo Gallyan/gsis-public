@@ -384,6 +384,9 @@
     "Send reset password link by email": "Envoyer le lien de réinitialisation du mot de passe par e-mail",
     "Messaging": "Messagerie",
     "Add Message": "Ajouter le message",
+    "Send": "Envoyer",
+    "Send message": "Envoyer le message",
+    "Add a message": "Ajouter un message",
     "messaging-inactive": "La messagerie sera disponible après une première sauvegarde.",
     "Show message": "Voir le message",
     "You've got new message": "Vous avez un nouveau message",
@@ -589,5 +592,7 @@
     "End date": "Date de fin",
     "Start date": "Date de début",
     "editing-startdate": "début",
-    "editing-enddate": "fin"
+    "editing-enddate": "fin",
+    "To be created": "A créer",
+    "Off-market accomodation": "Hébergement hors marché"
 }

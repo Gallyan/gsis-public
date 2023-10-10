@@ -503,6 +503,11 @@
                         </x-input.checkbox>
                     </x-input.group>
                     @endempty
+                    <x-input.group :error="$errors->first('mission.accomodation')" inline>
+                        <x-input.checkbox wire:model="mission.accomodation" id="accomodation" for="accomodation" :disabled="$disabled">
+                            {{ __('Off-market accomodation') }}
+                        </x-input.checkbox>
+                    </x-input.group>
                 </x-input.group>
 
                 <x-input.group paddingless borderless inline label="Other expenses" for="others" :error="$errors->first('mission.others')">
