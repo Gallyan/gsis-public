@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewAddress;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
@@ -46,6 +48,18 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
             if (in_array('email', array_keys($user->getDirty())) && $user->created_at) {
                 $user->email_verified_at = null;
                 $user->sendEmailVerificationNotification();
+            }
+
+            // En cas de changement d'adresse un email est envoyé aux gestionnaires
+            if (in_array('hom_', array_map(fn($v): string => substr($v,0,4),array_keys($user->getDirty()))) ||
+                in_array('pro_', array_map(fn($v): string => substr($v,0,4),array_keys($user->getDirty())))) {
+
+                // Send an email to each manager if user is not a manager
+                if (!auth()->user()->hasRole('manager')) {
+                    foreach (User::role('manager')->get() as $dest) {
+                        Mail::to($dest)->send(new NewAddress(auth()->user(), $dest->name));
+                    }
+                }
             }
         });
 
