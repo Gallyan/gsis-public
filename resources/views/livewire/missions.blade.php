@@ -101,7 +101,8 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('ins_name')" :direction="$sorts['ins_name'] ?? null">{{ __('Institution') }}</x-table.heading>
                     <x-table.heading>{{ __('Manager') }}</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('status')" :direction="$sorts['status'] ?? null">{{ __('Status') }}</x-table.heading>
-                    <x-table.heading sortable multi-column wire:click="sortBy('missions.created_at')" :direction="$sorts['missions.created_at'] ?? null">{{ __('Created') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('destination')" :direction="$sorts['destination'] ?? null">{{ __('Destination') }}</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('missions.departure')" :direction="$sorts['missions.departure'] ?? null">{{ __('Departure') }}</x-table.heading>
                 </x-slot>
 
                 <x-slot name="body">
@@ -130,8 +131,12 @@
                         </x-table.cell>
 
                         <x-table.cell class="whitespace-nowrap">
-                            <span title="{{ $mission->created_at }}">
-                                {{ $mission->date_for_humans }}
+                            {{ Lang::has('country.'.$mission->dest_country) ? __('country.'.$mission->dest_country) : __($mission->dest_country) }} / {{ $mission->dest_city }}
+                        </x-table.cell>
+
+                        <x-table.cell class="whitespace-nowrap">
+                            <span title="{{ $mission->departure->format('d/m/Y') }}">
+                                {{ $mission->departure->diffForHumans() }}
                             </span>
                         </x-table.cell>
                     </x-table.row>

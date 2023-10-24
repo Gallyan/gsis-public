@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Http\Livewire\DataTable\WithCachedRows;
 use App\Http\Livewire\DataTable\WithPerPagePagination;
 use App\Http\Livewire\DataTable\WithSorting;
+use Illuminate\Support\Facades\DB;
 use App\Models\Manager;
 use App\Models\Mission;
 use Illuminate\Support\Carbon;
@@ -102,7 +103,7 @@ class Missions extends Component
         $query = Mission::query()->with('managers')->with('user')
             ->join('users', 'users.id', '=', 'missions.user_id')
             ->join('institutions', 'institutions.id', '=', 'missions.institution_id')
-            ->select('missions.*', 'users.lastname', 'users.firstname', 'institutions.name as ins_name', 'institutions.contract as ins_contract')
+            ->select('missions.*', 'users.lastname', 'users.firstname', 'institutions.name as ins_name', 'institutions.contract as ins_contract', DB::raw('CONCAT( missions.dest_country, missions.dest_city) AS destination'))
             ->when($this->filters['institution'], fn ($query, $institution) => $query->whereIn('missions.institution_id', $institution))
             ->when($this->filters['date-min'], fn ($query, $date) => $query->where('missions.created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn ($query, $date) => $query->where('missions.created_at', '<=', Carbon::parse($date)))
