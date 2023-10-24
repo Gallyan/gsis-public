@@ -124,12 +124,13 @@
                             </p>
                             @endif
                         </div>
+                        <x-icon.pencil class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="editDoc({{ $document->id }})" />
                         <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="confirm({{ $document->id }})" />
                     </li>
                 @endforeach
                 </ul>
                 @endif
-                <x-button.secondary wire:click="$set('showModal', true)">
+                <x-button.secondary wire:click="show_modal">
                     <x-icon.document-add />{{ __('Add document') }}
                 </x-button.secondary>
             </x-input.group>
@@ -238,10 +239,24 @@
 
         <x-modal.dialog wire:model.defer="showModal">
             <x-slot name="title">
-                {{ __('Add document') }}
+                @if (isset($doc['id']))
+                    {{ __('Edit document') }}
+                @else
+                    {{ __('Add document') }}
+                @endif
             </x-slot>
 
             <x-slot name="content">
+                @if (isset($doc['id']))
+                <x-input.group for="file" label="File">
+                    <p class="text-sm font-medium text-gray-700">
+                        <a href="{{ route( 'download', $document->id ) }}" target="_blank">
+                            {{ $doc['name'] }}
+                            <x-icon.download class="text-gray-500" />
+                        </a>
+                    </p>
+                </x-input.group>
+                @else
                 <x-input.group for="file" label="File" :error="$errors->first('doc.file')" required>
                     <x-input.filepond
                         wire:model="doc.file"
@@ -251,6 +266,7 @@
                         acceptedFileTypes="[ 'image/*', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'application/zip']"
                     />
                 </x-input.group>
+                @endif
 
                 <x-input.group for="type" label="Type" :error="$errors->first('doc.type')" required>
                     <x-input.select wire:model="doc.type" id="type" placeholder="{{ __('Select Type...') }}" class="w-full">
@@ -278,7 +294,13 @@
             <x-slot name="footer">
                 <x-button.secondary wire:click="close_modal">{{ __('Cancel') }}</x-button.secondary>
 
-                <x-button.primary wire:loading.attr="disabled" type="submit">{{ __('Add') }}</x-button.primary>
+                <x-button.primary wire:loading.attr="disabled" type="submit">
+                @if (isset($doc['id']))
+                    {{ __('Save') }}
+                @else
+                    {{ __('Add') }}
+                @endif
+            </x-button.primary>
             </x-slot>
         </x-modal.dialog>
     </form>

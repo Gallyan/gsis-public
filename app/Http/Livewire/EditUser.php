@@ -87,7 +87,8 @@ class EditUser extends Component
     protected function doc_rules()
     {
         return [
-            'doc.file' => 'required|file',
+            'doc.id' => 'nullable|exists:documents,id',
+            'doc.file' => 'requiredIf:doc.id,null|file',
             'doc.type' => 'required|string',
             'doc.name' => 'required|string',
             'doc.from' => 'nullable|date:Y-m-d'.(isset($this->doc) && $this->doc['to'] ? '|before:doc.to' : ''),
@@ -135,6 +136,18 @@ class EditUser extends Component
         } else {
             $this->validateOnly($propertyName);
         }
+    }
+
+    public function editDoc(int $doc_id)
+    {
+        $doc = Document::findOrFail( $doc_id );
+        $this->reset(['doc']);
+        $this->doc['id'] = $doc->id;
+        $this->doc['type'] = $doc->type;
+        $this->doc['name'] = $doc->name;
+        $this->doc['from'] = $doc->from?->format('Y-m-d');
+        $this->doc['to'] = $doc->to?->format('Y-m-d');
+        $this->showModal = true;
     }
 
     public function render()
@@ -246,29 +259,51 @@ class EditUser extends Component
             }
         })->validate($this->doc_rules());
 
-        // Create user documents directory if not exists
-        $path = 'docs/'.$this->user->id.'/';
-        Storage::makeDirectory($path);
+        if ( isset( $this->doc['id'] ) ) {
+            // Document modification
+            Document::findOrFail($this->doc['id'])
+                ->update([
+                    'id' => $this->doc['id'],
+                    'name' => $this->doc['name'],
+                    'type' => $this->doc['type'],
+                    'from' => $this->doc['from'],
+                    'to' => $this->doc['to'],
+                    ]);
 
-        $filename = $this->doc['file']->storeAs(
-            '/docs/'.$this->user->id.'/',
-            $this->doc['file']->hashName()
-        );
+        } else {
+            // Document creation
 
-        Document::create([
-            'name' => $this->doc['name'],
-            'type' => $this->doc['type'],
-            'size' => Storage::size($filename),
-            'from' => $this->doc['from'],
-            'to' => $this->doc['to'],
-            'filename' => $this->doc['file']->hashName(),
-            'user_id' => $this->user->id,
-            'documentable_id' => $this->user->id,
-            'documentable_type' => User::class,
-        ]);
+            // Create user documents directory if not exists
+            $path = 'docs/'.$this->user->id.'/';
+            Storage::makeDirectory($path);
+
+            $filename = $this->doc['file']->storeAs(
+                '/docs/'.$this->user->id.'/',
+                $this->doc['file']->hashName()
+            );
+
+            Document::create([
+                'name' => $this->doc['name'],
+                'type' => $this->doc['type'],
+                'size' => Storage::size($filename),
+                'from' => $this->doc['from'],
+                'to' => $this->doc['to'],
+                'filename' => $this->doc['file']->hashName(),
+                'user_id' => $this->user->id,
+                'documentable_id' => $this->user->id,
+                'documentable_type' => User::class,
+            ]);
+        }
 
         $this->emit('refreshUser');
         $this->close_modal();
+    }
+
+    public function show_modal()
+    {
+        $this->reset(['doc']);
+        $this->resetValidation();
+        $this->showModal = true;
     }
 
     public function close_modal()
