@@ -33,7 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'passport' => 'passport',
         'driver' => 'driver',
         'insurance' => 'insurance',
-        'car' => 'car-registration',
+        'car-registration' => 'car-registration',
         'loyalty' => 'loyalty',
         'season' => 'season',
         'other' => 'other',
