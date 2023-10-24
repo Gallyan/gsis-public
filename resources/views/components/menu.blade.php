@@ -8,6 +8,10 @@
     {!! __('Missions') !!}
 </x-nav-link>
 
+<x-nav-link :route="'expenses'" :icon="'euro'">
+    {!! __('Expenses') !!}
+</x-nav-link>
+
 <x-nav-link :route="'purchases'" :icon="'purchase'">
     {!! __('Non-mission purchases') !!}
 </x-nav-link>

@@ -7,6 +7,7 @@ use App\Http\Livewire\EditOrder;
 use App\Http\Livewire\EditPurchase;
 use App\Http\Livewire\EditUser;
 use App\Http\Livewire\Institutions;
+use App\Http\Livewire\Expenses;
 use App\Http\Livewire\Missions;
 use App\Http\Livewire\Orders;
 use App\Http\Livewire\Purchases;
@@ -26,6 +27,7 @@ Route::middleware(['auth', 'verified', 'throttle:global'])->group(function () {
     Route::get('/order/{id?}', EditOrder::class)->whereNumber('id')->name('edit-order');
     Route::get('/purchases', Purchases::class)->name('purchases');
     Route::get('/purchase/{id?}', EditPurchase::class)->whereNumber('id')->name('edit-purchase');
+    Route::get('/expenses', Expenses::class)->name('expenses');
     Route::get('/missions', Missions::class)->name('missions');
     Route::get('/mission/{id?}', EditMission::class)->whereNumber('id')->name('edit-mission');
     Route::get('/mission/{mission}/expense/{expense?}', EditExpense::class)->whereNumber('mission')->whereNumber('expense')->name('edit-expense');
