@@ -97,7 +97,32 @@
                             <p class="text-sm font-medium text-gray-900">
                                 <a href="{{ route( 'download', $document->id ) }}" target="_blank">{{ $document->name }}</a> <span class="text-sm text-gray-500">({{ $document->sizeForHumans }}) {{ __('Added :date',[ 'date' => $document->created_at->diffForHumans() ]) }}</span>
                             </p>
-                            <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
+                            <p class="text-sm text-gray-500">
+                                {{ __($document->type) }}
+                                @if($document->from && $document->to)
+                                    {{ __('valid from :from to :to',
+                                        [
+                                            'from' => $document->from->format('d/m/Y'),
+                                            'to' => $document->to->format('d/m/Y'),
+                                        ]) }}
+                                @elseif($document->from)
+                                    {{ __('valid from :from',
+                                        [
+                                            'from' => $document->from->format('d/m/Y'),
+                                        ]) }}
+                                @elseif($document->to)
+                                    {{ __('valid until :to',
+                                        [
+                                            'to' => $document->to->format('d/m/Y'),
+                                        ]) }}
+                                @endif
+                            </p>
+                            @if ($document->to && $document->to->lte(Illuminate\Support\Carbon::now()))
+                            <p class="text-sm text-red-500 font-semibold">
+                                <x-icon.warning class="mr-2 flex-shrink-0 h-8 w-8 text-red-400" />
+                                {{ __('Document has expired') }}
+                            </p>
+                            @endif
                         </div>
                         <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="confirm({{ $document->id }})" />
                     </li>
@@ -238,6 +263,16 @@
                 <x-input.group for="name" label="Name" :error="$errors->first('doc.name')" required>
                     <x-input.text wire:model.debounce.500ms="doc.name" id="name" placeholder="{{ __('Name') }}" />
                 </x-input.group>
+
+                <x-input.group label="Dates" innerclass="sm:flex" helpText="helptext-expirationdates" >
+                    <x-input.group label="Valid from date" for="doc.from" :error="$errors->first('doc.from')" class="sm:w-1/2" inline>
+                        <x-input.date wire:model="doc.from" id="from" placeholder="{{ __('YYYY-MM-DD') }}" />
+                    </x-input.group>
+                    <x-input.group label="Expiration date" for="doc.to" :error="$errors->first('doc.to')" inline>
+                        <x-input.date wire:model="doc.to" id="to" placeholder="{{ __('YYYY-MM-DD') }}" />
+                    </x-input.group>
+                </x-input.group>
+
             </x-slot>
 
             <x-slot name="footer">

@@ -12,15 +12,14 @@ class Document extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'from' => 'date:Y-m-d',
+        'to' => 'date:Y-m-d',
+    ];
+
     public function documentable()
     {
         return $this->morphTo();
-    }
-
-    public function getDownloadAttribute()
-    {
-
-        //return Storage::url('docs/'.$this->user_id.'/'.$this->file_name);
     }
 
     public function delete()

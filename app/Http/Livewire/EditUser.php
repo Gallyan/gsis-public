@@ -36,7 +36,10 @@ class EditUser extends Component
 
     public $delDocName = '';
 
-    public $doc = []; // Store uploaded document
+    public $doc = [
+        'from' => null,
+        'to' => null,
+    ]; // Store uploaded document
 
     protected function rules()
     {
@@ -62,12 +65,33 @@ class EditUser extends Component
         ];
     }
 
+    protected function validationAttributes()
+    {
+        return [
+            'doc.file' => __('File'),
+            'doc.type' => __('Type'),
+            'doc.name' => __('Name'),
+            'doc.from' => __('Valid from date'),
+            'doc.to' => __('Expiration date'),
+        ];
+    }
+
+    protected function messages()
+    {
+        return [
+            'doc.from.before' => __('Expiration date prior to valid from date.'),
+            'doc.to.after' => __('Expiration date prior to valid from date.'),
+        ];
+    }
+
     protected function doc_rules()
     {
         return [
             'doc.file' => 'required|file',
             'doc.type' => 'required|string',
             'doc.name' => 'required|string',
+            'doc.from' => 'nullable|date:Y-m-d'.(isset($this->doc) && $this->doc['to'] ? '|before:doc.to' : ''),
+            'doc.to' => 'nullable|date:Y-m-d'.(isset($this->doc) && $this->doc['from'] ? '|after:doc.from' : ''),
         ];
     }
 
@@ -235,6 +259,8 @@ class EditUser extends Component
             'name' => $this->doc['name'],
             'type' => $this->doc['type'],
             'size' => Storage::size($filename),
+            'from' => $this->doc['from'],
+            'to' => $this->doc['to'],
             'filename' => $this->doc['file']->hashName(),
             'user_id' => $this->user->id,
             'documentable_id' => $this->user->id,

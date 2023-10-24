@@ -313,6 +313,7 @@
     "fr": "Français",
     "en": "Anglais",
     "A validation email will be sent to newly created user.": "Un email de validation sera envoyé au nouvel utilisateur.",
+    "helptext-expirationdates": "Merci d'indiquer les dates de validité du document si applicable.",
     "helptext-order-quotation": "Si le montant de votre commande est supérieur à 3 000 €, il faut obligatoirement faire une mise en concurrence (produire 3 devis ou imprimer les tarifs de produits équivalents à partir de sites Internet d'entreprises concurrentes).",
     "helptext-order-status": "Pour soumettre votre commande, passez le statut à \"En attente\", puis sauvegardez-la.<br/>Une fois que la commande est prise en charge par un gestionnaire, le statut passe à \"En cours\" et vous ne pourrez plus la modifier.",
     "helptext-order-subject": "Merci d'être précis sur l'objet de la commande attendue. Le champ Commentaires au bas du formulaire permet de développer votre demande si besoin.",
@@ -600,5 +601,12 @@
     "editing-enddate": "fin",
     "To be created": "A créer",
     "Off-market accomodation": "Hébergement hors marché",
+    "Expiration date": "Fin de validité",
+    "Valid from date": "Début de validité",
+    "Expiration date prior to valid from date.": "Date de fin antérieure à la date de début.",
+    "valid from :from to :to": "valide du :from au :to",
+    "valid from :from": "valide à partir du :from",
+    "valid until :to": "valide jusqu'au :to",
+    "Document has expired": "Le document a expiré",
     "Expenses": "Frais de missions"
 }
