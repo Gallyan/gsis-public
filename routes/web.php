@@ -25,12 +25,18 @@ Route::middleware(['auth', 'throttle:global'])->group(function () {
 Route::middleware(['auth', 'verified', 'throttle:global'])->group(function () {
     Route::get('/orders', Orders::class)->name('orders');
     Route::get('/order/{id?}', EditOrder::class)->whereNumber('id')->name('edit-order');
+    Route::get('/order/{id?}/zip', [App\Http\Controllers\DocumentController::class, 'order'])->whereNumber('id')->name('zip-order');
+
     Route::get('/purchases', Purchases::class)->name('purchases');
     Route::get('/purchase/{id?}', EditPurchase::class)->whereNumber('id')->name('edit-purchase');
-    Route::get('/expenses', Expenses::class)->name('expenses');
+
     Route::get('/missions', Missions::class)->name('missions');
     Route::get('/mission/{id?}', EditMission::class)->whereNumber('id')->name('edit-mission');
+
+    Route::get('/expenses', Expenses::class)->name('expenses');
     Route::get('/mission/{mission}/expense/{expense?}', EditExpense::class)->whereNumber('mission')->whereNumber('expense')->name('edit-expense');
+    Route::get('/mission/{mission}/expense/{expense?}/zip', [App\Http\Controllers\DocumentController::class, 'expense'])->whereNumber('mission')->whereNumber('expense')->name('zip-expense');
+
     Route::get('/documents/{id}', [App\Http\Controllers\DocumentController::class, 'download'])->whereNumber('id')->name('download');
 
     // Admin
