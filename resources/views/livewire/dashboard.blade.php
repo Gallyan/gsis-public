@@ -101,6 +101,68 @@
         @endif
         <!-- End Connected Users //-->
 
+        <!-- Demande en attente //-->
+        @if( auth()->user()->can('manage-users') )
+        <div class="lg:col-span-2 bg-white overflow-hidden shadow-md sm:rounded-lg flex flex-col">
+            <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-green-600 to-green-400 text-white shadow-green-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
+                <x-icon.rss fill="currentColor" class="w-8 h-8"/>
+            </div>
+            <div class="p-4 text-right">
+                <p class="block text-sm text-gray-500">
+                    @lang('Pending applications')
+                </p>
+            </div>
+            <div class="border-t border-blue-gray-50 p-4">
+                @php
+                $missions = DB::table('missions')
+                            ->select(DB::raw("'Mission' as type"),'id','user_id','subject','created_at')
+                            ->whereStatus('on-hold');
+
+                $expenses = DB::table('expenses')
+                            ->select(DB::raw("'Expenses' as type"),'expenses.id','expenses.user_id','missions.subject','expenses.created_at')
+                            ->leftJoin('missions', 'missions.id', '=', 'expenses.mission_id')
+                            ->where('expenses.status','on-hold');
+
+                $orders = DB::table('orders')
+                            ->select(DB::raw("'Order' as type"),'id','user_id','subject','created_at')
+                            ->whereStatus('on-hold');
+
+                $purchases = DB::table('purchases')
+                            ->select(DB::raw("'Purchase' as type"),'id','user_id','subject','created_at')
+                            ->whereStatus('on-hold');
+
+                $pending = $missions
+                            ->union($expenses)
+                            ->union($orders)
+                            ->union($purchases)
+                            ->orderBy('created_at','ASC')
+                            ->get();
+                @endphp
+
+                @forelse ($pending as $todo)
+                <p wire:loading.class.delay="opacity-50"
+                   wire:key="row-{{ $loop->iteration }}"
+                   wire:click="edit('{{$todo->type}}',{{$todo->id}})"
+                   class="cursor-pointer hover:bg-gray-100 {{ $loop->even ? 'bg-cool-gray-50' : '' }} whitespace-normal px-4 py-2 text-sm leading-5 text-cool-gray-600 {{ $loop->first ? 'rounded-t-md' : '' }} {{ $loop->last ? 'rounded-b-md' : '' }}">
+                    <span class="font-semibold">{{ __($todo->type) }}</span> par {{ App\Models\User::find($todo->user_id)->name }}
+                    <span title="{{ $todo->created_at }}">
+                            {{ Illuminate\Support\Carbon::parse($todo->created_at)->diffForHumans() }}
+                    </span>
+                    <br/>
+                    {{ $todo->subject }}
+                </p>
+                @empty
+                <div class="flex justify-center items-center space-x-2">
+                    <x-icon.inbox class="h-8 w-8 text-cool-gray-400" />
+                    <span class="font-medium py-4 text-cool-gray-400 text-xl">{{ __('Nothing found...') }}</span>
+                </div>
+                @endforelse
+
+            </div>
+        </div>
+        @endif
+        <!-- End Connected Users //-->
+
     </div>
 
 </div>
