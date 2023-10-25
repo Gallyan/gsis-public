@@ -105,8 +105,8 @@ class EditMission extends Component
             'mission.personal_car' => 'boolean',
             'mission.rental_car' => 'boolean',
             'mission.parking' => 'boolean',
-            'mission.registration' => 'nullable|boolean',
-            'mission.accomodation' => 'nullable|boolean',
+            'mission.registration' => 'boolean',
+            'mission.accomodation' => 'boolean',
             'mission.others' => 'nullable|string',
             'programme' => 'nullable|mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
             'uploads' => 'nullable|array',
@@ -589,6 +589,7 @@ class EditMission extends Component
             'rental_car' => false,
             'parking' => false,
             'registration' => false,
+            'accomodation' => false,
         ]);
     }
 
