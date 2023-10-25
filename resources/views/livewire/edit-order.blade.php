@@ -113,7 +113,7 @@
                         <x-icon.document class="w-10 h-10 text-gray-500" />
                         <div class="mx-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">
-                                <a href="{{ route( 'download', $document->id ) }}" class="hover:underline" target="_blank">{{ $document->name }}</a> <span class="text-sm text-gray-500">({{ $document->sizeForHumans }}) {{ __('Added :date',[ 'date' => $document->created_at->diffForHumans() ]) }}</span>
+                                <a href="{{ route( 'download', $document->id ) }}" class="hover:underline">{{ $document->name }}</a> <span class="text-sm text-gray-500">({{ $document->sizeForHumans }}) {{ __('Added :date',[ 'date' => $document->created_at->diffForHumans() ]) }}</span>
                             </p>
                             <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
                         </div>

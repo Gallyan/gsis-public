@@ -29,9 +29,11 @@ Route::middleware(['auth', 'verified', 'throttle:global'])->group(function () {
 
     Route::get('/purchases', Purchases::class)->name('purchases');
     Route::get('/purchase/{id?}', EditPurchase::class)->whereNumber('id')->name('edit-purchase');
+    Route::get('/purchase/{id?}/zip', [App\Http\Controllers\DocumentController::class, 'purchase'])->whereNumber('id')->name('zip-purchase');
 
     Route::get('/missions', Missions::class)->name('missions');
     Route::get('/mission/{id?}', EditMission::class)->whereNumber('id')->name('edit-mission');
+    Route::get('/mission/{id?}/zip', [App\Http\Controllers\DocumentController::class, 'mission'])->whereNumber('id')->name('zip-mission');
 
     Route::get('/expenses', Expenses::class)->name('expenses');
     Route::get('/mission/{mission}/expense/{expense?}', EditExpense::class)->whereNumber('mission')->whereNumber('expense')->name('edit-expense');

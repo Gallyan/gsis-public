@@ -554,7 +554,7 @@
                         <x-icon.document class="w-10 h-10 text-gray-500" />
                         <div class="mx-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">
-                                <a href="{{ route( 'download', $document->id ) }}" target="_blank">{{ $document->name }}</a> <span class="text-sm text-gray-500">({{ $document->sizeForHumans }}) {{ __('Added :date',[ 'date' => $document->created_at->diffForHumans() ]) }}</span>
+                                <a href="{{ route( 'download', $document->id ) }}" class="hover:underline">{{ $document->name }}</a> <span class="text-sm text-gray-500">({{ $document->sizeForHumans }}) {{ __('Added :date',[ 'date' => $document->created_at->diffForHumans() ]) }}</span>
                             </p>
                             <p class="text-sm text-gray-500">{{ __($document->type) }}</p>
                         </div>
@@ -566,6 +566,14 @@
                 </ul>
                 @endif
 
+                @if (count($mission->documents->filter(fn ($d) => $d->type != 'programme'))>1)
+                <p class="text-sm font-medium text-gray-700">
+                    <a href="{{ route( 'zip-mission', $mission ) }}" class="hover:underline">
+                        {{ __('Download all files in one zip') }}
+                        <x-icon.download class="text-gray-500"/>
+                    </a>
+                </p>
+                @endif
             </x-input.group>
         </div>
 
