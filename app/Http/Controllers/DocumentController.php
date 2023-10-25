@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\Order;
+use App\Models\Expense;
 use Illuminate\Support\Facades\Storage;
 use Str;
 
@@ -86,6 +87,15 @@ class DocumentController extends Controller
 
         return response()
             ->download( $this->zip( Order::findOrFail($id) ) )
+            ->deleteFileAfterSend(true);
+
+    }
+
+    /* Download all documents of an expense */
+    public function expense(int $id) {
+
+        return response()
+            ->download( $this->zip( Expense::findOrFail($id) ) )
             ->deleteFileAfterSend(true);
 
     }
