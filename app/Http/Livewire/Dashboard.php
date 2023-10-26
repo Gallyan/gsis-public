@@ -16,7 +16,7 @@ class Dashboard extends Component
                 return redirect()->route('edit-expense', [Expense::findOrFail($id)->mission->id, $id]);
             case 'Order':
                 return redirect()->route('edit-order', $id);
-            case 'Purchase':
+            case 'Purchases':
                 return redirect()->route('edit-purchase', $id);
             default:
         }

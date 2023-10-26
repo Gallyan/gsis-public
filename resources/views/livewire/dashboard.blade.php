@@ -128,7 +128,7 @@
                             ->whereStatus('on-hold');
 
                 $purchases = DB::table('purchases')
-                            ->select(DB::raw("'Purchase' as type"),'id','user_id','subject','created_at')
+                            ->select(DB::raw("'Purchases' as type"),'id','user_id','subject','created_at')
                             ->whereStatus('on-hold');
 
                 $pending = $missions
