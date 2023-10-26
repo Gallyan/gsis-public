@@ -35,7 +35,7 @@ class CleanDocuments extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle(): void
     {
         $documents = DB::table('documents')->whereNotNull('filename')->pluck('filename')->toArray();
 
