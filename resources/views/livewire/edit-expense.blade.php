@@ -59,9 +59,8 @@
                 />
             </x-input.group>
 
-            @if ( isset($mission->extra) &&
-                  isset($mission->extra['extra_meal']) &&
-                  $mission->extra['extra_meal'] === 'reel' )
+            @if ( isset($mission->meal) &&
+                  $mission->meal === 'reel' )
 
             <x-input.group label="Meals at actual cost">
 
@@ -146,9 +145,8 @@
 
             </x-input.group>
 
-            @elseif ( isset($mission->extra) &&
-                      isset($mission->extra['extra_meal']) &&
-                      $mission->extra['extra_meal'] === 'forfait' )
+            @elseif ( isset($mission->meal) &&
+                      $mission->meal === 'forfait' )
 
             <x-input.group label="Meals at flat-rate cost" innerclass="flex flex-row flex-wrap gap-x-10 gap-y-2">
                     <x-input.group label="No. of lunches" inline
