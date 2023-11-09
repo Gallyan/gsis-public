@@ -142,10 +142,10 @@
                                 {{ __('Yesterday') }}
                             @elseif ( $mission->departure->isTomorrow() )
                                 {{ __('Tomorrow') }}
-                            @elseif ( $mission->departure->isPast() )
-                                {{ __(':days days ago',[ 'days' => $mission->departure->diffInDays() ]) }}
-                            @elseif ( $mission->departure->isFuture() )
+                            @elseif ( $mission->departure->isFuture() && $mission->departure->diffInDays(today()) < 8 )
                                 {{ __('In :days days',[ 'days' => $mission->departure->diffInDays(today())]) }}
+                            @else
+                                {{ ucfirst( $mission->departure->diffForHumans() ) }}
                             @endif
                             </span>
                         </x-table.cell>
