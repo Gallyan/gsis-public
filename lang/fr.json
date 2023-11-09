@@ -614,5 +614,10 @@
     "valid from :from": "valide à partir du :from",
     "valid until :to": "valide jusqu'au :to",
     "Document has expired": "Le document a expiré",
-    "Expenses": "Frais de missions"
+    "Expenses": "Frais de missions",
+    ":days days ago": "Il y a :days jours",
+    "Yesterday": "Hier",
+    "Today": "Aujourd'hui",
+    "Tomorrow": "Demain",
+    "In :days days": "Dans :days jours"
 }

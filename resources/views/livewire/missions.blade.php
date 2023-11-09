@@ -136,7 +136,17 @@
 
                         <x-table.cell class="whitespace-nowrap">
                             <span title="{{ $mission->departure->format('d/m/Y') }}">
-                                {{ $mission->departure->diffForHumans() }}
+                            @if ( $mission->departure->isToday() )
+                                {{ __('Today') }}
+                            @elseif ( $mission->departure->isYesterday() )
+                                {{ __('Yesterday') }}
+                            @elseif ( $mission->departure->isTomorrow() )
+                                {{ __('Tomorrow') }}
+                            @elseif ( $mission->departure->isPast() )
+                                {{ __(':days days ago',[ 'days' => $mission->departure->diffInDays() ]) }}
+                            @elseif ( $mission->departure->isFuture() )
+                                {{ __('In :days days',[ 'days' => $mission->departure->diffInDays(today())]) }}
+                            @endif
                             </span>
                         </x-table.cell>
                     </x-table.row>
