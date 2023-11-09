@@ -248,6 +248,7 @@
             @if ($mission->costs)
                 <x-table>
                     <x-slot name="head">
+                        <x-table.heading small class="w-8"></x-table.heading>
                         <x-table.heading small>{{ __('Ticket') }}</x-table.heading>
                         <x-table.heading small>{{ __('Flight/Train No.') }}</x-table.heading>
                         <x-table.heading small>{{ __('Date') }}</x-table.heading>
@@ -263,6 +264,18 @@
                         @forelse ($mission->tickets as $ticket)
                         @php $dirlist[] = $ticket['ticket_direction']; @endphp
                         <x-table.row wire:loading.class.delay="opacity-50" wire:key="ticket-{{ $loop->iteration }}" class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-50' : '' }}">
+                            <x-table.cell class="whitespace-normal text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
+                                @switch($ticket['ticket_mode'])
+                                    @case('Flight')
+                                        <x-icon.plane class="h-8 w-8 text-cool-gray-400"/>
+                                        @break
+                                    @case('Train')
+                                        <x-icon.train class="h-6 w-6 text-cool-gray-400"/>
+                                        @break
+                                @endswitch
+
+                            </x-table.cell>
+
                             <x-table.cell class="whitespace-normal text-center cursor-pointer" wire:click="edit_ticket({{ $loop->iteration }})">
                                 <span class="inline-flex space-x-2 text-sm leading-5">
                                     <p class="text-cool-gray-600">
@@ -312,8 +325,8 @@
                             @if(!$disabled)
                             <x-table.cell class="whitespace-nowrap text-center">
                                 <span class="inline-flex text-sm leading-5">
-                                    <x-button.link wire:click="del_ticket({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
-                                        <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
+                                    <x-button.link wire:click="del_ticket({{ $loop->iteration }})" title="{{ __('Delete') }}">
+                                        <x-icon.trash class="text-cool-gray-400" />
                                     </x-button.link>
                                 </span>
                             </x-table.cell>
@@ -321,7 +334,7 @@
                         </x-table.row>
                         @empty
                         <x-table.row>
-                            <x-table.cell colspan="6">
+                            <x-table.cell colspan="7">
                                 <div class="flex justify-center items-center space-x-2">
                                     <x-icon.inbox class="h-6 w-6 text-cool-gray-400" />
                                     <span class="font-medium text-cool-gray-400 text-lg">{{ __('No tickets...') }}</span>
