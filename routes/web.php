@@ -12,6 +12,7 @@ use App\Http\Livewire\Missions;
 use App\Http\Livewire\Orders;
 use App\Http\Livewire\Purchases;
 use App\Http\Livewire\Users;
+use App\Http\Controllers\DocumentController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -25,21 +26,21 @@ Route::middleware(['auth', 'throttle:global'])->group(function () {
 Route::middleware(['auth', 'verified', 'throttle:global'])->group(function () {
     Route::get('/orders', Orders::class)->name('orders');
     Route::get('/order/{id?}', EditOrder::class)->whereNumber('id')->name('edit-order');
-    Route::get('/order/{id?}/zip', [App\Http\Controllers\DocumentController::class, 'order'])->whereNumber('id')->name('zip-order');
+    Route::get('/order/{id?}/zip', [DocumentController::class, 'order'])->whereNumber('id')->name('zip-order');
 
     Route::get('/purchases', Purchases::class)->name('purchases');
     Route::get('/purchase/{id?}', EditPurchase::class)->whereNumber('id')->name('edit-purchase');
-    Route::get('/purchase/{id?}/zip', [App\Http\Controllers\DocumentController::class, 'purchase'])->whereNumber('id')->name('zip-purchase');
+    Route::get('/purchase/{id?}/zip', [DocumentController::class, 'purchase'])->whereNumber('id')->name('zip-purchase');
 
     Route::get('/missions', Missions::class)->name('missions');
     Route::get('/mission/{id?}', EditMission::class)->whereNumber('id')->name('edit-mission');
-    Route::get('/mission/{id?}/zip', [App\Http\Controllers\DocumentController::class, 'mission'])->whereNumber('id')->name('zip-mission');
+    Route::get('/mission/{id?}/zip', [DocumentController::class, 'mission'])->whereNumber('id')->name('zip-mission');
 
     Route::get('/expenses', Expenses::class)->name('expenses');
     Route::get('/mission/{mission}/expense/{expense?}', EditExpense::class)->whereNumber('mission')->whereNumber('expense')->name('edit-expense');
-    Route::get('/mission/{mission}/expense/{expense?}/zip', [App\Http\Controllers\DocumentController::class, 'expense'])->whereNumber('mission')->whereNumber('expense')->name('zip-expense');
+    Route::get('/mission/{mission}/expense/{expense?}/zip', [DocumentController::class, 'expense'])->whereNumber('mission')->whereNumber('expense')->name('zip-expense');
 
-    Route::get('/documents/{id}', [App\Http\Controllers\DocumentController::class, 'download'])->whereNumber('id')->name('download');
+    Route::get('/documents/{id}', [DocumentController::class, 'download'])->whereNumber('id')->name('download');
 
     // Admin
     Route::middleware(['can:manage-users'])->group(function () {
