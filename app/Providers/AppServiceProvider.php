@@ -67,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
             return __('Unknown role');
         });
 
-        // Add a validator for float numer
+        // Add a validator for float number
         Validator::extend('float', function ($attribute, $value, $parameters, $validator) {
             $thousandsSeparator = config('app.thousands_separator') == '.' ? '\\'.config('app.thousands_separator') : config('app.thousands_separator');
             $decimalSeparator = config('app.decimal_separator') == '.' ? '\\'.config('app.decimal_separator') : config('app.decimal_separator');
