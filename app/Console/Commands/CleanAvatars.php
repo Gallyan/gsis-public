@@ -41,9 +41,13 @@ class CleanAvatars extends Command
 
         $files = Storage::files('avatars');
 
-        $to_delete = array_values(array_filter($files, function ($file) {
-            return $file[8] !== '.' && ! in_array(substr($file, 8), $this->avatars);
-        }));
+        $to_delete = array_values(
+            array_filter(
+                $files, function ($file) {
+                    return $file[8] !== '.' && ! in_array(substr($file, 8), $this->avatars);
+                }
+            )
+        );
 
         Storage::delete($to_delete);
 

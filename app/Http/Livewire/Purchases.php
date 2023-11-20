@@ -32,13 +32,15 @@ class Purchases extends Component
     {
         if (empty(array_filter($this->filters))) {
             $initial_status = auth()->user()->hasRole('manager') ? ['on-hold', 'in-progress'] : [];
-        } elseif (! empty(array_diff_key(array_filter($this->filters), ['search' => null])) &&
-                ! (array_keys(array_diff_key(array_filter($this->filters), ['search' => null])) == ['status'] &&
-                    $this->filters['status'] == ['on-hold', 'in-progress'])) {
+        } elseif (! empty(array_diff_key(array_filter($this->filters), ['search' => null])) 
+            && ! (array_keys(array_diff_key(array_filter($this->filters), ['search' => null])) == ['status'] 
+            && $this->filters['status'] == ['on-hold', 'in-progress'])
+        ) {
             $this->showFilters = true;
         }
 
-        $this->filters = array_merge([
+        $this->filters = array_merge(
+            [
             'search' => null,
             'user' => null,
             'institution' => null,
@@ -46,7 +48,8 @@ class Purchases extends Component
             'status' => [],
             'date-min' => null,
             'date-max' => null,
-        ], $this->filters);
+            ], $this->filters
+        );
 
         if (isset($initial_status)) {
             $this->filters['status'] = $initial_status;
@@ -106,23 +109,33 @@ class Purchases extends Component
             ->when($this->filters['institution'], fn ($query, $institution) => $query->whereIn('purchases.institution_id', $institution))
             ->when($this->filters['date-min'], fn ($query, $date) => $query->where('purchases.created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn ($query, $date) => $query->where('purchases.created_at', '<=', Carbon::parse($date)))
-            ->when($this->filters['manager'], fn ($query) => $query->join('managers', function ($join) {
-                $join->on('purchases.id', '=', 'managers.manageable_id')
-                    ->where('managers.manageable_type', '=', Purchase::class)
-                    ->where('managers.user_id', '=', $this->filters['manager']);
-            }))
-            ->when($this->filters['user'], function ($query) {
-                foreach (explode(' ', trim($this->filters['user'])) as $term) {
-                    $query->where(function ($query) use ($term) {
-                        $query->search('users.firstname', $term)
-                            ->orSearch('users.lastname', $term)
-                            ->orWhere('users.id', $term);
-                    });
+            ->when(
+                $this->filters['manager'], fn ($query) => $query->join(
+                    'managers', function ($join) {
+                    $join->on('purchases.id', '=', 'managers.manageable_id')
+                        ->where('managers.manageable_type', '=', Purchase::class)
+                        ->where('managers.user_id', '=', $this->filters['manager']);
+                    }
+                )
+            )
+            ->when(
+                $this->filters['user'], function ($query) {
+                    foreach (explode(' ', trim($this->filters['user'])) as $term) {
+                        $query->where(
+                            function ($query) use ($term) {
+                                $query->search('users.firstname', $term)
+                                    ->orSearch('users.lastname', $term)
+                                    ->orWhere('users.id', $term);
+                            }
+                        );
+                    }
                 }
-            })
+            )
             ->when($this->filters['status'], fn ($query, $status) => $query->whereIn('purchases.status', $status))
-            ->when($this->filters['search'], fn ($query, $search) => $query->search('purchases.subject', $search)
-                ->orSearch('purchases.id', $search));
+            ->when(
+                $this->filters['search'], fn ($query, $search) => $query->search('purchases.subject', $search)
+                    ->orSearch('purchases.id', $search)
+            );
 
         // Un utilisateur sans droit n'accède qu'à son contenu
         if (! auth()->user()->hasPermissionTo('manage-users')) {
@@ -134,19 +147,25 @@ class Purchases extends Component
 
     public function getRowsProperty()
     {
-        return $this->cache(function () {
-            return $this->applyPagination($this->rowsQuery);
-        });
+        return $this->cache(
+            function () {
+                return $this->applyPagination($this->rowsQuery);
+            }
+        );
     }
 
     public function render()
     {
-        return view('livewire.purchases', [
+        return view(
+            'livewire.purchases', [
             'purchases' => $this->rows,
             'allmanagers' => Manager::whereHasMorph('manageable', Purchase::class)
                 ->get()->pluck('name', 'user_id'),
-        ])->layoutData([
-            'pageTitle' => __('Non-mission purchases'),
-        ]);
+            ]
+        )->layoutData(
+            [
+                'pageTitle' => __('Non-mission purchases'),
+                ]
+        );
     }
 }

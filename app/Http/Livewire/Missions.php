@@ -33,13 +33,15 @@ class Missions extends Component
     {
         if (empty(array_filter($this->filters))) {
             $initial_status = auth()->user()->hasRole('manager') ? ['on-hold', 'in-progress'] : [];
-        } elseif (! empty(array_diff_key(array_filter($this->filters), ['search' => null])) &&
-                ! (array_keys(array_diff_key(array_filter($this->filters), ['search' => null])) == ['status'] &&
-                    $this->filters['status'] == ['on-hold', 'in-progress'])) {
+        } elseif (! empty(array_diff_key(array_filter($this->filters), ['search' => null])) 
+            && ! (array_keys(array_diff_key(array_filter($this->filters), ['search' => null])) == ['status'] 
+            && $this->filters['status'] == ['on-hold', 'in-progress'])
+        ) {
             $this->showFilters = true;
         }
 
-        $this->filters = array_merge([
+        $this->filters = array_merge(
+            [
             'search' => null,
             'user' => null,
             'institution' => null,
@@ -47,7 +49,8 @@ class Missions extends Component
             'status' => [],
             'date-min' => null,
             'date-max' => null,
-        ], $this->filters);
+            ], $this->filters
+        );
 
         if (isset($initial_status)) {
             $this->filters['status'] = $initial_status;
@@ -107,23 +110,33 @@ class Missions extends Component
             ->when($this->filters['institution'], fn ($query, $institution) => $query->whereIn('missions.institution_id', $institution))
             ->when($this->filters['date-min'], fn ($query, $date) => $query->where('missions.created_at', '>=', Carbon::parse($date)))
             ->when($this->filters['date-max'], fn ($query, $date) => $query->where('missions.created_at', '<=', Carbon::parse($date)))
-            ->when($this->filters['manager'], fn ($query) => $query->join('managers', function ($join) {
-                $join->on('missions.id', '=', 'managers.manageable_id')
-                    ->where('managers.manageable_type', '=', Mission::class)
-                    ->where('managers.user_id', '=', $this->filters['manager']);
-            }))
-            ->when($this->filters['user'], function ($query) {
-                foreach (explode(' ', trim($this->filters['user'])) as $term) {
-                    $query->where(function ($query) use ($term) {
-                        $query->search('users.firstname', $term)
-                            ->orSearch('users.lastname', $term)
-                            ->orWhere('users.id', $term);
-                    });
+            ->when(
+                $this->filters['manager'], fn ($query) => $query->join(
+                    'managers', function ($join) {
+                    $join->on('missions.id', '=', 'managers.manageable_id')
+                        ->where('managers.manageable_type', '=', Mission::class)
+                        ->where('managers.user_id', '=', $this->filters['manager']);
+                    }
+                )
+            )
+            ->when(
+                $this->filters['user'], function ($query) {
+                    foreach (explode(' ', trim($this->filters['user'])) as $term) {
+                        $query->where(
+                            function ($query) use ($term) {
+                                $query->search('users.firstname', $term)
+                                    ->orSearch('users.lastname', $term)
+                                    ->orWhere('users.id', $term);
+                            }
+                        );
+                    }
                 }
-            })
+            )
             ->when($this->filters['status'], fn ($query, $status) => $query->whereIn('missions.status', $status))
-            ->when($this->filters['search'], fn ($query, $search) => $query->search('missions.subject', $search)
-                ->orSearch('missions.id', $search));
+            ->when(
+                $this->filters['search'], fn ($query, $search) => $query->search('missions.subject', $search)
+                    ->orSearch('missions.id', $search)
+            );
 
         // Un utilisateur sans droit n'accède qu'à son contenu
         if (! auth()->user()->hasPermissionTo('manage-users')) {
@@ -135,19 +148,25 @@ class Missions extends Component
 
     public function getRowsProperty()
     {
-        return $this->cache(function () {
-            return $this->applyPagination($this->rowsQuery);
-        });
+        return $this->cache(
+            function () {
+                return $this->applyPagination($this->rowsQuery);
+            }
+        );
     }
 
     public function render()
     {
-        return view('livewire.missions', [
+        return view(
+            'livewire.missions', [
             'missions' => $this->rows,
             'allmanagers' => Manager::whereHasMorph('manageable', Mission::class)
                 ->get()->pluck('name', 'user_id'),
-        ])->layoutData([
-            'pageTitle' => __('Missions'),
-        ]);
+            ]
+        )->layoutData(
+            [
+                'pageTitle' => __('Missions'),
+                ]
+        );
     }
 }

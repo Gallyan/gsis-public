@@ -41,12 +41,14 @@ class DocumentController extends Controller
         return abort(404);
     }
 
-    protected function zip(string $zip_filename, $documents ) {
+    protected function zip(string $zip_filename, $documents )
+    {
 
-        if(count($documents)===0) abort(204);
+        if(count($documents)===0) { abort(204);
+        }
 
         $zip = new \ZipArchive();
-        $zip->open(public_path($zip_filename)   , \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->open(public_path($zip_filename), \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
         foreach( $documents as $doc )
         {
@@ -69,7 +71,7 @@ class DocumentController extends Controller
 
             // Check if file exist and download
             if (Storage::exists($pathToFile)) {
-                $zip->addFile(storage_path('/app'.$pathToFile),$filename);
+                $zip->addFile(storage_path('/app'.$pathToFile), $filename);
             }
         }
 
@@ -79,45 +81,61 @@ class DocumentController extends Controller
     }
 
     /* Download all quotations of an order */
-    public function order(int $id) {
+    public function order(int $id)
+    {
 
         return response()
-            ->download( $this->zip(
-                'Order_'.$id.'_documents.zip',
-                Order::findOrFail($id)->documents ) )
+            ->download(
+                $this->zip(
+                    'Order_'.$id.'_documents.zip',
+                    Order::findOrFail($id)->documents
+                )
+            )
             ->deleteFileAfterSend(true);
 
     }
 
     /* Download all documents of an expense */
-    public function expense(int $id) {
+    public function expense(int $id)
+    {
 
         return response()
-            ->download( $this->zip(
-                'Expense_'.$id.'_documents.zip',
-                Expense::findOrFail($id)->documents ) )
+            ->download(
+                $this->zip(
+                    'Expense_'.$id.'_documents.zip',
+                    Expense::findOrFail($id)->documents
+                )
+            )
             ->deleteFileAfterSend(true);
 
     }
 
     /* Download all documents of a purchase */
-    public function purchase(int $id) {
+    public function purchase(int $id)
+    {
 
         return response()
-            ->download( $this->zip(
-                'Purchase_'.$id.'_documents.zip',
-                Purchase::findOrFail($id)->documents ) )
+            ->download(
+                $this->zip(
+                    'Purchase_'.$id.'_documents.zip',
+                    Purchase::findOrFail($id)->documents
+                )
+            )
             ->deleteFileAfterSend(true);
 
     }
 
     /* Download all documents of a mission */
-    public function mission(int $id) {
+    public function mission(int $id)
+    {
 
         return response()
-            ->download( $this->zip(
-                'Mission_'.$id.'_documents.zip',
-                Mission::findOrFail($id)->documents->filter(fn ($d) => $d->type != 'programme') ) )
+            ->download(
+                $this->zip(
+                    'Mission_'.$id.'_documents.zip',
+                    Mission::findOrFail($id)->documents->filter(fn ($d) => $d->type != 'programme')
+                )
+            )
             ->deleteFileAfterSend(true);
 
     }

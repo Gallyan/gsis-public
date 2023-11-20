@@ -274,7 +274,8 @@ class EditExpense extends Component
 
     public function makeBlankExpense()
     {
-        return Expense::make([
+        return Expense::make(
+            [
             'mission_id' => $this->mission->id,
             'user_id' => Auth()->id(),
             'status' => 'draft',
@@ -283,7 +284,8 @@ class EditExpense extends Component
             'hotels' => [],
             'registrations' => [],
             'miscs' => [],
-        ]);
+            ]
+        );
     }
 
     public function updated($propertyName)
@@ -373,11 +375,13 @@ class EditExpense extends Component
         $this->expense->registrations = $this->expense->registrations;
         $this->expense->miscs = $this->expense->miscs;
 
-        $this->withValidator(function (Validator $validator) {
-            if ($validator->fails()) {
-                $this->emitSelf('notify-error');
+        $this->withValidator(
+            function (Validator $validator) {
+                if ($validator->fails()) {
+                    $this->emitSelf('notify-error');
+                }
             }
-        })->validate();
+        )->validate();
 
         if ($creation) {
             $this->expense->id = $this->mission->id;
@@ -407,7 +411,8 @@ class EditExpense extends Component
                 $filename = $file->storeAs('/'.$path, $file->hashName());
 
                 // Create file in BDD
-                Document::create([
+                Document::create(
+                    [
                     'name' => Document::filter_filename($file->getClientOriginalName()),
                     'type' => 'document',
                     'size' => Storage::size($filename),
@@ -415,7 +420,8 @@ class EditExpense extends Component
                     'user_id' => $this->expense->user_id,
                     'documentable_id' => $this->expense->id,
                     'documentable_type' => Expense::class,
-                ]);
+                    ]
+                );
             }
         }
 

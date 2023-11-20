@@ -283,11 +283,13 @@ class EditOrder extends Component
     // Associate current manager to Order
     public function associate()
     {
-        Manager::create([
+        Manager::create(
+            [
             'user_id' => auth()->id(),
             'manageable_id' => $this->order->id,
             'manageable_type' => Order::class,
-        ]);
+            ]
+        );
         if ($this->order->status === 'on-hold') {
             $this->order->update(['status' => 'in-progress']);
             $user = User::findOrFail($this->order->user_id);
@@ -336,11 +338,13 @@ class EditOrder extends Component
 
     public function makeBlankOrder()
     {
-        return Order::make([
+        return Order::make(
+            [
             'user_id' => Auth()->id(),
             'books' => [],
             'status' => 'draft',
-        ]);
+            ]
+        );
     }
 
     public function save()
@@ -349,11 +353,13 @@ class EditOrder extends Component
 
         $this->order->books = $this->order->books; //Force json encodage
 
-        $this->withValidator(function (Validator $validator) {
-            if ($validator->fails()) {
-                $this->emitSelf('notify-error');
+        $this->withValidator(
+            function (Validator $validator) {
+                if ($validator->fails()) {
+                    $this->emitSelf('notify-error');
+                }
             }
-        })->validate();
+        )->validate();
 
         $this->order->save();
 
@@ -374,7 +380,8 @@ class EditOrder extends Component
                 $filename = $file->storeAs('/'.$path, $file->hashName());
 
                 // Create file in BDD
-                Document::create([
+                Document::create(
+                    [
                     'name' => Document::filter_filename($file->getClientOriginalName()),
                     'type' => 'quotation',
                     'size' => Storage::size($filename),
@@ -382,7 +389,8 @@ class EditOrder extends Component
                     'user_id' => $this->order->user_id,
                     'documentable_id' => $this->order->id,
                     'documentable_type' => Order::class,
-                ]);
+                    ]
+                );
             }
             $this->dispatchBrowserEvent('pondReset');
         }

@@ -35,7 +35,8 @@ class Institutions extends Component
                                 ['contract', '=', $this->editing->contract],
                             ]
                         );
-                    })->ignore($this->editing->id)],
+                    }
+                )->ignore($this->editing->id)],
             'editing.wp' => 'boolean',
             'editing.from' => 'nullable|date:Y-m-d',
             'editing.to' => 'nullable|date:Y-m-d'.($this->editing->from ? '|after_or_equal:editing.from' : ''),
@@ -122,11 +123,13 @@ class Institutions extends Component
     {
         $query = Institution::query();
         foreach (explode(' ', $this->search) as $term) {
-            $query = $query->where(function ($query) use ($term) {
-                $query->search('name', $term)
-                    ->orSearch('contract', $term)
-                    ->orSearch('allocation', $term);
-            });
+            $query = $query->where(
+                function ($query) use ($term) {
+                    $query->search('name', $term)
+                        ->orSearch('contract', $term)
+                        ->orSearch('allocation', $term);
+                }
+            );
         }
 
         return $this->applySorting($query);
@@ -134,17 +137,23 @@ class Institutions extends Component
 
     public function getRowsProperty()
     {
-        return $this->cache(function () {
-            return $this->applyPagination($this->rowsQuery);
-        });
+        return $this->cache(
+            function () {
+                return $this->applyPagination($this->rowsQuery);
+            }
+        );
     }
 
     public function render()
     {
-        return view('livewire.institutions', [
+        return view(
+            'livewire.institutions', [
             'institutions' => $this->rows,
-        ])->layoutData([
-            'pageTitle' => __('Institutions'),
-        ]);
+            ]
+        )->layoutData(
+            [
+                'pageTitle' => __('Institutions'),
+                ]
+        );
     }
 }

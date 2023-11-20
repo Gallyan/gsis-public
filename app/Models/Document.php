@@ -62,24 +62,29 @@ class Document extends Model
             [#\[\]@!$&\'()+,;=]|     # URI reserved https://www.rfc-editor.org/rfc/rfc3986#section-2.2
             [{}^\~`]                 # URL unsafe characters https://www.ietf.org/rfc/rfc1738.txt
             ~x',
-            '-', $filename);
+            '-', $filename
+        );
         // avoids ".", ".." or ".hiddenFiles"
         $filename = ltrim($filename, '.-');
         // reduce consecutive characters
-        $filename = preg_replace([
+        $filename = preg_replace(
+            [
             // "file   name.zip" becomes "file-name.zip"
             '/ +/',
             // "file___name.zip" becomes "file-name.zip"
             '/_+/',
             // "file---name.zip" becomes "file-name.zip"
             '/-+/',
-        ], '-', $filename);
-        $filename = preg_replace([
+            ], '-', $filename
+        );
+        $filename = preg_replace(
+            [
             // "file--.--.-.--name.zip" becomes "file.name.zip"
             '/-*\.-*/',
             // "file...name..zip" becomes "file.name.zip"
             '/\.{2,}/',
-        ], '.', $filename);
+            ], '.', $filename
+        );
         // lowercase for windows/unix interoperability http://support.microsoft.com/kb/100625
         $filename = mb_strtolower($filename, mb_detect_encoding($filename));
         // ".file-name.-" becomes "file-name"

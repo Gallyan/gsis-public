@@ -140,7 +140,7 @@ class EditUser extends Component
 
     public function editDoc(int $doc_id)
     {
-        $doc = Document::findOrFail( $doc_id );
+        $doc = Document::findOrFail($doc_id);
         $this->reset(['doc']);
         $this->doc['id'] = $doc->id;
         $this->doc['type'] = $doc->type;
@@ -152,13 +152,15 @@ class EditUser extends Component
 
     public function render()
     {
-        return view('livewire.edit-user', [
+        return view(
+            'livewire.edit-user', [
             'Roles' => Role::all()->sortByDesc('id')->pluck('name'),
             'languages' => [
                 'fr' => __('fr', [], 'fr'),
                 'en' => __('en', [], 'en'),
             ],
-        ])->layoutData(['pageTitle' => $this->user->name]);
+            ]
+        )->layoutData(['pageTitle' => $this->user->name]);
     }
 
     public function save()
@@ -167,11 +169,13 @@ class EditUser extends Component
             abort(403);
         }
 
-        $this->withValidator(function (Validator $validator) {
-            if ($validator->fails()) {
-                $this->emitSelf('notify-error');
+        $this->withValidator(
+            function (Validator $validator) {
+                if ($validator->fails()) {
+                    $this->emitSelf('notify-error');
+                }
             }
-        })->validate();
+        )->validate();
 
         $this->user->save();
 
@@ -179,13 +183,15 @@ class EditUser extends Component
 
             $old_avatar = $this->user->avatar;
 
-            $this->user->update([
+            $this->user->update(
+                [
                 'avatar' => $this->upload->storeAs(
                     '/',
                     $this->user->id.'-'.$this->upload->hashName(),
                     'avatars'
                 ),
-            ]);
+                ]
+            );
 
             // Delete previous avatar if exists
             if (! empty($old_avatar) && Storage::disk('avatars')->exists($old_avatar)) {
@@ -253,22 +259,26 @@ class EditUser extends Component
 
     public function save_doc()
     {
-        $this->withValidator(function (Validator $validator) {
-            if ($validator->fails()) {
-                $this->emitSelf('dialog-error');
+        $this->withValidator(
+            function (Validator $validator) {
+                if ($validator->fails()) {
+                    $this->emitSelf('dialog-error');
+                }
             }
-        })->validate($this->doc_rules());
+        )->validate($this->doc_rules());
 
-        if ( isset( $this->doc['id'] ) ) {
+        if (isset($this->doc['id']) ) {
             // Document modification
             Document::findOrFail($this->doc['id'])
-                ->update([
+                ->update(
+                    [
                     'id' => $this->doc['id'],
                     'name' => $this->doc['name'],
                     'type' => $this->doc['type'],
                     'from' => $this->doc['from'],
                     'to' => $this->doc['to'],
-                    ]);
+                    ]
+                );
 
         } else {
             // Document creation
@@ -282,7 +292,8 @@ class EditUser extends Component
                 $this->doc['file']->hashName()
             );
 
-            Document::create([
+            Document::create(
+                [
                 'name' => $this->doc['name'],
                 'type' => $this->doc['type'],
                 'size' => Storage::size($filename),
@@ -292,7 +303,8 @@ class EditUser extends Component
                 'user_id' => $this->user->id,
                 'documentable_id' => $this->user->id,
                 'documentable_type' => User::class,
-            ]);
+                ]
+            );
         }
 
         $this->emit('refreshUser');

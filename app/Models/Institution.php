@@ -46,14 +46,18 @@ class Institution extends Model
 
     public static function available()
     {
-        return Institution::where(function ($query) {
-            $query->where('from', '<=', Carbon::today())
-                ->orWhereNull('from');
-        })
-            ->where(function ($query) {
-                $query->where('to', '>=', Carbon::today())
-                    ->orWhereNull('to');
-            })
+        return Institution::where(
+            function ($query) {
+                $query->where('from', '<=', Carbon::today())
+                    ->orWhereNull('from');
+            }
+        )
+            ->where(
+                function ($query) {
+                    $query->where('to', '>=', Carbon::today())
+                        ->orWhereNull('to');
+                }
+            )
             ->get();
     }
 

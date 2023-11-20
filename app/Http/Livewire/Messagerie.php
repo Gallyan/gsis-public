@@ -34,13 +34,15 @@ class Messagerie extends Component
     {
         $this->validate();
 
-        Post::create([
+        Post::create(
+            [
             'user_id' => Auth()->id(),
             'postable_id' => $this->object->id,
             'postable_type' => get_class($this->object),
             'body' => $this->body,
             'read_at' => Auth()->id() === $this->object->user_id ? now() : null,
-        ]);
+            ]
+        );
 
         if (is_a($this->object, \App\Models\Expense::class)) {
             $managers_id = $this->object->mission->managers->pluck('user_id')->toArray();

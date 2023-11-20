@@ -105,8 +105,10 @@ class EditPurchase extends Component
             'purchase.institution_id' => 'required|exists:institutions,id',
             'purchase.wp' => [
                 'sometimes',
-                Rule::requiredIf(fn () => Institution::find($this->purchase->institution_id) &&
-                                          Institution::find($this->purchase->institution_id)->wp),
+                Rule::requiredIf(
+                    fn () => Institution::find($this->purchase->institution_id) &&
+                    Institution::find($this->purchase->institution_id)->wp
+                ),
                 'nullable',
                 'integer',
                 'min:1',
@@ -546,11 +548,13 @@ class EditPurchase extends Component
 
     public function save_list()
     {
-        $this->withValidator(function (Validator $validator) {
-            if ($validator->fails()) {
-                $this->emitSelf('dialog-error');
+        $this->withValidator(
+            function (Validator $validator) {
+                if ($validator->fails()) {
+                    $this->emitSelf('dialog-error');
+                }
             }
-        })->validate($this->list_rules());
+        )->validate($this->list_rules());
 
         $this->purchase_receptions[$this->guest_rcpt_index]['list'] = $this->list;
 
@@ -604,11 +608,13 @@ class EditPurchase extends Component
     // Associate current manager
     public function associate()
     {
-        Manager::create([
+        Manager::create(
+            [
             'user_id' => auth()->id(),
             'manageable_id' => $this->purchase->id,
             'manageable_type' => Purchase::class,
-        ]);
+            ]
+        );
         if ($this->purchase->status === 'on-hold') {
             $this->purchase->update(['status' => 'in-progress']);
             $user = User::findOrFail($this->purchase->user_id);
@@ -670,11 +676,13 @@ class EditPurchase extends Component
 
     public function makeBlankPurchase()
     {
-        return Purchase::make([
+        return Purchase::make(
+            [
             'user_id' => Auth()->id(),
             'miscs' => [],
             'status' => 'draft',
-        ]);
+            ]
+        );
     }
 
     public function save()
@@ -683,11 +691,13 @@ class EditPurchase extends Component
 
         $this->purchase->miscs = $this->purchase->miscs; //Force json encodage
 
-        $this->withValidator(function (Validator $validator) {
-            if ($validator->fails()) {
-                $this->emitSelf('notify-error');
+        $this->withValidator(
+            function (Validator $validator) {
+                if ($validator->fails()) {
+                    $this->emitSelf('notify-error');
+                }
             }
-        })->validate();
+        )->validate();
 
         if (! Institution::find($this->purchase->institution_id)->wp) {
             $this->purchase->wp = null;
@@ -712,7 +722,8 @@ class EditPurchase extends Component
                 $filename = $file->storeAs('/'.$path, $file->hashName());
 
                 // Create file in BDD
-                Document::create([
+                Document::create(
+                    [
                     'name' => Document::filter_filename($file->getClientOriginalName()),
                     'type' => 'document',
                     'size' => Storage::size($filename),
@@ -720,7 +731,8 @@ class EditPurchase extends Component
                     'user_id' => $this->purchase->user_id,
                     'documentable_id' => $this->purchase->id,
                     'documentable_type' => Purchase::class,
-                ]);
+                    ]
+                );
             }
             $this->dispatchBrowserEvent('pondReset');
         }
@@ -741,9 +753,12 @@ class EditPurchase extends Component
         foreach ($this->purchase_receptions as $k => $rcpt) {
             if (isset($rcpt['id'])) {
                 Reception::where('id', $rcpt['id'])->update(
-                    array_filter($rcpt, function ($k) {
-                        return ! in_array($k, ['created_at', 'updated_at', 'id', 'list', 'doc']);
-                    }, ARRAY_FILTER_USE_KEY));
+                    array_filter(
+                        $rcpt, function ($k) {
+                            return ! in_array($k, ['created_at', 'updated_at', 'id', 'list', 'doc']);
+                        }, ARRAY_FILTER_USE_KEY
+                    )
+                );
             } else {
                 $rcpt['id'] = Reception::create(
                     array_filter(
@@ -767,7 +782,8 @@ class EditPurchase extends Component
                 $filename = $rcpt['list']['file']->storeAs('/'.$path, $rcpt['list']['file']->hashName());
 
                 // Create file in BDD
-                Document::create([
+                Document::create(
+                    [
                     'name' => Document::filter_filename($rcpt['list']['file']->getClientOriginalName()),
                     'type' => 'guestlist',
                     'size' => Storage::size($filename),
@@ -775,7 +791,8 @@ class EditPurchase extends Component
                     'user_id' => $this->purchase->user_id,
                     'documentable_id' => $rcpt['id'],
                     'documentable_type' => Reception::class,
-                ]);
+                    ]
+                );
             }
             $this->dispatchBrowserEvent('guestlistReset');
         }

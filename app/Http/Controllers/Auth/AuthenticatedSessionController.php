@@ -33,10 +33,12 @@ class AuthenticatedSessionController extends Controller
         $request->session()->flash('previous_login', auth()->user()->last_login_at);
         $request->session()->flash('previous_ip', auth()->user()->last_login_ip);
 
-        auth()->user()->update([
+        auth()->user()->update(
+            [
             'last_login_at' => Carbon::now()->toDateTimeString(),
             'last_login_ip' => $request->getClientIp(),
-        ]);
+            ]
+        );
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

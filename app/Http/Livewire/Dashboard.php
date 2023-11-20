@@ -10,15 +10,15 @@ class Dashboard extends Component
     public function edit( string $type, int $id )
     {
         switch( $type ) {
-            case 'Mission':
-                return redirect()->route('edit-mission', $id);
-            case 'Expenses':
-                return redirect()->route('edit-expense', [Expense::findOrFail($id)->mission->id, $id]);
-            case 'Order':
-                return redirect()->route('edit-order', $id);
-            case 'Purchases':
-                return redirect()->route('edit-purchase', $id);
-            default:
+        case 'Mission':
+            return redirect()->route('edit-mission', $id);
+        case 'Expenses':
+            return redirect()->route('edit-expense', [Expense::findOrFail($id)->mission->id, $id]);
+        case 'Order':
+            return redirect()->route('edit-order', $id);
+        case 'Purchases':
+            return redirect()->route('edit-purchase', $id);
+        default:
         }
     }
 

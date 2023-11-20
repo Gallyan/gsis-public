@@ -81,8 +81,10 @@ class EditMission extends Component
             'mission.om' => 'required_if:mission.status,processed',
             'mission.wp' => [
                 'sometimes',
-                Rule::requiredIf(fn () => Institution::find($this->mission->institution_id) &&
-                                          Institution::find($this->mission->institution_id)->wp),
+                Rule::requiredIf(
+                    fn () => Institution::find($this->mission->institution_id) &&
+                    Institution::find($this->mission->institution_id)->wp
+                ),
                 'nullable',
                 'integer',
                 'min:1',
@@ -329,11 +331,13 @@ class EditMission extends Component
     // Associate current manager to Mission
     public function associate()
     {
-        Manager::create([
+        Manager::create(
+            [
             'user_id' => auth()->id(),
             'manageable_id' => $this->mission->id,
             'manageable_type' => Mission::class,
-        ]);
+            ]
+        );
         if ($this->mission->status === 'on-hold') {
             $this->mission->update(['status' => 'in-progress']);
             $user = User::findOrFail($this->mission->user_id);
@@ -405,7 +409,7 @@ class EditMission extends Component
 
         // Reset form
         $this->ticket_mode = '';
-        $this->ticket_direction = '';
+        $this->ticket_direction = false;
         $this->ticket_number = '';
         $this->ticket_date = null;
         $this->ticket_time = null;
@@ -432,7 +436,7 @@ class EditMission extends Component
         // Initialize values
         $this->ticket_id = $id;
         $this->ticket_mode = isset($tickets[$id - 1]['ticket_mode']) ? $tickets[$id - 1]['ticket_mode'] : '';
-        $this->ticket_direction = isset($tickets[$id - 1]['ticket_direction']) ? $tickets[$id - 1]['ticket_direction'] : '';
+        $this->ticket_direction = isset($tickets[$id - 1]['ticket_direction']) ? $tickets[$id - 1]['ticket_direction'] : false;
         $this->ticket_number = isset($tickets[$id - 1]['ticket_number']) ? $tickets[$id - 1]['ticket_number'] : '';
         $this->ticket_date = isset($tickets[$id - 1]['ticket_date']) ? $tickets[$id - 1]['ticket_date'] : null;
         $this->ticket_time = isset($tickets[$id - 1]['ticket_time']) ? $tickets[$id - 1]['ticket_time'] : null;
@@ -572,7 +576,8 @@ class EditMission extends Component
 
     public function makeBlankMission()
     {
-        return Mission::make([
+        return Mission::make(
+            [
             'user_id' => Auth()->id(),
             'status' => 'draft',
             'dest_country' => 'FR',
@@ -590,7 +595,8 @@ class EditMission extends Component
             'parking' => false,
             'registration' => false,
             'accomodation' => false,
-        ]);
+            ]
+        );
     }
 
     public function save()
@@ -601,11 +607,13 @@ class EditMission extends Component
         $this->mission->hotels = $this->mission->hotels;
         $this->mission->tickets = $this->mission->tickets;
 
-        $this->withValidator(function (Validator $validator) {
-            if ($validator->fails()) {
-                $this->emitSelf('notify-error');
+        $this->withValidator(
+            function (Validator $validator) {
+                if ($validator->fails()) {
+                    $this->emitSelf('notify-error');
+                }
             }
-        })->validate();
+        )->validate();
 
         $this->mission->save();
 
@@ -628,7 +636,8 @@ class EditMission extends Component
             $filename = $this->programme->storeAs('/'.$path, $this->programme->hashName());
 
             // Create file in BDD
-            Document::create([
+            Document::create(
+                [
                 'name' => Document::filter_filename($this->programme->getClientOriginalName()),
                 'type' => 'programme',
                 'size' => Storage::size($filename),
@@ -636,7 +645,8 @@ class EditMission extends Component
                 'user_id' => $this->mission->user_id,
                 'documentable_id' => $this->mission->id,
                 'documentable_type' => Mission::class,
-            ]);
+                ]
+            );
         }
 
         // Sauvegarde des fichiers ajoutés
@@ -647,7 +657,8 @@ class EditMission extends Component
                 $filename = $file->storeAs('/'.$path, $file->hashName());
 
                 // Create file in BDD
-                Document::create([
+                Document::create(
+                    [
                     'name' => Document::filter_filename($file->getClientOriginalName()),
                     'type' => 'document',
                     'size' => Storage::size($filename),
@@ -655,7 +666,8 @@ class EditMission extends Component
                     'user_id' => $this->mission->user_id,
                     'documentable_id' => $this->mission->id,
                     'documentable_type' => Mission::class,
-                ]);
+                    ]
+                );
             }
         }
 

@@ -26,33 +26,36 @@ class RegisteredUserController extends Controller
     /**
      * Handle an incoming registration request.
      *
-     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $request->validate(
+            [
             'lastname' => 'required|string|max:255',
             'firstname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'cgu' => 'accepted',
-        ], [
+            ], [
             'password.confirmed' => __('Confirmation password does not match.'),
             'password.min' => __('Password must be at least :min characters.'),
             'email.unique' => __('A profile with this email address already exists.'),
             'cgu.accepted' => __('must-agree'),
-        ], [
+            ], [
             'email' => __('E-mail'),
             'cgu' => __('Terms of use'),
-        ]);
+            ]
+        );
 
-        $user = User::create([
+        $user = User::create(
+            [
             'lastname' => $request->lastname,
             'firstname' => $request->firstname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
+            ]
+        );
 
         event(new Registered($user));
 

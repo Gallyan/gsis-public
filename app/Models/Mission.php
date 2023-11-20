@@ -55,7 +55,8 @@ class Mission extends Model
     {
         return $this->morphMany(
             Document::class,
-            'documentable')
+            'documentable'
+        )
             ->where('type', '=', 'programme')
             ->first();
     }
