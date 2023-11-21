@@ -52,12 +52,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
                 }
 
                 // En cas de changement d'adresse un email est envoyé aux gestionnaires
-                if (in_array('hom_', array_map(fn($v): string => substr($v, 0, 4), array_keys($user->getDirty()))) 
+                if (in_array('hom_', array_map(fn($v): string => substr($v, 0, 4), array_keys($user->getDirty())))
                     || in_array('pro_', array_map(fn($v): string => substr($v, 0, 4), array_keys($user->getDirty())))
                 ) {
 
                     // Send an email to each manager if user is not a manager
-                    if (!auth()->user()->hasRole('manager')) {
+                    if (auth()->user() && !auth()->user()->hasRole('manager')) {
                         foreach (User::role('manager')->get() as $dest) {
                             Mail::to($dest)->send(new NewAddress(auth()->user(), $dest->name));
                         }
