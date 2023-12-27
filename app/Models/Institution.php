@@ -14,6 +14,8 @@ class Institution extends Model
 
     protected $guarded = [];
 
+    public bool $wp = false;
+
     public function setFromAttribute($date)
     {
         $this->attributes['from'] = empty($date) ? null : Carbon::parse($date)->format('Y-m-d');
@@ -59,11 +61,5 @@ class Institution extends Model
                 }
             )
             ->get();
-    }
-
-    // Initialise
-    public function __construct()
-    {
-        $this->wp = false;
     }
 }
