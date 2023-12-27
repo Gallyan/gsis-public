@@ -26,7 +26,7 @@ class ManagerFactory extends Factory
         $manager_id = User::role('manager')->get()->random(1)->pluck('id')->first();
 
         // Object that can be associated with documents
-        $object = $this->faker->randomElement([
+        $object = fake()->randomElement([
             Order::class,
         ]);
 
