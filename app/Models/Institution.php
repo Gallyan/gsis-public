@@ -14,7 +14,14 @@ class Institution extends Model
 
     protected $guarded = [];
 
-    public bool $wp = false;
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'wp' => false,
+    ];
 
     public function setFromAttribute($date)
     {
