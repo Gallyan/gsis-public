@@ -9,20 +9,21 @@ use App\Models\Order;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Storage;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Creation des roles
+        // Roles creation
         foreach (['admin', 'manager', 'user'] as $role) {
             Role::findOrCreate($role);
         }
 
-        // Creation des permissions
+        // Permissions creation
         foreach (['manage-users', 'manage-roles', 'manage-admin'] as $permission) {
             Permission::findOrCreate($permission);
         }
@@ -37,7 +38,7 @@ class DatabaseSeeder extends Seeder
             ->givePermissionTo('manage-roles')
             ->givePermissionTo('manage-admin');
 
-        // Création des utilisateurs type
+        // Create users for each roles
         if (! User::where('email', 'admin@gsis.com')->first()) {
             User::factory()
                 ->create(['email' => 'admin@gsis.com', 'email_verified_at' => now()])
@@ -57,12 +58,12 @@ class DatabaseSeeder extends Seeder
                 ->assignRole('user');
         }
 
-        // Création d'utilisateurs lambda
+        // Create users
         User::factory(10)->create()->each(function ($user) {
             $user->assignRole('user');
         });
 
-        // Mise à jour du nom de l'avatar avec l'id utilisateur que l'on ne connait pas à la création de l'utilisateur
+        // Update avatar name by adding user id (unkown at user creation)
         foreach (User::all() as $user) {
             if ($user->avatar !== '' && ! preg_match('/^'.$user->id.'\-/', $user->avatar)) {
                 Storage::move(
@@ -73,24 +74,24 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Création des institutions
+        Log::info('Seeding Institution');
         Institution::factory(20)->create();
 
-        // Création de commandes
+        Log::info('Seeding Order');
         Order::factory(20)->create();
 
-        // Création de documents pour les commandes ou les utilisateurs
+        Log::info('Seeding Document');
         Document::factory(10)->create();
 
-        // Création d'au moins un document pour l'admin
+        Log::info('Seeding User-Document');
         while (count(User::findOrFail(1)->documents) === 0) {
             Document::factory()->create();
         }
 
-        // Affectation des managers à des commandes et autres éléments
+        Log::info('Seeding Manager');
         Manager::factory(10)->create();
 
-        // Création de messages
+        Log::info('Seeding Post');
         Post::factory(100)->create();
     }
 }
