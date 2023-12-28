@@ -153,6 +153,19 @@ class AppServiceProvider extends ServiceProvider
             }
         );
 
+        Builder::macro(
+            'toSqlWithBindings', function () {
+                $sql = $this->toSql();
+                $bindings = $this->getBindings();
+
+                foreach ($bindings as $binding) {
+                    $sql = preg_replace('/\?/', "'{$binding}'", $sql, 1);
+                }
+
+                return $sql;
+            }
+        );
+
         Validator::excludeUnvalidatedArrayKeys();
     }
 }
