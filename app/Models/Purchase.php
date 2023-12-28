@@ -52,11 +52,6 @@ class Purchase extends Model
         return Purchase::STATUSES;
     }
 
-    public function getAllWPAttribute()
-    {
-        return Purchase::STATUSES;
-    }
-
     /**
      * Get all of the order's documents.
      */
