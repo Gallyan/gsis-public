@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Document;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class CleanDocuments extends Command
@@ -37,7 +38,11 @@ class CleanDocuments extends Command
      */
     public function handle(): void
     {
-        $documents = DB::table('documents')->whereNotNull('filename')->pluck('filename')->toArray();
+        if( Schema::hasTable('documents') ) {
+            $documents = Document::whereNotNull('filename')->pluck('filename')->toArray();
+        }else{
+            $documents = [];
+        }
 
         $cpt = 0;
 
