@@ -28,18 +28,18 @@ class DocumentFactory extends Factory
         Storage::makeDirectory($path);
 
         // Create fake file
-        $filename = $this->faker->image(storage_path('app/'.$path), mt_rand(100, 400), mt_rand(50, 200), null, false);
+        $filename = fake()->image(storage_path('app/'.$path), mt_rand(100, 400), mt_rand(50, 200), null, false);
 
         // Object that can be associated with documents
-        $documentable = $this->faker->randomElement([
+        $documentable = fake()->randomElement([
             User::class,
             Order::class,
         ]);
 
         return [
-            'name' => $this->faker->sentence(),
+            'name' => fake()->sentence(),
             'type' => $documentable === User::class ?
-                    $this->faker->randomElement(array_keys(User::DOCTYPE)) :
+                    fake()->randomElement(array_keys(User::DOCTYPE)) :
                     'quotation',
             'size' => Storage::size($path.$filename),
             'filename' => $filename,

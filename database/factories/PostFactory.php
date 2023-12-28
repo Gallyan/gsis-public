@@ -19,7 +19,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         // Object that can be associated with documents
-        $object_type = $this->faker->randomElement([
+        $object_type = fake()->randomElement([
             Order::class,
         ]);
 
@@ -56,7 +56,7 @@ class PostFactory extends Factory
             'user_id' => $author,
             'postable_id' => $object->id,
             'postable_type' => $object_type,
-            'body' => $this->faker->paragraphs(mt_rand(1, 3), true),
+            'body' => fake()->paragraphs(mt_rand(1, 3), true),
             'read_at' => ($author === $object->user_id || mt_rand(0, 1)) ? now() : null,
         ];
     }
