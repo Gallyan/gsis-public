@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Document;
 use App\Models\Institution;
+use App\Models\Purchase;
 use App\Models\Manager;
 use App\Models\Order;
 use App\Models\Post;
@@ -45,14 +46,22 @@ class DatabaseSeeder extends Seeder
         Log::info('Seeding Special Users');
         if (! User::where('email', 'admin@gsis.com')->first()) {
             User::factory()
-                ->create(['email' => 'admin@gsis.com', 'email_verified_at' => now()])
+                ->create([
+                    'email' => 'admin@gsis.com',
+                    'email_verified_at' => now(),
+                    'locale' => 'fr',
+                    ])
                 ->assignRole('admin')
                 ->assignRole('manager');
         }
 
         if (! User::where('email', 'manager@gsis.com')->first()) {
             User::factory()
-                ->create(['email' => 'manager@gsis.com', 'email_verified_at' => now()])
+                ->create([
+                    'email' => 'manager@gsis.com',
+                    'email_verified_at' => now(),
+                    'locale' => 'fr',
+                    ])
                 ->assignRole('manager');
         }
 
@@ -84,6 +93,9 @@ class DatabaseSeeder extends Seeder
 
         Log::info('Seeding Order');
         Order::factory(20)->create();
+
+        Log::info('Seeding Purchase');
+        Purchase::factory(20)->create();
 
         Log::info('Seeding Document');
         Document::factory(10)->create();
