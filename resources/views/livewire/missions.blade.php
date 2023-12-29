@@ -152,7 +152,7 @@
                     </x-table.row>
                     @empty
                     <x-table.row>
-                        <x-table.cell colspan="6">
+                        <x-table.cell colspan="7">
                             <div class="flex justify-center items-center space-x-2">
                                 <x-icon.inbox class="h-8 w-8 text-cool-gray-400" />
                                 <span class="font-medium py-8 text-cool-gray-400 text-xl">{{ __('Nothing found...') }}</span>
