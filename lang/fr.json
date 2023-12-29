@@ -619,5 +619,9 @@
     "Yesterday": "Hier",
     "Today": "Aujourd'hui",
     "Tomorrow": "Demain",
-    "In :days days": "Dans :days jours"
+    "In :days days": "Dans :days jours",
+    "Available": "Disponible",
+    "Unavailable": "Indisponible",
+    "Institution will be available from :date": "L'institution sera disponible à partir du :date",
+    "Institution was available until :date": "L'institution était disponible jusqu'au :date"
 }
