@@ -2,9 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Manager;
-use App\Models\Order;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /* Call tinker with App\Models\Manager::factory()->count(5)->create(); to associate 5 managers to elements */
@@ -21,24 +18,16 @@ class ManagerFactory extends Factory
      */
     public function definition(): array
     {
-
-        // Select a manager
-        $manager_id = User::role('manager')->get()->random(1)->pluck('id')->first();
-
         // Object that can be associated with documents
-        $object = fake()->randomElement([
-            Order::class,
+        $object_type = fake()->randomElement([
+            \App\Models\Order::class,
+            \App\Models\Purchase::class,
         ]);
 
-        // Object id
-        if ($object === \App\Models\Order::class) {
-            $id = Order::all()->random(1)->pluck('id')->first();
-        }
-
         return [
-            'user_id' => $manager_id,
-            'manageable_id' => $id,
-            'manageable_type' => $object,
+            'user_id' => fake()->randomElement(\App\Models\User::role('manager')->pluck('id')),
+            'manageable_id' => $object_type::pluck('id')->random(),
+            'manageable_type' => $object_type,
         ];
     }
 }
