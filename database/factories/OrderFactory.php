@@ -23,7 +23,7 @@ class OrderFactory extends Factory
                                 'isbn' => fake()->isbn13,
                                 'edition' => fake()->randomElement(array_keys(\App\Models\Order::EDITION)),
                             ];
-                        }, range(1,  fake()->numberBetween(1, 5)))),
+                        }, range(1, fake()->numberBetween(1, 5)))),
             'comments' => fake()->optional()->text(500),
             'status' => fake()->randomElement(array_keys(\App\Models\Order::STATUSES)),
             'amount' => fake()->optional()->randomFloat(2,1,10000),

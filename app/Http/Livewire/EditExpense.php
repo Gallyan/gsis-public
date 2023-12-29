@@ -447,7 +447,7 @@ class EditExpense extends Component
         }
 
         if (array_key_exists('status', $this->expense->getChanges()) && $this->expense->status !== 'draft') {
-            // Envoi de mail lors d'un changement de status uniquement
+            // Envoi de mail à l'utilisateur lors d'un changement de status uniquement
             $user = User::findOrFail($this->expense->user_id);
             Mail::to($user)->send(new ExpenseStatusChange($this->mission, $user->name, auth()->user()->name));
         }
