@@ -3,7 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Order;
-use App\Models\User;
+//use App\Models\Purchase;
+//use App\Models\Mission;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,38 +19,37 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        // Object that can be associated with documents
+        // Object that can be associated with posts
         $object_type = fake()->randomElement([
             Order::class,
+            //Mission::class,
+            //Purchase::class,
         ]);
 
-        // Select object
-        if ($object_type === \App\Models\Order::class) {
-            // Choisir un élément au hasard ayant un manager, sinon pas de messagerie
-            $object = Order::whereIn('status', ['in-progress', 'processed', 'cancelled'])
-                ->has('managers')
-                ->get()
-                ->random(1)
-                ->firstOrFail();
+        // Select random object that has a manager, otherwise no message
+        $object = $object_type::whereIn('status', ['in-progress', 'processed', 'cancelled'])
+            ->withCount('posts')
+            ->with('managers')
+            ->has('managers')
+            ->inRandomOrder()
+            ->firstOrFail();
 
-            // Existe-t-il déjà des messages liés
-            if (count($object->posts) === 0) {
-                // Le premier auteur doit être un manager, il existe forcément un manager étant donné le statut de l'objet
-                $author = $object->managers->random(1)->first()->user_id;
+        // First post must be a manager post
+        if ($object->posts_count === 0) {
+            $author = $object->managers->pluck('user_id')->random();
 
-            } else {
-                // Sinon choisir parmi le user et les managers
-                $author = array_rand(
-                    array_flip(
-                        array_unique(
-                            array_merge(
-                                $object->managers->pluck('user_id')->toArray(),
-                                [$object->user_id]
-                            )
+        } else {
+            // Otherwise choose between user and managers
+            $author = array_rand(
+                array_flip(
+                    array_unique(
+                        array_merge(
+                            $object->managers->pluck('user_id')->toArray(),
+                            [$object->user_id]
                         )
                     )
-                );
-            }
+                )
+            );
         }
 
         return [
