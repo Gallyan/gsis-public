@@ -116,6 +116,7 @@ class EditPurchase extends Component
             'uploads' => 'nullable|array',
             'uploads.*' => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
             'purchase.miscs' => 'sometimes|array',
+            'purchase.rcpt' => 'sometimes|array',
             'purchase.comments' => 'nullable|string',
             'purchase.status' => 'required|in:'.collect(Purchase::STATUSES)->keys()->implode(','),
             'purchase.amount' => 'nullable|float',
