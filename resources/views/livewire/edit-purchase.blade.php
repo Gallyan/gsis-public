@@ -170,7 +170,7 @@
                             </x-table.cell>
 
                             @if(!$disabled)
-                            <x-table.cell class="whitespace-nowrap text-center max-w-4 print:hidden">
+                            <x-table.cell class="whitespace-nowrap text-center print:hidden">
                                 <span class="inline-flex text-sm leading-5">
                                     <x-button.link wire:click="del_misc({{ $loop->iteration }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
@@ -282,7 +282,7 @@
                                             </x-table.cell>
 
                                             @if(!$disabled)
-                                            <x-table.cell class="text-center max-w-4 print:hidden">
+                                            <x-table.cell class="whitespace-nowrap text-center print:hidden">
                                                 <span class="inline-flex text-sm leading-5">
                                                     <x-button.link wire:click="del_guest({{ $loop->parent->index }},{{ $loop->index }})" class="text-cool-gray-600"  title="{{ __('Delete') }}">
                                                         <x-icon.trash class="h-4 w-4 text-cool-gray-400" />
