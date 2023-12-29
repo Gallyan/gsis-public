@@ -2,9 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Order;
-//use App\Models\Purchase;
-//use App\Models\Mission;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,9 +18,9 @@ class PostFactory extends Factory
     {
         // Object that can be associated with posts
         $object_type = fake()->randomElement([
-            Order::class,
-            //Mission::class,
-            //Purchase::class,
+            \App\Models\Order::class,
+            //App\Models\Mission::class,
+            \App\Models\Purchase::class,
         ]);
 
         // Select random object that has a manager, otherwise no message
