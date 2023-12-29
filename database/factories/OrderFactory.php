@@ -27,6 +27,7 @@ class OrderFactory extends Factory
             'comments' => fake()->optional()->text(500),
             'status' => fake()->randomElement(array_keys(\App\Models\Order::STATUSES)),
             'amount' => fake()->optional()->randomFloat(2,1,10000),
+            'created_at' => fake()->dateTimeBetween('-90 days'),
         ];
     }
 }
