@@ -73,10 +73,38 @@
 
             <x-input.group label="Institution" for="institution_id" :error="$errors->first('purchase.institution_id')" required>
                 <x-input.select wire:model="purchase.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled" :print="$purchase->institution->namecontract ?? null">
-                    @foreach (\App\Models\Institution::available()->sortBy('name') as $ins)
-                    <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
-                    @endforeach
+
+                    <optgroup label="&boxh;&boxh;&boxh;&boxh;&nbsp;{{ __('Available') }}&nbsp;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;">
+                        @foreach (\App\Models\Institution::available()->sortBy('name') as $ins)
+                        <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
+                        @endforeach
+                    </optgroup>
+
+                    <optgroup label="&boxh;&boxh;&boxh;&boxh;&nbsp;{{ __('Unavailable') }}&nbsp;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;">
+                        @foreach (\App\Models\Institution::unavailable()->sortBy('name') as $ins)
+                        <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
+                        @endforeach
+                    </optgroup>
+
                 </x-input.select>
+
+                @if ( $purchase->institution?->from && $purchase->institution->from->gt(Illuminate\Support\Carbon::today()) )
+                <p class="mt-4 text-red-500 text-sm leading-5">
+                    <x-icon.warning class="mr-2 flex-shrink-0 h-6 w-6" />
+                    {{ __('Institution will be available from :date', [
+                        'date' => $purchase->institution->from->format('d/m/Y'),
+                        ]) }}
+                </p>
+                @endif
+
+                @if ( $purchase->institution?->to && $purchase->institution->to->lt(Illuminate\Support\Carbon::today()) )
+                <p class="mt-4 text-red-500 text-sm leading-5">
+                    <x-icon.warning class="mr-2 flex-shrink-0 h-6 w-6" />
+                    {{ __('Institution was available until :date', [
+                        'date' => $purchase->institution->to->format('d/m/Y'),
+                        ]) }}
+                </p>
+                @endif
             </x-input.group>
 
             <x-input.group label="WP" for="wp" :error="$errors->first('purchase.wp')" :required="$showWP">
