@@ -19,16 +19,19 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Roles creation
+        Log::info('Seeding Roles');
         foreach (['admin', 'manager', 'user'] as $role) {
             Role::findOrCreate($role);
         }
 
         // Permissions creation
+        Log::info('Seeding Permissions');
         foreach (['manage-users', 'manage-roles', 'manage-admin'] as $permission) {
             Permission::findOrCreate($permission);
         }
 
         // Assign permissions to roles
+        Log::info('Seeding Roles Permissions');
         Role::findByName('manager')
             ->givePermissionTo('manage-users')
             ->givePermissionTo('manage-roles');
@@ -39,6 +42,7 @@ class DatabaseSeeder extends Seeder
             ->givePermissionTo('manage-admin');
 
         // Create users for each roles
+        Log::info('Seeding Special Users');
         if (! User::where('email', 'admin@gsis.com')->first()) {
             User::factory()
                 ->create(['email' => 'admin@gsis.com', 'email_verified_at' => now()])
@@ -59,6 +63,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // Create users
+        Log::info('Seeding Users');
         User::factory(10)->create()->each(function ($user) {
             $user->assignRole('user');
         });
@@ -92,6 +97,8 @@ class DatabaseSeeder extends Seeder
         Manager::factory(10)->create();
 
         Log::info('Seeding Post');
-        Post::factory(100)->create();
+        for($i=0;$i<100;$i++) {
+            Post::factory()->create();
+        }
     }
 }
