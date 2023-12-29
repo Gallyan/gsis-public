@@ -23,6 +23,11 @@ class Institution extends Model
         'wp' => false,
     ];
 
+    protected $casts = [
+        'from' => 'date:Y-m-d',
+        'to' => 'date:Y-m-d',
+    ];
+
     public function setFromAttribute($date)
     {
         $this->attributes['from'] = empty($date) ? null : Carbon::parse($date)->format('Y-m-d');
@@ -67,6 +72,13 @@ class Institution extends Model
                         ->orWhereNull('to');
                 }
             )
+            ->get();
+    }
+
+    public static function unavailable()
+    {
+        return Institution::where('from', '>', Carbon::today())
+                    ->orWhere('to', '<', Carbon::today())
             ->get();
     }
 }
