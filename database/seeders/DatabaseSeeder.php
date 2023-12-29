@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Document;
 use App\Models\Institution;
+use App\Models\Reception;
 use App\Models\Purchase;
 use App\Models\Manager;
 use App\Models\Order;
@@ -96,6 +97,9 @@ class DatabaseSeeder extends Seeder
 
         Log::info('Seeding Purchase');
         Purchase::factory(20)->create();
+
+        Log::info('Seeding Reception');
+        Reception::factory(10)->create();
 
         Log::info('Seeding Document');
         Document::factory(10)->create();
