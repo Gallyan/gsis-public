@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class InstitutionFactory extends Factory
 {
@@ -12,19 +11,14 @@ class InstitutionFactory extends Factory
      */
     public function definition(): array
     {
-        $from = (bool) random_int(0, 1) ? fake()->dateTimeBetween('-2 years','+1 years')->format('Y-m-d') : null;
-
-        while( !isset($to) || ( !is_null($from) && $to<$from) ) {
-            $to = (bool) random_int(0, 1)
-                ? fake()->dateTimeBetween($from,'+2 years')->format('Y-m-d')
-                : null;
-        }
+        $from = fake()->optional()->dateTimeBetween('-2 years','+1 years')?->format('Y-m-d');
+        $to = fake()->optional()->dateTimeBetween($from,'+2 years')?->format('Y-m-d');
 
         return [
-            'name' => fake()->company(),
-            'contract' => fake()->company(),
-            'allocation' => strtoupper(Str::random(14).'.'.Str::random(10).'.'.Str::random(4)),
-            'wp' => random_int(0, 1),
+            'name' => fake()->company,
+            'contract' => fake()->company,
+            'allocation' => fake()->regexify('[A-Z0-9]{14}\.[A-Z0-9]{10}\.[A-Z0-9]{4}'),
+            'wp' => fake()->boolean,
             'from' => $from,
             'to' => $to,
         ];
