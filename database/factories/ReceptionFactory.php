@@ -24,7 +24,13 @@ class ReceptionFactory extends Factory
             'date' => fake()->optional(weight: 0.8)->dateTimeBetween('-90 days','90 days')?->format('Y-m-d'),
             'amount' => fake()->optional(weight: 0.8)->randomFloat(2,1,1000),
             'currency' => fake()->randomElement(['EUR', 'USD', 'GBP', 'CHF','BTC']),
-            'guests' => [],
+            'guests' => fake()->optional(weight: 0.4, default: [])->passthrough(array_map(function () {
+                    return [
+                        'guest_lastname' => fake()->lastName,
+                        'guest_firstname' => fake()->firstName,
+                        'guest_establishment' => fake()->company,
+                    ];
+                }, range(1, fake()->numberBetween(1, 5)))),
         ];
     }
 }
