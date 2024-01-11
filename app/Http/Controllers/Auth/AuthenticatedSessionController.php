@@ -7,7 +7,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -33,11 +32,14 @@ class AuthenticatedSessionController extends Controller
         $request->session()->flash('previous_login', auth()->user()->last_login_at);
         $request->session()->flash('previous_ip', auth()->user()->last_login_ip);
 
-        auth()->user()->update(
-            [
-            'last_login_at' => Carbon::now()->toDateTimeString(),
-            'last_login_ip' => $request->getClientIp(),
-            ]
+        \App\Models\User::withoutTimestamps(
+            function() use ($request) {
+                if(auth()->id()) {
+                    auth()->user()->last_login_ip = $request->getClientIp();
+                    auth()->user()->touch('last_login_at');
+                    auth()->user()->save();
+                }
+            }
         );
 
         return redirect()->intended(RouteServiceProvider::HOME);

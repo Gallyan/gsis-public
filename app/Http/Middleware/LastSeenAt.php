@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class LastSeenAt
@@ -16,14 +15,14 @@ class LastSeenAt
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->id()) {
-            auth()->user()->timestamps = false; // Don't update updated_at
-            auth()->user()->update(
-                [
-                'last_seen_at' => DB::raw('now()'),
-                ]
-            );
-        }
+        \App\Models\User::withoutTimestamps(
+            function() {
+                if(auth()->id()) {
+                    auth()->user()->touch('last_seen_at');
+                    auth()->user()->save();
+                }
+            }
+        );
 
         return $next($request);
     }
