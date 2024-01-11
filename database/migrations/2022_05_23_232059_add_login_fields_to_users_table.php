@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->datetime('last_login_at')->after('locale')->nullable();
+            $table->timestamp('last_login_at')->after('locale')->nullable();
             $table->ipAddress('last_login_ip')->after('locale')->nullable();
         });
     }
