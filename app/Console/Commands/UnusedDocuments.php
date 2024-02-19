@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class UnusedDocuments extends Command
@@ -35,9 +34,9 @@ class UnusedDocuments extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle(): void
     {
-        $documents = DB::table('documents')->whereNotNull('filename')->pluck('filename')->toArray();
+        $documents = \App\Models\Document::whereNotEmpty('filename')->pluck('filename')->toArray();
 
         $cpt = 0;
 

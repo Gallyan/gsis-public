@@ -121,9 +121,15 @@ class AppServiceProvider extends ServiceProvider
         );
         Builder::macro(
             'searchAfter', function ($field, $date) {
-                return $date ? $this->Where($field, '>=', Carbon::parse($date)) : $this;
+                return $date ? $this->where($field, '>=', Carbon::parse($date)) : $this;
             }
         );
+
+        Builder::macro(
+            'whereNotEmpty', function ($column) {
+                return $this->where($column, '!=', '')
+                            ->whereNotNull($column);
+        });
 
         Builder::macro(
             'toCsv', function () {

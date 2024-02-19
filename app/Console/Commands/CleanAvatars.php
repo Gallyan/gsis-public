@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class CleanAvatars extends Command
@@ -34,25 +32,18 @@ class CleanAvatars extends Command
     }
 
     /**
-     * Avatars list
-     */
-    protected $avatars = [];
-
-    /**
      * Execute the console command.
      */
     public function handle(): void
     {
-        if ( Schema::hasTable('users') ) {
-            $this->avatars = User::whereNotNull('avatar')->pluck('avatar')->toArray();
-        }
+        $avatars = \App\Models\User::whereNotEmpty('avatar')->pluck('avatar')->toArray();
 
         $files = Storage::files('avatars');
 
         $to_delete = array_values(
             array_filter(
-                $files, function ($file) {
-                    return $file[8] !== '.' && ! in_array(substr($file, 8), $this->avatars);
+                $files, function ($file) use ($avatars) {
+                    return $file[8] !== '.' && ! in_array(substr($file, 8), $avatars);
                 }
             )
         );
