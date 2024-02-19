@@ -174,7 +174,7 @@ class Users extends Component
                 $this->filters['role'], fn ($query) => $query->where(
                     function ($query) {
                         if ($this->filters['role'] === 'none') {
-                            $query->where('id', User::doesntHave('roles')->get()->pluck('id'));
+                            $query->where('id', User::doesntHave('roles')->pluck('id'));
                         } else {
                         $query->role($this->filters['role']);
                         }
