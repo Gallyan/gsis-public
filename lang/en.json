@@ -68,7 +68,7 @@
     "mail-purchase-in-progress": "Your non-mission purchase :id - \":subject\" is being processed by :manager",
     "mail-purchase-processed": "Your non-mission purchase :id - \":subject\" has been processed by :manager",
     "mail-purchase-cancelled": "Your non-mission purchase :id - \":subject\" has been cancelled by :manager",
-    "mail-new-message": "You have received a new message regarding the request :id - \":subject\" from :author",
+    "mail-new-message": "You have received a new message from :author regarding the request :id : \":subject\"",
     "mail-new-address": "The user :user has changed one of his addresses",
     "mail-mission-on-hold": "Your mission :id - \":subject\" has been sent to the support unit",
     "mail-mission-in-progress": "Your mission :id - \":subject\" is being processed by :manager",

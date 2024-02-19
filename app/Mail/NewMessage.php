@@ -65,7 +65,7 @@ class NewMessage extends Mailable
      */
     public function build(): static
     {
-        return $this->subject('['.config('app.name').'] '.__('You\'ve got new message'))
+        return $this->subject('['.config('app.name').'] '.__('New message'))
             ->view('emails.new-message');
     }
 }

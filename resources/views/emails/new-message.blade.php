@@ -1,7 +1,7 @@
 @extends('emails.layout')
 
 @section('title')
-    {{ __('You\'ve got new message') }}
+    {{ __('New message') }}
 @endsection
 
 @section('content')
