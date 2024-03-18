@@ -72,29 +72,16 @@
             </div>
             <div class="border-t border-blue-gray-50 p-4">
                 <p class="block text-base font-normal text-gray-600">
-                    <strong>{{ count(
-                    \App\Models\User::where('last_seen_at', '>', Illuminate\Support\Carbon::now()->subMinutes(1)->toDateTimeString())
-                                    ->get()
-                    ) }}</strong> @lang('since :nb minutes',['nb'=>1])
-                </p>
-
-                <p class="block text-base font-normal text-gray-600">
-                    <strong>{{ count(
-                    \App\Models\User::where('last_seen_at', '>', Illuminate\Support\Carbon::now()->subMinutes(5)->toDateTimeString())
-                                    ->get()
-                    ) }}</strong> @lang('since :nb minutes',['nb'=>5])
+                    <strong>{{ \App\Models\User::sinceMinutes(1) }}</strong> @lang('since :nb minutes',['nb'=>1])
                 </p>
                 <p class="block text-base font-normal text-gray-600">
-                    <strong>{{ count(
-                    \App\Models\User::where('last_seen_at', '>', Illuminate\Support\Carbon::now()->subMinutes(30)->toDateTimeString())
-                                    ->get()
-                    ) }}</strong> @lang('since :nb minutes',['nb'=>30])
+                    <strong>{{ \App\Models\User::sinceMinutes(5) }}</strong> @lang('since :nb minutes',['nb'=>5])
                 </p>
                 <p class="block text-base font-normal text-gray-600">
-                    <strong>{{ count(
-                    \App\Models\User::whereDate('last_seen_at', Illuminate\Support\Carbon::today())
-                                    ->get()
-                    ) }}</strong> @lang('have connected today')
+                    <strong>{{ \App\Models\User::sinceMinutes(30) }}</strong> @lang('since :nb minutes',['nb'=>30])
+                </p>
+                <p class="block text-base font-normal text-gray-600">
+                    <strong>{{ \App\Models\User::sinceMinutes() }}</strong> @lang('have connected today')
                 </p>
             </div>
         </div>

@@ -9,7 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Carbon;
 use App\Mail\NewAddress;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
@@ -24,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_seen_at' => 'datetime',
         'birthday' => 'date:Y-m-d',
     ];
 
@@ -201,4 +204,23 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     {
         return $this->hasMany(Expense::class);
     }
+
+    /**
+     * Get number of users on platform in last $nb minutes.
+     */
+    public static function sinceMinutes( int $nb = null ) : int {
+
+        return Cache::remember( 'seen_'.($nb??'0'), 30, function() use ($nb) {
+            /* By defaut, number of minutes of the current day */
+            if ( is_null($nb) ) {
+                $nb = Carbon::now()->diffInMinutes(Carbon::now()->startOfDay());
+            }
+
+            return count(
+                User::where( 'last_seen_at', '>', Carbon::now()->subMinutes( $nb )->toDateTimeString() )
+                    ->get()
+            );
+        });
+    }
+
 }
