@@ -16,8 +16,8 @@ class LastSeenAt
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->id() && ( auth()->user()->last_seen_at?->diffInSeconds(Carbon::now()) > 60 ) ||
-                             is_null(auth()->user()?->last_seen_at) ) {
+        if(auth()->id() && ( auth()->user()->last_seen_at?->diffInSeconds(Carbon::now()) > 60 ||
+                             is_null(auth()->user()->last_seen_at) ) ) {
             \App\Models\User::withoutTimestamps(
                 function() {
                         auth()->user()->touch('last_seen_at');
