@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class Institution extends Model
 {
@@ -60,25 +61,29 @@ class Institution extends Model
 
     public static function available()
     {
-        return Institution::where(
-            function ($query) {
-                $query->where('from', '<=', Carbon::today())
-                    ->orWhereNull('from');
-            }
-        )
-            ->where(
+        return Cache::remember('instit_avail', 60, function () {
+            return Institution::where(
                 function ($query) {
-                    $query->where('to', '>=', Carbon::today())
-                        ->orWhereNull('to');
+                    $query->where('from', '<=', Carbon::today())
+                        ->orWhereNull('from');
                 }
             )
-            ->get();
+                ->where(
+                    function ($query) {
+                        $query->where('to', '>=', Carbon::today())
+                            ->orWhereNull('to');
+                    }
+                )
+                ->get();
+        });
     }
 
     public static function unavailable()
     {
-        return Institution::where('from', '>', Carbon::today())
-                    ->orWhere('to', '<', Carbon::today())
-            ->get();
+        return Cache::remember('instit_unavail', 60, function () {
+            return Institution::where('from', '>', Carbon::today())
+                              ->orWhere('to', '<', Carbon::today())
+                ->get();
+        });
     }
 }
