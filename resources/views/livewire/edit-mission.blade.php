@@ -36,7 +36,7 @@
 
         <div class="mt-6 sm:mt-5">
             @can('manage-users')
-            <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
+            <x-input.group label="User" class="sm:items-center text-cool-gray-600 scr:sm:pb-5 print:text-black" paddingless borderless>
                 <a href="{{ route('edit-user', $mission->user) }}" target="_blank" class="hover:underline pr-4">{{ $mission->user->name ?? '' }} <sup><x-icon.new-window /></sup></a>
                 <a href="mailto:{{ $mission->user->email }}" class="pr-4"><x-icon.email /> {{ $mission->user->email }}</a>
                 @isset( $mission->user->birthday )
@@ -45,7 +45,7 @@
             </x-input.group>
             @endcan
 
-            <x-input.group label="Manager" class="sm:items-center text-sm text-cool-gray-600 sm:pb-5" innerclass="flex items-center" :borderless="!$isAuthManager" :paddingless="!$isAuthManager">
+            <x-input.group label="Manager" class="sm:items-center text-sm text-cool-gray-600 scr:sm:pb-5 print:text-black" innerclass="flex items-center" :borderless="!$isAuthManager" :paddingless="!$isAuthManager">
                {{ $mission->managers->isNotEmpty() ?
                     $mission->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->name)->implode(', ') :
                     __('There is no manager yet.') }}
@@ -90,7 +90,7 @@
                 @if ( in_array( $mission->status, ['in-progress','processed','cancelled'] ) )
                     <x-input.text wire:model.lazy="mission.om" id="om" :disabled="$disabled" :print="$mission->om"/>
                 @else
-                    <p class="sm:items-center text-sm text-cool-gray-600 sm:pb-5 mt-2">
+                    <p class="sm:items-center text-sm text-cool-gray-600 scr:sm:pb-5 mt-2 print:text-black">
                         {{ __('om-later') }}
                     </p>
                 @endif
@@ -137,7 +137,7 @@
                 @if ($showWP)
                     <x-input.number wire:model="mission.wp" id="wp" min="1" :disabled="$disabled" :print="$mission->wp"/>
                 @else
-                    <p class="sm:items-center text-sm text-cool-gray-600 sm:pb-5">
+                    <p class="sm:items-center text-sm text-cool-gray-600 scr:sm:pb-5 print:text-black">
                         {{ __('wp-sometimes') }}
                     </p>
                 @endif
@@ -205,7 +205,7 @@
                 </x-input.group>
 
                 @if ($mission->conf_amount)
-                    <p class="ml-1 mt-2 text-sm font-bold text-gray-700">{!! __('helptext-conf-amount') !!}</p>
+                    <p class="ml-1 mt-2 text-sm font-bold text-gray-700 print:hidden">{!! __('helptext-conf-amount') !!}</p>
                 @endif
             </x-input.group>
             @endif

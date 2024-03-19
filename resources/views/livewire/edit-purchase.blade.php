@@ -19,12 +19,12 @@
 
         <div class="mt-6 sm:mt-5">
             @can('manage-users')
-            <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
+            <x-input.group label="User" class="sm:items-center text-cool-gray-600 scr:sm:pb-5 print:text-black" paddingless borderless>
                 <a href="{{ route('edit-user', $purchase->user) }}" target="_blank" class="hover:underline pr-4">{{ $purchase->user->name ?? '' }} <sup><x-icon.new-window /></sup></a>
             </x-input.group>
             @endcan
 
-            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" innerclass="flex items-center" :borderless="!$isAuthManager" :paddingless="!$isAuthManager">
+            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5 print:text-black print:text-sm" innerclass="flex items-center" :borderless="!$isAuthManager" :paddingless="!$isAuthManager">
                {{ $purchase->managers->isNotEmpty() ?
                     $purchase->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->name)->implode(', ') :
                     __('There is no manager yet.') }}
@@ -89,7 +89,7 @@
                 </x-input.select>
 
                 @if ( $purchase->institution?->from && $purchase->institution->from->gt(Illuminate\Support\Carbon::today()) )
-                <p class="mt-4 text-red-500 text-sm leading-5">
+                <p class="scr:mt-4 text-red-500 text-sm leading-5">
                     <x-icon.warning class="mr-2 flex-shrink-0 h-6 w-6" />
                     {{ __('Institution will be available from :date', [
                         'date' => $purchase->institution->from->format('d/m/Y'),

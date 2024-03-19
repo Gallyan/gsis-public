@@ -30,20 +30,20 @@
 
         <div class="mt-6 sm:mt-5">
             @can('manage-users')
-            <x-input.group label="User" class="sm:items-center text-cool-gray-600 sm:pb-5" paddingless borderless>
+            <x-input.group label="User" class="sm:items-center text-cool-gray-600 scr:sm:pb-5 print:text-black" paddingless borderless>
                 <a href="{{ route('edit-user', $mission->user) }}" target="_blank" class="hover:underline pr-4">{{ $mission->user->name ?? '' }} <sup><x-icon.new-window /></sup></a>
                 <a href="mailto:{{ $mission->user->email }}" class="pr-4"><x-icon.email /> {{ $mission->user->email }}</a>
                 <span title="{{ __('Birthday') }}"><x-icon.birthday /> {{ $mission->user->birthday->format('d/m/Y') }}</span>
             </x-input.group>
             @endcan
 
-            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 sm:pb-5" innerclass="flex items-center" :borderless="!$isAuthManager" :paddingless="!$isAuthManager">
+            <x-input.group label="Manager" class="sm:items-center text-cool-gray-600 scr:sm:pb-5 print:text-black" innerclass="flex items-center" :borderless="!$isAuthManager" :paddingless="!$isAuthManager">
                {{ $mission->managers->isNotEmpty() ?
                     $mission->managers->map(fn($mgr) => App\Models\User::find($mgr->user_id)->name)->implode(', ') :
                     __('There is no manager yet.') }}
             </x-input.group>
 
-            <x-input.group label="Mission" class="sm:items-center text-cool-gray-600 sm:pb-5">
+            <x-input.group label="Mission" class="sm:items-center text-cool-gray-600 scr:sm:pb-5 print:text-black">
                 {{ $mission->subject ?? '' }}
                 @if ( !is_null($mission->subject) && !is_null($mission->om) ) / @endif
                 {{ $mission->om ?? '' }}

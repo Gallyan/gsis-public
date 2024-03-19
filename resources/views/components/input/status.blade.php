@@ -5,7 +5,7 @@
 ])
 
 @if($selected)
-<div class="hidden print:block text-sm text-cool-gray-600 sm:pb-5 sm:mt-2">{{ ucfirst(__($selected)) }}</div>
+<div class="hidden print:block text-sm text-black">{{ ucfirst(__($selected)) }}</div>
 @endif
 
 <div class="border border-gray-300 rounded-md divide-y divide-x divide-gray-300 lg:flex lg:divide-y-0 @if($selected) print:hidden @endif">

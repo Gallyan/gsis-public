@@ -38,11 +38,11 @@
     @php
         $classes = "sm:grid sm:grid-cols-5 sm:gap-4 sm:items-start sm:border-gray-200";
         if (!$borderless) $classes .= " sm:border-t";
-        if (!$paddingless) $classes .= " sm:py-5";
+        if (!$paddingless) $classes .= " scr:sm:py-5 print:sm:py-1";
     @endphp
     <div {{ $attributes->only(['class'])->merge(['class' => $classes]) }}>
         @if($label)
-        <label for="{{ $for }}" class="block text-sm font-bold sm:font-medium leading-5 text-gray-700 sm:mt-2 pt-2 sm:pt-0 {{ $required ? 'required' : '' }}">{!! __($label) !!}</label>
+        <label for="{{ $for }}" class="block text-sm font-bold sm:font-medium leading-5 text-gray-700 scr:sm:mt-2 scr:pt-2 scr:sm:pt-0 {{ $required ? 'required' : '' }}">{!! __($label) !!}</label>
         @endif
 
         <div class="mt-1 sm:mt-0 sm:col-span-4 {{ $innerclass }}">

@@ -4,7 +4,7 @@
 ])
 
 @if($print)
-<div class="hidden print:block text-sm sm:mt-2 text-cool-gray-600 sm:pb-5">{{ __($print) }}</div>
+<div class="hidden print:block text-sm text-black">{{ __($print) }}</div>
 @endif
 
 <div class="flex shadow-sm @if($print) print:hidden @endif">

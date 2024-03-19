@@ -7,7 +7,7 @@
 ])
 
 <div>
-    <div class="hidden print:block text-sm text-cool-gray-600 sm:mt-2">@if($choice) {{ __($after) }} @else {{ __($before) }} @endif</div>
+    <div class="hidden print:block text-sm text-black">@if($choice) {{ __($after) }} @else {{ __($before) }} @endif</div>
     <div {{ $attributes->only(['class'])->merge(['class'=>"relative flex items-center h-10 text-sm font-medium print:hidden"]) }}>
         @if($before)
             <span class="mr-2 text-sm font-medium leading-5 @if(!$choice) text-blue-700 @else text-gray-700 @endif">

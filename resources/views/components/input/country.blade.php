@@ -5,7 +5,7 @@
 ])
 
 @if($print)
-<div class="hidden print:block text-sm sm:mt-2 text-cool-gray-600 sm:pb-5">{{ Lang::has('country.'.$print) ? __('country.'.$print) : __($print) }}</div>
+<div class="hidden print:block text-sm text-black">{{ Lang::has('country.'.$print) ? __('country.'.$print) : __($print) }}</div>
 @endif
 
 <div class="flex @if($print) print:hidden @endif">
