@@ -23,6 +23,23 @@
 
             <x-input.group label="Email" for="email" :error="$errors->first('user.email')" helpText="{{ isset($user->getDirty()['email']) ? __('helptext-user-change-email') : '' }}" required>
                 <x-input.email wire:model.debounce.500ms="user.email" id="email" :verified="$user->verified" />
+
+                @can('manage-users')
+                @if ( $user->verified === false )
+                <div class="mt-2 ml-3">
+                    <input
+                        type="checkbox"
+                        id="forceemail"
+                        name="forceemail"
+                        value="1"
+                        wire:model="forceemail"
+                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2"
+                    >
+                    <label for="forceemail" class="font-medium text-gray-700 text-sm">{{ __('forceemail') }}</label>
+                </div>
+                @endif
+                @endcan
+
             </x-input.group>
 
             <x-input.group label="Employer" for="employer" :error="$errors->first('user.employer')">

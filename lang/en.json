@@ -115,5 +115,6 @@
     "must-agree": "You must agree to the Terms of Use in order to create an account.",
     "editing-startdate": "start date",
     "editing-enddate": "end date",
-    "mission-from": "From"
+    "mission-from": "From",
+    "forceemail": "As an administrator, you can force validation of the user's email by checking this box. Don't forget to save."
 }

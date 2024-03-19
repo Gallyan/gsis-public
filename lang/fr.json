@@ -624,5 +624,6 @@
     "Unavailable": "Indisponible",
     "Institution will be available from :date": "L'institution sera disponible à partir du :date",
     "Institution was available until :date": "L'institution était disponible jusqu'au :date",
-    "You have created:": "Vous avez créé :"
+    "You have created:": "Vous avez créé :",
+    "forceemail": "En tant qu'administrateur vous pouvez forcer la validation de l'email de l'utilisateur en cochant cette case. N'oubliez pas de sauvegarder."
 }

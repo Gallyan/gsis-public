@@ -25,6 +25,8 @@ class EditUser extends Component
 
     public $modified = false; // True if form is modified and need to be saved
 
+    public $forceemail = false;
+
     public $selectedroles = [];
 
     public $isAuthManager = false;
@@ -62,6 +64,7 @@ class EditUser extends Component
             'user.locale' => 'required|in:fr,en',
             'selectedroles' => 'sometimes|array',
             'selectedroles.*' => 'sometimes|boolean',
+            'forceemail' => 'boolean',
         ];
     }
 
@@ -114,7 +117,7 @@ class EditUser extends Component
     {
         $this->user = $this->user_id === auth()->id() ? auth()->user() : User::findOrFail($this->user_id);
         $this->selectedroles = array_fill_keys($this->user->roles->pluck('name')->toArray(), '1');
-        $this->reset(['upload', 'modified']);
+        $this->reset(['upload', 'modified','forceemail']);
         $this->dispatchBrowserEvent('pondReset');
         $this->resetValidation();
     }
@@ -129,7 +132,7 @@ class EditUser extends Component
 
     public function updated($propertyName)
     {
-        $this->modified = ! empty($this->user->getDirty()) || $this->upload || $this->isRoleModified();
+        $this->modified = ! empty($this->user->getDirty()) || $this->upload || $this->isRoleModified() || $this->forceemail;
 
         if (explode('.', $propertyName)[0] === 'doc') {
             $this->validateOnly($propertyName, $this->doc_rules());
@@ -177,6 +180,11 @@ class EditUser extends Component
             }
         )->validate();
 
+        /* Force email validation by admin */
+        if ($this->forceemail && auth()->user()->can('manage-users') ) {
+            $this->user->markEmailAsVerified();
+        }
+
         $this->user->save();
 
         if ($this->upload) {
@@ -216,7 +224,7 @@ class EditUser extends Component
             }
         }
 
-        $this->reset(['modified']);
+        $this->reset(['modified','forceemail']);
         $this->emit('refreshUser');
         $this->emitSelf('notify-saved');
     }
