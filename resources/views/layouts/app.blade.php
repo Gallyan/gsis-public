@@ -107,7 +107,7 @@
                 </button>
             </div>
 
-            <main class="flex-1 relative z-0 overflow-y-auto mt-2 mb-6 focus:outline-none md:my-6" tabindex="0" x-data="" x-init="$el.focus()">
+            <main class="flex-1 print:flex-none relative z-0 overflow-y-auto mt-2 mb-6 focus:outline-none md:my-6" tabindex="0" x-data="" x-init="$el.focus()">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 
                     {{ $slot }}
