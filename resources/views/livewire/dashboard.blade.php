@@ -52,10 +52,11 @@
                 </p>
             </div>
             <div class="border-t border-blue-gray-50 p-4">
-                <p class="block font-normal text-gray-600"><strong>{{ count($user->missions) }}</strong>&nbsp;{{ __('missions') }}</p>
-                <p class="block font-normal text-gray-600"><strong>{{ count($user->expenses) }}</strong>&nbsp;{{ strtolower(__('Mission expenses')) }}</p>
-                <p class="block font-normal text-gray-600"><strong>{{ count($user->purchases) }}</strong>&nbsp;{{ __('purchases') }}</p>
-                <p class="block font-normal text-gray-600"><strong>{{ count($user->orders) }}</strong>&nbsp;{{ __('orders') }}</p>
+                <p class="block font-normal text-gray-600">{{ __('You have created:') }}</p>
+                <p class="block font-normal text-gray-600"><a href="{{ route('missions',['f'=>['user'=>$user->name]]) }}"><strong>{{ count($user->missions) }}</strong>&nbsp;{{ __('missions') }}</a></p>
+                <p class="block font-normal text-gray-600"><a href="{{ route('expenses',['f'=>['user'=>$user->name]]) }}"><strong>{{ count($user->expenses) }}</strong>&nbsp;{{ strtolower(__('Mission expenses')) }}</a></p>
+                <p class="block font-normal text-gray-600"><a href="{{ route('purchases',['f'=>['user'=>$user->name]]) }}"><strong>{{ count($user->purchases) }}</strong>&nbsp;{{ __('purchases') }}</a></p>
+                <p class="block font-normal text-gray-600"><a href="{{ route('orders',['f'=>['user'=>$user->name]]) }}"><strong>{{ count($user->orders) }}</strong>&nbsp;{{ __('orders') }}</a></p>
             </div>
         </div>
 
