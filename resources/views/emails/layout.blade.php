@@ -64,14 +64,10 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                 <td align="left" valign="top" width="300">
                 <![endif]-->
                 <div style="display:inline-block; max-width:50%; min-width:100px; vertical-align:top; width:100%;">
-                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
+                    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                         <tr>
-                            <td align="right" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 10px;" class="mobile-center">
-                                <div class="flex-shrink-0 flex items-center px-4">
-                                    <a href="{{ url('/') }}" target="_blank" style="color:white; text-decoration: none;">
-                                        <img href="{{ url('/logo-gsis2.png') }}" alt="GSIS 2 - v{{ config('app.version') }}" class="h-6 w-auto" />
-                                    </a>
-                                </div>
+                            <td align="center" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 10px; color:white;" class="mobile-center">
+                                <span style="font-size:x-large">GSIS&nbsp;2</span>&nbsp;&nbsp;<span style="font-style:italic">v{{ config('app.version') }}</span>
                             </td>
                         </tr>
                     </table>
