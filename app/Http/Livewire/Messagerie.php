@@ -3,23 +3,52 @@
 namespace App\Http\Livewire;
 
 use App\Mail\NewMessage;
+use App\Models\Document;
 use App\Models\Manager;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Messagerie extends Component
 {
+    use WithFileUploads;
+
     public $object; // Parent object
 
     public $body = ''; // New content
 
+    public $showAddFile = false; // Show filepond to add file to message
+
+    public $uploads = [];
+
     protected function rules()
     {
         return [
-            'body' => 'required|string|max:5000',
+            'body' => 'required_without:uploads|string|max:5000',
+            'uploads' => 'nullable|array',
+            'uploads.*' => 'mimes:xls,xlsx,doc,docx,pdf,zip,jpg,png,gif,bmp,webp,svg|max:10240',
+        ];
+    }
+
+    protected function validationAttributes()
+    {
+        return [
+            'body' => __('message'),
+        ];
+    }
+
+    protected function messages()
+    {
+        return [
+            'body.required_without' => __('A message or an attachment is required'),
+            'uploads.*.image' => __('The :filename file must be an image.'),
+            'uploads.*.max' => __('The size of the :filename file cannot exceed :max kilobytes.'),
+            'uploads.*.mimes' => __('The file :filename must be a file of type: :values.'),
+            'uploads.*.mimetypes' => __('The file :filename must be a file of type: :values.'),
         ];
     }
 
@@ -27,14 +56,22 @@ class Messagerie extends Component
 
     public function updated($propertyName)
     {
+        $this->resetValidation();
         $this->validateOnly($propertyName);
+    }
+
+    public function updatedUploads()
+    {
+        if ($this->uploads) {
+            $this->validateOnly('uploads.*');
+        }
     }
 
     public function save()
     {
         $this->validate();
 
-        Post::create(
+        $post = Post::create(
             [
             'user_id' => Auth()->id(),
             'postable_id' => $this->object->id,
@@ -43,6 +80,33 @@ class Messagerie extends Component
             'read_at' => Auth()->id() === $this->object->user_id ? now() : null,
             ]
         );
+
+        // Sauvegarde des fichiers ajoutés
+        if (! empty($this->uploads)) {
+
+            // Create user documents directory if not exists
+            $path = 'docs/'.$this->object->user_id.'/';
+            Storage::makeDirectory($path);
+
+            foreach ($this->uploads as $file) {
+                // Store file in directory
+                $filename = $file->storeAs('/'.$path, $file->hashName());
+
+                // Create file in BDD
+                Document::create(
+                    [
+                    'name' => Document::filter_filename($file->getClientOriginalName()),
+                    'type' => 'attachment',
+                    'size' => Storage::size($filename),
+                    'filename' => $file->hashName(),
+                    'user_id' => $this->object->user_id,
+                    'documentable_id' => $post->id,
+                    'documentable_type' => Post::class,
+                    ]
+                );
+            }
+            $this->dispatchBrowserEvent('attachmentReset');
+        }
 
         if (is_a($this->object, \App\Models\Expense::class)) {
             $managers_id = $this->object->mission->managers->pluck('user_id')->toArray();
@@ -57,7 +121,7 @@ class Messagerie extends Component
                 ->update(['read_at' => now()]);
         }
 
-        $this->reset(['body']);
+        $this->reset(['body','uploads','showAddFile']);
         $this->emit('refreshMessagerie');
 
         // Liste des destinataires
