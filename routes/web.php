@@ -42,6 +42,8 @@ Route::middleware(['auth', 'verified', 'throttle:global'])->group(function () {
 
     Route::get('/documents/{id}', [DocumentController::class, 'download'])->whereNumber('id')->name('download');
 
+    Route::get('/post/{id?}/zip', [DocumentController::class, 'post'])->whereNumber('id')->name('zip-post');
+
     // Admin
     Route::middleware(['can:manage-users'])->group(function () {
         Route::get('/users', Users::class)->name('users');
