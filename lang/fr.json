@@ -625,5 +625,7 @@
     "Institution will be available from :date": "L'institution sera disponible à partir du :date",
     "Institution was available until :date": "L'institution était disponible jusqu'au :date",
     "You have created:": "Vous avez créé :",
-    "forceemail": "En tant qu'administrateur vous pouvez forcer la validation de l'email de l'utilisateur en cochant cette case. N'oubliez pas de sauvegarder."
+    "forceemail": "En tant qu'administrateur vous pouvez forcer la validation de l'email de l'utilisateur en cochant cette case. N'oubliez pas de sauvegarder.",
+    "A message or an attachment is required": "Un message ou une pièce jointe est nécessaire",
+    "Add an attachment to the message": "Ajouter une pièce jointe au message"
 }
