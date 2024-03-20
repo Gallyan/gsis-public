@@ -74,6 +74,8 @@ class Institution extends Model
                             ->orWhereNull('to');
                     }
                 )
+                ->orderBy('name')
+                ->orderBy('contract')
                 ->get();
         });
     }
@@ -83,6 +85,8 @@ class Institution extends Model
         return Cache::remember('instit_unavail', 60, function () {
             return Institution::where('from', '>', Carbon::today())
                               ->orWhere('to', '<', Carbon::today())
+                ->orderBy('name')
+                ->orderBy('contract')
                 ->get();
         });
     }

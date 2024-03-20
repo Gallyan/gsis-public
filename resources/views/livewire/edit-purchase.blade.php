@@ -75,13 +75,13 @@
                 <x-input.select wire:model="purchase.institution_id" id="institution_id" placeholder="{{ __('Select Institution...') }}" class="w-full" :disabled="$disabled" :print="$purchase->institution->namecontract ?? null">
 
                     <optgroup label="&boxh;&boxh;&boxh;&boxh;&nbsp;{{ __('Available') }}&nbsp;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;">
-                        @foreach (\App\Models\Institution::available()->sortBy('name') as $ins)
+                        @foreach (\App\Models\Institution::available() as $ins)
                         <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                         @endforeach
                     </optgroup>
 
                     <optgroup label="&boxh;&boxh;&boxh;&boxh;&nbsp;{{ __('Unavailable') }}&nbsp;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;">
-                        @foreach (\App\Models\Institution::unavailable()->sortBy('name') as $ins)
+                        @foreach (\App\Models\Institution::unavailable() as $ins)
                         <option value="{{ $ins->id }}">{{ $ins->name }} / {{ $ins->contract }}</option>
                         @endforeach
                     </optgroup>
