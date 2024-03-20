@@ -73,7 +73,7 @@ class Purchase extends Model
      */
     public function posts()
     {
-        return $this->morphMany(Post::class, 'postable')->orderBy('id', 'desc');
+        return $this->morphMany(Post::class, 'postable')->orderBy('id', 'desc')->with('documents');
     }
 
     /**

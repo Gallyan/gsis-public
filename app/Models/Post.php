@@ -21,6 +21,14 @@ class Post extends Model
         return $this->morphTo();
     }
 
+    /**
+     * Get all of the post's documents.
+     */
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
+
     public function getAuthorAttribute()
     {
         return $this->user->name;
