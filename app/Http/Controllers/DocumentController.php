@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
+use App\Models\Post;
 use App\Models\Order;
 use App\Models\Expense;
 use App\Models\Mission;
@@ -139,4 +140,20 @@ class DocumentController extends Controller
             ->deleteFileAfterSend(true);
 
     }
+
+    /* Download all attachments of a post */
+    public function post(int $id)
+    {
+
+        return response()
+            ->download(
+                $this->zip(
+                    'Post_'.$id.'_documents.zip',
+                    Post::findOrFail($id)->documents
+                )
+            )
+            ->deleteFileAfterSend(true);
+
+    }
+
 }
