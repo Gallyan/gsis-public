@@ -25,6 +25,9 @@ class Messagerie extends Component
 
     public $uploads = [];
 
+    public $showDeleteModal = false;
+    public $delDocName = '';
+
     protected function rules()
     {
         return [
@@ -65,6 +68,33 @@ class Messagerie extends Component
         if ($this->uploads) {
             $this->validateOnly('uploads.*');
         }
+    }
+
+    public function confirm($id)
+    {
+        $this->delDocName = Document::findOrFail($id)->name;
+        $this->showDeleteModal = $id;
+    }
+
+    public function del_doc($id)
+    {
+
+        $document = Document::findOrFail($id);
+        $post = $document->documentable()->first();
+
+        if (! auth()->user()->can('manage-users') && auth()->id() !== $document->user_id) {
+            abort(403);
+        }
+
+        $document->delete();
+
+        // Delete empty post
+        if ( empty($post->body) && count($post->documents) === 0 ) {
+            $post->delete();
+        }
+
+        $this->reset(['showDeleteModal', 'delDocName']);
+        $this->emit('refreshMessagerie');
     }
 
     public function save()

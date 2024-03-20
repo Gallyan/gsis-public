@@ -109,6 +109,7 @@
                                             <a href="{{ route( 'download', $document->id ) }}" class="hover:underline">{{ $document->name }}</a> <span class="text-sm text-gray-500">({{ $document->sizeForHumans }})</span>
                                         </p>
                                     </div>
+                                    <x-icon.trash class="ml-3 mr-1 w-6 h-6 text-gray-500 cursor-pointer" wire:click="confirm({{ $document->id }})" />
                                 </li>
                             @endforeach
                             </ul>
@@ -137,5 +138,28 @@
         </p>
         @endif
     </x-input.group>
+
+    <!-- Confirm file deletion //-->
+    <x-modal.confirmation wire:model.defer="showDeleteModal">
+    <x-slot name="title">
+        {{ __('Delete document') }}
+    </x-slot>
+
+    <x-slot name="content">
+
+    <x-input.group>
+        <span class="text-cool-gray-900">
+            {{ __('Do you really want to delete document') }} <span class="italic font-bold whitespace-nowrap">{{ $delDocName }}</span>&nbsp;?
+        </span>
+    </x-input.group>
+
+    </x-slot>
+
+    <x-slot name="footer">
+        <x-button.secondary wire:click="$set('showDeleteModal',false)">{{ __('Cancel') }}</x-button.secondary>
+
+        <x-button class="bg-red-600 hover:bg-red-500 active:bg-red-700" wire:click="del_doc({{ $showDeleteModal }})">{{ __('Delete') }}</x-button>
+    </x-slot>
+    </x-modal.dialog>
 
 </div>
